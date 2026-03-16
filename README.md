@@ -2,9 +2,13 @@
 
 Stop letting AI pick your theme. Design themes inspired by real-world visual references — not generic AI defaults.
 
-**[Browse the Gallery →](https://kenehong.github.io/visual-theme/)**
-
 ![visual-theme gallery](docs/assets/screenshot-gallery.png)
+
+<p align="center">
+  <a href="https://kenehong.github.io/visual-theme/">
+    <img src="https://img.shields.io/badge/Browse_Gallery-%E2%86%92-blue?style=for-the-badge&labelColor=000" alt="Browse Gallery" />
+  </a>
+</p>
 
 <p align="center">
   <img src="docs/assets/screenshot-streetwear.png" width="49%" />
