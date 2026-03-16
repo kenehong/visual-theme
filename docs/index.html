@@ -802,23 +802,38 @@ window.selectTheme = async function(id, el) {
   iframe.src = previewUrls[id] || '';
 };
 
-window.copyCSS = async function() {
-  if (!currentTheme) return;
-  const css = toCSS(currentTheme, baseTheme);
-  await navigator.clipboard.writeText(css);
-  const btn = event.target;
+function showCopyFeedback(btnId, originalText) {
+  const btn = document.getElementById(btnId);
   btn.textContent = 'Copied!';
   btn.classList.add('copied');
-  setTimeout(() => { btn.textContent = 'Copy CSS'; btn.classList.remove('copied'); }, 1500);
+  setTimeout(() => { btn.textContent = originalText; btn.classList.remove('copied'); }, 1500);
+}
+
+function showCopyError(btnId) {
+  const btn = document.getElementById(btnId);
+  btn.textContent = 'Failed';
+  setTimeout(() => { btn.textContent = btn.dataset.label; btn.classList.remove('copied'); }, 1500);
+}
+
+window.copyCSS = async function() {
+  if (!currentTheme) return;
+  try {
+    const css = toCSS(currentTheme, baseTheme);
+    await navigator.clipboard.writeText(css);
+    showCopyFeedback('btnCSS', 'Copy CSS');
+  } catch(e) {
+    showCopyError('btnCSS');
+  }
 };
 
 window.copyJSON = async function() {
   if (!currentTheme) return;
-  await navigator.clipboard.writeText(JSON.stringify(currentTheme, null, 2));
-  const btn = event.target;
-  btn.textContent = 'Copied!';
-  btn.classList.add('copied');
-  setTimeout(() => { btn.textContent = 'Copy JSON'; btn.classList.remove('copied'); }, 1500);
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(currentTheme, null, 2));
+    showCopyFeedback('btnJSON', 'Copy JSON');
+  } catch(e) {
+    showCopyError('btnJSON');
+  }
 };
 
 // Load initial theme
