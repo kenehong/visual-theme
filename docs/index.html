@@ -676,7 +676,7 @@ body {
 </div>
 
 <script type="module">
-import { toCSS } from 'lib/convert.js';
+import { toCSS } from './lib/convert.js';
 
 const themes = {};
 let currentTheme = null;
@@ -730,14 +730,14 @@ const themeNames = {
 
 async function loadThemes() {
   try {
-    const baseRes = await fetch('themes/_base.json');
+    const baseRes = await fetch('./themes/_base.json');
     baseTheme = await baseRes.json();
   } catch(e) {}
 
-  const manifest = await fetch('themes/manifest.json').then(r => r.json());
+  const manifest = await fetch('./themes/manifest.json').then(r => r.json());
   for (const entry of manifest.themes) {
     try {
-      const res = await fetch(`themes/${entry.file}`);
+      const res = await fetch(`./themes/${entry.file}`);
       themes[entry.id] = await res.json();
     } catch(e) { console.warn(`Failed to load ${entry.file}`); }
   }
