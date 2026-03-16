@@ -4,6 +4,17 @@ Stop letting AI pick your theme. Design themes inspired by real-world visual ref
 
 **[Browse the Gallery →](https://kenehong.github.io/visual-theme/)**
 
+![visual-theme gallery](docs/assets/screenshot-gallery.png)
+
+<p align="center">
+  <img src="docs/assets/screenshot-streetwear.png" width="49%" />
+  <img src="docs/assets/screenshot-win95.png" width="49%" />
+</p>
+<p align="center">
+  <img src="docs/assets/screenshot-tamagotchi.png" width="49%" />
+  <img src="docs/assets/screenshot-brutalist.png" width="49%" />
+</p>
+
 ## What is this?
 
 A collection of design themes inspired by real-world visual references — vintage storefronts, neon signs, magazine ads, architecture, anything with a distinct visual identity.
