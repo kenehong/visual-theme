@@ -2,7 +2,7 @@
 
 Stop letting AI pick your theme. Design themes inspired by real-world visual references — not generic AI defaults.
 
-**[Browse the Gallery →](https://kennyhong.github.io/visual-theme/)**
+**[Browse the Gallery →](https://kenehong.github.io/visual-theme/)**
 
 ## What is this?
 
