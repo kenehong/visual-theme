@@ -552,15 +552,15 @@ body {
     <button class="hiw-close" onclick="closeHiw()">&times;</button>
     <h2>How it works</h2>
     <!-- Before → After visual -->
-    <div style="display:flex;gap:1rem;align-items:stretch;margin-bottom:1.5rem;max-height:200px;">
+    <div style="display:flex;gap:1rem;align-items:center;margin-bottom:1.5rem;">
       <!-- BEFORE -->
-      <div style="flex:1;display:flex;align-items:stretch;">
-        <img src="assets/ref-source.jpg" alt="90s sneaker store photo" style="width:100%;object-fit:cover;border:3px solid oklch(15% 0 0);box-shadow:4px 4px 0 oklch(15% 0 0);">
+      <div style="flex:1;aspect-ratio:4/3;overflow:hidden;border:3px solid oklch(15% 0 0);box-shadow:4px 4px 0 oklch(15% 0 0);">
+        <img src="assets/ref-source.jpg" alt="90s sneaker store photo" style="width:100%;height:100%;object-fit:cover;display:block;">
       </div>
       <!-- Arrow -->
       <div style="display:flex;align-items:center;flex-shrink:0;color:var(--g-text);font-size:1.5rem;font-weight:700;">→</div>
       <!-- AFTER: Matches actual Streetwear 90s demo -->
-      <div style="flex:1;background:oklch(95% 0.015 75);border-radius:0;overflow:hidden;border:3px solid oklch(15% 0 0);box-shadow:5px 5px 0 oklch(15% 0 0);display:flex;flex-direction:column;position:relative;">
+      <div style="flex:1;aspect-ratio:4/3;background:oklch(95% 0.015 75);border-radius:0;overflow:hidden;border:3px solid oklch(15% 0 0);box-shadow:5px 5px 0 oklch(15% 0 0);display:flex;flex-direction:column;position:relative;">
         <!-- Film grain -->
         <div style="position:absolute;inset:0;opacity:0.04;pointer-events:none;background:url('data:image/svg+xml,%3Csvg viewBox=%270 0 256 256%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.9%27 numOctaves=%274%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E');z-index:2;"></div>
         <!-- Header — matching demo (cream bg, black text) -->
