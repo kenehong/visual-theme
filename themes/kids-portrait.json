@@ -1,0 +1,76 @@
+{
+  "name": "Kids Portrait",
+  "description": "아이의 그림에서 추출한 테마. 흰 캔버스 위 두꺼운 검은 붓터치로 그린 대담한 초상화. 빨간 셔츠, 노란 악센트, 날것의 표현적 에너지. Basquiat, Dubuffet, Art Brut를 연상시키는 스타일.",
+  "source": "Child's bold portrait painting — thick black brushstrokes on white canvas, red shirt, yellow hair accent",
+  "mood": ["raw", "expressive", "artbrut"],
+  "shape": {
+    "radiusSm": "0px",
+    "radiusMd": "0px",
+    "radiusLg": "2px",
+    "radiusFull": "0px",
+    "borderWidth": "3px"
+  },
+  "typography": {
+    "fontSans": "'Inter', system-ui, sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Caveat', 'Patrick Hand', cursive",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "0.01em",
+    "letterSpacingBody": "0.01em",
+    "lineHeight": 1.5,
+    "lineHeightHeading": 1.1,
+    "textTransformHeading": "none"
+  },
+  "spacing": {
+    "density": "comfortable",
+    "scale": 1.0
+  },
+  "depth": {
+    "shadowSm": "2px 2px 0 oklch(15% 0 0)",
+    "shadowMd": "3px 3px 0 oklch(15% 0 0)",
+    "shadowLg": "5px 5px 0 oklch(15% 0 0)",
+    "shadowStyle": "hard"
+  },
+  "motion": {
+    "durationFast": "80ms",
+    "durationNormal": "120ms",
+    "easing": "cubic-bezier(0.0, 0, 0.2, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(97% 0.005 80)",
+    "surface": "oklch(100% 0 0)",
+    "text": "oklch(10% 0.02 0)",
+    "primary": "oklch(55% 0.25 25)",
+    "accent": "oklch(82% 0.18 95)",
+    "dark": "oklch(15% 0 0)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(12% 0.005 80)",
+    "surface": "oklch(18% 0.01 80)",
+    "text": "oklch(93% 0.01 80)",
+    "primary": "oklch(60% 0.25 25)",
+    "accent": "oklch(85% 0.18 95)",
+    "dark": "oklch(90% 0 0)"
+  },
+  "demo": {
+    "type": "gallery",
+    "title": "LITTLE MASTERS",
+    "subtitle": "Children's Art Exhibition",
+    "items": [
+      { "name": "Self Portrait No. 1", "artist": "Mia, age 6", "medium": "Acrylic on canvas" },
+      { "name": "My Red House", "artist": "Leo, age 5", "medium": "Tempera on paper" },
+      { "name": "The Big Sun", "artist": "Hana, age 7", "medium": "Oil pastel and ink" }
+    ],
+    "banner": "RAW EXPRESSION",
+    "dates": "March 1 — April 15, 2026"
+  },
+  "suggestions": {
+    "icons": "Lucide (bold stroke 2.5px) or hand-drawn style icons",
+    "components": "canvas-frame cards, brushstroke dividers, paint-drip accents, hand-drawn borders, slightly rotated elements",
+    "avoid": "gradients, perfect circles, thin hairline borders, corporate aesthetics, polished/refined feel",
+    "googleFonts": "Caveat:wght@400;500;600;700&family=Inter:wght@400;500;600;700",
+    "texture": "canvas texture overlay via SVG noise filter, visible brushstroke-like border variations"
+  }
+}

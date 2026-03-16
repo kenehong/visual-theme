@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>norden — Scandinavian Theme Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* === Tokens === */
+:root {
+  --bg: oklch(98% 0.005 90);
+  --surface: oklch(100% 0 0);
+  --text: oklch(22% 0.02 250);
+  --muted: oklch(45% 0.02 250);
+  --primary: oklch(55% 0.12 250);
+  --primary-hover: oklch(48% 0.12 250);
+  --accent: oklch(70% 0.1 55);
+  --blush: oklch(85% 0.06 20);
+  --sage: oklch(75% 0.06 155);
+  --wood: oklch(72% 0.08 70);
+  --border: oklch(90% 0.01 70);
+  --font-display: 'DM Sans', -apple-system, sans-serif;
+  --font-body: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+  --radius: 10px;
+  --radius-sm: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 4px oklch(55% 0.04 70 / 0.08);
+  --shadow-md: 0 4px 16px oklch(55% 0.04 70 / 0.1);
+  --shadow-lg: 0 8px 30px oklch(55% 0.04 70 / 0.12);
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-body); background: var(--bg); color: var(--text);
+  line-height: 1.65; -webkit-font-smoothing: antialiased; font-size: 15px;
+}
+.wrap { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* === Header === */
+.header { padding: 1.25rem 0; border-bottom: 1px solid var(--border); background: var(--surface); }
+.header .wrap { display: flex; align-items: center; justify-content: space-between; }
+.logo { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
+.nav { display: flex; gap: 2rem; list-style: none; }
+.nav a { color: var(--muted); font-size: 0.9rem; font-weight: 500; transition: color 200ms var(--ease); }
+.nav a:hover { color: var(--text); text-decoration: none; }
+
+/* === Hero === */
+.hero { padding: 4rem 0; text-align: center; }
+.hero h1 { font-size: 2.75rem; font-weight: 700; margin-bottom: 1rem; color: var(--text); }
+.hero p { font-size: 1.1rem; color: var(--muted); max-width: 480px; margin: 0 auto 2rem; }
+.hero-img {
+  width: 100%; max-width: 680px; height: 320px; margin: 0 auto 2rem;
+  background: linear-gradient(135deg, var(--sage), var(--blush));
+  border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center;
+  color: oklch(100% 0 0 / 0.5); font-size: 0.85rem; font-weight: 500;
+}
+
+/* === Buttons === */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 0.75rem 1.75rem; border-radius: var(--radius); font-family: var(--font-display);
+  font-size: 0.9rem; font-weight: 600; border: 1px solid transparent;
+  cursor: pointer; transition: all 200ms var(--ease);
+}
+.btn-primary { background: var(--primary); color: oklch(100% 0 0); }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-outline { background: transparent; color: var(--primary); border-color: var(--primary); }
+.btn-outline:hover { background: var(--primary); color: oklch(100% 0 0); }
+.btn-soft { background: var(--blush); color: oklch(40% 0.06 20); border-color: transparent; }
+.btn-soft:hover { background: oklch(80% 0.08 20); }
+.btn-text { background: none; color: var(--primary); padding: 0.5rem 0; border: none; }
+.btn-text:hover { text-decoration: underline; }
+
+/* === Section === */
+section { padding: 3.5rem 0; }
+.section-title { font-size: 1.6rem; margin-bottom: 0.5rem; }
+.section-subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 2rem; }
+
+/* === Product Cards === */
+.products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.product-card {
+  background: var(--surface); border-radius: var(--radius-lg); padding: 1.25rem;
+  box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+  transition: box-shadow 200ms var(--ease), transform 200ms var(--ease);
+}
+.product-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.product-img {
+  width: 100%; aspect-ratio: 3/4; border-radius: var(--radius-sm);
+  margin-bottom: 1rem; display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; color: oklch(100% 0 0 / 0.5); font-weight: 500;
+}
+.product-img.wood-bg { background: var(--wood); }
+.product-img.sage-bg { background: var(--sage); }
+.product-img.blush-bg { background: var(--blush); }
+.product-card h3 { font-size: 1rem; margin-bottom: 0.25rem; }
+.product-card .desc { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.5rem; }
+.product-card .price { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; margin-bottom: 0.75rem; }
+.product-card .btn { width: 100%; font-size: 0.85rem; padding: 0.6rem; }
+
+/* === Room Grid === */
+.rooms { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+.room {
+  position: relative; height: 200px; border-radius: var(--radius-lg); overflow: hidden;
+  display: flex; align-items: flex-end; padding: 1.25rem; cursor: pointer;
+  transition: transform 200ms var(--ease);
+}
+.room:hover { transform: scale(1.02); }
+.room-label {
+  font-family: var(--font-display); font-weight: 600; font-size: 1.1rem;
+  color: oklch(100% 0 0); position: relative; z-index: 1;
+}
+.room::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to top, oklch(22% 0.02 250 / 0.45), transparent 60%);
+}
+.room.r1 { background: var(--sage); }
+.room.r2 { background: var(--wood); }
+.room.r3 { background: var(--accent); }
+.room.r4 { background: var(--primary); }
+
+/* === Values === */
+.values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; text-align: center; padding: 3rem 0; }
+.value-icon {
+  width: 48px; height: 48px; border-radius: 50%; margin: 0 auto 0.75rem;
+  display: flex; align-items: center; justify-content: center; font-size: 1.25rem;
+}
+.value-icon.leaf { background: oklch(90% 0.04 155); }
+.value-icon.tool { background: oklch(90% 0.04 250); }
+.value-icon.diamond { background: oklch(90% 0.04 55); }
+.values h4 { font-size: 1rem; margin-bottom: 0.35rem; }
+.values p { font-size: 0.85rem; color: var(--muted); max-width: 240px; margin: 0 auto; }
+
+/* === Newsletter === */
+.newsletter {
+  background: var(--blush); border-radius: var(--radius-lg); padding: 3rem 2rem;
+  text-align: center; margin: 1rem 0;
+}
+.newsletter h2 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.newsletter p { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+.newsletter-form { display: flex; gap: 0.75rem; max-width: 420px; margin: 0 auto; }
+.newsletter-form input {
+  flex: 1; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: var(--radius);
+  font-family: var(--font-body); font-size: 0.9rem; background: var(--surface);
+  outline: none; transition: border-color 200ms var(--ease);
+}
+.newsletter-form input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px oklch(55% 0.12 250 / 0.12); }
+
+/* === Component Showcase === */
+.showcase { border-top: 1px solid var(--border); padding-top: 3rem; }
+.showcase h2 { text-align: center; margin-bottom: 2.5rem; font-size: 1.4rem; }
+.swatch-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2rem; }
+.swatch {
+  width: 72px; height: 72px; border-radius: var(--radius-sm); border: 1px solid var(--border);
+  display: flex; align-items: flex-end; padding: 0.35rem; font-size: 0.65rem; font-weight: 500; color: var(--muted);
+}
+.type-sample { margin-bottom: 2rem; padding: 1.5rem; background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); }
+.type-sample .display { font-family: var(--font-display); font-size: 2rem; font-weight: 700; margin-bottom: 0.25rem; }
+.type-sample .body { font-size: 0.95rem; color: var(--muted); }
+.btn-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2rem; align-items: center; }
+.badge-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+.badge {
+  padding: 0.3rem 0.75rem; border-radius: var(--radius-sm); font-size: 0.75rem; font-weight: 600;
+  font-family: var(--font-display);
+}
+.badge-sage { background: oklch(90% 0.04 155); color: oklch(35% 0.06 155); }
+.badge-blush { background: oklch(92% 0.04 20); color: oklch(40% 0.06 20); }
+.badge-honey { background: oklch(90% 0.06 55); color: oklch(40% 0.08 55); }
+.badge-blue { background: oklch(90% 0.06 250); color: oklch(40% 0.08 250); }
+.input-group { margin-bottom: 2rem; max-width: 360px; }
+.input-group label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 0.4rem; }
+.input-group input, .input-group select {
+  width: 100%; padding: 0.7rem 1rem; border: 1px solid var(--border); border-radius: var(--radius);
+  font-family: var(--font-body); font-size: 0.9rem; background: var(--surface);
+  outline: none; transition: border-color 200ms var(--ease);
+}
+.input-group input:focus, .input-group select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px oklch(55% 0.12 250 / 0.12); }
+table {
+  width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 2rem;
+  border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+th { background: oklch(96% 0.005 90); text-align: left; padding: 0.75rem 1rem; font-weight: 600; font-family: var(--font-display); }
+td { padding: 0.75rem 1rem; border-top: 1px solid var(--border); }
+tr:nth-child(even) td { background: oklch(98.5% 0.003 90); }
+.toggle-row { display: flex; gap: 1.5rem; align-items: center; margin-bottom: 2rem; }
+.toggle { position: relative; width: 44px; height: 24px; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-track {
+  position: absolute; inset: 0; background: var(--border); border-radius: 12px;
+  cursor: pointer; transition: background 200ms var(--ease);
+}
+.toggle-track::after {
+  content: ''; position: absolute; left: 2px; top: 2px; width: 20px; height: 20px;
+  background: var(--surface); border-radius: 50%; box-shadow: var(--shadow-sm);
+  transition: transform 200ms var(--ease);
+}
+.toggle input:checked + .toggle-track { background: var(--primary); }
+.toggle input:checked + .toggle-track::after { transform: translateX(20px); }
+.check-label { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; cursor: pointer; }
+.check-label input[type="checkbox"] {
+  width: 18px; height: 18px; accent-color: oklch(55% 0.12 250); border-radius: 4px; cursor: pointer;
+}
+
+/* === Footer === */
+.footer { border-top: 1px solid var(--border); padding: 3rem 0 2rem; margin-top: 2rem; }
+.footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-bottom: 2rem; }
+.footer h4 { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+.footer ul { list-style: none; }
+.footer li { margin-bottom: 0.4rem; }
+.footer a { color: var(--text); font-size: 0.85rem; }
+.footer a:hover { color: var(--primary); }
+.footer-bottom { text-align: center; font-size: 0.8rem; color: var(--muted); padding-top: 1.5rem; border-top: 1px solid var(--border); }
+
+/* === Responsive === */
+@media (max-width: 640px) {
+  .nav { gap: 1rem; font-size: 0.8rem; }
+  .hero h1 { font-size: 2rem; }
+  .hero-img { height: 200px; }
+  .products { grid-template-columns: 1fr; }
+  .rooms { grid-template-columns: 1fr; }
+  .values { grid-template-columns: 1fr; gap: 1.5rem; }
+  .newsletter-form { flex-direction: column; }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="wrap">
+    <div class="logo">norden</div>
+    <nav><ul class="nav">
+      <li><a href="#">Shop</a></li>
+      <li><a href="#">Rooms</a></li>
+      <li><a href="#">Inspiration</a></li>
+      <li><a href="#">About</a></li>
+    </ul></nav>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-img"></div>
+    <h1>Make your home feel like home.</h1>
+    <p>Thoughtfully designed furniture and homeware for calm, functional living. Rooted in Nordic tradition.</p>
+    <button class="btn btn-primary">Shop Collection</button>
+  </div>
+</section>
+
+<!-- Products -->
+<section>
+  <div class="wrap">
+    <h2 class="section-title">Popular this season</h2>
+    <p class="section-subtitle">Pieces our community is loving right now.</p>
+    <div class="products">
+      <div class="product-card">
+        <div class="product-img wood-bg"></div>
+        <h3>Birch Side Table</h3>
+        <p class="desc">Solid birch wood, oil-finished. Fits anywhere.</p>
+        <p class="price">kr 1,290</p>
+        <button class="btn btn-outline">Add to bag</button>
+      </div>
+      <div class="product-card">
+        <div class="product-img sage-bg"></div>
+        <h3>Linen Throw Blanket</h3>
+        <p class="desc">Stonewashed European linen. Soft from day one.</p>
+        <p class="price">kr 890</p>
+        <button class="btn btn-outline">Add to bag</button>
+      </div>
+      <div class="product-card">
+        <div class="product-img blush-bg"></div>
+        <h3>Ceramic Vase Set</h3>
+        <p class="desc">Hand-thrown stoneware. Set of three sizes.</p>
+        <p class="price">kr 450</p>
+        <button class="btn btn-outline">Add to bag</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Rooms -->
+<section>
+  <div class="wrap">
+    <h2 class="section-title">Room ideas</h2>
+    <p class="section-subtitle">Find inspiration for every corner of your home.</p>
+    <div class="rooms">
+      <div class="room r1"><span class="room-label">Living Room</span></div>
+      <div class="room r2"><span class="room-label">Bedroom</span></div>
+      <div class="room r3"><span class="room-label">Kitchen</span></div>
+      <div class="room r4"><span class="room-label">Home Office</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Values -->
+<section>
+  <div class="wrap">
+    <div class="values">
+      <div>
+        <div class="value-icon leaf">&#127793;</div>
+        <h4>Sustainable</h4>
+        <p>Responsibly sourced materials and low-impact production. Built to last, not to landfill.</p>
+      </div>
+      <div>
+        <div class="value-icon tool">&#9881;</div>
+        <h4>Functional</h4>
+        <p>Every piece earns its place. Designed around how you actually live and use your space.</p>
+      </div>
+      <div>
+        <div class="value-icon diamond">&#9830;</div>
+        <h4>Timeless</h4>
+        <p>Quiet design that outlasts trends. Simple forms, honest materials, enduring appeal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section>
+  <div class="wrap">
+    <div class="newsletter">
+      <h2>Join our community</h2>
+      <p>Tips for calmer living, new arrivals, and member-only offers. No spam, ever.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="your@email.com">
+        <button class="btn btn-primary">Subscribe</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Component Showcase -->
+<section class="showcase">
+  <div class="wrap">
+    <h2 id="components">Component Showcase</h2>
+
+    <!-- Colors -->
+    <h3 style="margin-bottom:1rem;">Colors</h3>
+    <div class="swatch-row">
+      <div class="swatch" style="background:var(--bg);">bg</div>
+      <div class="swatch" style="background:var(--surface);">surface</div>
+      <div class="swatch" style="background:var(--text);color:oklch(90% 0 0);">text</div>
+      <div class="swatch" style="background:var(--primary);color:oklch(100% 0 0);">primary</div>
+      <div class="swatch" style="background:var(--accent);">accent</div>
+      <div class="swatch" style="background:var(--blush);">blush</div>
+      <div class="swatch" style="background:var(--sage);">sage</div>
+      <div class="swatch" style="background:var(--wood);">wood</div>
+    </div>
+
+    <!-- Typography -->
+    <h3 style="margin-bottom:1rem;">Typography</h3>
+    <div class="type-sample">
+      <p class="display">DM Sans Display Heading</p>
+      <p class="body">Inter body text -- warm, geometric, and easy on the eyes. Designed for long reading sessions on a quiet Sunday morning with a cup of coffee.</p>
+    </div>
+
+    <!-- Buttons -->
+    <h3 style="margin-bottom:1rem;">Buttons</h3>
+    <div class="btn-row">
+      <button class="btn btn-primary">Primary</button>
+      <button class="btn btn-outline">Outlined</button>
+      <button class="btn btn-soft">Soft Blush</button>
+      <button class="btn btn-text">Text Link &rarr;</button>
+    </div>
+
+    <!-- Badges -->
+    <h3 style="margin-bottom:1rem;">Badges</h3>
+    <div class="badge-row">
+      <span class="badge badge-sage">Sustainable</span>
+      <span class="badge badge-blush">Cozy</span>
+      <span class="badge badge-honey">Popular</span>
+      <span class="badge badge-blue">New Arrival</span>
+    </div>
+
+    <!-- Input -->
+    <h3 style="margin-bottom:1rem;">Input</h3>
+    <div class="input-group">
+      <label for="demo-input">Full name</label>
+      <input id="demo-input" type="text" placeholder="Astrid Lindgren">
+    </div>
+    <div class="input-group">
+      <label for="demo-select">Room type</label>
+      <select id="demo-select">
+        <option>Living Room</option>
+        <option>Bedroom</option>
+        <option>Kitchen</option>
+        <option>Office</option>
+      </select>
+    </div>
+
+    <!-- Table -->
+    <h3 style="margin-bottom:1rem;">Table</h3>
+    <table>
+      <thead><tr><th>Product</th><th>Material</th><th>Price</th><th>Stock</th></tr></thead>
+      <tbody>
+        <tr><td>Side Table</td><td>Birch</td><td>kr 1,290</td><td>In stock</td></tr>
+        <tr><td>Throw Blanket</td><td>Linen</td><td>kr 890</td><td>In stock</td></tr>
+        <tr><td>Vase Set</td><td>Stoneware</td><td>kr 450</td><td>Low stock</td></tr>
+        <tr><td>Floor Lamp</td><td>Oak + Brass</td><td>kr 2,100</td><td>Pre-order</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Toggles & Checkboxes -->
+    <h3 style="margin-bottom:1rem;">Toggle & Checkbox</h3>
+    <div class="toggle-row">
+      <label class="toggle"><input type="checkbox" checked><span class="toggle-track"></span></label>
+      <span style="font-size:0.9rem;">Dark mode</span>
+      <label class="toggle"><input type="checkbox"><span class="toggle-track"></span></label>
+      <span style="font-size:0.9rem;">Notifications</span>
+    </div>
+    <div style="display:flex;gap:1.5rem;margin-bottom:2rem;">
+      <label class="check-label"><input type="checkbox" checked> Free shipping</label>
+      <label class="check-label"><input type="checkbox"> Gift wrap</label>
+      <label class="check-label"><input type="checkbox" checked> Sustainable only</label>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#">New Arrivals</a></li>
+          <li><a href="#">Furniture</a></li>
+          <li><a href="#">Textiles</a></li>
+          <li><a href="#">Lighting</a></li>
+          <li><a href="#">Accessories</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>About</h4>
+        <ul>
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Sustainability</a></li>
+          <li><a href="#">Designers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Help</h4>
+        <ul>
+          <li><a href="#">Shipping</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Follow Us</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Pinterest</a></li>
+          <li><a href="#">Newsletter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 norden. Designed in Copenhagen.</div>
+  </div>
+</footer>
+
+</body>
+</html>

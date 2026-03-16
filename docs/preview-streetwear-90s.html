@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GIANT SHOES — West Philly's Finest Since 1990</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=Dela+Gothic+One&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: oklch(95% 0.015 75);
+    --surface: oklch(99% 0.005 75);
+    --text: oklch(15% 0.01 0);
+    --primary: oklch(50% 0.2 255);
+    --accent: oklch(55% 0.22 30);
+    --yellow: oklch(82% 0.18 90);
+    --green: oklch(55% 0.15 155);
+    --black: oklch(10% 0 0);
+    --white: oklch(99% 0 0);
+    --shadow-sm: 3px 3px 0 oklch(20% 0 0);
+    --shadow-md: 4px 4px 0 oklch(15% 0 0);
+    --shadow-lg: 6px 6px 0 oklch(10% 0 0);
+    --font-display: 'Dela Gothic One', 'Impact', sans-serif;
+    --font-body: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+    --border: 3px solid var(--black);
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-weight: 500;
+    color: var(--text);
+    background: var(--bg);
+    letter-spacing: 0.01em;
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Film grain overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.06;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 1rem; }
+
+  /* === STORE HEADER === */
+  .store-header {
+    text-align: center;
+    padding: 2.5rem 1rem 1.5rem;
+    border-bottom: var(--border);
+  }
+  .store-header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 10vw, 5.5rem);
+    line-height: 1.0;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .store-header .tagline {
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    color: oklch(40% 0.01 0);
+  }
+  .store-header .address {
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 0.25rem;
+    color: var(--accent);
+  }
+
+  /* === BRAND LOGOS === */
+  .brands {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem 1.5rem;
+    padding: 1rem;
+    border-bottom: var(--border);
+  }
+  .brands span {
+    font-family: var(--font-body);
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* === CHECKERBOARD === */
+  .checker {
+    height: 18px;
+    background: repeating-conic-gradient(var(--black) 0% 25%, var(--bg) 0% 50%) 0 0 / 18px 18px;
+  }
+
+  /* === SALE BANNER === */
+  .sale-banner {
+    background: var(--accent);
+    color: var(--white);
+    text-align: center;
+    padding: 1rem;
+    font-family: var(--font-display);
+    font-size: clamp(0.9rem, 3vw, 1.3rem);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-bottom: var(--border);
+    border-top: var(--border);
+  }
+
+  /* === PRODUCT GRID === */
+  .products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 1.25rem;
+    padding: 1.5rem 0;
+  }
+  .product-card {
+    background: var(--surface);
+    border: var(--border);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+  }
+  .product-card .card-top {
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 4rem;
+    color: oklch(99% 0 0 / 0.35);
+    border-bottom: var(--border);
+  }
+  .product-card .card-body {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+  }
+  .product-card .card-name {
+    font-weight: 800;
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .product-card .card-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .product-card .card-price {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+  }
+  .badge {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    font-weight: 800;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border: 2px solid var(--black);
+  }
+  .badge-classic { background: var(--primary); color: var(--white); }
+  .badge-hot { background: var(--accent); color: var(--white); }
+  .badge-sale { background: var(--yellow); color: var(--text); }
+  .badge-new { background: var(--green); color: var(--white); }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-weight: 800;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.6rem 1.25rem;
+    border: var(--border);
+    cursor: pointer;
+    transition: transform 60ms, box-shadow 60ms;
+    box-shadow: var(--shadow-sm);
+  }
+  .btn:active { transform: translate(2px, 2px); box-shadow: none; }
+  .btn-primary { background: var(--primary); color: var(--white); }
+  .btn-accent { background: var(--accent); color: var(--white); }
+  .btn-secondary { background: var(--yellow); color: var(--text); }
+  .btn-ghost { background: transparent; color: var(--text); }
+  .btn-full { width: 100%; margin-top: auto; }
+
+  /* === SIGN BOARDS === */
+  .signs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    gap: 1rem;
+    padding: 1.5rem 0;
+  }
+  .sign {
+    border: var(--border);
+    box-shadow: var(--shadow-md);
+    padding: 1.75rem 1rem;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--white);
+  }
+  .sign-blue { background: var(--primary); }
+  .sign-red { background: var(--accent); }
+  .sign-yellow { background: var(--yellow); color: var(--text); }
+
+  /* === NEWSLETTER === */
+  .newsletter {
+    border: var(--border);
+    background: var(--surface);
+    box-shadow: var(--shadow-md);
+    padding: 1.5rem;
+    text-align: center;
+    margin: 1rem 0 1.5rem;
+  }
+  .newsletter h3 {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.75rem;
+  }
+  .newsletter-form {
+    display: flex;
+    gap: 0;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .newsletter-form input {
+    flex: 1;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.6rem 0.75rem;
+    border: var(--border);
+    border-right: none;
+    background: var(--bg);
+    outline: none;
+  }
+  .newsletter-form input:focus { background: var(--white); }
+  .newsletter-form .btn { border-left: var(--border); flex-shrink: 0; }
+
+  /* === COLORBLOCK FOOTER === */
+  .colorblock {
+    display: flex;
+    height: 14px;
+  }
+  .colorblock span { flex: 1; }
+
+  .footer {
+    text-align: center;
+    padding: 1.25rem 1rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-top: var(--border);
+    color: oklch(40% 0.01 0);
+  }
+
+  /* ============ COMPONENT SHOWCASE ============ */
+  .showcase-sep {
+    margin: 3rem 0 2rem;
+    border: none;
+    border-top: 4px dashed oklch(40% 0.01 0);
+  }
+  .showcase-title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .section-label {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: oklch(40% 0.01 0);
+    border-bottom: 2px solid oklch(40% 0.01 0);
+    padding-bottom: 0.25rem;
+    margin-bottom: 1rem;
+  }
+  .comp-section { margin-bottom: 2.5rem; }
+
+  /* Typography specimen */
+  .type-specimen h1 { font-family: var(--font-display); font-size: 2.5rem; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.0; margin-bottom: 0.5rem; }
+  .type-specimen h2 { font-family: var(--font-display); font-size: 1.6rem; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.0; margin-bottom: 0.5rem; }
+  .type-specimen h3 { font-family: var(--font-display); font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.1; margin-bottom: 0.5rem; }
+  .type-specimen p { font-size: 1rem; margin-bottom: 0.5rem; max-width: 60ch; }
+
+  /* Color swatches */
+  .swatches { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .swatch {
+    width: 80px;
+    border: var(--border);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  .swatch-color { height: 56px; }
+  .swatch-label {
+    padding: 0.3rem 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background: var(--surface);
+    text-align: center;
+    border-top: 2px solid var(--black);
+  }
+
+  /* Button row */
+  .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+
+  /* Badge row */
+  .badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+
+  /* Demo table */
+  .demo-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: var(--border);
+    font-size: 0.9rem;
+  }
+  .demo-table th, .demo-table td {
+    padding: 0.5rem 0.75rem;
+    border: 2px solid var(--black);
+    text-align: left;
+  }
+  .demo-table th {
+    background: var(--primary);
+    color: var(--white);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.8rem;
+  }
+  .demo-table tr:nth-child(even) { background: oklch(93% 0.01 75); }
+
+  @media (max-width: 480px) {
+    .signs { grid-template-columns: 1fr; }
+    .products { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- STORE HEADER -->
+  <header class="store-header">
+    <h1>GIANT SHOES</h1>
+    <div class="tagline">Largest Shoe Store in West Philly &middot; Est. 1990</div>
+    <div class="address">4034 Lancaster Ave &middot; Philadelphia, PA 19104</div>
+  </header>
+
+  <!-- BRAND LOGOS -->
+  <div class="brands">
+    <span>Nike</span><span>FILA</span><span>Timberland</span>
+    <span>Reebok</span><span>Adidas</span><span>Converse</span>
+  </div>
+
+  <!-- CHECKERBOARD -->
+  <div class="checker"></div>
+
+  <!-- SALE BANNER -->
+  <div class="sale-banner">Buy One Get One &mdash; Half Price &middot; This Weekend Only</div>
+
+  <!-- PRODUCT GRID -->
+  <div class="products">
+    <div class="product-card">
+      <div class="card-top" style="background:var(--primary)">95</div>
+      <div class="card-body">
+        <div class="card-name">Air Max 95</div>
+        <div class="card-row">
+          <span class="card-price">$160</span>
+          <span class="badge badge-classic">Classic</span>
+        </div>
+        <button class="btn btn-primary btn-full">Add to Cart</button>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="card-top" style="background:oklch(35% 0.04 60)">6"</div>
+      <div class="card-body">
+        <div class="card-name">Timberland 6-Inch</div>
+        <div class="card-row">
+          <span class="card-price">$198</span>
+          <span class="badge badge-hot">Hot</span>
+        </div>
+        <button class="btn btn-accent btn-full">Add to Cart</button>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="card-top" style="background:var(--accent)">II</div>
+      <div class="card-body">
+        <div class="card-name">FILA Disruptor II</div>
+        <div class="card-row">
+          <span class="card-price">$65</span>
+          <span class="badge badge-sale">Sale</span>
+        </div>
+        <button class="btn btn-secondary btn-full">Add to Cart</button>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="card-top" style="background:var(--green)">?</div>
+      <div class="card-body">
+        <div class="card-name">Reebok Question Mid</div>
+        <div class="card-row">
+          <span class="card-price">$140</span>
+          <span class="badge badge-new">New</span>
+        </div>
+        <button class="btn btn-primary btn-full">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKERBOARD -->
+  <div class="checker"></div>
+
+  <!-- SIGN BOARDS -->
+  <div class="signs">
+    <div class="sign sign-blue">New<br>Arrivals</div>
+    <div class="sign sign-red">Clearance<br>50% Off</div>
+    <div class="sign sign-yellow">Extra Wide<br>Widths</div>
+  </div>
+
+  <!-- NEWSLETTER -->
+  <div class="newsletter">
+    <h3>Get Notified About Drops</h3>
+    <div class="newsletter-form">
+      <input type="email" placeholder="YOUR EMAIL ADDRESS">
+      <button class="btn btn-primary">GO</button>
+    </div>
+  </div>
+
+  <!-- COLORBLOCK FOOTER -->
+  <div class="colorblock">
+    <span style="background:var(--primary)"></span>
+    <span style="background:var(--accent)"></span>
+    <span style="background:var(--yellow)"></span>
+    <span style="background:var(--green)"></span>
+    <span style="background:var(--black)"></span>
+  </div>
+
+  <div class="footer">&copy; 1990&ndash;2026 Giant Shoes &middot; West Philly, PA &middot; All Rights Reserved</div>
+
+  <!-- ============ COMPONENT SHOWCASE ============ -->
+  <hr class="showcase-sep">
+  <div class="showcase-title" id="components">Components</div>
+
+  <!-- Typography -->
+  <div class="comp-section">
+    <div class="section-label">Typography</div>
+    <div class="type-specimen">
+      <h1>Display Heading H1</h1>
+      <h2>Section Heading H2</h2>
+      <h3>Subsection Heading H3</h3>
+      <p>Body text in Barlow Condensed 500. The quick brown fox jumps over the lazy dog. Designed for dense, urban-gritty layouts with strong vertical rhythm.</p>
+      <p style="font-weight:700">Bold body text (700 weight) for emphasis and callouts.</p>
+    </div>
+  </div>
+
+  <!-- Colors -->
+  <div class="comp-section">
+    <div class="section-label">Colors</div>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-color" style="background:var(--bg)"></div><div class="swatch-label">BG</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--surface)"></div><div class="swatch-label">Surface</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--text)"></div><div class="swatch-label">Text</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--primary)"></div><div class="swatch-label">Primary</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--accent)"></div><div class="swatch-label">Accent</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--yellow)"></div><div class="swatch-label">Yellow</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--green)"></div><div class="swatch-label">Green</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--black)"></div><div class="swatch-label">Black</div></div>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="comp-section">
+    <div class="section-label">Buttons</div>
+    <div class="btn-row">
+      <button class="btn btn-primary">Primary</button>
+      <button class="btn btn-accent">Accent</button>
+      <button class="btn btn-secondary">Secondary</button>
+      <button class="btn btn-ghost">Ghost</button>
+    </div>
+  </div>
+
+  <!-- Badges -->
+  <div class="comp-section">
+    <div class="section-label">Badges</div>
+    <div class="badge-row">
+      <span class="badge badge-classic">Classic</span>
+      <span class="badge badge-hot">Hot</span>
+      <span class="badge badge-sale">Sale</span>
+      <span class="badge badge-new">New</span>
+    </div>
+  </div>
+
+  <!-- Card -->
+  <div class="comp-section">
+    <div class="section-label">Card</div>
+    <div style="max-width:300px">
+      <div class="product-card">
+        <div class="card-top" style="background:var(--primary)">01</div>
+        <div class="card-body">
+          <div class="card-name">Sample Product</div>
+          <div class="card-row">
+            <span class="card-price">$99</span>
+            <span class="badge badge-new">New</span>
+          </div>
+          <button class="btn btn-primary btn-full">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div class="comp-section">
+    <div class="section-label">Form Input</div>
+    <div style="max-width:400px; display:flex">
+      <input type="text" placeholder="TYPE SOMETHING..." style="flex:1; font-family:var(--font-body); font-weight:600; font-size:1rem; padding:0.6rem 0.75rem; border:var(--border); border-right:none; background:var(--bg);">
+      <button class="btn btn-accent" style="border-left:var(--border)">Submit</button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="comp-section">
+    <div class="section-label">Data Table</div>
+    <table class="demo-table">
+      <thead>
+        <tr><th>Style</th><th>Brand</th><th>Size Run</th><th>Price</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Air Max 95</td><td>Nike</td><td>7 &ndash; 14</td><td>$160</td></tr>
+        <tr><td>6-Inch Boot</td><td>Timberland</td><td>7 &ndash; 15</td><td>$198</td></tr>
+        <tr><td>Disruptor II</td><td>FILA</td><td>5 &ndash; 12</td><td>$65</td></tr>
+        <tr><td>Question Mid</td><td>Reebok</td><td>7 &ndash; 13</td><td>$140</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="height:2rem"></div>
+</div>
+
+</body>
+</html>

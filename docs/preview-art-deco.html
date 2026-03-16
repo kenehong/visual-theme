@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE GRAND — An Evening of Elegance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: oklch(15% 0.02 80);
+    --surface: oklch(20% 0.02 80);
+    --text: oklch(88% 0.03 80);
+    --primary: oklch(75% 0.12 80);
+    --accent: oklch(85% 0.08 80);
+    --cream: oklch(92% 0.04 80);
+    --emerald: oklch(50% 0.1 160);
+    --muted: oklch(55% 0.03 80);
+    --font-display: 'Playfair Display', 'Georgia', serif;
+    --font-body: 'Inter', 'Segoe UI', sans-serif;
+    --gold-border: 1px solid var(--primary);
+    --gold-glow: 0 0 16px oklch(75% 0.12 80 / 0.2);
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-weight: 400;
+    color: var(--text);
+    background: var(--bg);
+    letter-spacing: 0.01em;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+
+  /* Full-page sunburst background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.25;
+    background: repeating-conic-gradient(
+      from 0deg at 50% 35%,
+      oklch(75% 0.12 80) 0deg 2deg, transparent 2deg 10deg
+    );
+  }
+
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
+
+  /* === HEADER === */
+  .header { text-align: center; padding: 3rem 1rem 2rem; }
+  .header-line { width: 180px; height: 1px; background: var(--primary); margin: 0 auto; }
+  .header-est { font-weight: 300; font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); margin-top: 1rem; }
+  .header h1 { font-family: var(--font-display); font-size: clamp(3rem, 10vw, 5rem); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--primary); line-height: 1.1; margin: 0.5rem 0; }
+  .header-sub { font-weight: 300; font-size: 0.85rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+
+  /* === SUNBURST DIVIDER === */
+  .sunburst {
+    height: 80px;
+    margin-bottom: 0.5rem;
+    background: conic-gradient(from 180deg at 50% 100%,
+      oklch(75% 0.12 80/.6) 0deg,transparent 6deg,transparent 10deg,oklch(75% 0.12 80/.5) 10deg,transparent 16deg,
+      transparent 20deg,oklch(75% 0.12 80/.4) 20deg,transparent 26deg,transparent 30deg,oklch(75% 0.12 80/.3) 30deg,transparent 36deg,
+      transparent 40deg,oklch(75% 0.12 80/.25) 40deg,transparent 46deg,transparent 50deg,oklch(75% 0.12 80/.2) 50deg,transparent 56deg,
+      transparent 60deg,oklch(75% 0.12 80/.15) 60deg,transparent 66deg,transparent 70deg,oklch(75% 0.12 80/.1) 70deg,transparent 76deg,
+      transparent 80deg,oklch(75% 0.12 80/.06) 80deg,transparent 86deg,transparent 94deg,oklch(75% 0.12 80/.06) 94deg,transparent 100deg,
+      transparent 104deg,oklch(75% 0.12 80/.1) 104deg,transparent 110deg,transparent 114deg,oklch(75% 0.12 80/.15) 114deg,transparent 120deg,
+      transparent 124deg,oklch(75% 0.12 80/.2) 124deg,transparent 130deg,transparent 134deg,oklch(75% 0.12 80/.25) 134deg,transparent 140deg,
+      transparent 144deg,oklch(75% 0.12 80/.3) 144deg,transparent 150deg,transparent 154deg,oklch(75% 0.12 80/.4) 154deg,transparent 160deg,
+      transparent 164deg,oklch(75% 0.12 80/.5) 164deg,transparent 170deg,transparent 174deg,oklch(75% 0.12 80/.6) 174deg,transparent 180deg);
+  }
+
+  /* === HERO === */
+  .hero { text-align: center; padding: 2.5rem 1rem 2rem; }
+  .hero h2 { font-family: var(--font-display); font-size: clamp(1.6rem, 5vw, 2.5rem); font-weight: 600; font-style: italic; color: var(--cream); letter-spacing: 0.04em; line-height: 1.2; }
+  .hero p { font-weight: 300; font-size: 0.95rem; color: var(--muted); letter-spacing: 0.08em; margin-top: 0.75rem; }
+
+  /* === GOLD LINE DIVIDER === */
+  .gold-line, .gold-line-thick { background: linear-gradient(90deg, transparent, var(--primary), transparent); }
+  .gold-line { height: 1px; margin: 0.5rem 0; }
+  .gold-line-thick { height: 2px; margin: 1rem 0; }
+
+  /* === EVENT CARDS === */
+  .events { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 1.25rem; padding: 2rem 0; }
+  .event-card { background: var(--surface); border: var(--gold-border); padding: 1.75rem 1.25rem; text-align: center; position: relative; }
+  .event-card::before, .event-card::after { content: ''; position: absolute; width: 20px; height: 20px; border-color: var(--primary); border-style: solid; }
+  .event-card::before { top: 6px; left: 6px; border-width: 1px 0 0 1px; }
+  .event-card::after { bottom: 6px; right: 6px; border-width: 0 1px 1px 0; }
+  .event-card .card-icon { font-size: 2rem; margin-bottom: 0.75rem; display: block; color: var(--primary); }
+  .event-card h3 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary); margin-bottom: 0.5rem; }
+  .event-card p { font-size: 0.85rem; font-weight: 300; color: var(--muted); line-height: 1.5; }
+  .event-card .price { font-family: var(--font-display); font-size: 1.4rem; color: var(--accent); margin-top: 0.75rem; display: block; }
+
+  /* === CHEVRON DIVIDER === */
+  .chevron { height: 24px; margin: 1rem 0; background: repeating-linear-gradient(135deg, oklch(75% 0.12 80 / 0.6) 0 2px, transparent 2px 10px), repeating-linear-gradient(45deg, oklch(75% 0.12 80 / 0.6) 0 2px, transparent 2px 10px); }
+
+  /* === MENU TABLE === */
+  .menu-section { padding: 2rem 0; text-align: center; }
+  .menu-section h2, .reservation h2 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--primary); margin-bottom: 1.5rem; }
+  .menu-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .menu-table th, .menu-table td { padding: 0.65rem 1rem; text-align: left; }
+  .menu-table th { font-family: var(--font-display); font-weight: 600; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--primary); border-bottom: 2px solid var(--primary); }
+  .menu-table td { border-bottom: 1px solid oklch(30% 0.02 80); color: var(--text); font-weight: 300; }
+  .menu-table td:last-child { text-align: right; font-family: var(--font-display); color: var(--accent); }
+
+  /* === RESERVATION FORM === */
+  .reservation { padding: 2rem 0; text-align: center; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 520px; margin: 0 auto; }
+  .form-group { text-align: left; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label { display: block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem; }
+  .form-group input, .form-group select { width: 100%; font-family: var(--font-body); font-weight: 300; font-size: 0.9rem; padding: 0.6rem 0.75rem; background: var(--surface); color: var(--text); border: var(--gold-border); outline: none; transition: box-shadow 250ms; }
+  .form-group input:focus, .form-group select:focus { box-shadow: var(--gold-glow); }
+  .form-group input::placeholder { color: oklch(45% 0.02 80); }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-body); font-weight: 500; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.7rem 2rem; cursor: pointer; transition: all 250ms; }
+  .btn-gold { background: var(--primary); color: var(--bg); border: 1px solid var(--primary); }
+  .btn-gold:hover { box-shadow: var(--gold-glow); background: oklch(78% 0.13 80); }
+  .btn-outline { background: transparent; color: var(--primary); border: var(--gold-border); }
+  .btn-outline:hover { background: oklch(75% 0.12 80 / 0.1); }
+  .btn-dark { background: var(--surface); color: var(--text); border: 1px solid oklch(35% 0.02 80); }
+  .btn-dark:hover { border-color: var(--primary); }
+  .btn-emerald { background: var(--emerald); color: var(--cream); border: 1px solid var(--emerald); }
+  .btn-emerald:hover { box-shadow: 0 0 12px oklch(50% 0.1 160 / 0.3); }
+  .btn-full { width: 100%; }
+
+  /* === FOOTER === */
+  .footer-pattern { height: 12px; background: repeating-linear-gradient(90deg, var(--primary) 0 2px, transparent 2px 8px); opacity: 0.4; }
+  .footer { text-align: center; padding: 1.5rem 1rem; font-weight: 300; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+
+  /* ============ COMPONENT SHOWCASE ============ */
+  .showcase-sep { margin: 3rem 0 2rem; border: none; border-top: 1px solid var(--primary); }
+  .showcase-title { font-family: var(--font-display); font-size: 1.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; text-align: center; color: var(--primary); margin-bottom: 2rem; }
+  .section-label { font-family: var(--font-display); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid oklch(35% 0.02 80); padding-bottom: 0.35rem; margin-bottom: 1rem; }
+  .comp-section { margin-bottom: 2.5rem; }
+
+  /* Typography specimen */
+  .type-specimen h1 { font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.1; color: var(--primary); margin-bottom: 0.5rem; }
+  .type-specimen h2 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.1; color: var(--cream); margin-bottom: 0.5rem; }
+  .type-specimen h3 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; font-style: italic; letter-spacing: 0.04em; line-height: 1.2; color: var(--accent); margin-bottom: 0.5rem; }
+  .type-specimen p { font-size: 0.95rem; font-weight: 300; margin-bottom: 0.5rem; max-width: 60ch; color: var(--text); }
+
+  /* Color swatches */
+  .swatches { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .swatch { width: 80px; border: var(--gold-border); overflow: hidden; }
+  .swatch-color { height: 56px; }
+  .swatch-label { padding: 0.3rem 0.4rem; font-size: 0.6rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; background: var(--surface); text-align: center; border-top: var(--gold-border); color: var(--muted); }
+
+  .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+  .badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+
+  .badge { display: inline-block; padding: 0.2rem 0.75rem; font-weight: 500; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; border: var(--gold-border); }
+  .badge-gold { background: oklch(75% 0.12 80 / 0.15); color: var(--primary); }
+  .badge-emerald { background: oklch(50% 0.1 160 / 0.15); color: var(--emerald); border-color: var(--emerald); }
+  .badge-cream { background: oklch(92% 0.04 80 / 0.15); color: var(--cream); }
+  .badge-accent { background: oklch(85% 0.08 80 / 0.1); color: var(--accent); }
+
+  /* Demo card with geometric corners */
+  .demo-card { background: var(--surface); border: var(--gold-border); padding: 1.5rem; position: relative; max-width: 300px; }
+  .demo-card::before, .demo-card::after { content: ''; position: absolute; width: 16px; height: 16px; border-color: var(--primary); border-style: solid; }
+  .demo-card::before { top: 5px; left: 5px; border-width: 1px 0 0 1px; }
+  .demo-card::after { bottom: 5px; right: 5px; border-width: 0 1px 1px 0; }
+
+  /* Demo table — shares base styles with menu-table */
+  .demo-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .demo-table th, .demo-table td { padding: 0.55rem 0.75rem; text-align: left; }
+  .demo-table th { font-family: var(--font-display); font-weight: 600; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--primary); border-bottom: 2px solid var(--primary); }
+  .demo-table td { border-bottom: 1px solid oklch(30% 0.02 80); font-weight: 300; }
+
+  @media (max-width: 480px) {
+    .events { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    .form-group.full { grid-column: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-line"></div>
+    <div class="header-est">Established 1925</div>
+    <h1>The Grand</h1>
+    <div class="header-sub">Supper Club &amp; Jazz Lounge</div>
+    <div class="header-line"></div>
+  </header>
+
+  <!-- Gold line divider -->
+  <div class="gold-line-thick"></div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h2>An Evening of Elegance</h2>
+    <p>Saturday, December 31st &middot; 7:00 PM &middot; Black Tie</p>
+  </div>
+
+  <!-- GOLD LINE -->
+  <div class="gold-line"></div>
+
+  <!-- EVENT CARDS -->
+  <div class="events">
+    <div class="event-card">
+      <span class="card-icon">&#9830;</span>
+      <h3>Dinner</h3>
+      <p>Five-course prix fixe from Chef Laurent. Seasonal ingredients, timeless technique.</p>
+      <span class="price">$185</span>
+    </div>
+    <div class="event-card">
+      <span class="card-icon">&#9835;</span>
+      <h3>Jazz</h3>
+      <p>The Marcus Cole Quartet performs standards from the golden age of jazz.</p>
+      <span class="price">$75</span>
+    </div>
+    <div class="event-card">
+      <span class="card-icon">&#9827;</span>
+      <h3>Cocktails</h3>
+      <p>Prohibition-era classics and house originals at the Chrysler Bar.</p>
+      <span class="price">$45</span>
+    </div>
+  </div>
+
+  <!-- CHEVRON DIVIDER -->
+  <div class="chevron"></div>
+
+  <!-- MENU TABLE -->
+  <section class="menu-section">
+    <h2>Prix Fixe Menu</h2>
+    <table class="menu-table">
+      <thead>
+        <tr><th>Course</th><th>Selection</th><th>Pairing</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Amuse-Bouche</td><td>Oyster with champagne mignonette</td><td>Krug Grande Cuv&eacute;e</td></tr>
+        <tr><td>First</td><td>Lobster bisque, tarragon cr&egrave;me</td><td>Chablis Premier Cru</td></tr>
+        <tr><td>Second</td><td>Duck confit, cherry gastrique</td><td>Ch&acirc;teau Margaux 2018</td></tr>
+        <tr><td>Intermezzo</td><td>Lemon verbena sorbet</td><td>&mdash;</td></tr>
+        <tr><td>Main</td><td>Wagyu filet, truffle jus, fondant potato</td><td>Opus One 2019</td></tr>
+        <tr><td>Dessert</td><td>Cr&egrave;me br&ucirc;l&eacute;e with gold leaf</td><td>Dom P&eacute;rignon Ros&eacute;</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- GOLD LINE -->
+  <div class="gold-line-thick"></div>
+
+  <!-- RESERVATION FORM -->
+  <section class="reservation">
+    <h2>Reserve Your Table</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" placeholder="Mr. Jay Gatsby">
+      </div>
+      <div class="form-group">
+        <label>Party Size</label>
+        <select>
+          <option>2 Guests</option>
+          <option>4 Guests</option>
+          <option>6 Guests</option>
+          <option>8 Guests</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Date</label>
+        <input type="text" placeholder="December 31, 1925">
+      </div>
+      <div class="form-group">
+        <label>Time</label>
+        <select>
+          <option>7:00 PM</option>
+          <option>7:30 PM</option>
+          <option>8:00 PM</option>
+          <option>8:30 PM</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <button class="btn btn-gold btn-full">Confirm Reservation</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="footer-pattern"></div>
+  <div class="footer">
+    &copy; 1925&ndash;2026 The Grand &middot; New York City &middot; All Rights Reserved
+  </div>
+
+  <!-- ============ COMPONENT SHOWCASE ============ -->
+  <hr class="showcase-sep">
+  <div class="showcase-title" id="components">Components</div>
+
+  <!-- Typography -->
+  <div class="comp-section">
+    <div class="section-label">Typography</div>
+    <div class="type-specimen">
+      <h1>Display Heading H1</h1>
+      <h2>Section Heading H2</h2>
+      <h3>Subsection Heading H3 in Italic</h3>
+      <p>Body text in Inter 300. The quick brown fox jumps over the lazy dog. Designed for elegant, symmetrical layouts with restrained luxury and geometric precision.</p>
+      <p style="font-weight:500">Medium body text (500 weight) for subtle emphasis and secondary headings.</p>
+    </div>
+  </div>
+
+  <!-- Colors -->
+  <div class="comp-section">
+    <div class="section-label">Colors</div>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-color" style="background:var(--bg)"></div><div class="swatch-label">BG</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--surface)"></div><div class="swatch-label">Surface</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--text)"></div><div class="swatch-label">Text</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--primary)"></div><div class="swatch-label">Gold</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--accent)"></div><div class="swatch-label">Champagne</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--cream)"></div><div class="swatch-label">Cream</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--emerald)"></div><div class="swatch-label">Emerald</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--muted)"></div><div class="swatch-label">Muted</div></div>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="comp-section">
+    <div class="section-label">Buttons</div>
+    <div class="btn-row">
+      <button class="btn btn-gold">Gold Filled</button>
+      <button class="btn btn-outline">Gold Outline</button>
+      <button class="btn btn-dark">Dark</button>
+      <button class="btn btn-emerald">Emerald</button>
+    </div>
+  </div>
+
+  <!-- Badges -->
+  <div class="comp-section">
+    <div class="section-label">Badges</div>
+    <div class="badge-row">
+      <span class="badge badge-gold">Prix Fixe</span>
+      <span class="badge badge-emerald">Live</span>
+      <span class="badge badge-cream">Classic</span>
+      <span class="badge badge-accent">Seasonal</span>
+    </div>
+  </div>
+
+  <!-- Card -->
+  <div class="comp-section">
+    <div class="section-label">Card with Geometric Corners</div>
+    <div class="demo-card">
+      <h3 style="font-family:var(--font-display); font-size:1.1rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--primary); margin-bottom:0.5rem;">The Chrysler Bar</h3>
+      <p style="font-size:0.85rem; font-weight:300; color:var(--muted); line-height:1.5; margin-bottom:0.75rem;">Prohibition-era cocktails served beneath original 1925 crystal chandeliers.</p>
+      <button class="btn btn-outline" style="width:100%">View Menu</button>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div class="comp-section">
+    <div class="section-label">Form Input</div>
+    <div style="max-width:400px; display:flex; gap:0">
+      <input type="text" placeholder="Enter your name..." style="flex:1; font-family:var(--font-body); font-weight:300; font-size:0.9rem; padding:0.6rem 0.75rem; background:var(--surface); color:var(--text); border:var(--gold-border); border-right:none; outline:none;">
+      <button class="btn btn-gold" style="border-left:var(--gold-border)">Submit</button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="comp-section">
+    <div class="section-label">Data Table</div>
+    <table class="demo-table">
+      <thead>
+        <tr><th>Event</th><th>Time</th><th>Venue</th><th>Price</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Dinner Service</td><td>7:00 PM</td><td>Grand Ballroom</td><td>$185</td></tr>
+        <tr><td>Jazz Quartet</td><td>9:00 PM</td><td>Gold Room</td><td>$75</td></tr>
+        <tr><td>Cocktail Hour</td><td>6:00 PM</td><td>Chrysler Bar</td><td>$45</td></tr>
+        <tr><td>Champagne Toast</td><td>11:55 PM</td><td>Rooftop Terrace</td><td>Included</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="height:2rem"></div>
+</div>
+
+</body>
+</html>

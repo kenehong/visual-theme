@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LITTLE MASTERS — Children's Art Exhibition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: oklch(97% 0.005 80);
+    --surface: oklch(100% 0 0);
+    --text: oklch(10% 0.02 0);
+    --primary: oklch(55% 0.25 25);
+    --accent: oklch(82% 0.18 95);
+    --dark: oklch(15% 0 0);
+    --muted: oklch(55% 0.01 0);
+    --shadow-sm: 2px 2px 0 oklch(15% 0 0);
+    --shadow-md: 3px 3px 0 oklch(15% 0 0);
+    --shadow-lg: 5px 5px 0 oklch(15% 0 0);
+    --font-display: 'Caveat', cursive;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --border: 3px solid var(--dark);
+    --border-thick: 4px solid var(--dark);
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-weight: 400;
+    color: var(--text);
+    background: var(--bg);
+    letter-spacing: 0.01em;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Canvas texture overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.04;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 1.25rem; }
+
+  /* === GALLERY HEADER === */
+  .gallery-header {
+    text-align: center;
+    padding: 2.5rem 1rem 1.5rem;
+  }
+  .gallery-header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 12vw, 6rem);
+    font-weight: 700;
+    line-height: 1.0;
+    color: var(--text);
+    transform: rotate(-1deg);
+  }
+  .gallery-header .subtitle {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    color: var(--muted);
+  }
+
+  /* === BRUSHSTROKE DIVIDER === */
+  .brushstroke {
+    height: 6px;
+    background: var(--dark);
+    margin: 0.5rem 0;
+    border-radius: 40% 60% 50% 30% / 80% 40% 60% 50%;
+    transform: rotate(-0.5deg);
+  }
+  .brushstroke-red {
+    height: 5px;
+    background: var(--primary);
+    margin: 0.25rem 2rem;
+    border-radius: 30% 70% 40% 60% / 60% 50% 70% 40%;
+    transform: rotate(0.3deg);
+  }
+
+  /* === HERO === */
+  .hero {
+    text-align: center;
+    padding: 3rem 1rem;
+  }
+  .hero h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 9vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+  .hero .underline-brush {
+    width: 260px;
+    max-width: 80%;
+    height: 8px;
+    background: var(--dark);
+    margin: 0 auto 1.25rem;
+    border-radius: 50% 30% 40% 60% / 70% 50% 60% 40%;
+    transform: rotate(-1.5deg);
+  }
+  .hero .dates {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  /* === ARTWORK CARDS === */
+  .artworks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+    gap: 1.5rem;
+    padding: 1.5rem 0 2rem;
+  }
+  .artwork-card {
+    background: var(--surface);
+    border: var(--border-thick);
+    box-shadow: var(--shadow-lg);
+  }
+  .artwork-card:nth-child(1) { transform: rotate(-1.2deg); }
+  .artwork-card:nth-child(2) { transform: rotate(0.8deg); }
+  .artwork-card:nth-child(3) { transform: rotate(-0.5deg); }
+  .artwork-canvas {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .artwork-canvas .paint-mark {
+    position: absolute;
+    border-radius: 40% 60% 50% 30%;
+    opacity: 0.85;
+  }
+  .artwork-info {
+    padding: 1rem;
+  }
+  .artwork-info .title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0.25rem;
+  }
+  .artwork-info .artist {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 0.15rem;
+  }
+  .artwork-info .medium {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: oklch(50% 0.01 0);
+  }
+
+  /* === ABOUT SECTION === */
+  .about {
+    padding: 2rem 0;
+    text-align: center;
+  }
+  .about blockquote {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 500;
+    line-height: 1.3;
+    max-width: 650px;
+    margin: 0 auto 0.75rem;
+    color: var(--text);
+    transform: rotate(-0.5deg);
+  }
+  .about .attribution {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* === VISIT INFO === */
+  .visit {
+    border: var(--border-thick);
+    background: var(--surface);
+    box-shadow: var(--shadow-md);
+    padding: 1.75rem;
+    margin: 1.5rem 0;
+    transform: rotate(0.3deg);
+  }
+  .visit h3 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  .visit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+  }
+  .visit-item .label {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.25rem;
+  }
+  .visit-item .value {
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  /* === FOOTER === */
+  .paint-stripe {
+    display: flex;
+    height: 10px;
+    margin-top: 2rem;
+  }
+  .paint-stripe span { flex: 1; }
+  .footer {
+    text-align: center;
+    padding: 1.25rem 1rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* ============ COMPONENT SHOWCASE ============ */
+  .showcase-sep {
+    margin: 3rem 0 2rem;
+    border: none;
+    border-top: 4px dashed var(--muted);
+  }
+  .showcase-title {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2rem;
+    transform: rotate(-0.5deg);
+  }
+  .section-label {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--muted);
+    border-bottom: 3px solid var(--muted);
+    padding-bottom: 0.25rem;
+    margin-bottom: 1rem;
+  }
+  .comp-section { margin-bottom: 2.5rem; }
+
+  /* Typography specimen */
+  .type-specimen h1 {
+    font-family: var(--font-display);
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+  .type-specimen h2 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+  .type-specimen h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+  .type-specimen p {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    max-width: 60ch;
+  }
+
+  /* Color swatches */
+  .swatches { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .swatch {
+    width: 80px;
+    border: var(--border);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  .swatch-color { height: 56px; }
+  .swatch-label {
+    padding: 0.3rem 0.4rem;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: var(--surface);
+    text-align: center;
+    border-top: 2px solid var(--dark);
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    padding: 0.6rem 1.4rem;
+    border: var(--border);
+    cursor: pointer;
+    transition: transform 80ms, box-shadow 80ms;
+    box-shadow: var(--shadow-sm);
+    background: var(--surface);
+    color: var(--text);
+  }
+  .btn:active { transform: translate(2px, 2px); box-shadow: none; }
+  .btn-primary { background: var(--primary); color: var(--surface); }
+  .btn-accent { background: var(--accent); color: var(--dark); }
+  .btn-dark { background: var(--dark); color: var(--surface); }
+  .btn-ghost { background: transparent; }
+  .btn-tilt { transform: rotate(-1.5deg); }
+  .btn-tilt:active { transform: rotate(-1.5deg) translate(2px, 2px); box-shadow: none; }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+
+  /* Badges */
+  .badge {
+    display: inline-block;
+    padding: 0.2rem 0.7rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    border: 2px solid var(--dark);
+  }
+  .badge-red { background: var(--primary); color: var(--surface); }
+  .badge-yellow { background: var(--accent); color: var(--dark); }
+  .badge-dark { background: var(--dark); color: var(--surface); }
+  .badge-outline { background: transparent; color: var(--text); }
+  .badge-tilt { transform: rotate(-2deg); }
+  .badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+
+  /* Frame card */
+  .frame-card {
+    background: var(--surface);
+    border: var(--border-thick);
+    box-shadow: var(--shadow-md);
+    max-width: 300px;
+  }
+  .frame-card .frame-art {
+    height: 160px;
+    border-bottom: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 700;
+    color: oklch(99% 0 0 / 0.5);
+  }
+  .frame-card .frame-info {
+    padding: 0.75rem 1rem;
+  }
+  .frame-card .frame-info .title {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+  .frame-card .frame-info .meta {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* Input */
+  .input-thick {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    padding: 0.65rem 0.85rem;
+    border: var(--border);
+    background: var(--surface);
+    outline: none;
+    width: 100%;
+    max-width: 360px;
+  }
+  .input-thick:focus {
+    box-shadow: var(--shadow-sm);
+  }
+  .input-label {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+  }
+
+  /* Table */
+  .demo-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: var(--border);
+    font-size: 0.9rem;
+  }
+  .demo-table th, .demo-table td {
+    padding: 0.55rem 0.85rem;
+    border: 2px solid var(--dark);
+    text-align: left;
+  }
+  .demo-table th {
+    background: var(--dark);
+    color: var(--surface);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+  .demo-table tr:nth-child(even) { background: oklch(95% 0.005 80); }
+
+  @media (max-width: 480px) {
+    .artworks { grid-template-columns: 1fr; }
+    .visit-grid { grid-template-columns: 1fr; }
+    .artwork-card:nth-child(1),
+    .artwork-card:nth-child(2),
+    .artwork-card:nth-child(3) { transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- GALLERY HEADER -->
+  <header class="gallery-header">
+    <h1>Little Masters</h1>
+    <div class="subtitle">Children's Art Exhibition</div>
+  </header>
+
+  <!-- BRUSHSTROKE DIVIDER -->
+  <div class="brushstroke"></div>
+  <div class="brushstroke-red"></div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h2>Raw Expression</h2>
+    <div class="underline-brush"></div>
+    <div class="dates">March 1 &mdash; April 15, 2026</div>
+  </section>
+
+  <!-- BRUSHSTROKE DIVIDER -->
+  <div class="brushstroke"></div>
+
+  <!-- ARTWORK CARDS -->
+  <section class="artworks">
+    <div class="artwork-card">
+      <div class="artwork-canvas" style="background: oklch(97% 0.005 80)">
+        <div class="paint-mark" style="width:120px; height:140px; background:var(--dark); top:20px; left:30px; border-radius:40% 55% 45% 60%; transform:rotate(-8deg)"></div>
+        <div class="paint-mark" style="width:80px; height:60px; background:var(--primary); bottom:30px; right:20px; border-radius:55% 40% 50% 45%; transform:rotate(5deg)"></div>
+        <div class="paint-mark" style="width:35px; height:30px; background:var(--accent); top:15px; right:35px; border-radius:45% 55% 50% 40%; transform:rotate(-12deg)"></div>
+      </div>
+      <div class="artwork-info">
+        <div class="title">Self Portrait No. 1</div>
+        <div class="artist">by Mia, age 6</div>
+        <div class="medium">Acrylic on canvas</div>
+      </div>
+    </div>
+
+    <div class="artwork-card">
+      <div class="artwork-canvas" style="background: oklch(97% 0.005 80)">
+        <div class="paint-mark" style="width:100px; height:90px; background:var(--primary); top:30px; left:40px; border-radius:35% 65% 45% 55%; transform:rotate(6deg)"></div>
+        <div class="paint-mark" style="width:70px; height:80px; background:var(--dark); bottom:20px; left:60px; border-radius:50% 45% 55% 40%; transform:rotate(-3deg)"></div>
+        <div class="paint-mark" style="width:50px; height:40px; background:var(--accent); top:25px; right:25px; border-radius:60% 40% 55% 45%; transform:rotate(10deg)"></div>
+      </div>
+      <div class="artwork-info">
+        <div class="title">My Red House</div>
+        <div class="artist">by Leo, age 5</div>
+        <div class="medium">Tempera on paper</div>
+      </div>
+    </div>
+
+    <div class="artwork-card">
+      <div class="artwork-canvas" style="background: oklch(97% 0.005 80)">
+        <div class="paint-mark" style="width:110px; height:100px; background:var(--accent); top:20px; right:30px; border-radius:45% 50% 55% 40%; transform:rotate(-5deg)"></div>
+        <div class="paint-mark" style="width:60px; height:70px; background:var(--dark); bottom:25px; left:25px; border-radius:55% 40% 45% 60%; transform:rotate(7deg)"></div>
+        <div class="paint-mark" style="width:45px; height:50px; background:var(--primary); top:50px; left:50px; border-radius:40% 60% 50% 45%; transform:rotate(-10deg)"></div>
+      </div>
+      <div class="artwork-info">
+        <div class="title">The Big Sun</div>
+        <div class="artist">by Hana, age 7</div>
+        <div class="medium">Oil pastel and ink</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRUSHSTROKE DIVIDER -->
+  <div class="brushstroke-red"></div>
+  <div class="brushstroke"></div>
+
+  <!-- ABOUT -->
+  <section class="about">
+    <blockquote>"Every child is an artist. The problem is how to remain an artist once we grow up."</blockquote>
+    <div class="attribution">&mdash; Pablo Picasso</div>
+  </section>
+
+  <!-- VISIT INFO -->
+  <div class="visit">
+    <h3>Come Visit</h3>
+    <div class="visit-grid">
+      <div class="visit-item">
+        <div class="label">Hours</div>
+        <div class="value">Tue &ndash; Sat: 10am &ndash; 5pm<br>Sun: 12pm &ndash; 4pm<br>Mon: Closed</div>
+      </div>
+      <div class="visit-item">
+        <div class="label">Admission</div>
+        <div class="value">Free for everyone!<br>Donations welcome</div>
+      </div>
+      <div class="visit-item">
+        <div class="label">Location</div>
+        <div class="value">Studio 12, Art District<br>123 Canvas Lane<br>Seattle, WA 98101</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAINT STRIPE FOOTER -->
+  <div class="paint-stripe">
+    <span style="background:var(--dark)"></span>
+    <span style="background:var(--primary)"></span>
+    <span style="background:var(--accent)"></span>
+    <span style="background:var(--dark)"></span>
+  </div>
+
+  <div class="footer">&copy; 2026 Little Masters Gallery &middot; All artwork by young artists ages 4&ndash;8</div>
+
+  <!-- ============ COMPONENT SHOWCASE ============ -->
+  <hr class="showcase-sep">
+  <div class="showcase-title" id="components">Components</div>
+
+  <!-- Typography -->
+  <div class="comp-section">
+    <div class="section-label">Typography</div>
+    <div class="type-specimen">
+      <h1>Display Heading H1</h1>
+      <h2>Section Heading H2</h2>
+      <h3>Subsection Heading H3</h3>
+      <p>Body text in Inter 400. The quick brown fox jumps over the lazy dog. Clean and readable, contrasting with the expressive handwritten headings.</p>
+      <p style="font-weight:600">Semi-bold body text (600 weight) for emphasis and labels.</p>
+    </div>
+  </div>
+
+  <!-- Colors -->
+  <div class="comp-section">
+    <div class="section-label">Colors</div>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-color" style="background:var(--bg)"></div><div class="swatch-label">Canvas</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--surface)"></div><div class="swatch-label">White</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--text)"></div><div class="swatch-label">Ink</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--primary)"></div><div class="swatch-label">Red</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--accent)"></div><div class="swatch-label">Yellow</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--dark)"></div><div class="swatch-label">Dark</div></div>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="comp-section">
+    <div class="section-label">Buttons</div>
+    <div class="btn-row">
+      <button class="btn btn-primary">Primary</button>
+      <button class="btn btn-accent">Accent</button>
+      <button class="btn btn-dark">Dark</button>
+      <button class="btn btn-ghost">Ghost</button>
+      <button class="btn btn-primary btn-tilt">Tilted</button>
+    </div>
+  </div>
+
+  <!-- Badges -->
+  <div class="comp-section">
+    <div class="section-label">Badges</div>
+    <div class="badge-row">
+      <span class="badge badge-red">Acrylic</span>
+      <span class="badge badge-yellow">Tempera</span>
+      <span class="badge badge-dark">Ink</span>
+      <span class="badge badge-outline badge-tilt">Pastel</span>
+    </div>
+  </div>
+
+  <!-- Card -->
+  <div class="comp-section">
+    <div class="section-label">Frame Card</div>
+    <div class="frame-card" style="transform: rotate(-0.8deg)">
+      <div class="frame-art" style="background:var(--primary)">ART</div>
+      <div class="frame-info">
+        <div class="title">Untitled No. 4</div>
+        <div class="meta">by Sam, age 4 &middot; Finger paint on paper</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Input -->
+  <div class="comp-section">
+    <div class="section-label">Form Input</div>
+    <label class="input-label" for="demo-input">Your Name</label>
+    <input id="demo-input" class="input-thick" type="text" placeholder="Draw your name here...">
+  </div>
+
+  <!-- Table -->
+  <div class="comp-section">
+    <div class="section-label">Data Table</div>
+    <table class="demo-table">
+      <thead>
+        <tr><th>Artwork</th><th>Artist</th><th>Medium</th><th>Year</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Self Portrait No. 1</td><td>Mia, age 6</td><td>Acrylic</td><td>2026</td></tr>
+        <tr><td>My Red House</td><td>Leo, age 5</td><td>Tempera</td><td>2025</td></tr>
+        <tr><td>The Big Sun</td><td>Hana, age 7</td><td>Oil pastel</td><td>2026</td></tr>
+        <tr><td>Blue Monster</td><td>Kai, age 4</td><td>Finger paint</td><td>2025</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="height:2rem"></div>
+</div>
+
+</body>
+</html>

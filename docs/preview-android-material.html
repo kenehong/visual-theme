@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Android Material Design — Visual Theme Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: oklch(96% 0.005 0);
+    --surface: oklch(100% 0 0);
+    --text: oklch(15% 0.01 0);
+    --text-secondary: oklch(45% 0.01 0);
+    --primary: oklch(55% 0.2 250);
+    --primary-dark: oklch(42% 0.2 250);
+    --accent: oklch(65% 0.25 350);
+    --green: oklch(60% 0.18 155);
+    --orange: oklch(70% 0.18 65);
+    --red: oklch(55% 0.22 25);
+    --purple: oklch(65% 0.2 300);
+    --teal: oklch(60% 0.15 200);
+    --amber: oklch(70% 0.15 85);
+    --indigo: oklch(45% 0.12 250);
+    --divider: oklch(0% 0 0 / 0.12);
+    --font: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    --shadow-2dp: 0 2px 2px oklch(0% 0 0 / 0.14), 0 3px 1px oklch(0% 0 0 / 0.12), 0 1px 5px oklch(0% 0 0 / 0.2);
+    --shadow-4dp: 0 4px 5px oklch(0% 0 0 / 0.14), 0 1px 10px oklch(0% 0 0 / 0.12), 0 2px 4px oklch(0% 0 0 / 0.2);
+    --shadow-8dp: 0 8px 10px oklch(0% 0 0 / 0.14), 0 3px 14px oklch(0% 0 0 / 0.12), 0 5px 5px oklch(0% 0 0 / 0.2);
+    --shadow-16dp: 0 16px 24px oklch(0% 0 0 / 0.14), 0 6px 30px oklch(0% 0 0 / 0.12), 0 8px 10px oklch(0% 0 0 / 0.2);
+  }
+
+  body {
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.5;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ====== APP BAR ====== */
+  .app-bar {
+    background: var(--primary);
+    color: oklch(100% 0 0);
+    padding: 0 16px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: var(--shadow-4dp);
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+  }
+  .app-bar-title {
+    font-size: 20px;
+    font-weight: 500;
+    flex: 1;
+    letter-spacing: 0.01em;
+  }
+  .app-bar-icon {
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    color: inherit;
+    transition: background 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .app-bar-icon:hover { background: oklch(100% 0 0 / 0.12); }
+  .app-bar-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: oklch(100% 0 0 / 0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 500;
+    cursor: pointer;
+  }
+
+  /* ====== LAYOUT ====== */
+  .layout {
+    display: flex;
+    max-width: 960px;
+    margin: 56px auto 0;
+    min-height: calc(100vh - 56px);
+  }
+
+  /* ====== SIDEBAR ====== */
+  .sidebar {
+    width: 200px;
+    background: var(--surface);
+    box-shadow: var(--shadow-2dp);
+    flex-shrink: 0;
+    padding: 8px 0;
+    position: sticky;
+    top: 56px;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+  }
+  .sidebar-item {
+    display: flex; align-items: center; gap: 16px;
+    padding: 12px 16px;
+    font-size: 14px; font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 0;
+  }
+  .sidebar-item:hover { background: oklch(0% 0 0 / 0.04); }
+  .sidebar-item.active {
+    color: var(--primary);
+    background: oklch(55% 0.2 250 / 0.08);
+  }
+  .sidebar-icon { width: 24px; text-align: center; font-size: 16px; }
+  .sidebar-divider { border-top: 1px solid var(--divider); margin: 8px 0; }
+
+  /* ====== MAIN CONTENT ====== */
+  .main {
+    flex: 1;
+    padding: 24px;
+    min-width: 0;
+  }
+
+  /* ====== KPI ROW ====== */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .kpi-card {
+    background: var(--surface);
+    border-radius: 2px;
+    padding: 16px;
+    box-shadow: var(--shadow-2dp);
+    transition: box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .kpi-card:hover { box-shadow: var(--shadow-4dp); }
+  .kpi-label {
+    font-size: 12px; font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+  }
+  .kpi-value {
+    font-size: 24px; font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .kpi-change {
+    font-size: 12px; font-weight: 500;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .kpi-change.up { color: oklch(60% 0.18 155); }
+  .kpi-change.down { color: oklch(55% 0.22 25); }
+  .kpi-sparkline {
+    height: 32px;
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    margin-top: 8px;
+  }
+  .kpi-sparkline span {
+    flex: 1;
+    border-radius: 1px 1px 0 0;
+    min-height: 2px;
+  }
+  .kpi-accent-bar {
+    height: 3px;
+    border-radius: 0 0 2px 2px;
+    margin: -16px -16px 16px;
+    border-radius: 2px 2px 0 0;
+  }
+
+  /* ====== CHART ROW ====== */
+  .chart-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .chart-card {
+    background: var(--surface);
+    border-radius: 2px;
+    box-shadow: var(--shadow-2dp);
+    padding: 16px;
+  }
+  .chart-title {
+    font-size: 16px; font-weight: 500;
+    margin-bottom: 16px;
+  }
+  /* Vertical bar chart */
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 140px;
+    padding-top: 8px;
+    border-bottom: 1px solid var(--divider);
+  }
+  .bar-col {
+    flex: 1;
+    display: flex; flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    height: 100%;
+    justify-content: flex-end;
+  }
+  .bar-col .bar {
+    width: 100%;
+    border-radius: 2px 2px 0 0;
+    transition: opacity 200ms;
+    cursor: pointer;
+  }
+  .bar-col .bar:hover { opacity: 0.8; }
+  .bar-col .bar-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    padding-top: 4px;
+  }
+  /* Horizontal bar chart */
+  .h-bar-chart { display: flex; flex-direction: column; gap: 12px; }
+  .h-bar-row {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .h-bar-label {
+    width: 64px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .h-bar-track {
+    flex: 1; height: 20px;
+    background: oklch(0% 0 0 / 0.04);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .h-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .h-bar-val {
+    font-size: 12px; font-weight: 500;
+    width: 36px;
+    color: var(--text-secondary);
+  }
+
+  /* ====== DATA TABLE ====== */
+  .table-card {
+    background: var(--surface);
+    border-radius: 2px;
+    box-shadow: var(--shadow-2dp);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .table-header {
+    padding: 16px;
+    font-size: 16px; font-weight: 500;
+  }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .data-table th {
+    text-align: left;
+    padding: 12px 16px;
+    font-weight: 500;
+    font-size: 12px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--divider);
+  }
+  .data-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--divider);
+    vertical-align: middle;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: oklch(0% 0 0 / 0.02); }
+  .user-cell {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .user-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 500;
+    color: oklch(100% 0 0);
+    flex-shrink: 0;
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-size: 11px; font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .badge-active { background: oklch(60% 0.18 155 / 0.15); color: oklch(45% 0.15 155); }
+  .badge-inactive { background: oklch(0% 0 0 / 0.08); color: var(--text-secondary); }
+
+  /* ====== FAB ====== */
+  .fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: oklch(100% 0 0);
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: var(--shadow-8dp);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 90;
+    transition: box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1),
+                transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .fab:hover {
+    box-shadow: var(--shadow-16dp);
+    transform: scale(1.05);
+  }
+
+  /* ====== SHOWCASE ====== */
+  .showcase-section {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 48px;
+  }
+  .showcase-divider {
+    max-width: 960px;
+    margin: 0 auto;
+    border: none;
+    border-top: 1px solid var(--divider);
+  }
+  .showcase-heading {
+    font-size: 24px; font-weight: 300;
+    color: var(--primary);
+    padding: 32px 0 24px;
+    letter-spacing: 0.01em;
+  }
+  .section-label {
+    font-size: 12px; font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    padding-top: 16px;
+  }
+  .section-label:first-child { padding-top: 0; }
+
+  /* Typography showcase */
+  .type-sample { margin-bottom: 8px; }
+  .type-light { font-weight: 300; font-size: 24px; }
+  .type-regular { font-weight: 400; font-size: 24px; }
+  .type-medium { font-weight: 500; font-size: 24px; }
+  .type-bold { font-weight: 700; font-size: 24px; }
+  .type-meta { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+
+  /* Color swatches */
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+  .swatch {
+    aspect-ratio: 1;
+    border-radius: 2px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 500;
+    color: oklch(100% 0 0);
+    gap: 2px;
+  }
+  .swatch.light-text { color: var(--text); }
+
+  /* Buttons */
+  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .btn-raised {
+    background: var(--primary);
+    color: oklch(100% 0 0);
+    border: none;
+    padding: 0 16px; height: 36px;
+    border-radius: 2px;
+    font-family: var(--font);
+    font-size: 14px; font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    box-shadow: var(--shadow-2dp);
+    transition: box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .btn-raised:hover { box-shadow: var(--shadow-4dp); }
+  .btn-raised.accent { background: var(--accent); }
+  .btn-flat {
+    background: transparent;
+    color: var(--primary);
+    border: none;
+    padding: 0 16px; height: 36px;
+    border-radius: 2px;
+    font-family: var(--font);
+    font-size: 14px; font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: background 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .btn-flat:hover { background: oklch(55% 0.2 250 / 0.08); }
+  .btn-icon {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: none; background: transparent;
+    color: var(--text-secondary);
+    font-size: 20px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .btn-icon:hover { background: oklch(0% 0 0 / 0.08); }
+  .mini-fab {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: oklch(100% 0 0);
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: var(--shadow-4dp);
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* Elevation cards */
+  .elevation-row { display: flex; gap: 16px; }
+  .elevation-card {
+    flex: 1;
+    background: var(--surface);
+    border-radius: 2px;
+    padding: 24px 16px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  .elev-2 { box-shadow: var(--shadow-2dp); }
+  .elev-4 { box-shadow: var(--shadow-4dp); }
+  .elev-8 { box-shadow: var(--shadow-8dp); }
+
+  /* Chips */
+  .chip-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip {
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 16px;
+    font-size: 13px; font-weight: 400;
+    display: flex; align-items: center; gap: 6px;
+    border: 1px solid var(--divider);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .chip.active { background: oklch(55% 0.2 250 / 0.12); border-color: var(--primary); color: var(--primary); }
+  .chip-avatar {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    font-size: 11px; font-weight: 500;
+    display: flex; align-items: center; justify-content: center;
+    color: oklch(100% 0 0);
+    margin-left: -6px;
+  }
+
+  /* Text fields */
+  .text-field-row { display: flex; gap: 24px; }
+  .text-field {
+    position: relative;
+    flex: 1;
+    margin-bottom: 16px;
+  }
+  .text-field input {
+    width: 100%;
+    font-family: var(--font);
+    font-size: 16px;
+    padding: 20px 0 8px;
+    border: none;
+    border-bottom: 1px solid var(--divider);
+    background: transparent;
+    color: var(--text);
+    outline: none;
+    transition: border-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .text-field input:focus { border-bottom: 2px solid var(--primary); }
+  .text-field label {
+    position: absolute;
+    top: 20px; left: 0;
+    font-size: 16px;
+    color: var(--text-secondary);
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+  }
+  .text-field input:focus + label,
+  .text-field input:not(:placeholder-shown) + label {
+    top: 4px;
+    font-size: 12px;
+    color: var(--primary);
+  }
+
+  /* Showcase data table */
+  .showcase-table {
+    width: 100%;
+    background: var(--surface);
+    border-radius: 2px;
+    box-shadow: var(--shadow-2dp);
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .showcase-table th {
+    text-align: left;
+    padding: 12px 16px;
+    font-weight: 500;
+    font-size: 12px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--divider);
+  }
+  .showcase-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--divider);
+  }
+  .showcase-table tr:last-child td { border-bottom: none; }
+  .showcase-table .num { text-align: right; }
+
+  /* ====== RESPONSIVE ====== */
+  @media (max-width: 720px) {
+    .sidebar { display: none; }
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .chart-row { grid-template-columns: 1fr; }
+    .main { padding: 16px; }
+    .swatch-grid { grid-template-columns: repeat(5, 1fr); }
+    .text-field-row { flex-direction: column; gap: 0; }
+  }
+  @media (max-width: 480px) {
+    .kpi-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- APP BAR -->
+<div class="app-bar">
+  <button class="app-bar-icon" aria-label="Menu">☰</button>
+  <span class="app-bar-title">Dashboard</span>
+  <button class="app-bar-icon" aria-label="Search">&#9740;</button>
+  <button class="app-bar-icon" aria-label="Notifications">&#128276;</button>
+  <div class="app-bar-avatar">K</div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sidebar-item active">
+      <span class="sidebar-icon">&#128202;</span> Dashboard
+    </div>
+    <div class="sidebar-item">
+      <span class="sidebar-icon">&#128200;</span> Analytics
+    </div>
+    <div class="sidebar-item">
+      <span class="sidebar-icon">&#128101;</span> Users
+    </div>
+    <div class="sidebar-item">
+      <span class="sidebar-icon">&#128176;</span> Revenue
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-item">
+      <span class="sidebar-icon">&#9881;</span> Settings
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- KPI ROW -->
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-accent-bar" style="background: var(--primary);"></div>
+        <div class="kpi-label">Total Users</div>
+        <div class="kpi-value">12,847</div>
+        <div class="kpi-change up">&#9650; 12%</div>
+        <div class="kpi-sparkline">
+          <span style="height:40%; background: oklch(55% 0.2 250 / 0.25);"></span>
+          <span style="height:55%; background: oklch(55% 0.2 250 / 0.3);"></span>
+          <span style="height:45%; background: oklch(55% 0.2 250 / 0.25);"></span>
+          <span style="height:70%; background: oklch(55% 0.2 250 / 0.35);"></span>
+          <span style="height:60%; background: oklch(55% 0.2 250 / 0.3);"></span>
+          <span style="height:85%; background: oklch(55% 0.2 250 / 0.45);"></span>
+          <span style="height:100%; background: var(--primary);"></span>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-accent-bar" style="background: var(--green);"></div>
+        <div class="kpi-label">Revenue</div>
+        <div class="kpi-value">$48.2K</div>
+        <div class="kpi-change up">&#9650; 8%</div>
+        <div class="kpi-sparkline">
+          <span style="height:50%; background: oklch(60% 0.18 155 / 0.25);"></span>
+          <span style="height:35%; background: oklch(60% 0.18 155 / 0.2);"></span>
+          <span style="height:65%; background: oklch(60% 0.18 155 / 0.3);"></span>
+          <span style="height:55%; background: oklch(60% 0.18 155 / 0.25);"></span>
+          <span style="height:75%; background: oklch(60% 0.18 155 / 0.35);"></span>
+          <span style="height:80%; background: oklch(60% 0.18 155 / 0.4);"></span>
+          <span style="height:95%; background: var(--green);"></span>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-accent-bar" style="background: var(--orange);"></div>
+        <div class="kpi-label">Sessions</div>
+        <div class="kpi-value">32.1K</div>
+        <div class="kpi-change down">&#9660; 3%</div>
+        <div class="kpi-sparkline">
+          <span style="height:90%; background: oklch(70% 0.18 65 / 0.4);"></span>
+          <span style="height:85%; background: oklch(70% 0.18 65 / 0.35);"></span>
+          <span style="height:70%; background: oklch(70% 0.18 65 / 0.3);"></span>
+          <span style="height:75%; background: oklch(70% 0.18 65 / 0.3);"></span>
+          <span style="height:60%; background: oklch(70% 0.18 65 / 0.25);"></span>
+          <span style="height:65%; background: oklch(70% 0.18 65 / 0.25);"></span>
+          <span style="height:55%; background: var(--orange);"></span>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-accent-bar" style="background: var(--accent);"></div>
+        <div class="kpi-label">Bounce Rate</div>
+        <div class="kpi-value">42.1%</div>
+        <div class="kpi-change down">&#9650; 2%</div>
+        <div class="kpi-sparkline">
+          <span style="height:55%; background: oklch(65% 0.25 350 / 0.25);"></span>
+          <span style="height:60%; background: oklch(65% 0.25 350 / 0.3);"></span>
+          <span style="height:50%; background: oklch(65% 0.25 350 / 0.25);"></span>
+          <span style="height:65%; background: oklch(65% 0.25 350 / 0.3);"></span>
+          <span style="height:58%; background: oklch(65% 0.25 350 / 0.25);"></span>
+          <span style="height:70%; background: oklch(65% 0.25 350 / 0.35);"></span>
+          <span style="height:68%; background: var(--accent);"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHART ROW -->
+    <div class="chart-row">
+      <!-- Traffic Overview — vertical bar chart -->
+      <div class="chart-card">
+        <div class="chart-title">Traffic Overview</div>
+        <div class="bar-chart">
+          <div class="bar-col">
+            <div class="bar" style="height:60%; background: var(--primary);"></div>
+            <span class="bar-label">Mon</span>
+          </div>
+          <div class="bar-col">
+            <div class="bar" style="height:80%; background: var(--primary);"></div>
+            <span class="bar-label">Tue</span>
+          </div>
+          <div class="bar-col">
+            <div class="bar" style="height:45%; background: var(--primary);"></div>
+            <span class="bar-label">Wed</span>
+          </div>
+          <div class="bar-col">
+            <div class="bar" style="height:90%; background: var(--primary);"></div>
+            <span class="bar-label">Thu</span>
+          </div>
+          <div class="bar-col">
+            <div class="bar" style="height:70%; background: var(--primary);"></div>
+            <span class="bar-label">Fri</span>
+          </div>
+          <div class="bar-col">
+            <div class="bar" style="height:40%; background: oklch(55% 0.2 250 / 0.5);"></div>
+            <span class="bar-label">Sat</span>
+          </div>
+          <div class="bar-col">
+            <div class="bar" style="height:35%; background: oklch(55% 0.2 250 / 0.5);"></div>
+            <span class="bar-label">Sun</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Revenue by Channel — horizontal bar chart -->
+      <div class="chart-card">
+        <div class="chart-title">Revenue by Channel</div>
+        <div class="h-bar-chart">
+          <div class="h-bar-row">
+            <span class="h-bar-label">Direct</span>
+            <div class="h-bar-track"><div class="h-bar-fill" style="width:78%; background: var(--primary);"></div></div>
+            <span class="h-bar-val">$18.7K</span>
+          </div>
+          <div class="h-bar-row">
+            <span class="h-bar-label">Organic</span>
+            <div class="h-bar-track"><div class="h-bar-fill" style="width:62%; background: var(--green);"></div></div>
+            <span class="h-bar-val">$14.9K</span>
+          </div>
+          <div class="h-bar-row">
+            <span class="h-bar-label">Social</span>
+            <div class="h-bar-track"><div class="h-bar-fill" style="width:40%; background: var(--accent);"></div></div>
+            <span class="h-bar-val">$9.6K</span>
+          </div>
+          <div class="h-bar-row">
+            <span class="h-bar-label">Referral</span>
+            <div class="h-bar-track"><div class="h-bar-fill" style="width:21%; background: var(--orange);"></div></div>
+            <span class="h-bar-val">$5.0K</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DATA TABLE -->
+    <div class="table-card">
+      <div class="table-header">Recent Users</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Last Visit</th>
+            <th style="text-align:right;">Sessions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="user-cell"><div class="user-avatar" style="background: var(--primary);">AK</div> Alice Kim</div></td>
+            <td>alice@company.com</td>
+            <td><span class="badge badge-active">Active</span></td>
+            <td>Today</td>
+            <td style="text-align:right;">142</td>
+          </tr>
+          <tr>
+            <td><div class="user-cell"><div class="user-avatar" style="background: var(--green);">BJ</div> Bob Johnson</div></td>
+            <td>bob@company.com</td>
+            <td><span class="badge badge-active">Active</span></td>
+            <td>Today</td>
+            <td style="text-align:right;">98</td>
+          </tr>
+          <tr>
+            <td><div class="user-cell"><div class="user-avatar" style="background: var(--orange);">CL</div> Carol Lee</div></td>
+            <td>carol@company.com</td>
+            <td><span class="badge badge-inactive">Inactive</span></td>
+            <td>Mar 12</td>
+            <td style="text-align:right;">67</td>
+          </tr>
+          <tr>
+            <td><div class="user-cell"><div class="user-avatar" style="background: var(--accent);">DW</div> Dave Wilson</div></td>
+            <td>dave@company.com</td>
+            <td><span class="badge badge-active">Active</span></td>
+            <td>Yesterday</td>
+            <td style="text-align:right;">54</td>
+          </tr>
+          <tr>
+            <td><div class="user-cell"><div class="user-avatar" style="background: var(--purple);">EP</div> Eva Park</div></td>
+            <td>eva@company.com</td>
+            <td><span class="badge badge-active">Active</span></td>
+            <td>Today</td>
+            <td style="text-align:right;">41</td>
+          </tr>
+          <tr>
+            <td><div class="user-cell"><div class="user-avatar" style="background: var(--red);">FM</div> Frank Miller</div></td>
+            <td>frank@company.com</td>
+            <td><span class="badge badge-inactive">Inactive</span></td>
+            <td>Mar 10</td>
+            <td style="text-align:right;">23</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+</div>
+
+<!-- FAB -->
+<button class="fab" aria-label="Add">+</button>
+
+<!-- COMPONENT SHOWCASE -->
+<hr class="showcase-divider">
+<div class="showcase-section">
+  <div class="showcase-heading">Component Showcase</div>
+
+  <!-- Typography -->
+  <div class="section-label">Typography &mdash; Roboto Weights</div>
+  <div class="type-sample">
+    <div class="type-light">Roboto Light 300</div>
+    <div class="type-meta">font-weight: 300</div>
+  </div>
+  <div class="type-sample">
+    <div class="type-regular">Roboto Regular 400</div>
+    <div class="type-meta">font-weight: 400</div>
+  </div>
+  <div class="type-sample">
+    <div class="type-medium">Roboto Medium 500</div>
+    <div class="type-meta">font-weight: 500</div>
+  </div>
+  <div class="type-sample">
+    <div class="type-bold">Roboto Bold 700</div>
+    <div class="type-meta">font-weight: 700</div>
+  </div>
+
+  <!-- Color Swatches -->
+  <div class="section-label" style="margin-top: 24px;">Material Color Palette</div>
+  <div class="swatch-grid">
+    <div class="swatch" style="background: var(--primary);">Primary</div>
+    <div class="swatch" style="background: var(--primary-dark);">Dark</div>
+    <div class="swatch" style="background: var(--accent);">Accent</div>
+    <div class="swatch" style="background: var(--green);">Green</div>
+    <div class="swatch" style="background: var(--orange);">Orange</div>
+  </div>
+  <div class="swatch-grid" style="margin-top: 8px;">
+    <div class="swatch" style="background: var(--red);">Red</div>
+    <div class="swatch" style="background: var(--purple);">Purple</div>
+    <div class="swatch" style="background: var(--teal);">Teal</div>
+    <div class="swatch" style="background: var(--amber);">Amber</div>
+    <div class="swatch" style="background: var(--indigo);">Indigo</div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="section-label" style="margin-top: 24px;">Buttons</div>
+  <div class="btn-row">
+    <button class="btn-raised">Raised</button>
+    <button class="btn-raised accent">Accent</button>
+    <button class="btn-flat">Flat</button>
+    <button class="btn-icon">&#9733;</button>
+    <button class="mini-fab">+</button>
+  </div>
+
+  <!-- Elevation Cards -->
+  <div class="section-label" style="margin-top: 24px;">Elevation</div>
+  <div class="elevation-row">
+    <div class="elevation-card elev-2">2dp</div>
+    <div class="elevation-card elev-4">4dp</div>
+    <div class="elevation-card elev-8">8dp</div>
+  </div>
+
+  <!-- Chips -->
+  <div class="section-label" style="margin-top: 24px;">Chips</div>
+  <div class="chip-row">
+    <div class="chip active">
+      <span class="chip-avatar" style="background: var(--primary);">A</span>
+      Anna
+    </div>
+    <div class="chip">
+      <span class="chip-avatar" style="background: var(--green);">M</span>
+      Material
+    </div>
+    <div class="chip">Design</div>
+    <div class="chip">Android</div>
+  </div>
+
+  <!-- Text Fields -->
+  <div class="section-label" style="margin-top: 24px;">Floating Label Text Fields</div>
+  <div class="text-field-row">
+    <div class="text-field">
+      <input type="text" placeholder=" " value="kenny@example.com">
+      <label>Email</label>
+    </div>
+    <div class="text-field">
+      <input type="text" placeholder=" ">
+      <label>Password</label>
+    </div>
+  </div>
+
+  <!-- Data Table -->
+  <div class="section-label" style="margin-top: 24px;">Data Table</div>
+  <table class="showcase-table">
+    <thead>
+      <tr>
+        <th>Dessert</th>
+        <th class="num">Calories</th>
+        <th class="num">Fat (g)</th>
+        <th class="num">Carbs (g)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Frozen yogurt</td>
+        <td class="num">159</td>
+        <td class="num">6.0</td>
+        <td class="num">24</td>
+      </tr>
+      <tr>
+        <td>Ice cream sandwich</td>
+        <td class="num">237</td>
+        <td class="num">9.0</td>
+        <td class="num">37</td>
+      </tr>
+      <tr>
+        <td>Eclair</td>
+        <td class="num">262</td>
+        <td class="num">16.0</td>
+        <td class="num">24</td>
+      </tr>
+      <tr>
+        <td>Cupcake</td>
+        <td class="num">305</td>
+        <td class="num">3.7</td>
+        <td class="num">67</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="height: 48px;"></div>
+</div>
+
+</body>
+</html>

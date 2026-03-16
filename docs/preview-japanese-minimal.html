@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Japanese Minimalism — Theme Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* === Tokens === */
+:root {
+  --bg: oklch(98% 0.005 80);
+  --surface: oklch(100% 0 0);
+  --text: oklch(25% 0.02 60);
+  --muted: oklch(50% 0.03 60);
+  --primary: oklch(45% 0.05 60);
+  --accent: oklch(55% 0.08 25);
+  --green: oklch(60% 0.08 155);
+  --beige: oklch(85% 0.03 70);
+  --border: oklch(88% 0.01 70);
+  --font-display: 'Cormorant', Georgia, serif;
+  --font-body: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+  --radius: 3px;
+  --shadow-sm: 0 1px 2px oklch(25% 0.02 60 / 0.04);
+  --shadow-md: 0 2px 6px oklch(25% 0.02 60 / 0.06);
+  --transition: 400ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-body); background: var(--bg); color: var(--text);
+  line-height: 1.8; -webkit-font-smoothing: antialiased; font-size: 14px;
+  font-weight: 300;
+}
+/* === Washi paper texture === */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.wrap { max-width: 800px; margin: 0 auto; padding: 0 2rem; }
+h1, h2, h3, h4 {
+  font-family: var(--font-display); font-weight: 400; line-height: 1.3;
+  letter-spacing: 0.12em; color: var(--text);
+}
+a { color: var(--primary); text-decoration: none; transition: var(--transition); }
+a:hover { color: var(--accent); }
+
+/* === Header === */
+.header {
+  padding: 2.5rem 0;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.header-logo {
+  font-family: var(--font-body); font-size: 13px; font-weight: 400;
+  letter-spacing: 0.2em; text-transform: lowercase; color: var(--text);
+}
+.header-nav { display: flex; gap: 2.5rem; }
+.header-nav a {
+  font-size: 12px; letter-spacing: 0.08em; color: var(--muted);
+  text-transform: capitalize;
+}
+.header-nav a:hover { color: var(--text); }
+
+/* === Hero === */
+.hero {
+  padding: 8rem 0 7rem;
+  text-align: center;
+}
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 300; letter-spacing: 0.08em;
+  color: var(--text);
+}
+
+/* === Divider === */
+.divider {
+  width: 100%; height: 1px;
+  background: var(--border);
+  border: none;
+}
+.divider-short {
+  width: 40px; height: 1px;
+  background: var(--border);
+  border: none; margin: 0 auto;
+}
+
+/* === Products === */
+.products { padding: 6rem 0; }
+.products-heading {
+  font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase;
+  font-family: var(--font-body); font-weight: 400; color: var(--muted);
+  margin-bottom: 4rem; text-align: center;
+}
+.products-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+}
+.product-card { text-align: center; }
+.product-img {
+  aspect-ratio: 4/5; background: var(--beige);
+  border-radius: var(--radius); margin-bottom: 1.5rem;
+  transition: var(--transition);
+}
+.product-card:hover .product-img { box-shadow: var(--shadow-md); }
+.product-name {
+  font-size: 13px; font-weight: 400; letter-spacing: 0.04em;
+  margin-bottom: 0.35rem;
+}
+.product-price {
+  font-size: 12px; color: var(--muted); margin-bottom: 0.75rem;
+}
+.product-add {
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--primary); cursor: pointer; background: none; border: none;
+  border-bottom: 1px solid var(--primary); padding-bottom: 1px;
+  font-family: var(--font-body); transition: var(--transition);
+}
+.product-add:hover { color: var(--accent); border-color: var(--accent); }
+
+/* === Quote === */
+.quote-section {
+  padding: 6rem 0;
+  text-align: center;
+}
+.quote-text {
+  font-family: var(--font-display); font-size: clamp(1.2rem, 3vw, 1.6rem);
+  font-weight: 300; font-style: italic; color: var(--muted);
+  letter-spacing: 0.04em; line-height: 1.6;
+  max-width: 560px; margin: 0 auto;
+}
+
+/* === Story === */
+.story { padding: 6rem 0; }
+.story-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4rem; align-items: center;
+}
+.story-img {
+  aspect-ratio: 3/4; border-radius: var(--radius);
+  background: linear-gradient(160deg, var(--beige) 0%, var(--green) 100%);
+  opacity: 0.6;
+}
+.story-content {}
+.story-label {
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 1.5rem;
+}
+.story-title {
+  font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 300;
+  margin-bottom: 1.5rem; letter-spacing: 0.06em;
+}
+.story-text {
+  font-size: 13px; color: var(--muted); line-height: 2;
+}
+
+/* === Newsletter === */
+.newsletter {
+  padding: 6rem 0;
+  text-align: center;
+}
+.newsletter-label {
+  font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 2.5rem;
+}
+.newsletter-form {
+  display: flex; justify-content: center; align-items: flex-end;
+  gap: 1rem; max-width: 360px; margin: 0 auto;
+}
+.newsletter-input {
+  flex: 1; background: none; border: none;
+  border-bottom: 1px solid var(--border);
+  padding: 0.5rem 0; font-size: 13px; font-family: var(--font-body);
+  color: var(--text); outline: none; transition: var(--transition);
+  font-weight: 300;
+}
+.newsletter-input::placeholder { color: oklch(70% 0.01 60); }
+.newsletter-input:focus { border-color: var(--primary); }
+.newsletter-btn {
+  background: none; border: none; cursor: pointer;
+  color: var(--primary); font-size: 18px; padding: 0.5rem 0;
+  transition: var(--transition); line-height: 1;
+}
+.newsletter-btn:hover { color: var(--accent); }
+
+/* === Footer === */
+.footer {
+  padding: 3rem 0 4rem;
+  text-align: center;
+}
+.footer-text {
+  font-size: 11px; color: oklch(65% 0.02 60);
+  letter-spacing: 0.06em; line-height: 2;
+}
+
+/* === Component Showcase === */
+.showcase { padding: 6rem 0; }
+.showcase-heading {
+  font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase;
+  font-family: var(--font-body); font-weight: 400; color: var(--muted);
+  margin-bottom: 3rem; text-align: center;
+}
+.showcase-section {
+  margin-bottom: 4rem;
+}
+.showcase-label {
+  font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
+}
+
+/* Typography showcase */
+.typo-display {
+  font-family: var(--font-display); font-size: 2.4rem; font-weight: 300;
+  letter-spacing: 0.12em; margin-bottom: 0.75rem;
+}
+.typo-heading {
+  font-family: var(--font-display); font-size: 1.4rem; font-weight: 400;
+  letter-spacing: 0.1em; margin-bottom: 0.75rem;
+}
+.typo-body {
+  font-size: 14px; font-weight: 300; color: var(--muted);
+  line-height: 2; max-width: 480px;
+}
+
+/* Color swatches */
+.swatches { display: flex; gap: 1rem; flex-wrap: wrap; }
+.swatch {
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+}
+.swatch-circle {
+  width: 48px; height: 48px; border-radius: 50%;
+  border: 1px solid var(--border);
+}
+.swatch-name { font-size: 10px; letter-spacing: 0.08em; color: var(--muted); }
+
+/* Buttons */
+.btn-row { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
+.btn-text {
+  background: none; border: none; cursor: pointer;
+  font-family: var(--font-body); font-size: 12px; letter-spacing: 0.1em;
+  color: var(--primary); border-bottom: 1px solid var(--primary);
+  padding: 0 0 2px; transition: var(--transition);
+}
+.btn-text:hover { color: var(--accent); border-color: var(--accent); }
+.btn-outline {
+  background: none; cursor: pointer;
+  font-family: var(--font-body); font-size: 12px; letter-spacing: 0.1em;
+  color: var(--text); border: 1px solid var(--border);
+  padding: 0.65rem 1.8rem; border-radius: var(--radius);
+  transition: var(--transition);
+}
+.btn-outline:hover { border-color: var(--text); }
+.btn-filled {
+  cursor: pointer; font-family: var(--font-body); font-size: 12px;
+  letter-spacing: 0.1em; color: var(--surface); background: var(--primary);
+  border: 1px solid var(--primary); padding: 0.65rem 1.8rem;
+  border-radius: var(--radius); transition: var(--transition);
+}
+.btn-filled:hover { background: var(--accent); border-color: var(--accent); }
+
+/* Cards */
+.card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+.card {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 2rem; background: var(--surface);
+}
+.card-title {
+  font-family: var(--font-display); font-size: 1.1rem; font-weight: 400;
+  letter-spacing: 0.08em; margin-bottom: 0.75rem;
+}
+.card-desc { font-size: 12px; color: var(--muted); line-height: 1.8; }
+
+/* Inputs */
+.input-row { display: flex; gap: 2rem; flex-wrap: wrap; }
+.input-group { flex: 1; min-width: 180px; }
+.input-label {
+  display: block; font-size: 11px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem;
+}
+.input-field {
+  width: 100%; background: none; border: none;
+  border-bottom: 1px solid var(--border);
+  padding: 0.5rem 0; font-size: 13px; font-family: var(--font-body);
+  color: var(--text); outline: none; transition: var(--transition);
+  font-weight: 300;
+}
+.input-field:focus { border-color: var(--primary); }
+
+/* Badges */
+.badge-row { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.badge {
+  font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.3rem 0.8rem; border: 1px solid var(--border);
+  border-radius: 2px; color: var(--muted);
+}
+.badge--accent { border-color: var(--accent); color: var(--accent); }
+.badge--green { border-color: var(--green); color: var(--green); }
+
+/* Table */
+.table-wrap { overflow-x: auto; }
+table {
+  width: 100%; border-collapse: collapse;
+  font-size: 12px;
+}
+th {
+  text-align: left; font-weight: 400; letter-spacing: 0.1em;
+  text-transform: uppercase; font-size: 10px; color: var(--muted);
+  padding: 0.75rem 1rem; border-bottom: 1px solid var(--border);
+}
+td {
+  padding: 1rem; border-bottom: 1px solid oklch(92% 0.005 70);
+  color: var(--text); font-weight: 300;
+}
+tr:last-child td { border-bottom: none; }
+
+/* === Responsive === */
+@media (max-width: 640px) {
+  .wrap { padding: 0 1.25rem; }
+  .hero { padding: 5rem 0 4rem; }
+  .products-grid { grid-template-columns: 1fr; gap: 3rem; max-width: 280px; margin: 0 auto; }
+  .story-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .card-row { grid-template-columns: 1fr; }
+  .header-nav { gap: 1.5rem; }
+  .header-nav a { font-size: 11px; }
+  .products, .quote-section, .story, .newsletter, .showcase { padding: 4rem 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="wrap">
+  <header class="header">
+    <span class="header-logo">muji</span>
+    <nav class="header-nav">
+      <a href="#">Products</a>
+      <a href="#">Story</a>
+      <a href="#">Stores</a>
+    </nav>
+  </header>
+</div>
+
+<!-- Hero -->
+<div class="wrap">
+  <section class="hero">
+    <h1>Less, but better.</h1>
+  </section>
+</div>
+
+<div class="wrap"><hr class="divider"></div>
+
+<!-- Products -->
+<div class="wrap">
+  <section class="products">
+    <p class="products-heading">Essentials</p>
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-img"></div>
+        <p class="product-name">Linen Tote Bag</p>
+        <p class="product-price">&yen;2,490</p>
+        <button class="product-add">Add</button>
+      </div>
+      <div class="product-card">
+        <div class="product-img" style="background: oklch(82% 0.04 70)"></div>
+        <p class="product-name">Aroma Diffuser</p>
+        <p class="product-price">&yen;4,890</p>
+        <button class="product-add">Add</button>
+      </div>
+      <div class="product-card">
+        <div class="product-img" style="background: oklch(78% 0.03 80)"></div>
+        <p class="product-name">Oak Side Table</p>
+        <p class="product-price">&yen;12,900</p>
+        <button class="product-add">Add</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="wrap"><hr class="divider"></div>
+
+<!-- Quote -->
+<div class="wrap">
+  <section class="quote-section">
+    <p class="quote-text">"The best design is the least design."<br><span style="font-size: 0.75em; font-style: normal; letter-spacing: 0.12em;">— Dieter Rams</span></p>
+  </section>
+</div>
+
+<div class="wrap"><hr class="divider"></div>
+
+<!-- Story -->
+<div class="wrap">
+  <section class="story">
+    <div class="story-grid">
+      <div class="story-img"></div>
+      <div class="story-content">
+        <p class="story-label">Our Philosophy</p>
+        <h2 class="story-title">Natural materials, honest craft</h2>
+        <p class="story-text">
+          We believe in the beauty of raw materials. Each product is stripped of excess
+          — no unnecessary dye, no superfluous packaging. What remains is the essence:
+          cotton that feels like cotton, wood that looks like wood.
+          Simple enough to disappear into your life.
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="wrap"><hr class="divider"></div>
+
+<!-- Newsletter -->
+<div class="wrap">
+  <section class="newsletter">
+    <p class="newsletter-label">Stay informed</p>
+    <form class="newsletter-form" onsubmit="return false">
+      <input class="newsletter-input" type="email" placeholder="your@email.com">
+      <button class="newsletter-btn" type="submit" aria-label="Subscribe">&rarr;</button>
+    </form>
+  </section>
+</div>
+
+<div class="wrap"><hr class="divider"></div>
+
+<!-- Footer -->
+<div class="wrap">
+  <footer class="footer">
+    <p class="footer-text">
+      Ginza, Tokyo &nbsp;&middot;&nbsp; Mon–Sat 11:00–20:00 &nbsp;&middot;&nbsp; Sun 11:00–19:00
+    </p>
+  </footer>
+</div>
+
+<!-- ======== Component Showcase ======== -->
+<div class="wrap"><hr class="divider"></div>
+
+<div class="wrap">
+  <section class="showcase">
+    <p class="showcase-heading" id="components">Component Showcase</p>
+
+    <!-- Typography -->
+    <div class="showcase-section">
+      <p class="showcase-label">Typography</p>
+      <p class="typo-display">Cormorant Display</p>
+      <p class="typo-heading">Heading — wide letter-spacing</p>
+      <p class="typo-body">
+        Body text set in Inter at 14px with generous line-height.
+        Quiet, readable, and intentionally understated. The rhythm of words
+        mirrors the rhythm of breath.
+      </p>
+    </div>
+
+    <!-- Colors -->
+    <div class="showcase-section">
+      <p class="showcase-label">Colors</p>
+      <div class="swatches">
+        <div class="swatch">
+          <div class="swatch-circle" style="background: var(--bg)"></div>
+          <span class="swatch-name">bg</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-circle" style="background: var(--surface); border-color: var(--border)"></div>
+          <span class="swatch-name">surface</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-circle" style="background: var(--beige)"></div>
+          <span class="swatch-name">beige</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-circle" style="background: var(--primary)"></div>
+          <span class="swatch-name">primary</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-circle" style="background: var(--accent)"></div>
+          <span class="swatch-name">accent</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-circle" style="background: var(--green)"></div>
+          <span class="swatch-name">green</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-circle" style="background: var(--text)"></div>
+          <span class="swatch-name">text</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="showcase-section">
+      <p class="showcase-label">Buttons</p>
+      <div class="btn-row">
+        <button class="btn-text">Text link</button>
+        <button class="btn-outline">Outlined</button>
+        <button class="btn-filled">Filled</button>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="showcase-section">
+      <p class="showcase-label">Cards</p>
+      <div class="card-row">
+        <div class="card">
+          <p class="card-title">Organic Cotton</p>
+          <p class="card-desc">Grown without pesticides. Undyed. The color you see is the color of the fiber itself.</p>
+        </div>
+        <div class="card">
+          <p class="card-title">Recycled Paper</p>
+          <p class="card-desc">Notebooks made from post-consumer waste. Slightly imperfect, entirely beautiful.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inputs -->
+    <div class="showcase-section">
+      <p class="showcase-label">Inputs</p>
+      <div class="input-row">
+        <div class="input-group">
+          <label class="input-label">Name</label>
+          <input class="input-field" type="text" placeholder="Tanaka">
+        </div>
+        <div class="input-group">
+          <label class="input-label">Email</label>
+          <input class="input-field" type="email" placeholder="hello@muji.com">
+        </div>
+        <div class="input-group">
+          <label class="input-label">Message</label>
+          <input class="input-field" type="text" placeholder="Optional">
+        </div>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="showcase-section">
+      <p class="showcase-label">Badges</p>
+      <div class="badge-row">
+        <span class="badge">Natural</span>
+        <span class="badge badge--accent">Limited</span>
+        <span class="badge badge--green">Organic</span>
+        <span class="badge">Essential</span>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="showcase-section">
+      <p class="showcase-label">Table</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Product</th><th>Material</th><th>Origin</th><th>Price</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Linen Shirt</td><td>French Linen</td><td>Japan</td><td>&yen;4,990</td></tr>
+            <tr><td>Wool Blanket</td><td>Merino Wool</td><td>New Zealand</td><td>&yen;8,900</td></tr>
+            <tr><td>Cedar Box</td><td>Hinoki Wood</td><td>Nara, Japan</td><td>&yen;3,290</td></tr>
+            <tr><td>Tea Set</td><td>Porcelain</td><td>Arita, Japan</td><td>&yen;6,500</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+<div style="height: 4rem"></div>
+
+</body>
+</html>

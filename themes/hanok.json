@@ -1,0 +1,82 @@
+{
+  "name": "Hanok Traditional",
+  "description": "경복궁 한옥의 건축적 장엄함. 단청의 오색 문양, 기와지붕의 깊은 회색, 한지 창호의 따스한 크림, 흑갈색 목재 대들보가 만드는 구조적 격자. 고요한 다원이 아닌 궁궐의 위엄.",
+  "source": "Gyeongbokgung palace architecture, dancheong (단청) painted eave patterns, giwa (기와) roof tiles, hanji (한지) paper screens, dark timber beam structure",
+  "mood": ["architectural", "rich", "structural", "stately"],
+  "shape": {
+    "radiusSm": "2px",
+    "radiusMd": "4px",
+    "radiusLg": "6px",
+    "radiusFull": "9999px",
+    "borderWidth": "2px"
+  },
+  "typography": {
+    "fontSans": "'Inter', -apple-system, 'Segoe UI', sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Cormorant Garamond', 'Georgia', serif",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "0.04em",
+    "letterSpacingBody": "0.01em",
+    "lineHeight": 1.7,
+    "lineHeightHeading": 1.3,
+    "textTransformHeading": "none"
+  },
+  "spacing": {
+    "density": "structured",
+    "scale": 1.15
+  },
+  "depth": {
+    "shadowSm": "0 1px 3px oklch(18% 0.03 50 / 0.1)",
+    "shadowMd": "0 3px 10px oklch(18% 0.03 50 / 0.12)",
+    "shadowLg": "0 6px 20px oklch(18% 0.03 50 / 0.15)",
+    "shadowStyle": "warm"
+  },
+  "motion": {
+    "durationFast": "150ms",
+    "durationNormal": "250ms",
+    "easing": "cubic-bezier(0.4, 0, 0.2, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(92% 0.015 70)",
+    "surface": "oklch(96% 0.01 70)",
+    "text": "oklch(18% 0.03 50)",
+    "primary": "oklch(42% 0.18 25)",
+    "accent": "oklch(40% 0.12 160)",
+    "blue": "oklch(42% 0.12 250)",
+    "gold": "oklch(68% 0.14 80)",
+    "wood": "oklch(25% 0.05 55)",
+    "giwa": "oklch(30% 0.02 260)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(12% 0.015 50)",
+    "surface": "oklch(18% 0.02 50)",
+    "text": "oklch(90% 0.01 70)",
+    "primary": "oklch(52% 0.18 25)",
+    "accent": "oklch(50% 0.12 160)",
+    "blue": "oklch(52% 0.12 250)",
+    "gold": "oklch(72% 0.14 80)",
+    "wood": "oklch(35% 0.05 55)",
+    "giwa": "oklch(22% 0.02 260)"
+  },
+  "demo": {
+    "type": "cultural-center",
+    "title": "경복궁",
+    "subtitle": "Gyeongbokgung Palace Cultural Center",
+    "items": [
+      { "name": "Royal Court Life", "date": "2026.03 — 06", "tag": "Special" },
+      { "name": "Dancheong Patterns", "date": "Permanent", "tag": "Collection" },
+      { "name": "Joseon Ceramics", "date": "2026.04 — 08", "tag": "Upcoming" }
+    ],
+    "banner": "Night Palace Tour — Every Saturday 7pm",
+    "sections": ["Exhibitions", "Visit", "Reserve"]
+  },
+  "suggestions": {
+    "icons": "Lucide (stroke 1.5px) or traditional Korean motifs",
+    "components": "dancheong geometric pattern strips, dark timber beam borders, hanji paper panels, giwa roof-line headers, 오방색 color accents, wood-framed cards, structural grid layouts",
+    "avoid": "minimalist cafe aesthetics, thin wispy borders, excessive whitespace, pastel colors, rounded pill shapes, light/airy feel",
+    "googleFonts": "Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600",
+    "texture": "hanji paper grain, dancheong repeating-gradient patterns, dark wood grain borders, giwa tile-grey headers"
+  }
+}

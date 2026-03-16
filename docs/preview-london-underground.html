@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>London Underground — Transport for London Theme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* === Tokens === */
+:root {
+  --bg: oklch(97% 0.005 250);
+  --surface: oklch(100% 0 0);
+  --text: oklch(18% 0.02 250);
+  --muted: oklch(50% 0.01 250);
+  --tfl-red: oklch(50% 0.22 30);
+  --tfl-navy: oklch(30% 0.06 250);
+  --tfl-navy-light: oklch(45% 0.15 250);
+  --bakerloo: oklch(50% 0.1 50);
+  --central: oklch(52% 0.24 30);
+  --circle: oklch(80% 0.15 90);
+  --district: oklch(55% 0.15 155);
+  --victoria: oklch(60% 0.12 220);
+  --jubilee: oklch(55% 0.02 250);
+  --border: oklch(88% 0.005 250);
+  --font-display: 'Outfit', 'DM Sans', sans-serif;
+  --font-body: 'DM Sans', -apple-system, 'Segoe UI', sans-serif;
+  --radius-sm: 4px; --radius-md: 6px; --radius-lg: 8px; --radius-full: 9999px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 0 1.25rem; }
+
+/* === Roundel === */
+.roundel {
+  display: inline-flex; align-items: center; justify-content: center; position: relative;
+  width: 52px; height: 52px;
+}
+.roundel-circle {
+  width: 52px; height: 52px; border: 5px solid var(--tfl-red); border-radius: 50%; position: absolute;
+}
+.roundel-bar {
+  width: 62px; height: 16px; background: var(--tfl-navy); position: absolute; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+.roundel-bar span {
+  font-family: var(--font-display); font-size: 0.45rem; font-weight: 700;
+  color: oklch(100% 0 0); letter-spacing: 0.18em; text-transform: uppercase;
+}
+.roundel-sm { width: 28px; height: 28px; }
+.roundel-sm .roundel-circle { width: 28px; height: 28px; border-width: 3px; }
+.roundel-sm .roundel-bar { width: 34px; height: 9px; }
+.roundel-sm .roundel-bar span { font-size: 0.28rem; }
+
+/* === Header === */
+header {
+  background: var(--tfl-navy); color: oklch(100% 0 0); padding: 1rem 0;
+}
+.header-inner {
+  display: flex; align-items: center; gap: 1rem;
+}
+header .roundel-circle { border-color: var(--tfl-red); }
+header .roundel-bar { background: oklch(100% 0 0); }
+header .roundel-bar span { color: var(--tfl-navy); }
+.header-text h1 {
+  font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; letter-spacing: 0.02em;
+}
+.header-text p { font-size: 0.8rem; opacity: 0.7; }
+
+/* === Journey Planner === */
+.planner { background: var(--surface); border-radius: var(--radius-lg); padding: 2rem; margin: 1.5rem 0; border: 1px solid var(--border); }
+.planner h2 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; margin-bottom: 1.25rem; }
+.planner-inputs { display: grid; grid-template-columns: 1fr 1fr auto; gap: 0.75rem; align-items: end; }
+.field label { display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.35rem; }
+.field input {
+  width: 100%; padding: 0.6rem 0.85rem; border: 2px solid var(--border); border-radius: var(--radius-md);
+  font-family: var(--font-body); font-size: 0.95rem; color: var(--text); background: var(--bg);
+  outline: none; transition: border-color 150ms;
+}
+.field input:focus { border-color: var(--tfl-navy-light); }
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 44px; padding: 0 1.75rem; background: var(--tfl-red); color: oklch(100% 0 0);
+  font-family: var(--font-display); font-size: 0.9rem; font-weight: 600;
+  border: none; border-radius: var(--radius-md); cursor: pointer; white-space: nowrap;
+  transition: background 150ms;
+}
+.btn-primary:hover { background: oklch(45% 0.22 30); }
+/* Result card */
+.result {
+  margin-top: 1.25rem; padding: 1rem 1.25rem; background: var(--bg); border-radius: var(--radius-md);
+  display: flex; align-items: center; gap: 1rem; border: 1px solid var(--border);
+}
+.line-indicator { width: 6px; height: 48px; border-radius: 3px; flex-shrink: 0; }
+.result-detail { flex: 1; }
+.result-route { font-weight: 600; font-size: 1rem; }
+.result-meta { font-size: 0.85rem; color: var(--muted); margin-top: 0.15rem; }
+.result-time { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; color: var(--tfl-navy); }
+
+/* === Line Divider === */
+.line-strip { display: flex; height: 6px; margin: 2rem 0; border-radius: 3px; overflow: hidden; }
+.line-strip div { flex: 1; }
+
+/* === Line Status === */
+.status-section { padding: 1.5rem 0; }
+.status-section h2 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; margin-bottom: 1rem; }
+.status-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.status-row {
+  display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem;
+  background: var(--surface); border-radius: var(--radius-md); border: 1px solid var(--border);
+}
+.line-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+.line-name { font-weight: 600; flex: 1; }
+.status-badge {
+  font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-full); text-transform: uppercase; letter-spacing: 0.03em;
+}
+.badge-good { background: oklch(55% 0.15 155 / 0.15); color: oklch(42% 0.12 155); }
+.badge-minor { background: oklch(80% 0.15 90 / 0.2); color: oklch(48% 0.1 70); }
+.badge-severe { background: oklch(50% 0.22 30 / 0.12); color: oklch(45% 0.2 30); }
+.badge-closed { background: oklch(50% 0.02 250 / 0.12); color: oklch(45% 0.01 250); }
+
+/* === Journey Details === */
+.journey-details { padding: 1.5rem 0; }
+.journey-details h2 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; margin-bottom: 1rem; }
+.journey-steps { position: relative; padding-left: 2rem; }
+.step { position: relative; padding-bottom: 1.5rem; }
+.step:last-child { padding-bottom: 0; }
+.step::before { content: ''; position: absolute; left: -1.55rem; top: 0.5rem; width: 12px; height: 12px; border-radius: 50%; border: 3px solid var(--tfl-navy); background: var(--surface); z-index: 1; }
+.step:not(:last-child)::after { content: ''; position: absolute; left: -1.25rem; top: 1.1rem; width: 3px; bottom: 0; border-radius: 2px; }
+.step-station { font-weight: 600; }
+.step-info { font-size: 0.85rem; color: var(--muted); }
+.step-line-badge { display: inline-block; font-size: 0.7rem; font-weight: 600; padding: 0.12rem 0.5rem; border-radius: var(--radius-full); color: oklch(100% 0 0); margin-left: 0.35rem; }
+
+/* === Oyster Card === */
+.oyster-section { padding: 1.5rem 0; }
+.oyster-section h2 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; margin-bottom: 1rem; }
+.oyster-card {
+  width: 320px; max-width: 100%; aspect-ratio: 1.6; border-radius: 12px; padding: 1.5rem;
+  background: linear-gradient(135deg, oklch(60% 0.12 220), oklch(50% 0.15 230));
+  color: oklch(100% 0 0); display: flex; flex-direction: column; justify-content: space-between;
+  position: relative; overflow: hidden;
+}
+.oyster-card::before {
+  content: ''; position: absolute; top: -30%; right: -20%; width: 200px; height: 200px;
+  background: oklch(100% 0 0 / 0.08); border-radius: 50%;
+}
+.oyster-label { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; letter-spacing: 0.04em; }
+.oyster-sub { font-size: 0.7rem; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.1em; }
+.oyster-balance { font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; }
+.oyster-last { font-size: 0.75rem; opacity: 0.7; }
+
+/* === Footer === */
+footer {
+  background: var(--tfl-navy); color: oklch(100% 0 0); padding: 1.5rem 0; margin-top: 2rem;
+  text-align: center; font-size: 0.85rem; line-height: 1.8;
+}
+footer .mayor { font-size: 0.7rem; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.25rem; }
+
+/* === Component Showcase === */
+.showcase { padding: 3rem 0 4rem; }
+.showcase > h2 {
+  font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; text-align: center;
+  margin-bottom: 2.5rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--tfl-navy);
+}
+.section-label { font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.75rem; }
+.showcase-block { margin-bottom: 2.5rem; }
+
+/* Typography */
+.type-h1 { font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; }
+.type-h2 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; }
+.type-h3 { font-family: var(--font-body); font-weight: 700; font-size: 1.1rem; }
+.type-p { color: var(--muted); line-height: 1.6; }
+
+/* Swatches */
+.swatches { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.swatch {
+  width: 70px; height: 70px; border-radius: var(--radius-md); display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end; font-size: 0.55rem; font-weight: 700;
+  padding-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.04em;
+}
+/* Roundel row */
+.roundel-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+.roundel-demo { display: flex; flex-direction: column; align-items: center; gap: 0.35rem; }
+.roundel-demo span { font-size: 0.65rem; font-weight: 600; color: var(--muted); }
+
+/* Buttons */
+.btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+.btn-secondary {
+  height: 44px; padding: 0 1.75rem; background: var(--tfl-navy); color: oklch(100% 0 0);
+  font-family: var(--font-display); font-size: 0.9rem; font-weight: 600;
+  border: none; border-radius: var(--radius-md); cursor: pointer; transition: background 150ms;
+}
+.btn-secondary:hover { background: oklch(25% 0.06 250); }
+.btn-outline {
+  height: 44px; padding: 0 1.75rem; background: transparent; color: var(--tfl-red);
+  font-family: var(--font-display); font-size: 0.9rem; font-weight: 600;
+  border: 2px solid var(--tfl-red); border-radius: var(--radius-md); cursor: pointer; transition: all 150ms;
+}
+.btn-outline:hover { background: oklch(50% 0.22 30 / 0.08); }
+.btn-ghost {
+  height: 44px; padding: 0 1.75rem; background: transparent; color: var(--muted);
+  font-family: var(--font-display); font-size: 0.9rem; font-weight: 600;
+  border: none; border-radius: var(--radius-md); cursor: pointer; transition: color 150ms;
+}
+.btn-ghost:hover { color: var(--text); }
+
+/* Badges showcase */
+.badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+/* Station card */
+.station-card {
+  max-width: 360px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); overflow: hidden;
+}
+.station-card-header { background: var(--tfl-navy); color: oklch(100% 0 0); padding: 0.75rem 1rem; }
+.station-card-header h3 { font-family: var(--font-display); font-size: 1rem; font-weight: 600; }
+.station-card-body { padding: 1rem; }
+.station-card-lines { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.station-line-tag { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.8rem; font-weight: 500; }
+.station-line-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+/* Input showcase */
+.input-showcase { max-width: 400px; }
+.input-showcase .field + .field { margin-top: 0.75rem; }
+
+/* Timetable */
+.timetable { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.timetable th {
+  text-align: left; padding: 0.6rem 0.85rem; font-family: var(--font-display); font-weight: 600;
+  font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);
+  border-bottom: 2px solid var(--text);
+}
+.timetable td { padding: 0.6rem 0.85rem; border-bottom: 1px solid var(--border); }
+.timetable tr:last-child td { border-bottom: none; }
+
+/* === Responsive === */
+@media (max-width: 600px) {
+  .planner-inputs { grid-template-columns: 1fr; }
+  .result { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  .result-time { font-size: 1.1rem; }
+  .oyster-card { width: 100%; }
+  .header-inner { gap: 0.75rem; }
+  .swatches { gap: 0.5rem; }
+  .swatch { width: 56px; height: 56px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="wrap">
+    <div class="header-inner">
+      <div class="roundel">
+        <div class="roundel-circle"></div>
+        <div class="roundel-bar"><span>Underground</span></div>
+      </div>
+      <div class="header-text">
+        <h1>UNDERGROUND</h1>
+        <p>Transport for London</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- Journey Planner -->
+  <section class="planner">
+    <h2>Plan Your Journey</h2>
+    <div class="planner-inputs">
+      <div class="field">
+        <label>From</label>
+        <input type="text" value="Victoria" readonly>
+      </div>
+      <div class="field">
+        <label>To</label>
+        <input type="text" value="King's Cross St Pancras" readonly>
+      </div>
+      <button class="btn-primary">Find Route</button>
+    </div>
+    <div class="result">
+      <div class="line-indicator" style="background: var(--victoria);"></div>
+      <div class="result-detail">
+        <div class="result-route">Victoria &rarr; King's Cross St Pancras</div>
+        <div class="result-meta">Victoria line &middot; 12 min &middot; 4 stops &middot; Departs 14:32</div>
+      </div>
+      <div class="result-time">14:32</div>
+    </div>
+  </section>
+
+  <!-- Line Strip Divider -->
+  <div class="line-strip">
+    <div style="background: var(--bakerloo);"></div>
+    <div style="background: var(--central);"></div>
+    <div style="background: var(--circle);"></div>
+    <div style="background: var(--district);"></div>
+    <div style="background: var(--victoria);"></div>
+    <div style="background: var(--jubilee);"></div>
+  </div>
+
+  <!-- Line Status -->
+  <section class="status-section">
+    <h2>Line Status</h2>
+    <div class="status-list">
+      <div class="status-row">
+        <div class="line-dot" style="background: var(--bakerloo);"></div>
+        <div class="line-name">Bakerloo</div>
+        <span class="status-badge badge-good">Good Service</span>
+      </div>
+      <div class="status-row">
+        <div class="line-dot" style="background: var(--central);"></div>
+        <div class="line-name">Central</div>
+        <span class="status-badge badge-minor">Minor Delays</span>
+      </div>
+      <div class="status-row">
+        <div class="line-dot" style="background: var(--circle);"></div>
+        <div class="line-name">Circle</div>
+        <span class="status-badge badge-good">Good Service</span>
+      </div>
+      <div class="status-row">
+        <div class="line-dot" style="background: var(--district);"></div>
+        <div class="line-name">District</div>
+        <span class="status-badge badge-good">Good Service</span>
+      </div>
+      <div class="status-row">
+        <div class="line-dot" style="background: var(--victoria);"></div>
+        <div class="line-name">Victoria</div>
+        <span class="status-badge badge-good">Good Service</span>
+      </div>
+      <div class="status-row">
+        <div class="line-dot" style="background: var(--jubilee);"></div>
+        <div class="line-name">Jubilee</div>
+        <span class="status-badge badge-severe">Severe Delays</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Line Strip Divider -->
+  <div class="line-strip">
+    <div style="background: var(--victoria);"></div>
+    <div style="background: var(--district);"></div>
+    <div style="background: var(--central);"></div>
+    <div style="background: var(--bakerloo);"></div>
+    <div style="background: var(--circle);"></div>
+    <div style="background: var(--jubilee);"></div>
+  </div>
+
+  <!-- Journey Details -->
+  <section class="journey-details">
+    <h2>Journey Details</h2>
+    <div class="journey-steps">
+      <div class="step" style="--line-color: var(--victoria);">
+        <div class="step-station">Victoria<span class="step-line-badge" style="background: var(--victoria);">Victoria</span></div>
+        <div class="step-info">Board Victoria line northbound</div>
+        <div style="position:absolute;left:-1.25rem;top:1.1rem;width:3px;bottom:0;border-radius:2px;background:var(--victoria);"></div>
+      </div>
+      <div class="step">
+        <div class="step-station">Green Park</div>
+        <div class="step-info">2 min</div>
+        <div style="position:absolute;left:-1.25rem;top:1.1rem;width:3px;bottom:0;border-radius:2px;background:var(--victoria);"></div>
+      </div>
+      <div class="step">
+        <div class="step-station">Oxford Circus</div>
+        <div class="step-info">2 min</div>
+        <div style="position:absolute;left:-1.25rem;top:1.1rem;width:3px;bottom:0;border-radius:2px;background:var(--victoria);"></div>
+      </div>
+      <div class="step">
+        <div class="step-station">Warren Street</div>
+        <div class="step-info">2 min</div>
+        <div style="position:absolute;left:-1.25rem;top:1.1rem;width:3px;bottom:0;border-radius:2px;background:var(--victoria);"></div>
+      </div>
+      <div class="step">
+        <div class="step-station">King's Cross St Pancras</div>
+        <div class="step-info">Arrive &middot; 12 min total</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Oyster Card -->
+  <section class="oyster-section">
+    <h2>Your Oyster</h2>
+    <div class="oyster-card">
+      <div>
+        <div class="oyster-label">Oyster</div>
+        <div class="oyster-sub">Transport for London</div>
+      </div>
+      <div>
+        <div class="oyster-balance">&pound;24.50</div>
+        <div class="oyster-last">Last journey: Victoria &rarr; King's Cross &middot; &pound;2.50</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="wrap">
+    &copy; Transport for London &middot; Every Journey Matters<br>
+    <div class="mayor">Mayor of London</div>
+  </div>
+</footer>
+
+<div class="wrap">
+  <!-- ========== COMPONENT SHOWCASE ========== -->
+  <div class="line-strip" style="margin-top:2rem;"></div>
+
+  <section class="showcase" id="components">
+    <h2>Components</h2>
+
+    <!-- Typography -->
+    <div class="showcase-block">
+      <p class="section-label">Typography</p>
+      <p class="type-h1" style="margin-bottom:0.35rem;">Heading One &mdash; Outfit</p>
+      <p class="type-h2" style="margin-bottom:0.35rem;">Heading Two &mdash; Outfit</p>
+      <p class="type-h3" style="margin-bottom:0.35rem;">Heading Three &mdash; DM Sans Bold</p>
+      <p class="type-p">Body text in DM Sans. Clean and geometric, inspired by Johnston &mdash; the typeface designed for London Underground in 1916. Systematic, legible, and quietly authoritative.</p>
+    </div>
+
+    <!-- Color Swatches -->
+    <div class="showcase-block">
+      <p class="section-label">Line Colours</p>
+      <div class="swatches">
+        <div class="swatch" style="background:var(--tfl-red);color:oklch(100% 0 0);">TfL Red</div>
+        <div class="swatch" style="background:var(--tfl-navy);color:oklch(100% 0 0);">Navy</div>
+        <div class="swatch" style="background:var(--bakerloo);color:oklch(100% 0 0);">Bakerloo</div>
+        <div class="swatch" style="background:var(--central);color:oklch(100% 0 0);">Central</div>
+        <div class="swatch" style="background:var(--circle);color:var(--text);">Circle</div>
+        <div class="swatch" style="background:var(--district);color:oklch(100% 0 0);">District</div>
+        <div class="swatch" style="background:var(--victoria);color:oklch(100% 0 0);">Victoria</div>
+        <div class="swatch" style="background:var(--jubilee);color:oklch(100% 0 0);">Jubilee</div>
+      </div>
+    </div>
+
+    <!-- CSS Roundels -->
+    <div class="showcase-block">
+      <p class="section-label">CSS Roundels</p>
+      <div class="roundel-row">
+        <div class="roundel-demo">
+          <div class="roundel-sm"><div class="roundel-circle" style="border-color:var(--tfl-red);"></div><div class="roundel-bar" style="background:var(--tfl-navy);"><span style="color:oklch(100% 0 0);"></span></div></div>
+          <span>TfL</span>
+        </div>
+        <div class="roundel-demo">
+          <div class="roundel-sm"><div class="roundel-circle" style="border-color:var(--bakerloo);"></div><div class="roundel-bar" style="background:var(--bakerloo);"><span></span></div></div>
+          <span>Bakerloo</span>
+        </div>
+        <div class="roundel-demo">
+          <div class="roundel-sm"><div class="roundel-circle" style="border-color:var(--central);"></div><div class="roundel-bar" style="background:var(--central);"><span></span></div></div>
+          <span>Central</span>
+        </div>
+        <div class="roundel-demo">
+          <div class="roundel-sm"><div class="roundel-circle" style="border-color:var(--circle);"></div><div class="roundel-bar" style="background:var(--circle);"><span></span></div></div>
+          <span>Circle</span>
+        </div>
+        <div class="roundel-demo">
+          <div class="roundel-sm"><div class="roundel-circle" style="border-color:var(--district);"></div><div class="roundel-bar" style="background:var(--district);"><span></span></div></div>
+          <span>District</span>
+        </div>
+        <div class="roundel-demo">
+          <div class="roundel-sm"><div class="roundel-circle" style="border-color:var(--victoria);"></div><div class="roundel-bar" style="background:var(--victoria);"><span></span></div></div>
+          <span>Victoria</span>
+        </div>
+        <div class="roundel-demo">
+          <div class="roundel-sm"><div class="roundel-circle" style="border-color:var(--jubilee);"></div><div class="roundel-bar" style="background:var(--jubilee);"><span></span></div></div>
+          <span>Jubilee</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="showcase-block">
+      <p class="section-label">Buttons</p>
+      <div class="btn-row">
+        <button class="btn-primary">Primary Red</button>
+        <button class="btn-secondary">Navy Secondary</button>
+        <button class="btn-outline">Outline</button>
+        <button class="btn-ghost">Ghost</button>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="showcase-block">
+      <p class="section-label">Status Badges</p>
+      <div class="badge-row">
+        <span class="status-badge badge-good">Good Service</span>
+        <span class="status-badge badge-minor">Minor Delays</span>
+        <span class="status-badge badge-severe">Severe Delays</span>
+        <span class="status-badge badge-closed">Closed</span>
+      </div>
+    </div>
+
+    <!-- Station Card -->
+    <div class="showcase-block">
+      <p class="section-label">Station Card</p>
+      <div class="station-card">
+        <div class="station-card-header"><h3>King's Cross St Pancras</h3></div>
+        <div class="station-card-body">
+          <div style="font-size:0.8rem;color:var(--muted);margin-bottom:0.5rem;">Zone 1 &middot; Step-free access</div>
+          <div class="station-card-lines">
+            <span class="station-line-tag"><span class="station-line-dot" style="background:var(--victoria);"></span>Victoria</span>
+            <span class="station-line-tag"><span class="station-line-dot" style="background:var(--circle);"></span>Circle</span>
+            <span class="station-line-tag"><span class="station-line-dot" style="background:oklch(50% 0.22 350);"></span>Metropolitan</span>
+            <span class="station-line-tag"><span class="station-line-dot" style="background:oklch(50% 0.18 330);"></span>Piccadilly</span>
+            <span class="station-line-tag"><span class="station-line-dot" style="background:oklch(32% 0.01 250);"></span>Northern</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Fields -->
+    <div class="showcase-block">
+      <p class="section-label">Input Fields</p>
+      <div class="input-showcase">
+        <div class="field">
+          <label>Station Name</label>
+          <input type="text" placeholder="e.g. Paddington">
+        </div>
+        <div class="field">
+          <label>Date of Travel</label>
+          <input type="text" placeholder="DD/MM/YYYY">
+        </div>
+      </div>
+    </div>
+
+    <!-- Timetable -->
+    <div class="showcase-block">
+      <p class="section-label">Timetable</p>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;">
+        <table class="timetable">
+          <thead>
+            <tr><th>Departs</th><th>Destination</th><th>Line</th><th>Platform</th></tr>
+          </thead>
+          <tbody>
+            <tr><td style="font-weight:600;">14:32</td><td>Brixton</td><td><span class="station-line-tag"><span class="station-line-dot" style="background:var(--victoria);"></span>Victoria</span></td><td>1</td></tr>
+            <tr><td style="font-weight:600;">14:34</td><td>Walthamstow Central</td><td><span class="station-line-tag"><span class="station-line-dot" style="background:var(--victoria);"></span>Victoria</span></td><td>2</td></tr>
+            <tr><td style="font-weight:600;">14:36</td><td>Ealing Broadway</td><td><span class="station-line-tag"><span class="station-line-dot" style="background:var(--central);"></span>Central</span></td><td>3</td></tr>
+            <tr><td style="font-weight:600;">14:38</td><td>Stanmore</td><td><span class="station-line-tag"><span class="station-line-dot" style="background:var(--jubilee);"></span>Jubilee</span></td><td>4</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CSS Oyster Card Art -->
+    <div class="showcase-block">
+      <p class="section-label">CSS Oyster Card</p>
+      <div class="oyster-card">
+        <div>
+          <div class="oyster-label">Oyster</div>
+          <div class="oyster-sub">Transport for London</div>
+        </div>
+        <div>
+          <div class="oyster-balance">&pound;24.50</div>
+          <div class="oyster-last">Tap in &middot; Tap out &middot; Top up at any station</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+</body>
+</html>

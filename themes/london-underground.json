@@ -1,0 +1,80 @@
+{
+  "name": "London Underground",
+  "description": "Transport for London의 상징적 디자인 시스템. 1916년부터 이어온 라운델, Johnston 서체, Harry Beck의 다이어그램 맵에서 추출. 체계적이고 신뢰감 있는 웨이파인딩 미학.",
+  "source": "Transport for London visual identity — roundel, tube map, station signage, Oyster card",
+  "mood": ["iconic", "navigational", "British"],
+  "shape": {
+    "radiusSm": "4px",
+    "radiusMd": "6px",
+    "radiusLg": "8px",
+    "radiusFull": "9999px",
+    "borderWidth": "2px"
+  },
+  "typography": {
+    "fontSans": "'DM Sans', -apple-system, 'Segoe UI', sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Outfit', 'DM Sans', sans-serif",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "0.02em",
+    "letterSpacingBody": "0.01em",
+    "lineHeight": 1.5,
+    "lineHeightHeading": 1.15,
+    "textTransformHeading": "none"
+  },
+  "spacing": {
+    "density": "comfortable",
+    "scale": 1.0
+  },
+  "depth": {
+    "shadowSm": "0 1px 2px oklch(18% 0.02 250 / 0.08)",
+    "shadowMd": "0 2px 6px oklch(18% 0.02 250 / 0.1)",
+    "shadowLg": "0 4px 12px oklch(18% 0.02 250 / 0.12)",
+    "shadowStyle": "flat"
+  },
+  "motion": {
+    "durationFast": "100ms",
+    "durationNormal": "150ms",
+    "easing": "cubic-bezier(0.4, 0, 0.2, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(97% 0.005 250)",
+    "surface": "oklch(100% 0 0)",
+    "text": "oklch(18% 0.02 250)",
+    "primary": "oklch(50% 0.22 30)",
+    "accent": "oklch(45% 0.15 250)",
+    "yellow": "oklch(80% 0.15 90)",
+    "green": "oklch(55% 0.15 155)",
+    "cyan": "oklch(60% 0.12 220)",
+    "brown": "oklch(50% 0.1 50)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(15% 0.015 250)",
+    "surface": "oklch(20% 0.02 250)",
+    "text": "oklch(92% 0.005 250)",
+    "primary": "oklch(58% 0.22 30)",
+    "accent": "oklch(55% 0.15 250)"
+  },
+  "demo": {
+    "type": "journey-planner",
+    "title": "UNDERGROUND",
+    "subtitle": "Transport for London",
+    "items": [
+      { "name": "Bakerloo", "color": "brown", "status": "Good Service" },
+      { "name": "Central", "color": "red", "status": "Minor Delays" },
+      { "name": "Circle", "color": "yellow", "status": "Good Service" },
+      { "name": "District", "color": "green", "status": "Good Service" },
+      { "name": "Victoria", "color": "cyan", "status": "Good Service" },
+      { "name": "Jubilee", "color": "grey", "status": "Severe Delays" }
+    ],
+    "banner": "Plan Your Journey"
+  },
+  "suggestions": {
+    "icons": "Lucide (stroke 1.5px) — clean, systematic, wayfinding-appropriate",
+    "components": "roundel logo, line color indicators, status badges, timetable tables, Oyster card art, station cards, journey steps",
+    "avoid": "heavy shadows, neon effects, decorative patterns, script fonts, visual noise",
+    "googleFonts": "Outfit:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700",
+    "texture": "none — clean flat surfaces, systematic whitespace, line color as the primary visual system"
+  }
+}

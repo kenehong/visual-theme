@@ -1,0 +1,85 @@
+{
+  "name": "Korean Bunsik",
+  "description": "KPop Demon Hunters (Netflix 2025) 비주얼 스타일에서 영감. 비비드한 핫핑크, 일렉트릭 블루, 떡볶이 오렌지, 멜라민 그린. 홍대 분식집의 에너지, K-pop 콘서트 조명, 애니메 셀 셰이딩. 자랑스럽게 한국적이고 현대적.",
+  "source": "KPop Demon Hunters (Netflix 2025) — vibrant saturated palette, anime cel-shading, Korean street food culture, K-pop concert energy, melamine green plates, stainless steel bowls",
+  "mood": ["vibrant", "delicious", "korean"],
+  "shape": {
+    "radiusSm": "8px",
+    "radiusMd": "12px",
+    "radiusLg": "16px",
+    "radiusFull": "9999px",
+    "borderWidth": "2.5px"
+  },
+  "typography": {
+    "fontSans": "'DM Sans', -apple-system, 'Segoe UI', sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Fredoka', 'Nunito', sans-serif",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "0.01em",
+    "letterSpacingBody": "0.01em",
+    "lineHeight": 1.6,
+    "lineHeightHeading": 1.2,
+    "textTransformHeading": "none"
+  },
+  "spacing": {
+    "density": "comfortable",
+    "scale": 1.0
+  },
+  "depth": {
+    "shadowSm": "0 2px 8px oklch(65% 0.25 340 / 0.12)",
+    "shadowMd": "0 4px 16px oklch(65% 0.25 340 / 0.15)",
+    "shadowLg": "0 8px 32px oklch(65% 0.25 340 / 0.2)",
+    "shadowStyle": "colored"
+  },
+  "motion": {
+    "durationFast": "150ms",
+    "durationNormal": "300ms",
+    "easing": "cubic-bezier(0.34, 1.56, 0.64, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(97% 0.01 350)",
+    "surface": "oklch(100% 0 0)",
+    "text": "oklch(18% 0.03 300)",
+    "primary": "oklch(65% 0.25 340)",
+    "accent": "oklch(70% 0.2 250)",
+    "orange": "oklch(72% 0.22 55)",
+    "green": "oklch(65% 0.18 155)",
+    "yellow": "oklch(85% 0.16 90)",
+    "red": "oklch(58% 0.25 25)",
+    "cream": "oklch(92% 0.04 80)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(12% 0.02 300)",
+    "surface": "oklch(18% 0.025 300)",
+    "text": "oklch(92% 0.01 350)",
+    "primary": "oklch(70% 0.25 340)",
+    "accent": "oklch(72% 0.2 250)",
+    "orange": "oklch(75% 0.22 55)",
+    "green": "oklch(68% 0.18 155)",
+    "yellow": "oklch(87% 0.16 90)",
+    "red": "oklch(62% 0.25 25)",
+    "cream": "oklch(35% 0.04 80)"
+  },
+  "demo": {
+    "type": "restaurant",
+    "title": "분식왕 BUNSIK KING",
+    "subtitle": "Korean Street Food, Done Right",
+    "items": [
+      { "name": "김밥 Kimbap", "price": "$8", "tag": "Classic" },
+      { "name": "떡볶이 Tteokbokki", "price": "$10", "tag": "Spicy" },
+      { "name": "컵라면 Cup Ramyeon", "price": "$5", "tag": "Quick" },
+      { "name": "순대 Sundae", "price": "$9", "tag": "Popular" }
+    ],
+    "banner": "Order any combo and get a FREE drink!",
+    "sections": ["Menu", "Order", "About Us"]
+  },
+  "suggestions": {
+    "icons": "Lucide (stroke 2px, rounded) or food emoji accents",
+    "components": "pill-shaped buttons with colored shadows, rainbow wavy dividers, gradient banners, food-art CSS illustrations, sparkle decorations, colorful badge chips",
+    "avoid": "traditional patterns (dancheong, wood frames), grey shadows, sharp corners, muted palettes, minimalist aesthetics, thin borders",
+    "googleFonts": "Fredoka:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700",
+    "texture": "none — flat cel-shaded aesthetic, clean colored surfaces, no grain or noise"
+  }
+}

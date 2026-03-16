@@ -1,0 +1,78 @@
+{
+  "name": "Cyberpunk",
+  "description": "Blade Runner 2049, Cyberpunk 2077, Tron Legacy. Dark high-tech command center with neon accents, glitch effects, HUD panels, cut corners, and scan line overlays. You're a hacker in 2077.",
+  "source": "Cyberpunk aesthetics — Blade Runner, Ghost in the Shell, Akira, Tron Legacy, Cyberpunk 2077",
+  "mood": ["futuristic", "electric", "dystopian"],
+  "shape": {
+    "radiusSm": "0px",
+    "radiusMd": "2px",
+    "radiusLg": "4px",
+    "radiusFull": "0px",
+    "borderWidth": "1px",
+    "clipPath": "polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))"
+  },
+  "typography": {
+    "fontSans": "'Exo 2', 'Segoe UI', sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Orbitron', 'Exo 2', sans-serif",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "0.08em",
+    "letterSpacingBody": "0.02em",
+    "lineHeight": 1.5,
+    "lineHeightHeading": 1.1,
+    "textTransformHeading": "uppercase"
+  },
+  "spacing": {
+    "density": "compact",
+    "scale": 0.85
+  },
+  "depth": {
+    "shadowSm": "0 0 6px oklch(72% 0.25 290 / 0.3)",
+    "shadowMd": "0 0 12px oklch(72% 0.25 290 / 0.3), 0 0 24px oklch(72% 0.25 290 / 0.15)",
+    "shadowLg": "0 0 20px oklch(72% 0.25 290 / 0.4), 0 0 40px oklch(72% 0.25 290 / 0.2), inset 0 0 10px oklch(72% 0.25 290 / 0.1)",
+    "shadowStyle": "neon-glow"
+  },
+  "motion": {
+    "durationFast": "80ms",
+    "durationNormal": "120ms",
+    "easing": "cubic-bezier(0.0, 0, 0.2, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(8% 0.02 280)",
+    "surface": "oklch(14% 0.03 280)",
+    "text": "oklch(90% 0.02 250)",
+    "primary": "oklch(72% 0.25 290)",
+    "accent": "oklch(78% 0.22 190)",
+    "pink": "oklch(70% 0.25 350)",
+    "yellow": "oklch(85% 0.2 95)",
+    "red": "oklch(60% 0.25 20)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(8% 0.02 280)",
+    "surface": "oklch(14% 0.03 280)",
+    "text": "oklch(90% 0.02 250)",
+    "primary": "oklch(72% 0.25 290)",
+    "accent": "oklch(78% 0.22 190)"
+  },
+  "demo": {
+    "type": "hud-dashboard",
+    "title": "NEXUS//CORP",
+    "subtitle": "Neural Interface Command Center",
+    "panels": [
+      { "name": "NEURAL INTERFACE", "type": "radar", "status": "Active" },
+      { "name": "INCOMING SIGNALS", "type": "feed", "count": 4 },
+      { "name": "THREAT ANALYSIS", "type": "progress", "items": 4 },
+      { "name": "NETWORK MAP", "type": "grid", "nodes": 9 }
+    ],
+    "statusBar": "SYSTEM STATUS: ONLINE | NETWORK: 99.7% | THREAT LEVEL: LOW | DATE: 2077.03.15"
+  },
+  "suggestions": {
+    "icons": "Lucide (stroke 1.5px) or custom monoline HUD-style icons",
+    "components": "cut-corner panels, scan-line overlays, glitch text, neon-glow borders, radar/pulse animations, data tables with colored status indicators, progress bars with neon fills",
+    "avoid": "rounded pills, soft shadows, pastel colors, organic shapes, playful illustrations, serif fonts",
+    "googleFonts": "Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700",
+    "texture": "scan lines via repeating-linear-gradient, noise overlay via SVG filter, glitch text-shadow offsets"
+  }
+}

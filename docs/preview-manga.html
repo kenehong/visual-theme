@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WEEKLY MANGA — 週刊マンガ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: oklch(98% 0 0);
+    --surface: oklch(100% 0 0);
+    --text: oklch(8% 0 0);
+    --primary: oklch(8% 0 0);
+    --accent: oklch(45% 0 0);
+    --light: oklch(75% 0 0);
+    --lighter: oklch(90% 0 0);
+    --white: oklch(100% 0 0);
+    --black: oklch(8% 0 0);
+    --border: 2px solid var(--black);
+    --border-thick: 4px solid var(--black);
+    --border-panel: 3px solid var(--black);
+    --font-display: 'Bangers', 'Impact', cursive;
+    --font-body: 'Inter', system-ui, sans-serif;
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-weight: 400;
+    color: var(--text);
+    background: var(--bg);
+    letter-spacing: 0.01em;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 1rem; }
+
+  /* === SCREENTONE PATTERNS === */
+  .tone-light { background-image: repeating-linear-gradient(45deg, transparent, transparent 3px, oklch(70% 0 0) 3px, oklch(70% 0 0) 4px); }
+  .tone-medium { background-image: radial-gradient(circle, oklch(40% 0 0) 1px, transparent 1px); background-size: 5px 5px; }
+  .tone-dark { background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, oklch(30% 0 0) 2px, oklch(30% 0 0) 3px); }
+
+  /* === HEADER === */
+  .manga-header { text-align: center; padding: 2rem 1rem 1.5rem; background: var(--surface); border: var(--border-thick); border-bottom: 6px solid var(--black); position: relative; }
+  .manga-header::before { content: ''; position: absolute; inset: 6px; border: 2px solid var(--black); pointer-events: none; }
+  .manga-header h1 { font-family: var(--font-display); font-size: clamp(3.5rem, 12vw, 6rem); line-height: 1.0; letter-spacing: 0.08em; text-transform: uppercase; color: var(--primary); }
+  .manga-header .subtitle-jp { font-size: clamp(1.2rem, 3vw, 1.6rem); letter-spacing: 0.3em; margin-top: 0.25rem; color: var(--accent); font-weight: 700; }
+  .manga-header .issue-info { font-family: var(--font-display); font-size: 1rem; letter-spacing: 0.12em; text-transform: uppercase; margin-top: 0.5rem; color: var(--light); }
+
+  /* === SPEED LINE DIVIDER === */
+  .speed-divider { height: 40px; position: relative; overflow: hidden; border-left: var(--border-thick); border-right: var(--border-thick); }
+  .speed-divider::before { content: ''; position: absolute; inset: -50% -10%; background: repeating-conic-gradient(from 0deg at 50% 50%, transparent 0deg 3deg, oklch(60% 0 0) 3deg 3.5deg); opacity: 0.3; }
+
+  /* === FEATURED PANEL === */
+  .featured-panel { border: 5px solid var(--black); padding: 3rem 1.5rem; background: var(--surface); text-align: center; position: relative; overflow: hidden; }
+  .featured-panel .focus-bg { position: absolute; inset: 0; background: repeating-conic-gradient(from 0deg at 50% 50%, transparent 0deg 2.5deg, oklch(75% 0 0) 2.5deg 3deg); mask: radial-gradient(circle, transparent 20%, oklch(0% 0 0) 70%); -webkit-mask: radial-gradient(circle, transparent 20%, oklch(0% 0 0) 70%); opacity: 0.4; }
+  .featured-panel .tone-bg { position: absolute; inset: 0; background-image: repeating-linear-gradient(45deg, transparent, transparent 3px, oklch(80% 0 0) 3px, oklch(80% 0 0) 4px); opacity: 0.3; }
+  .featured-panel .action-title { font-family: var(--font-display); font-size: clamp(3rem, 10vw, 5.5rem); text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary); transform: rotate(-3deg); position: relative; z-index: 2; text-shadow: -2px -2px 0 var(--white), 2px -2px 0 var(--white), -2px 2px 0 var(--white), 2px 2px 0 var(--white); }
+  .speech-bubble { background: var(--white); border: 3px solid var(--black); border-radius: 24px; padding: 0.75rem 1.5rem; position: relative; display: inline-block; margin-top: 1.5rem; font-family: var(--font-body); font-size: 1.1rem; font-weight: 500; z-index: 2; }
+  .speech-bubble::before { content: ''; position: absolute; bottom: -18px; left: 35px; border: 12px solid transparent; border-top: 16px solid var(--black); }
+  .speech-bubble::after { content: ''; position: absolute; bottom: -13px; left: 38px; border: 9px solid transparent; border-top: 13px solid var(--white); }
+
+  /* === MANGA PAGE LAYOUT (asymmetric grid) === */
+  .manga-page { display: grid; grid-template-columns: 1fr 2fr; grid-template-rows: auto auto; border: 5px solid var(--black); border-top: none; }
+  .panel { border: 2px solid var(--black); padding: 1.25rem; background: var(--surface); position: relative; overflow: hidden; }
+  .panel-tall { grid-row: 1 / 3; }
+  .panel-wide { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; }
+  .panel-wide .panel-inner { padding: 1.25rem; border-right: 2px solid var(--black); }
+  .panel-wide .panel-inner:last-child { border-right: none; }
+  .panel .panel-tag { font-family: var(--font-display); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); background: var(--black); padding: 0.15rem 0.5rem; display: inline-block; margin-bottom: 0.5rem; }
+  .panel .panel-title { font-family: var(--font-display); font-size: 1.5rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.25rem; }
+  .panel .panel-genre { font-size: 0.85rem; color: var(--accent); font-weight: 600; margin-bottom: 0.5rem; }
+  .panel .panel-desc { font-size: 0.9rem; color: oklch(30% 0 0); line-height: 1.5; }
+  .panel .tone-fill { position: absolute; inset: 0; pointer-events: none; opacity: 0.15; }
+
+  /* === SCREENTONE DIVIDER STRIP === */
+  .tone-strip { height: 20px; border-left: var(--border-thick); border-right: var(--border-thick); background-image: radial-gradient(circle, oklch(40% 0 0) 1px, transparent 1px); background-size: 5px 5px; opacity: 0.35; }
+
+  /* === SFX SECTION === */
+  .sfx-section { border: 5px solid var(--black); border-top: none; padding: 2rem 1.5rem; background: var(--surface); display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+  .sfx-item { text-align: center; position: relative; }
+  .sfx-text { font-family: var(--font-display); font-size: clamp(2.5rem, 8vw, 4rem); letter-spacing: 0.05em; color: var(--primary); position: relative; z-index: 2; }
+  .sfx-item .sfx-label { font-size: 0.75rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.25rem; }
+  .sfx-item:nth-child(1) .sfx-text { text-shadow: -2px -2px 0 var(--white), 2px -2px 0 var(--white), -2px 2px 0 var(--white), 2px 2px 0 var(--white); }
+  .sfx-item:nth-child(2) .sfx-text { transform: rotate(-5deg) scale(1.1); }
+  .sfx-item:nth-child(3) .sfx-text { letter-spacing: 0.15em; }
+  @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-2px) rotate(-1deg); } 75% { transform: translateX(2px) rotate(1deg); } }
+  .sfx-item:nth-child(2) { animation: shake 0.3s ease-in-out infinite; }
+
+  /* === NEXT ISSUE === */
+  .next-issue { border: var(--border-thick); border-top: none; padding: 1.5rem; background: var(--surface); text-align: center; position: relative; }
+  .next-issue .next-label { font-family: var(--font-display); font-size: 1.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary); margin-bottom: 0.25rem; }
+  .next-issue .next-date { font-size: 0.9rem; color: var(--accent); font-weight: 600; margin-bottom: 1rem; }
+  .next-issue .speech-bubble { font-style: italic; }
+
+  /* === FOOTER === */
+  .footer { text-align: center; padding: 1rem; font-family: var(--font-display); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.08em; background: var(--black); color: var(--white); border: var(--border-thick); border-top: none; }
+
+  /* ============ COMPONENT SHOWCASE ============ */
+  .showcase-sep { margin: 3rem 0 2rem; border: none; border-top: 5px solid var(--black); }
+  .showcase-title { font-family: var(--font-display); font-size: 2.5rem; text-transform: uppercase; letter-spacing: 0.08em; text-align: center; margin-bottom: 2rem; color: var(--primary); }
+  .section-label { font-family: var(--font-display); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); border-bottom: 3px solid var(--black); padding-bottom: 0.25rem; margin-bottom: 1rem; }
+  .comp-section { margin-bottom: 2.5rem; }
+
+  /* Typography specimen */
+  .type-specimen h1 { font-family: var(--font-display); font-size: 2.8rem; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.0; margin-bottom: 0.5rem; }
+  .type-specimen h2 { font-family: var(--font-display); font-size: 1.8rem; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.0; margin-bottom: 0.5rem; }
+  .type-specimen h3 { font-family: var(--font-display); font-size: 1.3rem; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.0; margin-bottom: 0.5rem; }
+  .type-specimen p { font-size: 1rem; margin-bottom: 0.5rem; max-width: 60ch; }
+
+  /* Swatches */
+  .swatches { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .swatch { width: 80px; border: var(--border); overflow: hidden; }
+  .swatch-color { height: 56px; }
+  .swatch-label { padding: 0.3rem 0.4rem; font-family: var(--font-display); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; background: var(--surface); text-align: center; border-top: 2px solid var(--black); }
+
+  /* Screentone swatches */
+  .tone-swatches { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.75rem; }
+  .tone-swatch { width: 100px; height: 72px; border: var(--border); position: relative; }
+  .tone-swatch-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 0.2rem 0.4rem; font-family: var(--font-display); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.04em; background: var(--white); text-align: center; border-top: 2px solid var(--black); }
+
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.55rem 1.25rem; border: var(--border-panel); cursor: pointer; transition: transform 80ms; min-height: 44px; }
+  .btn:active { transform: translate(1px, 1px); }
+  .btn-filled { background: var(--black); color: var(--white); }
+  .btn-outline { background: var(--white); color: var(--black); }
+  .btn-outline:hover { background: var(--lighter); }
+  .btn-tone { background-image: radial-gradient(circle, oklch(40% 0 0) 1px, transparent 1px); background-size: 5px 5px; background-color: var(--white); color: var(--black); }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+
+  /* Speech bubble small */
+  .speech-bubble-sm { background: var(--white); border: 3px solid var(--black); border-radius: 20px; padding: 0.6rem 1rem; position: relative; display: inline-block; font-weight: 500; font-size: 0.95rem; }
+  .speech-bubble-sm::before { content: ''; position: absolute; bottom: -14px; left: 25px; border: 9px solid transparent; border-top: 12px solid var(--black); }
+  .speech-bubble-sm::after { content: ''; position: absolute; bottom: -9px; left: 28px; border: 6px solid transparent; border-top: 9px solid var(--white); }
+  .action-inline { font-family: var(--font-display); font-size: 2rem; letter-spacing: 0.06em; display: inline-block; margin-right: 1.5rem; color: var(--primary); text-shadow: -2px -2px 0 var(--white), 2px -2px 0 var(--white), -2px 2px 0 var(--white), 2px 2px 0 var(--white); }
+
+  /* Panel card showcase */
+  .panel-card-demo { max-width: 300px; border: 4px solid var(--black); background: var(--surface); position: relative; overflow: hidden; }
+  .panel-card-demo .tone-fill { position: absolute; inset: 0; pointer-events: none; opacity: 0.12; }
+  .panel-card-demo .card-content { padding: 1rem; position: relative; z-index: 1; }
+  .panel-card-demo .card-content h4 { font-family: var(--font-display); font-size: 1.3rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.25rem; }
+  .panel-card-demo .card-content p { font-size: 0.9rem; color: oklch(30% 0 0); }
+  .panel-card-thin { border-width: 2px; }
+  .panel-card-heavy { border-width: 6px; }
+
+  /* Input */
+  .input-demo { font-family: var(--font-body); font-weight: 500; font-size: 1rem; padding: 0.6rem 0.75rem; border: 3px solid var(--black); background: var(--white); outline: none; min-height: 44px; width: 100%; max-width: 400px; }
+  .input-demo:focus { box-shadow: inset 0 0 0 2px var(--accent); }
+  .input-label { display: block; font-family: var(--font-display); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.35rem; }
+
+  /* Table */
+  .demo-table { width: 100%; border-collapse: collapse; border: 3px solid var(--black); font-size: 0.9rem; }
+  .demo-table th, .demo-table td { padding: 0.5rem 0.75rem; border: 2px solid var(--black); text-align: left; }
+  .demo-table th { background: var(--black); color: var(--white); font-family: var(--font-display); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  .demo-table tr:nth-child(even) td { position: relative; }
+  .demo-table tr:nth-child(even) td::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle, oklch(40% 0 0) 0.8px, transparent 0.8px); background-size: 5px 5px; opacity: 0.1; pointer-events: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; }
+  }
+
+  @media (max-width: 560px) {
+    .manga-page { grid-template-columns: 1fr; }
+    .panel-tall { grid-row: auto; }
+    .panel-wide { grid-template-columns: 1fr; }
+    .panel-wide .panel-inner { border-right: none; border-bottom: 2px solid var(--black); }
+    .panel-wide .panel-inner:last-child { border-bottom: none; }
+    .sfx-section { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="manga-header">
+    <h1>Weekly Manga</h1>
+    <div class="subtitle-jp">週刊マンガ</div>
+    <div class="issue-info">VOL. 42 &middot; March 2026 &middot; &yen;350</div>
+  </header>
+
+  <!-- SPEED LINE DIVIDER -->
+  <div class="speed-divider"></div>
+
+  <!-- FEATURED PANEL -->
+  <div class="featured-panel">
+    <div class="tone-bg"></div>
+    <div class="focus-bg"></div>
+    <div class="action-title">New Chapter!</div>
+    <div class="speech-bubble">The battle continues...</div>
+  </div>
+
+  <!-- MANGA PAGE LAYOUT -->
+  <div class="manga-page">
+    <div class="panel panel-tall">
+      <div class="tone-fill tone-light"></div>
+      <span class="panel-tag">NEW</span>
+      <div class="panel-title">Dragon Saga</div>
+      <div class="panel-genre">Action &middot; Ch. 142</div>
+      <div class="panel-desc">The final showdown begins. After 10 years of training, our hero faces the Dragon King in a battle that will shake the heavens.</div>
+    </div>
+    <div class="panel">
+      <div class="tone-fill tone-medium"></div>
+      <span class="panel-tag">HOT</span>
+      <div class="panel-title">Night Runner</div>
+      <div class="panel-genre">Mystery &middot; Ch. 78</div>
+      <div class="panel-desc">The masked vigilante uncovers a conspiracy that reaches the highest levels of the city government.</div>
+    </div>
+    <div class="panel-wide">
+      <div class="panel-inner">
+        <span class="panel-tag">Popular</span>
+        <div class="panel-title">School Days</div>
+        <div class="panel-genre">Comedy &middot; Ch. 231</div>
+        <div class="panel-desc">The school festival arc! Chaos erupts when Class 2-B's haunted house goes terribly wrong.</div>
+      </div>
+      <div class="panel-inner">
+        <div class="tone-fill tone-dark" style="opacity:0.08"></div>
+        <span class="panel-tag">NEW</span>
+        <div class="panel-title">Spirit Blade</div>
+        <div class="panel-genre">Fantasy &middot; Ch. 56</div>
+        <div class="panel-desc">The cursed sword reveals its true form. A spirit weapon with the power to cut through dimensions.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREENTONE DIVIDER -->
+  <div class="tone-strip"></div>
+
+  <!-- SFX SECTION -->
+  <div class="sfx-section">
+    <div class="sfx-item">
+      <div class="sfx-text">ドドド</div>
+      <div class="sfx-label">Menacing</div>
+    </div>
+    <div class="sfx-item">
+      <div class="sfx-text">バン!</div>
+      <div class="sfx-label">Bang</div>
+    </div>
+    <div class="sfx-item">
+      <div class="sfx-text">ゴゴゴ</div>
+      <div class="sfx-label">Rumble</div>
+    </div>
+  </div>
+
+  <!-- NEXT ISSUE -->
+  <div class="next-issue">
+    <div class="next-label">Next Week</div>
+    <div class="next-date">March 22, 2026</div>
+    <div class="speech-bubble">"A new enemy appears... and nothing will ever be the same."</div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">&copy; 2026 Weekly Manga &middot; 週刊マンガ</div>
+
+  <!-- ============ COMPONENT SHOWCASE ============ -->
+  <hr class="showcase-sep">
+  <div class="showcase-title" id="components">Components</div>
+
+  <!-- Typography -->
+  <div class="comp-section">
+    <div class="section-label">Typography</div>
+    <div class="type-specimen">
+      <h1>Display Heading H1</h1>
+      <h2>Section Heading H2</h2>
+      <h3>Subsection Heading H3</h3>
+      <p>Body text in Inter 400. The quick brown fox jumps over the lazy dog. Clean and readable for manga descriptions, chapter summaries, and character profiles.</p>
+      <p style="font-weight:700">Bold body text (700) for emphasis and key callouts.</p>
+    </div>
+  </div>
+
+  <!-- Grey Swatches -->
+  <div class="comp-section">
+    <div class="section-label">Monochrome Palette</div>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-color" style="background:var(--white)"></div><div class="swatch-label">White</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--lighter)"></div><div class="swatch-label">Lighter</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--light)"></div><div class="swatch-label">Light</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--accent)"></div><div class="swatch-label">Accent</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--black)"></div><div class="swatch-label">Black</div></div>
+    </div>
+  </div>
+
+  <!-- Screentone Swatches -->
+  <div class="comp-section">
+    <div class="section-label">Screentone Patterns</div>
+    <div class="tone-swatches">
+      <div class="tone-swatch tone-light"><div class="tone-swatch-label">Light</div></div>
+      <div class="tone-swatch tone-medium"><div class="tone-swatch-label">Medium</div></div>
+      <div class="tone-swatch tone-dark"><div class="tone-swatch-label">Dark</div></div>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="comp-section">
+    <div class="section-label">Buttons</div>
+    <div class="btn-row">
+      <button class="btn btn-filled">Filled</button>
+      <button class="btn btn-outline">Outline</button>
+      <button class="btn btn-tone">Screentone</button>
+    </div>
+  </div>
+
+  <!-- Speech Bubble -->
+  <div class="comp-section">
+    <div class="section-label">Speech Bubbles</div>
+    <div style="display:flex; flex-wrap:wrap; gap:1.5rem; align-items:flex-start; padding-bottom:1.5rem">
+      <div class="speech-bubble-sm">This can't be!</div>
+      <div class="speech-bubble-sm">I won't give up!</div>
+      <div class="speech-bubble-sm">Impossible...!</div>
+    </div>
+  </div>
+
+  <!-- Action Text -->
+  <div class="comp-section">
+    <div class="section-label">Action Text</div>
+    <div style="padding:0.5rem 0">
+      <span class="action-inline">CRASH!</span>
+      <span class="action-inline">SLASH!</span>
+      <span class="action-inline">BOOM!</span>
+    </div>
+  </div>
+
+  <!-- Panel Cards -->
+  <div class="comp-section">
+    <div class="section-label">Panel Cards (Border Weights)</div>
+    <div style="display:flex; flex-wrap:wrap; gap:1rem">
+      <div class="panel-card-demo panel-card-thin">
+        <div class="tone-fill tone-light"></div>
+        <div class="card-content">
+          <h4>Thin (2px)</h4>
+          <p>Inner panel divider weight.</p>
+        </div>
+      </div>
+      <div class="panel-card-demo">
+        <div class="tone-fill tone-medium"></div>
+        <div class="card-content">
+          <h4>Normal (4px)</h4>
+          <p>Standard panel frame weight.</p>
+        </div>
+      </div>
+      <div class="panel-card-demo panel-card-heavy">
+        <div class="card-content">
+          <h4>Heavy (6px)</h4>
+          <p>Dramatic panel emphasis.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Input -->
+  <div class="comp-section">
+    <div class="section-label">Form Input</div>
+    <div style="max-width:400px">
+      <label class="input-label">Search Manga</label>
+      <div style="display:flex">
+        <input class="input-demo" type="text" placeholder="Enter title..." style="border-right:none">
+        <button class="btn btn-filled" style="border-left:3px solid var(--black); flex-shrink:0">Search</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="comp-section">
+    <div class="section-label">Data Table</div>
+    <table class="demo-table">
+      <thead>
+        <tr><th>Title</th><th>Genre</th><th>Chapter</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Dragon Saga</td><td>Action</td><td>Ch. 142</td><td>Ongoing</td></tr>
+        <tr><td>Night Runner</td><td>Mystery</td><td>Ch. 78</td><td>Ongoing</td></tr>
+        <tr><td>School Days</td><td>Comedy</td><td>Ch. 231</td><td>Ongoing</td></tr>
+        <tr><td>Spirit Blade</td><td>Fantasy</td><td>Ch. 56</td><td>New Series</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="height:2rem"></div>
+</div>
+
+</body>
+</html>

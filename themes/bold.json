@@ -1,0 +1,72 @@
+{
+  "name": "Bold / Energetic",
+  "description": "피트니스, 스포츠, 액티비티. 강렬하고 동기부여, 액션 중심.",
+  "mood": ["energetic", "motivational", "powerful"],
+  "shape": {
+    "radiusSm": "2px",
+    "radiusMd": "4px",
+    "radiusLg": "8px",
+    "radiusFull": "9999px",
+    "borderWidth": "0px"
+  },
+  "typography": {
+    "fontSans": "'Manrope', -apple-system, 'Pretendard', sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Manrope', -apple-system, 'Pretendard', sans-serif",
+    "weightNormal": 500,
+    "weightMedium": 700,
+    "weightBold": 800,
+    "letterSpacingHeading": "-0.02em",
+    "letterSpacingBody": "0.01em",
+    "lineHeight": 1.4,
+    "lineHeightHeading": 1.1,
+    "textTransformHeading": "none"
+  },
+  "spacing": {
+    "density": "dense",
+    "scale": 0.85
+  },
+  "depth": {
+    "shadowSm": "0 2px 4px oklch(0% 0 0 / 0.25)",
+    "shadowMd": "0 4px 12px oklch(0% 0 0 / 0.35)",
+    "shadowLg": "0 8px 24px oklch(0% 0 0 / 0.4)",
+    "shadowStyle": "strong"
+  },
+  "motion": {
+    "durationFast": "60ms",
+    "durationNormal": "100ms",
+    "easing": "cubic-bezier(0.0, 0, 0.2, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(12% 0.005 0)",
+    "surface": "oklch(18% 0.005 0)",
+    "text": "oklch(98% 0 0)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(8% 0 0)",
+    "surface": "oklch(14% 0 0)",
+    "text": "oklch(98% 0 0)"
+  },
+  "demo": {
+    "type": "fitness",
+    "title": "Iron Core",
+    "subtitle": "Your Daily Training Dashboard",
+    "stats": [
+      { "label": "Workouts", "value": "247", "unit": "total" },
+      { "label": "Streak", "value": "18", "unit": "days" },
+      { "label": "Calories", "value": "1,240", "unit": "today" }
+    ],
+    "workout": {
+      "name": "Upper Body Power",
+      "exercises": ["Bench Press 4x8", "Pull-ups 3x12", "Shoulder Press 4x10"],
+      "duration": "45 min"
+    }
+  },
+  "suggestions": {
+    "icons": "Lucide (bold stroke 2px)",
+    "components": "large numbers, progress rings, stat cards, streak counters, timer displays",
+    "typography": "Manrope 800 for display, 700 for section titles, 600 for labels, 500 for body. No uppercase headings — use weight contrast instead",
+    "avoid": "condensed/narrow fonts, excessive uppercase, thin fonts, light borders",
+    "googleFonts": "Manrope:wght@400;500;600;700;800"
+  }
+}

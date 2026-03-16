@@ -1,0 +1,64 @@
+{
+  "name": "Base",
+  "description": "공통 디자인 토큰. 모든 테마가 이 값을 상속함.",
+  "colors": {
+    "background": "oklch(100% 0 0)",
+    "surface": "oklch(97% 0.005 0)",
+    "border": "oklch(88% 0.01 0)",
+    "text": "oklch(15% 0 0)",
+    "textMuted": "oklch(55% 0.01 0)",
+    "success": "oklch(65% 0.2 155)",
+    "danger": "oklch(60% 0.22 25)",
+    "warning": "oklch(80% 0.16 85)"
+  },
+  "colorsDark": {
+    "background": "oklch(15% 0 0)",
+    "surface": "oklch(20% 0.005 0)",
+    "border": "oklch(30% 0.01 0)",
+    "text": "oklch(93% 0 0)",
+    "textMuted": "oklch(65% 0.01 0)"
+  },
+  "typography": {
+    "fontSans": "-apple-system, BlinkMacSystemFont, 'Pretendard', 'Segoe UI', Roboto, sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', Consolas, monospace",
+    "lineHeight": 1.6,
+    "scale": {
+      "xs": "0.75rem",
+      "sm": "0.875rem",
+      "base": "1rem",
+      "lg": "1.25rem",
+      "xl": "1.5rem",
+      "2xl": "2rem"
+    }
+  },
+  "spacing": {
+    "xs": "0.25rem",
+    "sm": "0.5rem",
+    "md": "0.75rem",
+    "lg": "1rem",
+    "xl": "1.5rem",
+    "2xl": "2rem",
+    "3xl": "3rem"
+  },
+  "radius": {
+    "sm": "4px",
+    "md": "8px",
+    "lg": "12px",
+    "full": "9999px"
+  },
+  "shadow": {
+    "sm": "0 1px 2px oklch(0% 0 0 / 0.05)",
+    "md": "0 1px 3px oklch(0% 0 0 / 0.1), 0 1px 2px oklch(0% 0 0 / 0.06)",
+    "lg": "0 4px 12px oklch(0% 0 0 / 0.12)"
+  },
+  "layout": {
+    "maxWidth": "900px",
+    "padding": "1rem",
+    "touchTarget": "44px"
+  },
+  "transition": {
+    "fast": "100ms ease-out",
+    "base": "150ms ease-out",
+    "slow": "250ms ease-in-out"
+  }
+}

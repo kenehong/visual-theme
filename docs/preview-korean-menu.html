@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>엄마손 식당 — Korean Menu Board Theme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Gaegu:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* === Tokens === */
+:root {
+  --bg: oklch(90% 0.06 85);
+  --surface: oklch(93% 0.05 85);
+  --text: oklch(15% 0.02 0);
+  --muted: oklch(40% 0.03 60);
+  --primary: oklch(50% 0.25 25);
+  --accent: oklch(40% 0.15 250);
+  --dark-red: oklch(40% 0.2 25);
+  --cream: oklch(95% 0.03 85);
+  --font-display: 'Gaegu', 'Nanum Pen Script', cursive;
+  --font-en-hand: 'Caveat', cursive;
+  --font-body: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+  --border: 3px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-body); background: var(--bg); color: var(--text);
+  line-height: 1.6; -webkit-font-smoothing: antialiased;
+}
+/* Noise texture overlay for aged feel */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+.wrap { max-width: 900px; margin: 0 auto; padding: 0 1.25rem; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.3; }
+
+/* === Header (식당 간판) === */
+.header {
+  background: var(--primary); padding: 1rem 0; color: var(--cream);
+  border-bottom: 5px solid var(--dark-red);
+}
+.header .wrap { display: flex; align-items: center; justify-content: space-between; }
+.header h1 { font-size: 1.8rem; font-weight: 700; }
+.header h1 span { font-size: 0.7rem; display: block; font-family: var(--font-body); font-weight: 500; opacity: 0.85; letter-spacing: 0.12em; }
+.header nav { display: flex; gap: 1.25rem; }
+.header nav a {
+  color: var(--cream); text-decoration: none; font-family: var(--font-display);
+  font-size: 1.1rem; font-weight: 700; padding: 0.25rem 0.5rem;
+  border-bottom: 2px solid transparent; transition: border-color 150ms;
+}
+.header nav a:hover { border-bottom-color: var(--cream); }
+
+/* === Hero (메뉴판 상단) === */
+.hero {
+  text-align: center; padding: 2.5rem 1rem 1.5rem;
+  border-bottom: var(--border) solid var(--primary);
+}
+.hero h2 {
+  font-size: 2.8rem; font-weight: 700; color: var(--text);
+  margin-bottom: 0.25rem;
+}
+.hero .sub-en {
+  font-family: var(--font-body); font-size: 0.85rem; color: var(--muted);
+  letter-spacing: 0.15em; font-weight: 500;
+}
+.hero .since {
+  display: inline-block; margin-top: 0.75rem; padding: 0.25rem 1rem;
+  border: 2px solid var(--primary); color: var(--primary);
+  font-family: var(--font-display); font-size: 1.1rem; font-weight: 700;
+}
+
+/* === Red divider === */
+.red-line { height: 4px; background: var(--primary); margin: 0; }
+.red-line-thin { height: 2px; background: var(--primary); margin: 1.5rem 0; }
+
+/* === THE MENU BOARD === */
+.menu-board {
+  background: var(--surface); border: var(--border) solid var(--primary);
+  padding: 1.5rem; margin: 2rem 0;
+  box-shadow: 4px 4px 0 var(--dark-red);
+}
+.menu-board-title {
+  text-align: center; font-size: 2rem; font-weight: 700; color: var(--primary);
+  padding-bottom: 0.75rem; border-bottom: var(--border) solid var(--primary);
+  margin-bottom: 1.25rem;
+}
+.menu-columns {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 0;
+}
+.menu-col {
+  border-right: 2px solid var(--primary);
+  padding: 0 0.75rem;
+}
+.menu-col:last-child { border-right: none; }
+.menu-col-header {
+  font-family: var(--font-display); font-size: 1.2rem; font-weight: 700;
+  color: var(--accent); text-align: center;
+  padding-bottom: 0.5rem; margin-bottom: 0.5rem;
+  border-bottom: 2px solid var(--dark-red);
+}
+.menu-item {
+  padding: 0.5rem 0; text-align: center;
+  border-bottom: 1px dashed oklch(60% 0.04 85);
+}
+.menu-item:last-child { border-bottom: none; }
+.menu-item-name {
+  font-family: var(--font-display); font-size: 1.25rem; font-weight: 700;
+  color: var(--text); display: block;
+}
+.menu-item-name .en { display: block; font-size: 0.7rem; font-family: var(--font-en-hand); font-weight: 500; color: oklch(45% 0.04 60); margin-top: 0.05rem; }
+.menu-item-price {
+  font-family: var(--font-display); font-size: 1.1rem; font-weight: 700;
+  color: var(--primary); display: block; margin-top: 0.15rem;
+}
+/* 추천 mark — red circle */
+.menu-item.recommend { position: relative; }
+.menu-item.recommend::after {
+  content: '추천'; position: absolute; top: 0.25rem; right: 0.15rem;
+  font-family: var(--font-display); font-size: 0.65rem; font-weight: 700;
+  color: var(--primary); width: 2rem; height: 2rem;
+  border: 2px solid var(--primary); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transform: rotate(-8deg);
+}
+
+/* === Menu hint === */
+.menu-hint {
+  text-align: center; font-size: 0.75rem; color: var(--muted);
+  font-style: italic; font-weight: 400; margin-top: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+/* === Today's Special === */
+.today-special {
+  background: var(--cream); border: var(--border) solid var(--primary);
+  padding: 1.5rem; margin: 2rem 0; text-align: center;
+  box-shadow: 3px 3px 0 var(--dark-red); position: relative;
+}
+.today-special::before {
+  content: '오늘의 특선'; position: absolute; top: -0.9rem; left: 50%;
+  transform: translateX(-50%); background: var(--primary); color: var(--cream);
+  font-family: var(--font-display); font-size: 1rem; font-weight: 700;
+  padding: 0.15rem 1rem;
+}
+.today-special h3 {
+  font-size: 2.2rem; font-weight: 700; color: var(--text); margin-top: 0.75rem;
+}
+.today-special .special-price {
+  font-size: 1.8rem; font-weight: 700; color: var(--primary); margin-top: 0.25rem;
+  font-family: var(--font-display);
+}
+.today-special .special-desc {
+  font-size: 0.9rem; color: var(--muted); margin-top: 0.5rem;
+}
+.recommend-circle {
+  display: inline-block; width: 3.5rem; height: 3.5rem;
+  border: 3px solid var(--primary); border-radius: 50%;
+  font-family: var(--font-display); font-size: 0.9rem; font-weight: 700;
+  color: var(--primary); line-height: 3.2rem; text-align: center;
+  transform: rotate(-12deg); margin-top: 0.5rem;
+}
+
+/* === About section === */
+.about {
+  padding: 2rem 0; text-align: center;
+}
+.about h2 {
+  font-size: 1.8rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem;
+}
+.about p { color: var(--muted); font-size: 0.95rem; max-width: 500px; margin: 0 auto 0.5rem; }
+.about .hours {
+  font-family: var(--font-display); font-size: 1.2rem; color: var(--primary);
+  font-weight: 700; margin-top: 1rem;
+}
+
+/* === Order Form === */
+.order-section { margin-bottom: 2.5rem; }
+.order-section h2 {
+  text-align: center; font-size: 1.8rem; font-weight: 700;
+  color: var(--text); margin-bottom: 1rem;
+}
+.order-form {
+  background: var(--cream); border: var(--border) solid var(--text);
+  padding: 1.5rem; box-shadow: 3px 3px 0 var(--text);
+}
+.order-form .field { margin-bottom: 1rem; }
+.order-form label {
+  display: block; font-family: var(--font-display); font-weight: 700;
+  font-size: 1.1rem; margin-bottom: 0.25rem;
+}
+.order-form input, .order-form select {
+  width: 100%; padding: 0.6rem 0.75rem; border: 2px solid var(--text);
+  background: var(--surface); font-family: var(--font-body); font-size: 0.95rem;
+  outline: none; transition: border-color 150ms;
+}
+.order-form input:focus, .order-form select:focus {
+  border-color: var(--primary); box-shadow: 0 0 0 2px oklch(50% 0.25 25 / 0.15);
+}
+.btn-submit {
+  display: block; width: 100%; padding: 0.75rem; border: 2px solid var(--dark-red);
+  background: var(--primary); color: var(--cream);
+  font-family: var(--font-display); font-size: 1.3rem; font-weight: 700;
+  cursor: pointer; transition: all 150ms; margin-top: 0.5rem;
+}
+.btn-submit:hover { background: var(--dark-red); }
+
+/* === Footer === */
+.footer {
+  background: var(--primary); border-top: 5px solid var(--dark-red);
+  text-align: center; padding: 1.25rem 1rem; color: var(--cream);
+  font-family: var(--font-display); font-size: 1.1rem; font-weight: 700;
+}
+
+/* ============================== */
+/* Component Showcase */
+/* ============================== */
+.showcase {
+  border-top: 5px solid var(--primary); padding-top: 2.5rem; margin-top: 2rem;
+}
+.showcase > h2 { text-align: center; font-size: 2rem; margin-bottom: 0.25rem; }
+.showcase .sub { text-align: center; color: var(--muted); margin-bottom: 2rem; font-size: 0.9rem; }
+.section-title {
+  font-size: 1.2rem; margin: 2rem 0 0.75rem; padding-bottom: 0.35rem;
+  border-bottom: 2px solid var(--primary); color: var(--primary);
+}
+
+/* Typography */
+.typo-demo h1 { font-size: 2.2rem; }
+.typo-demo h3 { font-size: 1.5rem; color: var(--primary); }
+.typo-demo p { max-width: 600px; margin-top: 0.5rem; }
+
+/* Swatches */
+.swatches { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.swatch { width: 80px; text-align: center; }
+.swatch-circle {
+  width: 56px; height: 56px; margin: 0 auto 0.35rem;
+  border: 2px solid var(--text);
+}
+.swatch-label { font-size: 0.7rem; font-weight: 600; }
+
+/* Buttons */
+.btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+.btn {
+  padding: 0.55rem 1.5rem; font-family: var(--font-display);
+  font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 150ms;
+  border: 2px solid; color: var(--cream);
+}
+.btn:hover { transform: translate(-1px, -1px); }
+.btn-red { background: var(--primary); border-color: var(--dark-red); box-shadow: 2px 2px 0 var(--dark-red); }
+.btn-red:hover { box-shadow: 3px 3px 0 var(--dark-red); }
+.btn-black { background: var(--text); border-color: var(--text); box-shadow: 2px 2px 0 oklch(30% 0.02 0); }
+.btn-black:hover { box-shadow: 3px 3px 0 oklch(30% 0.02 0); }
+.btn-outline-red {
+  background: transparent; color: var(--primary); border-color: var(--primary);
+  box-shadow: 2px 2px 0 var(--primary);
+}
+.btn-outline-red:hover { background: var(--primary); color: var(--cream); }
+.btn-plain {
+  background: var(--cream); color: var(--text); border-color: var(--text);
+  box-shadow: 2px 2px 0 var(--text);
+}
+.btn-plain:hover { box-shadow: 3px 3px 0 var(--text); }
+
+/* Badges */
+.badge-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+.badge {
+  font-family: var(--font-display); font-size: 0.9rem; font-weight: 700;
+  padding: 0.2rem 0.75rem;
+}
+.badge-recommend {
+  color: var(--primary); border: 2px solid var(--primary); border-radius: 50%;
+  width: 2.5rem; height: 2.5rem; display: flex; align-items: center;
+  justify-content: center; font-size: 0.7rem; transform: rotate(-6deg);
+  padding: 0;
+}
+.badge-blue {
+  background: var(--accent); color: var(--cream); border: 2px solid var(--accent);
+}
+.badge-price {
+  background: var(--cream); color: var(--primary); border: 2px solid var(--primary);
+}
+
+/* Showcase menu item card */
+.showcase-menu-item {
+  background: var(--surface); border: 2px solid var(--text); padding: 1rem 1.25rem;
+  max-width: 280px; box-shadow: 2px 2px 0 var(--text); position: relative;
+}
+.showcase-menu-item h3 {
+  font-size: 1.5rem; font-weight: 700; color: var(--text);
+}
+.showcase-menu-item .price {
+  font-family: var(--font-display); font-size: 1.3rem; font-weight: 700;
+  color: var(--primary); margin-top: 0.25rem;
+}
+.showcase-menu-item .tag {
+  position: absolute; top: 0.5rem; right: 0.5rem;
+  width: 2rem; height: 2rem; border: 2px solid var(--primary); border-radius: 50%;
+  font-family: var(--font-display); font-size: 0.6rem; font-weight: 700;
+  color: var(--primary); display: flex; align-items: center; justify-content: center;
+  transform: rotate(-10deg);
+}
+
+/* Showcase Input */
+.showcase-input { max-width: 360px; }
+.showcase-input label {
+  display: block; font-family: var(--font-display); font-weight: 700;
+  font-size: 1.1rem; margin-bottom: 0.25rem;
+}
+.showcase-input input {
+  width: 100%; padding: 0.6rem 0.75rem; border: 2px solid var(--text);
+  background: var(--surface); font-family: var(--font-body); font-size: 0.95rem;
+  outline: none; transition: border-color 150ms;
+}
+.showcase-input input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px oklch(50% 0.25 25 / 0.15); }
+
+/* Table */
+.board-table {
+  width: 100%; border-collapse: collapse; border: var(--border) solid var(--primary);
+  font-size: 0.95rem;
+}
+.board-table th {
+  background: var(--primary); color: var(--cream); font-family: var(--font-display);
+  padding: 0.6rem 1rem; text-align: left; font-weight: 700; font-size: 1.1rem;
+}
+.board-table td {
+  padding: 0.5rem 1rem; border-bottom: 1px solid oklch(60% 0.04 85);
+  font-family: var(--font-display); font-size: 1.05rem;
+}
+.board-table td:nth-child(2) { color: var(--primary); font-weight: 700; }
+.board-table tr:last-child td { border-bottom: none; }
+.board-table tr:nth-child(even) td { background: var(--cream); }
+.board-table tr:nth-child(odd) td { background: var(--surface); }
+
+/* Responsive */
+@media (max-width: 700px) {
+  .menu-columns { grid-template-columns: repeat(2, 1fr); }
+  .menu-col { border-right: 2px solid var(--primary); border-bottom: 2px solid var(--primary); padding: 0.5rem; }
+  .menu-col:nth-child(2n) { border-right: none; }
+  .menu-col:nth-last-child(-n+2) { border-bottom: none; }
+  .hero h2 { font-size: 2rem; }
+  .header h1 { font-size: 1.4rem; }
+  .header nav { gap: 0.5rem; }
+  .header nav a { font-size: 0.9rem; }
+  .menu-item.recommend::after { position: static; display: inline-block; margin-left: 0.25rem; }
+}
+@media (max-width: 480px) {
+  .menu-columns { grid-template-columns: 1fr; }
+  .menu-col { border-right: none; border-bottom: 2px solid var(--primary); }
+  .menu-col:last-child { border-bottom: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header (식당 간판) -->
+<header class="header">
+  <div class="wrap">
+    <h1>엄마손 식당 <span>MOMMA'S KITCHEN</span></h1>
+    <nav>
+      <a href="#menu">메뉴판</a>
+      <a href="#special">특선</a>
+      <a href="#order">주문</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- Hero -->
+<section class="hero">
+  <h2>엄마손 식당</h2>
+  <div class="sub-en">MOMMA'S KITCHEN</div>
+  <div class="since">Since 1992 &middot; 30년 전통</div>
+</section>
+
+<!-- THE MENU BOARD -->
+<section id="menu">
+  <div class="menu-board">
+    <div class="menu-board-title">- 메 뉴 판 -</div>
+    <div class="menu-columns">
+
+      <!-- 찌개류 Stews -->
+      <div class="menu-col">
+        <div class="menu-col-header">찌개류</div>
+        <div class="menu-item recommend">
+          <span class="menu-item-name"><span class="ko">김치찌개</span><span class="en">Kimchi Stew</span></span>
+          <span class="menu-item-price">8,000원</span>
+        </div>
+        <div class="menu-item">
+          <span class="menu-item-name"><span class="ko">된장찌개</span><span class="en">Soybean Paste Stew</span></span>
+          <span class="menu-item-price">7,000원</span>
+        </div>
+        <div class="menu-item">
+          <span class="menu-item-name"><span class="ko">순두부찌개</span><span class="en">Soft Tofu Stew</span></span>
+          <span class="menu-item-price">8,000원</span>
+        </div>
+      </div>
+
+      <!-- 탕류 Soups -->
+      <div class="menu-col">
+        <div class="menu-col-header">탕류</div>
+        <div class="menu-item recommend">
+          <span class="menu-item-name"><span class="ko">설렁탕</span><span class="en">Ox Bone Soup</span></span>
+          <span class="menu-item-price">9,000원</span>
+        </div>
+        <div class="menu-item">
+          <span class="menu-item-name"><span class="ko">갈비탕</span><span class="en">Short Rib Soup</span></span>
+          <span class="menu-item-price">12,000원</span>
+        </div>
+        <div class="menu-item">
+          <span class="menu-item-name"><span class="ko">삼계탕</span><span class="en">Ginseng Chicken</span></span>
+          <span class="menu-item-price">15,000원</span>
+        </div>
+      </div>
+
+      <!-- 백반 Rice -->
+      <div class="menu-col">
+        <div class="menu-col-header">백반</div>
+        <div class="menu-item">
+          <span class="menu-item-name"><span class="ko">비빔밥</span><span class="en">Bibimbap</span></span>
+          <span class="menu-item-price">8,000원</span>
+        </div>
+        <div class="menu-item recommend">
+          <span class="menu-item-name"><span class="ko">불고기</span><span class="en">Bulgogi</span></span>
+          <span class="menu-item-price">12,000원</span>
+        </div>
+        <div class="menu-item">
+          <span class="menu-item-name"><span class="ko">제육볶음</span><span class="en">Spicy Pork</span></span>
+          <span class="menu-item-price">9,000원</span>
+        </div>
+      </div>
+
+      <!-- 면류 Noodles -->
+      <div class="menu-col">
+        <div class="menu-col-header">면류</div>
+        <div class="menu-item">
+          <span class="menu-item-name"><span class="ko">칼국수</span><span class="en">Knife-cut Noodles</span></span>
+          <span class="menu-item-price">7,000원</span>
+        </div>
+        <div class="menu-item">
+          <span class="menu-item-name"><span class="ko">냉면</span><span class="en">Cold Noodles</span></span>
+          <span class="menu-item-price">8,000원</span>
+        </div>
+        <div class="menu-item">
+          <span class="menu-item-name"><span class="ko">잔치국수</span><span class="en">Banquet Noodles</span></span>
+          <span class="menu-item-price">6,000원</span>
+        </div>
+      </div>
+
+      <!-- 특선 Specials -->
+      <div class="menu-col">
+        <div class="menu-col-header">특선</div>
+        <div class="menu-item recommend">
+          <span class="menu-item-name"><span class="ko">한우국밥</span><span class="en">Korean Beef Soup</span></span>
+          <span class="menu-item-price">15,000원</span>
+        </div>
+        <div class="menu-item">
+          <span class="menu-item-name"><span class="ko">아구찜</span><span class="en">Braised Monkfish</span></span>
+          <span class="menu-item-price">25,000원</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Red divider -->
+<div class="red-line"></div>
+
+<!-- Today's Special -->
+<section id="special">
+  <div class="today-special">
+    <h3>한우국밥</h3>
+    <div style="font-family:var(--font-en-hand);font-size:0.85rem;color:oklch(45% 0.04 60);margin-top:0.1rem;">Korean Beef Rice Soup</div>
+    <div class="special-price">15,000원</div>
+    <div class="special-desc">매일 새벽 사골을 우려낸 진한 국물에 한우 듬뿍</div>
+    <div style="font-family:var(--font-en-hand);font-size:0.75rem;color:oklch(45% 0.04 60);margin-top:0.2rem;">Rich ox bone broth simmered from dawn, loaded with Korean beef</div>
+    <div class="recommend-circle">추천</div>
+  </div>
+</section>
+
+</div><!-- /wrap -->
+
+<div class="wrap">
+
+<!-- ============================== -->
+<!-- Component Showcase -->
+<!-- ============================== -->
+<section class="showcase">
+  <h2 id="components">Component Showcase</h2>
+  <p class="sub">Korean Menu Board theme — design tokens and UI components</p>
+
+  <!-- Typography -->
+  <h3 class="section-title">Typography</h3>
+  <div class="typo-demo">
+    <h1>Gaegu 붓글씨 헤딩</h1>
+    <h3>엄마손 식당 메뉴판 스타일</h3>
+    <p>Inter body text. Clean and legible for descriptions and supporting text. The quick brown fox jumps over the lazy dog. 다람쥐 헌 쳇바퀴에 타고파.</p>
+  </div>
+
+  <!-- Colors -->
+  <h3 class="section-title">Color Swatches</h3>
+  <div class="swatches">
+    <div class="swatch"><div class="swatch-circle" style="background:var(--bg)"></div><div class="swatch-label">Aged Yellow</div></div>
+    <div class="swatch"><div class="swatch-circle" style="background:var(--surface)"></div><div class="swatch-label">Surface</div></div>
+    <div class="swatch"><div class="swatch-circle" style="background:var(--cream)"></div><div class="swatch-label">Cream</div></div>
+    <div class="swatch"><div class="swatch-circle" style="background:var(--text)"></div><div class="swatch-label">Ink Black</div></div>
+    <div class="swatch"><div class="swatch-circle" style="background:var(--primary)"></div><div class="swatch-label">Menu Red</div></div>
+    <div class="swatch"><div class="swatch-circle" style="background:var(--dark-red)"></div><div class="swatch-label">Dark Red</div></div>
+    <div class="swatch"><div class="swatch-circle" style="background:var(--accent)"></div><div class="swatch-label">Blue</div></div>
+  </div>
+
+  <!-- Buttons -->
+  <h3 class="section-title">Buttons</h3>
+  <div class="btn-row">
+    <button class="btn btn-red">빨간 버튼</button>
+    <button class="btn btn-black">검정 버튼</button>
+    <button class="btn btn-outline-red">테두리</button>
+    <button class="btn btn-plain">기본</button>
+  </div>
+
+  <!-- Badges -->
+  <h3 class="section-title">Badges</h3>
+  <div class="badge-row">
+    <span class="badge badge-recommend">추천</span>
+    <span class="badge badge-blue">카테고리</span>
+    <span class="badge badge-price">8,000원</span>
+  </div>
+
+  <!-- Menu Item Card -->
+  <h3 class="section-title">Menu Item Card</h3>
+  <div class="showcase-menu-item">
+    <div class="tag">추천</div>
+    <h3>김치찌개</h3>
+    <div class="price">8,000원</div>
+  </div>
+
+  <!-- Input -->
+  <h3 class="section-title">Input</h3>
+  <div class="showcase-input">
+    <label for="demo-input">전화번호</label>
+    <input type="tel" id="demo-input" placeholder="010-1234-5678">
+  </div>
+
+  <!-- Table (Menu Board Grid) -->
+  <h3 class="section-title">Table</h3>
+  <table class="board-table">
+    <thead><tr><th>메뉴</th><th>가격</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td>김치찌개</td><td>8,000원</td><td>추천</td></tr>
+      <tr><td>된장찌개</td><td>7,000원</td><td></td></tr>
+      <tr><td>설렁탕</td><td>9,000원</td><td>추천</td></tr>
+      <tr><td>한우국밥</td><td>15,000원</td><td>오늘의 특선</td></tr>
+    </tbody>
+  </table>
+
+</section>
+
+</div><!-- /wrap -->
+
+<div style="height:3rem"></div>
+
+</body>
+</html>

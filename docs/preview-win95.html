@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Windows 95 — Visual Theme Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: oklch(78% 0.02 195);
+    --surface: oklch(85% 0.01 80);
+    --text: oklch(15% 0 0);
+    --primary: oklch(35% 0.12 250);
+    --accent: oklch(85% 0.01 80);
+    --white: oklch(100% 0 0);
+    --border-light: oklch(95% 0 0);
+    --border-dark: oklch(30% 0 0);
+    --border-mid: oklch(60% 0.01 80);
+    --font-display: 'Pixelify Sans', Tahoma, sans-serif;
+    --font-body: 'Pixelify Sans', Tahoma, 'Segoe UI', sans-serif;
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.4;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ====== 3D BORDER MIXINS ====== */
+  .raised {
+    border: 2px solid;
+    border-color: var(--border-light) var(--border-dark) var(--border-dark) var(--border-light);
+  }
+  .sunken {
+    border: 2px solid;
+    border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+  }
+
+  /* ====== DESKTOP ====== */
+  .desktop {
+    max-width: 960px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 1rem;
+    flex: 1;
+    position: relative;
+  }
+
+  /* Desktop Icons */
+  .desktop-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .desktop-icon {
+    width: 80px;
+    text-align: center;
+    padding: 0.4rem;
+    cursor: pointer;
+    color: var(--white);
+    text-shadow: 1px 1px 2px oklch(0% 0 0 / 0.8);
+  }
+  .desktop-icon:hover { background: oklch(35% 0.12 250 / 0.4); }
+  .desktop-icon .icon { font-size: 2rem; display: block; margin-bottom: 0.15rem; }
+  .desktop-icon .label { font-size: 11px; line-height: 1.2; word-wrap: break-word; }
+
+  /* ====== WINDOW ====== */
+  .window {
+    background: var(--surface);
+    border: 2px solid;
+    border-color: var(--border-light) var(--border-dark) var(--border-dark) var(--border-light);
+    margin-bottom: 1rem;
+    box-shadow: 2px 2px 0 oklch(15% 0 0);
+  }
+
+  /* Title Bar */
+  .title-bar {
+    background: var(--primary);
+    padding: 2px 3px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 22px;
+    user-select: none;
+  }
+  .title-bar.inactive { background: oklch(60% 0.01 80); }
+  .title-bar-icon { font-size: 14px; margin-right: 2px; }
+  .title-bar-text {
+    flex: 1;
+    color: var(--white);
+    font-size: 12px;
+    font-weight: 700;
+    font-family: var(--font-display);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .title-bar.inactive .title-bar-text { color: oklch(85% 0.01 80); }
+  .title-bar-controls { display: flex; gap: 2px; }
+  .title-btn {
+    width: 16px;
+    height: 14px;
+    background: var(--surface);
+    border: 2px solid;
+    border-color: var(--border-light) var(--border-dark) var(--border-dark) var(--border-light);
+    font-size: 9px;
+    line-height: 10px;
+    text-align: center;
+    cursor: pointer;
+    padding: 0;
+    font-family: var(--font-body);
+    color: var(--text);
+  }
+  .title-btn:active {
+    border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+  }
+
+  /* Menu Bar */
+  .menu-bar {
+    background: var(--surface);
+    padding: 1px 0;
+    border-bottom: 1px solid var(--border-mid);
+    display: flex;
+    gap: 0;
+  }
+  .menu-item {
+    padding: 2px 8px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .menu-item:hover { background: var(--primary); color: var(--white); }
+  .menu-item u { text-decoration: underline; }
+
+  /* Toolbar */
+  .toolbar {
+    background: var(--surface);
+    padding: 2px 4px;
+    display: flex;
+    gap: 2px;
+    border-bottom: 1px solid var(--border-mid);
+    flex-wrap: wrap;
+  }
+  .toolbar-btn {
+    background: var(--surface);
+    border: 2px solid;
+    border-color: var(--border-light) var(--border-dark) var(--border-dark) var(--border-light);
+    padding: 1px 8px;
+    font-size: 11px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+  .toolbar-btn:active {
+    border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+  }
+
+  /* Address bar */
+  .address-bar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 4px;
+    font-size: 12px;
+    border-bottom: 1px solid var(--border-mid);
+  }
+  .address-bar label { white-space: nowrap; }
+  .address-input {
+    flex: 1;
+    font-family: var(--font-body);
+    font-size: 12px;
+    padding: 1px 4px;
+    border: 2px solid;
+    border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+    background: var(--white);
+    outline: none;
+  }
+
+  /* Window body */
+  .window-body {
+    padding: 0;
+  }
+
+  /* Status Bar */
+  .status-bar {
+    background: var(--surface);
+    border-top: 2px solid;
+    border-top-color: var(--border-dark);
+    padding: 2px 4px;
+    display: flex;
+    gap: 2px;
+    font-size: 11px;
+  }
+  .status-bar-field {
+    border: 2px solid;
+    border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+    padding: 0 6px;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .status-bar-field:first-child { flex: 3; }
+
+  /* ====== FILE LIST ====== */
+  .file-list {
+    background: var(--white);
+    border: 2px solid;
+    border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+    margin: 4px;
+    min-height: 140px;
+    overflow: auto;
+  }
+  .file-list table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .file-list th {
+    text-align: left;
+    padding: 1px 8px;
+    background: var(--surface);
+    border: 2px solid;
+    border-color: var(--border-light) var(--border-dark) var(--border-dark) var(--border-light);
+    font-weight: 700;
+    font-size: 11px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .file-list td { padding: 1px 8px; white-space: nowrap; }
+  .file-list tr:hover td { background: var(--primary); color: var(--white); }
+  .file-list .file-icon { margin-right: 4px; }
+
+  /* ====== NOTEPAD TEXTAREA ====== */
+  .notepad-content {
+    background: var(--white);
+    border: 2px solid;
+    border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+    margin: 0;
+    padding: 4px 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    min-height: 120px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* ====== TABS ====== */
+  .tab-row {
+    display: flex;
+    padding: 0 6px;
+    padding-top: 6px;
+  }
+  .tab {
+    padding: 3px 12px;
+    font-size: 12px;
+    border: 2px solid;
+    border-color: var(--border-light) var(--border-dark) var(--surface) var(--border-light);
+    background: var(--surface);
+    margin-right: 2px;
+    position: relative;
+    top: 2px;
+    cursor: pointer;
+  }
+  .tab.active {
+    border-bottom-color: var(--surface);
+    font-weight: 700;
+  }
+  .tab:not(.active) {
+    background: oklch(80% 0.01 80);
+    top: 4px;
+  }
+  .tab-body {
+    border: 2px solid;
+    border-color: var(--border-light) var(--border-dark) var(--border-dark) var(--border-light);
+    padding: 12px;
+    margin: 0 6px 6px;
+    background: var(--surface);
+  }
+
+  /* ====== FORM CONTROLS ====== */
+  .form-row { margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .form-label { font-size: 12px; min-width: 80px; }
+  .form-input {
+    font-family: var(--font-body);
+    font-size: 12px;
+    padding: 2px 4px;
+    border: 2px solid;
+    border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+    background: var(--white);
+    outline: none;
+    flex: 1;
+    max-width: 200px;
+  }
+
+  /* Win95 Buttons */
+  .win-btn {
+    background: var(--surface);
+    border: 2px solid;
+    border-color: var(--border-light) var(--border-dark) var(--border-dark) var(--border-light);
+    padding: 2px 16px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    cursor: pointer;
+    min-width: 72px;
+    text-align: center;
+  }
+  .win-btn:active {
+    border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+  }
+  .win-btn:focus-visible {
+    outline: 1px dotted var(--text);
+    outline-offset: -4px;
+  }
+  .win-btn-default {
+    border: 3px solid var(--text);
+    padding: 1px 15px;
+  }
+  .dialog-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+    padding: 8px 6px 6px;
+  }
+
+  /* ====== TASKBAR ====== */
+  .taskbar {
+    background: var(--surface);
+    border-top: 2px solid var(--border-light);
+    padding: 2px 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    position: sticky;
+    bottom: 0;
+    z-index: 100;
+  }
+  .start-btn {
+    background: var(--surface);
+    border: 2px solid;
+    border-color: var(--border-light) var(--border-dark) var(--border-dark) var(--border-light);
+    padding: 2px 6px;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+  }
+  .start-btn:active {
+    border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+  }
+  .start-btn .win-logo { font-size: 16px; }
+  .task-tray {
+    display: flex;
+    gap: 2px;
+    flex: 1;
+  }
+  .task-item {
+    background: var(--surface);
+    border: 2px solid;
+    border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+    padding: 1px 8px;
+    font-size: 11px;
+    flex: 1;
+    max-width: 160px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+  }
+  .task-item.active {
+    border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+    font-weight: 700;
+  }
+  .clock {
+    border: 2px solid;
+    border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+    padding: 1px 8px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  /* ====== COMPONENT SHOWCASE ====== */
+  .showcase {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 1rem;
+    background: var(--surface);
+    border: 2px solid;
+    border-color: var(--border-light) var(--border-dark) var(--border-dark) var(--border-light);
+  }
+  .showcase-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1.25rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border-dark);
+  }
+  .comp-section { margin-bottom: 1.5rem; }
+  .comp-label {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  /* Swatches */
+  .swatches { display: flex; flex-wrap: wrap; gap: 6px; }
+  .swatch {
+    width: 72px; height: 52px;
+    border: 2px solid;
+    border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+    display: flex; align-items: flex-end; justify-content: center;
+    padding-bottom: 2px;
+  }
+  .swatch span { font-size: 10px; font-weight: 700; }
+  .swatch.on-dark span { color: var(--white); }
+
+  /* Checkbox + Radio */
+  .check-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 8px; }
+  .check-label { display: flex; align-items: center; gap: 4px; font-size: 12px; cursor: pointer; }
+  .check-box {
+    width: 13px; height: 13px;
+    border: 2px solid;
+    border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+    background: var(--white);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    line-height: 1;
+  }
+  .radio-circle {
+    width: 13px; height: 13px;
+    border: 2px solid;
+    border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+    background: var(--white);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .radio-dot { width: 5px; height: 5px; background: var(--text); border-radius: 50%; }
+
+  /* Progress bar */
+  .progress-track {
+    border: 2px solid;
+    border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+    height: 20px;
+    background: var(--white);
+    padding: 2px;
+    display: flex;
+    gap: 2px;
+    max-width: 320px;
+  }
+  .progress-block {
+    width: 12px;
+    background: var(--primary);
+    flex-shrink: 0;
+  }
+
+  /* Dropdown */
+  .win-select {
+    font-family: var(--font-body);
+    font-size: 12px;
+    padding: 1px 2px;
+    border: 2px solid;
+    border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+    background: var(--white);
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3E%3Crect fill='%23c0c0c0' width='16' height='16'/%3E%3Cpolygon points='4,6 12,6 8,11' fill='black'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0 center;
+  }
+
+  /* Window component in showcase */
+  .mini-window { max-width: 320px; }
+
+  /* ====== RESPONSIVE ====== */
+  @media (max-width: 640px) {
+    .desktop-icons { gap: 0.25rem; }
+    .desktop-icon { width: 64px; }
+    .toolbar { flex-wrap: wrap; }
+    .file-list table { font-size: 11px; }
+    .task-item { max-width: 100px; }
+    .form-row { flex-direction: column; align-items: flex-start; gap: 2px; }
+    .form-input { max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ====== DESKTOP ICONS ====== -->
+<div class="desktop">
+  <div class="desktop-icons">
+    <div class="desktop-icon">
+      <span class="icon">&#128187;</span>
+      <span class="label">My Computer</span>
+    </div>
+    <div class="desktop-icon">
+      <span class="icon">&#128193;</span>
+      <span class="label">My Documents</span>
+    </div>
+    <div class="desktop-icon">
+      <span class="icon">&#127760;</span>
+      <span class="label">Network Neighborhood</span>
+    </div>
+    <div class="desktop-icon">
+      <span class="icon">&#128465;</span>
+      <span class="label">Recycle Bin</span>
+    </div>
+  </div>
+
+  <!-- ====== WINDOW 1: MY FILES (EXPLORER) ====== -->
+  <div class="window">
+    <div class="title-bar">
+      <span class="title-bar-icon">&#128193;</span>
+      <span class="title-bar-text">C:\My Documents</span>
+      <div class="title-bar-controls">
+        <button class="title-btn">&#8211;</button>
+        <button class="title-btn">&#9633;</button>
+        <button class="title-btn">&#10005;</button>
+      </div>
+    </div>
+    <div class="menu-bar">
+      <span class="menu-item"><u>F</u>ile</span>
+      <span class="menu-item"><u>E</u>dit</span>
+      <span class="menu-item"><u>V</u>iew</span>
+      <span class="menu-item"><u>H</u>elp</span>
+    </div>
+    <div class="toolbar">
+      <button class="toolbar-btn">&#11013; Back</button>
+      <button class="toolbar-btn">&#10145; Forward</button>
+      <button class="toolbar-btn">&#11014; Up</button>
+    </div>
+    <div class="address-bar">
+      <label>Address:</label>
+      <input class="address-input" type="text" value="C:\My Documents" readonly>
+    </div>
+    <div class="window-body">
+      <div class="file-list">
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Size</th><th>Type</th><th>Modified</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="file-icon">&#128193;</span>Projects</td><td></td><td>File Folder</td><td>03/15/1998</td></tr>
+            <tr><td><span class="file-icon">&#128193;</span>Photos</td><td></td><td>File Folder</td><td>02/28/1998</td></tr>
+            <tr><td><span class="file-icon">&#128196;</span>readme.txt</td><td>2 KB</td><td>Text Document</td><td>03/14/1998</td></tr>
+            <tr><td><span class="file-icon">&#128196;</span>budget.xls</td><td>48 KB</td><td>Excel Spreadsheet</td><td>03/10/1998</td></tr>
+            <tr><td><span class="file-icon">&#128196;</span>resume.doc</td><td>24 KB</td><td>Word Document</td><td>01/22/1998</td></tr>
+            <tr><td><span class="file-icon">&#127912;</span>wallpaper.bmp</td><td>1,440 KB</td><td>Bitmap Image</td><td>12/05/1997</td></tr>
+            <tr><td><span class="file-icon">&#128196;</span>notes.txt</td><td>1 KB</td><td>Text Document</td><td>03/15/1998</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="status-bar">
+      <span class="status-bar-field">7 object(s)</span>
+      <span class="status-bar-field">1.49 MB</span>
+    </div>
+  </div>
+
+  <!-- ====== WINDOW 2: NOTEPAD ====== -->
+  <div class="window">
+    <div class="title-bar">
+      <span class="title-bar-icon">&#128196;</span>
+      <span class="title-bar-text">readme.txt - Notepad</span>
+      <div class="title-bar-controls">
+        <button class="title-btn">&#8211;</button>
+        <button class="title-btn">&#9633;</button>
+        <button class="title-btn">&#10005;</button>
+      </div>
+    </div>
+    <div class="menu-bar">
+      <span class="menu-item"><u>F</u>ile</span>
+      <span class="menu-item"><u>E</u>dit</span>
+      <span class="menu-item">F<u>o</u>rmat</span>
+      <span class="menu-item"><u>H</u>elp</span>
+    </div>
+    <div class="window-body">
+      <div class="notepad-content">Welcome to Windows 95!
+======================
+
+Thank you for choosing Microsoft Windows 95,
+the world's most popular operating system.
+
+Getting Started:
+- Double-click "My Computer" to browse files
+- Click "Start" to launch programs
+- Right-click the desktop for options
+
+Tips:
+- Press Ctrl+Alt+Del to open Task Manager
+- Use Alt+Tab to switch between windows
+- Drag windows by their title bars
+
+Where do you want to go today?</div>
+    </div>
+  </div>
+
+  <!-- ====== WINDOW 3: PROPERTIES DIALOG ====== -->
+  <div class="window" style="max-width:380px;">
+    <div class="title-bar">
+      <span class="title-bar-icon">&#9881;</span>
+      <span class="title-bar-text">Display Properties</span>
+      <div class="title-bar-controls">
+        <button class="title-btn">&#10005;</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <div class="tab-row">
+        <div class="tab">Background</div>
+        <div class="tab active">Appearance</div>
+        <div class="tab">Settings</div>
+      </div>
+      <div class="tab-body">
+        <div class="form-row">
+          <span class="form-label">Scheme:</span>
+          <select class="win-select" style="flex:1;max-width:200px;">
+            <option>Windows Standard</option>
+            <option>High Contrast</option>
+            <option>Rainy Day</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <span class="form-label">Font Size:</span>
+          <input class="form-input" type="text" value="Normal">
+        </div>
+        <div class="form-row">
+          <span class="form-label">Resolution:</span>
+          <input class="form-input" type="text" value="800 x 600 pixels">
+        </div>
+      </div>
+      <div class="dialog-buttons">
+        <button class="win-btn win-btn-default">OK</button>
+        <button class="win-btn">Cancel</button>
+        <button class="win-btn">Apply</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== TASKBAR ====== -->
+<div class="taskbar">
+  <button class="start-btn">
+    <span class="win-logo">&#127987;</span> Start
+  </button>
+  <div class="task-tray">
+    <div class="task-item active">&#128193; C:\My Documents</div>
+    <div class="task-item">&#128196; readme.txt - Notepad</div>
+    <div class="task-item">&#9881; Display Properties</div>
+  </div>
+  <div class="clock" id="clock">3:14 PM</div>
+</div>
+
+<!-- ====== COMPONENT SHOWCASE ====== -->
+<div style="max-width:960px;margin:1rem auto;padding:0 1rem;">
+  <div class="showcase">
+    <div class="showcase-title" id="components">COMPONENTS</div>
+
+    <!-- Typography -->
+    <div class="comp-section">
+      <div class="comp-label">Typography</div>
+      <div style="font-family:var(--font-display);font-size:18px;font-weight:700;margin-bottom:4px;">Window Title Text</div>
+      <div style="font-size:12px;margin-bottom:4px;">Menu &amp; toolbar text at 12px</div>
+      <div style="font-size:14px;margin-bottom:4px;">Body text for content areas. The quick brown fox jumps over the lazy dog. 0123456789</div>
+      <div style="font-size:11px;color:var(--border-mid);">Status bar text at 11px</div>
+    </div>
+
+    <!-- Color Swatches -->
+    <div class="comp-section">
+      <div class="comp-label">Color Palette</div>
+      <div class="swatches">
+        <div class="swatch on-dark" style="background:var(--bg)"><span>Desktop</span></div>
+        <div class="swatch" style="background:var(--surface)"><span>Surface</span></div>
+        <div class="swatch on-dark" style="background:var(--primary)"><span>Title Bar</span></div>
+        <div class="swatch" style="background:var(--white)"><span>White</span></div>
+        <div class="swatch" style="background:var(--border-light)"><span>Light</span></div>
+        <div class="swatch on-dark" style="background:var(--border-dark)"><span>Dark</span></div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="comp-section">
+      <div class="comp-label">Buttons</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+        <button class="win-btn win-btn-default">Default</button>
+        <button class="win-btn">Normal</button>
+        <button class="win-btn" style="border-color:var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);">Pressed</button>
+        <button class="win-btn" style="color:var(--border-mid);border-color:var(--border-light) var(--border-dark) var(--border-dark) var(--border-light);" disabled>Disabled</button>
+      </div>
+    </div>
+
+    <!-- Checkbox + Radio -->
+    <div class="comp-section">
+      <div class="comp-label">Checkbox &amp; Radio</div>
+      <div class="check-row">
+        <label class="check-label"><span class="check-box">&#10003;</span> Checked option</label>
+        <label class="check-label"><span class="check-box"></span> Unchecked option</label>
+      </div>
+      <div class="check-row">
+        <label class="check-label"><span class="radio-circle"><span class="radio-dot"></span></span> Selected</label>
+        <label class="check-label"><span class="radio-circle"></span> Unselected</label>
+      </div>
+    </div>
+
+    <!-- Window Component -->
+    <div class="comp-section">
+      <div class="comp-label">Window</div>
+      <div class="window mini-window" style="margin:0;box-shadow:2px 2px 0 oklch(15% 0 0);">
+        <div class="title-bar">
+          <span class="title-bar-text">Sample Window</span>
+          <div class="title-bar-controls">
+            <button class="title-btn">&#8211;</button>
+            <button class="title-btn">&#9633;</button>
+            <button class="title-btn">&#10005;</button>
+          </div>
+        </div>
+        <div style="padding:12px;font-size:12px;">Window content area with a message.</div>
+        <div class="status-bar">
+          <span class="status-bar-field">Ready</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Text Input -->
+    <div class="comp-section">
+      <div class="comp-label">Text Input</div>
+      <input class="form-input" type="text" placeholder="Type here..." style="max-width:280px;width:100%;">
+    </div>
+
+    <!-- Tab Control -->
+    <div class="comp-section">
+      <div class="comp-label">Tab Control</div>
+      <div style="max-width:320px;">
+        <div class="tab-row" style="padding-left:0;">
+          <div class="tab active">General</div>
+          <div class="tab">Details</div>
+          <div class="tab">Advanced</div>
+        </div>
+        <div class="tab-body" style="margin:0;">
+          <div style="font-size:12px;">Tab panel content goes here.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="comp-section">
+      <div class="comp-label">Progress Bar</div>
+      <div class="progress-track">
+        <div class="progress-block"></div>
+        <div class="progress-block"></div>
+        <div class="progress-block"></div>
+        <div class="progress-block"></div>
+        <div class="progress-block"></div>
+        <div class="progress-block"></div>
+        <div class="progress-block"></div>
+        <div class="progress-block"></div>
+        <div class="progress-block"></div>
+        <div class="progress-block"></div>
+        <div class="progress-block"></div>
+        <div class="progress-block"></div>
+      </div>
+      <div style="font-size:11px;margin-top:4px;">Copying files... 60% complete</div>
+    </div>
+
+    <!-- Dropdown -->
+    <div class="comp-section">
+      <div class="comp-label">Dropdown Select</div>
+      <select class="win-select" style="min-width:180px;">
+        <option>Windows Standard</option>
+        <option>Desert</option>
+        <option>High Contrast Black</option>
+        <option>Rainy Day</option>
+        <option>Teal (Default)</option>
+      </select>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:1rem 0;font-size:11px;color:oklch(60% 0.01 80);">
+    WINDOWS 95 THEME &mdash; VISUAL THEME SYSTEM
+  </div>
+</div>
+
+<script>
+  // Live clock in taskbar
+  function updateClock() {
+    var now = new Date();
+    var h = now.getHours();
+    var m = now.getMinutes();
+    var ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    m = m < 10 ? '0' + m : m;
+    document.getElementById('clock').textContent = h + ':' + m + ' ' + ampm;
+  }
+  updateClock();
+  setInterval(updateClock, 30000);
+</script>
+</body>
+</html>

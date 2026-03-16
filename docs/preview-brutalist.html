@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRUTALIST</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: oklch(100% 0 0);
+    --surface: oklch(96% 0 0);
+    --text: oklch(0% 0 0);
+    --primary: oklch(0% 0 0);
+    --accent: oklch(60% 0.28 30);
+    --border: 2px solid var(--primary);
+    --border-thick: 4px solid var(--primary);
+    --font: 'Space Mono', monospace;
+  }
+
+  body {
+    font-family: var(--font);
+    font-weight: 400;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 1rem; }
+
+  /* === HEADER === */
+  .header {
+    padding: 1rem 0 0.5rem;
+  }
+  .header h1 {
+    font-size: clamp(3.5rem, 14vw, 7rem);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+  .header-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    font-size: 0.8rem;
+  }
+  .header-nav a {
+    color: var(--text);
+    text-decoration: none;
+    margin-right: 1.5rem;
+    font-size: 0.8rem;
+  }
+  .header-nav a:hover { text-decoration: underline; }
+
+  /* === HERO === */
+  .divider { border-top: var(--border-thick); }
+  .hero {
+    padding: 2.5rem 0 2rem;
+  }
+  .hero p {
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    text-transform: uppercase;
+    max-width: 70ch;
+  }
+
+  /* === CONTENT GRID === */
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-top: var(--border-thick);
+  }
+  .content-block {
+    border-right: var(--border);
+    border-bottom: var(--border);
+    padding: 1.25rem;
+  }
+  .content-block:last-child { border-right: none; }
+  .content-block h3 {
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+    color: oklch(40% 0 0);
+  }
+  .content-block p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  .big-number {
+    font-size: clamp(3rem, 10vw, 5rem);
+    font-weight: 700;
+    line-height: 1;
+  }
+  .raw-list {
+    list-style: none;
+    font-size: 0.85rem;
+  }
+  .raw-list li {
+    padding: 0.3rem 0;
+    border-bottom: 1px solid oklch(80% 0 0);
+  }
+  .raw-list li:last-child { border-bottom: none; }
+
+  /* === ACCENT BAR === */
+  .accent-bar {
+    background: var(--accent);
+    color: var(--bg);
+    padding: 1rem 1.25rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  /* === DATA TABLE === */
+  .data-section {
+    padding: 1.5rem 0;
+  }
+  .data-section h2 {
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: oklch(40% 0 0);
+    margin-bottom: 0.75rem;
+  }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: var(--border);
+    font-size: 0.85rem;
+  }
+  .data-table th, .data-table td {
+    padding: 0.5rem 0.75rem;
+    border: var(--border);
+    text-align: left;
+  }
+  .data-table th {
+    background: var(--primary);
+    color: var(--bg);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* === FOOTER === */
+  .footer {
+    border-top: var(--border-thick);
+    padding: 1.5rem 0;
+    font-size: 0.8rem;
+  }
+
+  /* ============ COMPONENT SHOWCASE ============ */
+  .showcase-sep {
+    margin: 3rem 0 2rem;
+    border: none;
+    border-top: var(--border-thick);
+  }
+  .showcase-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: oklch(40% 0 0);
+    border-bottom: 1px solid oklch(40% 0 0);
+    padding-bottom: 0.25rem;
+    margin-bottom: 1rem;
+  }
+  .comp-section { margin-bottom: 2.5rem; }
+
+  /* Typography specimen */
+  .type-specimen h1 { font-size: 2.5rem; font-weight: 700; text-transform: uppercase; line-height: 0.95; margin-bottom: 0.75rem; letter-spacing: -0.02em; }
+  .type-specimen h2 { font-size: 1.5rem; font-weight: 700; text-transform: uppercase; line-height: 1.0; margin-bottom: 0.5rem; }
+  .type-specimen h3 { font-size: 1rem; font-weight: 700; text-transform: uppercase; line-height: 1.1; margin-bottom: 0.5rem; }
+  .type-specimen p { font-size: 0.85rem; margin-bottom: 0.5rem; max-width: 60ch; }
+
+  /* Color swatches */
+  .swatches { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .swatch {
+    width: 80px;
+    border: var(--border);
+    overflow: hidden;
+  }
+  .swatch-color { height: 56px; }
+  .swatch-label {
+    padding: 0.3rem 0.4rem;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    background: var(--bg);
+    text-align: center;
+    border-top: var(--border);
+  }
+
+  /* Buttons */
+  .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font);
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    padding: 0.6rem 1.25rem;
+    border: var(--border);
+    cursor: pointer;
+    background: var(--bg);
+    color: var(--text);
+  }
+  .btn-fill { background: var(--primary); color: var(--bg); }
+  .btn-text { border: none; text-decoration: underline; padding: 0.6rem 0; }
+  .btn-accent { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+
+  /* Bracket tags */
+  .tag { font-size: 0.8rem; }
+
+  /* Card */
+  .card {
+    border: var(--border);
+    padding: 1.25rem;
+    max-width: 300px;
+  }
+  .card h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .card p { font-size: 0.8rem; color: oklch(30% 0 0); }
+
+  /* Input */
+  .input-demo {
+    display: flex;
+    max-width: 400px;
+  }
+  .input-demo input {
+    flex: 1;
+    font-family: var(--font);
+    font-size: 0.8rem;
+    padding: 0.6rem 0.75rem;
+    border: var(--border);
+    border-right: none;
+    background: var(--bg);
+    outline: none;
+  }
+  .input-demo input:focus { background: var(--surface); }
+  .input-demo .btn { border-left: var(--border); }
+
+  /* Demo table (component) */
+  .demo-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: var(--border);
+    font-size: 0.8rem;
+  }
+  .demo-table th, .demo-table td {
+    padding: 0.5rem 0.75rem;
+    border: var(--border);
+    text-align: left;
+  }
+  .demo-table th {
+    background: var(--primary);
+    color: var(--bg);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 600px) {
+    .content-grid { grid-template-columns: 1fr; }
+    .content-block { border-right: none; }
+    .header-meta { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="header">
+    <h1>BRUTALIST</h1>
+    <div class="header-meta">
+      <span id="datetime"></span>
+      <nav class="header-nav">
+        <a href="#">ABOUT</a>
+        <a href="#">WORK</a>
+        <a href="#">CONTACT</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <div class="divider"></div>
+  <div class="hero">
+    <p>Design is not about making things pretty. It is about making things work. Everything else is decoration.</p>
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="divider"></div>
+
+  <!-- CONTENT GRID -->
+  <div class="content-grid">
+    <div class="content-block">
+      <h3>Manifesto</h3>
+      <p>We reject the tyranny of rounded corners. We refuse the comfort of drop shadows. We deny the smoothness of transitions. What remains is the truth of the medium: text, borders, space.</p>
+    </div>
+    <div class="content-block" style="display:flex;align-items:center;justify-content:center;">
+      <div class="big-number">2026</div>
+    </div>
+    <div class="content-block">
+      <h3>Index</h3>
+      <ul class="raw-list">
+        <li>Bloomberg Redesign</li>
+        <li>Balenciaga.com</li>
+        <li>Craigslist</li>
+        <li>Yale School of Art</li>
+        <li>Hacker News</li>
+        <li>gov.uk</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ACCENT BAR -->
+  <div class="accent-bar">
+    This is not a website. This is a statement. No gradients. No shadows. No radius. No apologies.
+  </div>
+
+  <!-- DATA TABLE -->
+  <div class="data-section">
+    <h2>Raw Data</h2>
+    <table class="data-table">
+      <thead>
+        <tr><th>Property</th><th>Value</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>border-radius</td><td>0px</td><td>ENFORCED</td></tr>
+        <tr><td>box-shadow</td><td>none</td><td>ENFORCED</td></tr>
+        <tr><td>font-family</td><td>monospace</td><td>ENFORCED</td></tr>
+        <tr><td>animation</td><td>0ms</td><td>ENFORCED</td></tr>
+        <tr><td>gradient</td><td>none</td><td>ENFORCED</td></tr>
+        <tr><td>decoration</td><td>rejected</td><td>PERMANENT</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">contact@brutalist.dev</div>
+
+  <!-- ============ COMPONENT SHOWCASE ============ -->
+  <hr class="showcase-sep">
+  <div class="showcase-title" id="components">Components</div>
+
+  <!-- Typography -->
+  <div class="comp-section">
+    <div class="section-label">Typography / Space Mono</div>
+    <div class="type-specimen">
+      <h1>Display Heading</h1>
+      <h2>Section Heading</h2>
+      <h3>Subsection Heading</h3>
+      <p>Body text in Space Mono 400. The quick brown fox jumps over the lazy dog. Monospace everything. No serifs. No sans-serifs. Just fixed-width truth.</p>
+      <p style="font-weight:700">Bold body text (700 weight) for emphasis.</p>
+    </div>
+  </div>
+
+  <!-- Colors -->
+  <div class="comp-section">
+    <div class="section-label">Colors</div>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-color" style="background:var(--bg)"></div><div class="swatch-label">BG</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--surface)"></div><div class="swatch-label">Surface</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--text)"></div><div class="swatch-label">Text</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--accent)"></div><div class="swatch-label">Accent</div></div>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="comp-section">
+    <div class="section-label">Buttons</div>
+    <div class="btn-row">
+      <button class="btn btn-fill">Black Fill</button>
+      <button class="btn">White Fill</button>
+      <button class="btn btn-text">Text Only</button>
+      <button class="btn btn-accent">Accent</button>
+    </div>
+  </div>
+
+  <!-- Tags (brackets, not badges) -->
+  <div class="comp-section">
+    <div class="section-label">Tags</div>
+    <div class="btn-row">
+      <span class="tag">[BRUTALIST]</span>
+      <span class="tag">[RAW]</span>
+      <span class="tag">[NO-RADIUS]</span>
+      <span class="tag">[MONOSPACE]</span>
+      <span class="tag">[2026]</span>
+    </div>
+  </div>
+
+  <!-- Card -->
+  <div class="comp-section">
+    <div class="section-label">Card</div>
+    <div class="card">
+      <h4>Project Title</h4>
+      <p>A black border rectangle. Nothing more. The content speaks for itself.</p>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div class="comp-section">
+    <div class="section-label">Form Input</div>
+    <div class="input-demo">
+      <input type="text" placeholder="TYPE SOMETHING...">
+      <button class="btn btn-fill">SEND</button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="comp-section">
+    <div class="section-label">Data Table</div>
+    <table class="demo-table">
+      <thead>
+        <tr><th>Element</th><th>Radius</th><th>Shadow</th><th>Font</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Button</td><td>0px</td><td>none</td><td>Space Mono</td></tr>
+        <tr><td>Card</td><td>0px</td><td>none</td><td>Space Mono</td></tr>
+        <tr><td>Input</td><td>0px</td><td>none</td><td>Space Mono</td></tr>
+        <tr><td>Table</td><td>0px</td><td>none</td><td>Space Mono</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="height:2rem"></div>
+</div>
+
+<script>
+  const el = document.getElementById('datetime');
+  const now = new Date();
+  el.textContent = now.toISOString().slice(0, 19).replace('T', ' ') + ' UTC';
+</script>
+
+</body>
+</html>

@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOLA POP — LOUD & CLEAR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: oklch(95% 0.02 90); --surface: oklch(100% 0 0); --text: oklch(5% 0 0);
+    --primary: oklch(55% 0.28 30); --accent: oklch(55% 0.22 255); --yellow: oklch(88% 0.18 95);
+    --black: oklch(5% 0 0); --white: oklch(100% 0 0);
+    --border: 4px solid var(--black); --border-thick: 5px solid var(--black);
+    --font-display: 'Bangers', 'Impact', cursive; --font-body: 'Inter', system-ui, sans-serif;
+  }
+  body { font-family: var(--font-body); font-weight: 400; color: var(--text); background: var(--bg); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 1rem; }
+
+  /* BEN-DAY DOT PATTERNS */
+  .dots-red { background: var(--white); background-image: radial-gradient(circle, oklch(55% 0.28 30) 3.5px, transparent 3.5px); background-size: 10px 10px; }
+  .dots-blue { background: var(--white); background-image: radial-gradient(circle, oklch(55% 0.22 255) 3.5px, transparent 3.5px); background-size: 10px 10px; }
+  .dots-yellow { background: var(--white); background-image: radial-gradient(circle, oklch(75% 0.22 95) 3.5px, transparent 3.5px); background-size: 10px 10px; }
+  .dots-blue-on-yellow { background: var(--yellow); background-image: radial-gradient(circle, var(--accent) 3.5px, transparent 3.5px); background-size: 10px 10px; }
+  .dots-red-on-yellow { background: var(--yellow); background-image: radial-gradient(circle, var(--primary) 3.5px, transparent 3.5px); background-size: 10px 10px; }
+
+  /* HEADER */
+  .gallery-header { text-align: center; padding: 2.5rem 1rem 2rem; background: var(--white); border: var(--border-thick); position: relative; overflow: hidden; }
+  .gallery-header::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle, var(--yellow) 3.5px, transparent 3.5px); background-size: 10px 10px; opacity: 0.5; pointer-events: none; }
+  .gallery-header h1 { position: relative; font-family: var(--font-display); font-size: clamp(4rem, 14vw, 7rem); line-height: 1; letter-spacing: 0.06em; text-transform: uppercase; }
+  .gallery-header .subtitle { position: relative; font-family: var(--font-body); font-weight: 500; font-size: clamp(0.9rem, 2.5vw, 1.2rem); letter-spacing: 0.15em; text-transform: uppercase; margin-top: 0.5rem; }
+
+  /* SPEECH BUBBLE HERO */
+  .hero-dots { padding: 3rem 1.5rem; border: var(--border-thick); border-top: none; display: flex; align-items: center; justify-content: center; }
+  .speech { background: var(--white); background-image: radial-gradient(circle, var(--yellow) 1.5px, transparent 1.5px); background-size: 6px 6px; border: var(--border); border-radius: 24px; padding: 1.5rem 2rem; position: relative; max-width: 600px; text-align: center; box-shadow: 6px 6px 0 var(--black); }
+  .speech-text { font-family: var(--font-display); font-size: clamp(1.4rem, 4vw, 2rem); letter-spacing: 0.04em; text-transform: uppercase; }
+  .speech::after { content: ''; position: absolute; bottom: -22px; left: 60px; border: 14px solid transparent; border-top: 20px solid var(--black); }
+  .speech .tail-inner { position: absolute; bottom: -15px; left: 64px; border: 10px solid transparent; border-top: 16px solid var(--white); }
+
+  /* BLACK STRIPE */
+  .stripe { height: 5px; background: var(--black); }
+
+  /* 3 ART PANELS */
+  .panels { display: grid; grid-template-columns: repeat(3, 1fr); border-left: var(--border-thick); border-right: var(--border-thick); border-bottom: var(--border-thick); }
+  .panel { border: 4px solid var(--black); padding: 2.5rem 1rem; text-align: center; min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; box-shadow: 6px 6px 0 var(--black); }
+  .panel-word { font-family: var(--font-display); font-size: clamp(2rem, 6vw, 3rem); letter-spacing: 0.06em; -webkit-text-stroke: 3px var(--black); paint-order: stroke fill; color: var(--white); }
+  .panel-label { font-family: var(--font-display); font-size: 1.1rem; letter-spacing: 0.1em; text-transform: uppercase; background: var(--white); border: 3px solid var(--black); padding: 0.25rem 0.75rem; }
+  .panel-blue { background: var(--accent); background-image: radial-gradient(circle, oklch(100% 0 0) 3.5px, transparent 3.5px); background-size: 10px 10px; }
+  .panel-red { background: var(--primary); background-image: radial-gradient(circle, oklch(88% 0.18 95) 3.5px, transparent 3.5px); background-size: 10px 10px; }
+  .panel-yellow { background: var(--yellow); background-image: radial-gradient(circle, oklch(55% 0.22 255) 3.5px, transparent 3.5px); background-size: 10px 10px; }
+
+  /* THOUGHT BUBBLE */
+  .thought-section { padding: 3rem 1.5rem; border: var(--border-thick); border-top: none; background: var(--white); display: flex; justify-content: center; }
+  .thought-wrap { position: relative; display: inline-block; }
+  .thought { background: var(--white); background-image: radial-gradient(circle, var(--yellow) 1.5px, transparent 1.5px); background-size: 6px 6px; border: var(--border); border-radius: 50%; padding: 2rem 2.5rem; max-width: 500px; text-align: center; box-shadow: 6px 6px 0 var(--black); }
+  .thought-text { font-family: var(--font-display); font-size: clamp(1.1rem, 3vw, 1.5rem); letter-spacing: 0.03em; text-transform: uppercase; }
+  .thought-trail { position: absolute; bottom: -18px; left: 50px; width: 18px; height: 18px; background: var(--white); border: 3px solid var(--black); border-radius: 50%; }
+  .thought-trail-sm { position: absolute; bottom: -32px; left: 40px; width: 10px; height: 10px; background: var(--white); border: 3px solid var(--black); border-radius: 50%; }
+
+  /* EXHIBITION INFO */
+  .exhibition { border: var(--border-thick); border-top: none; padding: 2rem 1.5rem; text-align: center; position: relative; overflow: hidden; }
+  .exhibition::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle, var(--accent) 1px, transparent 1px); background-size: 6px 6px; opacity: 0.08; pointer-events: none; }
+  .exhibition h3 { position: relative; font-family: var(--font-display); font-size: 1.8rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1rem; }
+  .exhibition p { position: relative; font-size: 1rem; font-weight: 500; margin-bottom: 0.25rem; }
+
+  /* FOOTER */
+  .footer { text-align: center; padding: 1.25rem 1rem; font-family: var(--font-display); font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.08em; border: var(--border-thick); border-top: none; background: var(--white); }
+
+  /* === COMPONENT SHOWCASE === */
+  .showcase-sep { margin: 3rem 0 2rem; border: none; border-top: 5px solid var(--black); }
+  .showcase-title { font-family: var(--font-display); font-size: 2.5rem; text-transform: uppercase; letter-spacing: 0.05em; text-align: center; margin-bottom: 2rem; }
+  .section-label { font-family: var(--font-display); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 4px solid var(--black); padding-bottom: 0.25rem; margin-bottom: 1rem; }
+  .comp-section { margin-bottom: 2.5rem; }
+
+  /* Typography specimen */
+  .type-specimen h1 { font-family: var(--font-display); font-size: 2.8rem; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1.1; margin-bottom: 0.5rem; }
+  .type-specimen h2 { font-family: var(--font-display); font-size: 1.8rem; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1.1; margin-bottom: 0.5rem; }
+  .type-specimen h3 { font-family: var(--font-display); font-size: 1.3rem; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1.1; margin-bottom: 0.5rem; }
+  .type-specimen p { font-size: 1rem; margin-bottom: 0.5rem; max-width: 60ch; }
+
+  /* Color swatches */
+  .swatches { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .swatch { width: 80px; border: var(--border); overflow: hidden; }
+  .swatch-color { height: 56px; }
+  .swatch-label { padding: 0.3rem 0.4rem; font-family: var(--font-display); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; background: var(--surface); text-align: center; border-top: 3px solid var(--black); }
+
+  /* Dot samples */
+  .dot-samples { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .dot-sample { width: 120px; height: 80px; border: var(--border); }
+
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.55rem 1.25rem; border: var(--border); cursor: pointer; background: var(--yellow); color: var(--text); transition: transform 80ms; min-height: 44px; }
+  .btn:active { transform: translate(1px, 1px); }
+  .btn-black { background: var(--black); color: var(--white); }
+  .btn-primary { background: var(--primary); color: var(--white); }
+  .btn-accent { background: var(--accent); color: var(--white); }
+  .btn-outline { background: var(--white); color: var(--text); }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+
+  /* Speech bubble small */
+  .speech-sm { background: var(--white); background-image: radial-gradient(circle, var(--yellow) 1px, transparent 1px); background-size: 4px 4px; border: 4px solid var(--black); border-radius: 20px; padding: 0.6rem 1rem; position: relative; display: inline-block; font-family: var(--font-display); font-size: 1rem; letter-spacing: 0.03em; }
+  .speech-sm::after { content: ''; position: absolute; bottom: -16px; left: 25px; border: 10px solid transparent; border-top: 14px solid var(--black); }
+
+  /* Thought bubble small */
+  .thought-sm { background: var(--white); background-image: radial-gradient(circle, var(--yellow) 1px, transparent 1px); background-size: 4px 4px; border: 4px solid var(--black); border-radius: 50%; padding: 1rem 1.5rem; display: inline-block; font-family: var(--font-display); font-size: 1rem; letter-spacing: 0.03em; position: relative; }
+  .thought-sm::before { content: ''; position: absolute; bottom: -14px; left: 20px; width: 12px; height: 12px; background: var(--white); border: 3px solid var(--black); border-radius: 50%; }
+  .thought-sm::after { content: ''; position: absolute; bottom: -24px; left: 14px; width: 8px; height: 8px; background: var(--white); border: 3px solid var(--black); border-radius: 50%; }
+
+  /* Panel card */
+  .panel-card { border: var(--border); max-width: 280px; overflow: hidden; box-shadow: 6px 6px 0 var(--black); }
+  .panel-card-cover { height: 120px; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 2rem; color: var(--black); letter-spacing: 0.06em; }
+  .panel-card-body { padding: 0.75rem; border-top: 4px solid var(--black); background: var(--white); }
+  .panel-card-title { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: 0.04em; text-transform: uppercase; }
+
+  /* Form input */
+  .input { font-family: var(--font-body); font-weight: 500; font-size: 1rem; padding: 0.6rem 0.75rem; border: var(--border); background: var(--white); outline: none; min-height: 44px; }
+  .input:focus { box-shadow: inset 0 0 0 2px var(--accent); }
+
+  /* Demo table */
+  .demo-table { width: 100%; border-collapse: collapse; border: var(--border); font-size: 0.9rem; }
+  .demo-table th, .demo-table td { padding: 0.5rem 0.75rem; border: 3px solid var(--black); text-align: left; }
+  .demo-table th { background: var(--black); color: var(--white); font-family: var(--font-display); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  .demo-table tr:nth-child(even) td { position: relative; }
+  .demo-table tr:nth-child(even) td::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle, var(--primary) 0.8px, transparent 0.8px); background-size: 6px 6px; opacity: 0.1; pointer-events: none; }
+
+  /* RECORD GRID */
+  .record-grid { display: grid; grid-template-columns: repeat(2, 1fr); border-left: var(--border-thick); border-right: var(--border-thick); border-bottom: var(--border-thick); }
+  .record-card { border: 4px solid var(--black); display: flex; flex-direction: column; box-shadow: 6px 6px 0 var(--black); }
+  .record-card-art { position: relative; height: 200px; display: flex; align-items: center; justify-content: center; }
+  .record-card-info { padding: 1rem; border-top: 4px solid var(--black); background: var(--white); }
+  .record-card-artist { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 0.06em; text-transform: uppercase; }
+  .record-card-album { font-family: var(--font-body); font-size: 0.9rem; font-weight: 500; margin-top: 0.1rem; }
+  .record-card-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: 0.75rem; }
+  .record-card-price { font-family: var(--font-display); font-size: 1.3rem; letter-spacing: 0.02em; }
+
+  /* VINYL RECORD */
+  .vinyl { width: 70px; height: 70px; border-radius: 50%; background: oklch(10% 0 0); box-shadow: inset 0 0 0 4px oklch(20% 0 0), inset 0 0 0 8px oklch(12% 0 0), inset 0 0 0 12px oklch(20% 0 0), inset 0 0 0 16px oklch(12% 0 0), inset 0 0 0 20px oklch(20% 0 0); position: relative; flex-shrink: 0; }
+  .vinyl::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 22px; height: 22px; border-radius: 50%; background: var(--primary); }
+  .vinyl-blue::after { background: var(--accent); }
+  .vinyl-yellow::after { background: var(--yellow); }
+  .vinyl-white::after { background: var(--white); border: 2px solid oklch(20% 0 0); }
+
+  /* DEAL BANNER */
+  .deal-section { padding: 2.5rem 1.5rem; border: var(--border-thick); border-top: none; display: flex; align-items: center; justify-content: center; background: var(--yellow); background-image: radial-gradient(circle, var(--primary) 3.5px, transparent 3.5px); background-size: 10px 10px; }
+
+  /* ALBUM COVER */
+  .album-cover {
+    width: 200px; height: 200px;
+    background-color: white;
+    background-image: radial-gradient(circle, oklch(55% 0.28 30) 3.5px, transparent 3.5px);
+    background-size: 10px 10px;
+    border: 5px solid oklch(5% 0 0);
+    box-shadow: 8px 8px 0 oklch(5% 0 0);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .album-cover .monogram {
+    font-family: 'Bangers', cursive;
+    font-size: 5rem;
+    color: white;
+    -webkit-text-stroke: 4px oklch(5% 0 0);
+    paint-order: stroke fill;
+    line-height: 1;
+  }
+
+  /* ALBUM HERO */
+  .album-hero {
+    border: var(--border-thick); border-top: none;
+    padding: 2.5rem 2rem;
+    background: var(--white);
+    display: flex; align-items: center; gap: 2.5rem;
+  }
+  .album-meta { flex: 1; }
+  .album-artist {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 10vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .album-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 5vw, 2.2rem);
+    line-height: 1;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-top: 0.35rem;
+  }
+  .album-details {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 0.75rem;
+    color: oklch(40% 0 0);
+  }
+  .album-buttons { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.25rem; }
+
+  /* TRACK LIST */
+  .tracklist-section {
+    border: var(--border-thick); border-top: none;
+    padding: 2rem 1.5rem;
+    background: var(--white);
+  }
+  .tracklist-heading {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 1.25rem;
+    text-align: center;
+  }
+  .tracklist {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+  .track {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 3px solid var(--black);
+    border-right: 3px solid var(--black);
+  }
+  .track:nth-child(odd) { border-left: 3px solid var(--black); }
+  .track:nth-child(-n+2) { border-top: 3px solid var(--black); }
+  .track-num {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    -webkit-text-stroke: 2px var(--black);
+    paint-order: stroke fill;
+    min-width: 2.5rem;
+    text-align: center;
+    line-height: 1;
+  }
+  .track-num-red { color: var(--primary); }
+  .track-num-blue { color: var(--accent); }
+  .track-name {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    flex: 1;
+  }
+  .track-dur {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.8rem;
+    color: oklch(40% 0 0);
+  }
+  .track-featured {
+    background: var(--primary);
+    color: var(--white);
+  }
+  .track-featured .track-num { color: var(--white); -webkit-text-stroke: 2px var(--white); }
+  .track-featured .track-dur { color: oklch(90% 0 0); }
+
+  /* SINGLES */
+  .singles-section {
+    border: var(--border-thick); border-top: none;
+    padding: 2rem 1.5rem;
+    background: var(--white);
+  }
+  .singles-heading {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 1.25rem;
+    text-align: center;
+  }
+  .singles-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  .single-card {
+    border: var(--border);
+    box-shadow: 5px 5px 0 var(--black);
+    overflow: hidden;
+  }
+  .single-art {
+    height: 100px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+  }
+  .single-info {
+    padding: 0.6rem 0.75rem;
+    border-top: 4px solid var(--black);
+    background: var(--white);
+  }
+  .single-name {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .single-date {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.75rem;
+    color: oklch(40% 0 0);
+    margin-top: 0.15rem;
+  }
+
+  /* TOUR DATES */
+  .tour-section {
+    border: var(--border-thick); border-top: none;
+    padding: 2rem 1.5rem;
+    background: var(--white);
+  }
+  .tour-heading {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 1.25rem;
+    text-align: center;
+  }
+  .tour-list { display: flex; flex-direction: column; gap: 0; }
+  .tour-date {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border: 3px solid var(--black);
+    border-bottom: none;
+  }
+  .tour-date:last-child { border-bottom: 3px solid var(--black); }
+  .tour-day {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+    min-width: 5rem;
+  }
+  .tour-venue {
+    flex: 1;
+  }
+  .tour-city {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .tour-place {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: oklch(40% 0 0);
+  }
+
+  /* NEWSLETTER */
+  .newsletter-section {
+    border: var(--border-thick); border-top: none;
+    padding: 2.5rem 1.5rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .newsletter-inner {
+    text-align: center;
+    max-width: 450px;
+    width: 100%;
+  }
+  .newsletter-inner .speech-text { margin-bottom: 1rem; }
+  .newsletter-form {
+    display: flex;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 560px) {
+    .panels { grid-template-columns: 1fr; }
+    .record-grid { grid-template-columns: 1fr; }
+    .hero-dots { padding: 2rem 1rem; }
+    .thought { padding: 1.5rem; }
+    .album-hero { flex-direction: column; text-align: center; padding: 2rem 1.25rem; gap: 1.5rem; }
+    .album-buttons { justify-content: center; }
+    .tracklist { grid-template-columns: 1fr; }
+    .track { border-left: 3px solid var(--black) !important; }
+    .track:nth-child(2) { border-top: none; }
+    .singles-row { grid-template-columns: 1fr; }
+    .tour-date { flex-wrap: wrap; gap: 0.5rem; }
+    .newsletter-form { flex-direction: column; }
+    .newsletter-form .input { border-right: var(--border) !important; border-bottom: none !important; }
+    .newsletter-form .btn { border-top: var(--border) !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HERO — LOUD & Clear full-bleed -->
+  <section style="border:var(--border-thick);padding:4rem 2rem;text-align:center;background:var(--yellow);background-image:radial-gradient(circle,oklch(55% 0.28 30 / 0.15) 3px,transparent 3px);background-size:12px 12px;">
+    <div style="max-width:600px;margin:0 auto;">
+      <div style="font-family:var(--font-display);font-size:clamp(4rem,14vw,7rem);line-height:0.9;letter-spacing:0.04em;text-transform:uppercase;color:var(--black);-webkit-text-stroke:3px var(--black);paint-order:stroke fill;margin-bottom:0.5rem;">LOUD &amp;<br>CLEAR</div>
+      <div style="font-family:var(--font-display);font-size:clamp(1.5rem,5vw,2.5rem);letter-spacing:0.1em;text-transform:uppercase;color:var(--primary);-webkit-text-stroke:2px var(--primary);paint-order:stroke fill;margin-bottom:0.5rem;">LOLA POP</div>
+      <div style="font-family:var(--font-body);font-weight:700;font-size:0.9rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--black);margin-bottom:2rem;">THE NEW ALBUM &middot; OUT NOW</div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.75rem;justify-content:center;">
+        <button class="btn btn-primary" style="font-size:1.1rem;padding:0.75rem 2rem;box-shadow:6px 6px 0 var(--black);">LISTEN NOW</button>
+        <button class="btn btn-accent" style="font-size:1.1rem;padding:0.75rem 2rem;box-shadow:6px 6px 0 var(--black);">GET VINYL</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLACK STRIPE -->
+  <div class="stripe"></div>
+
+  <!-- TRACK LIST -->
+  <section class="tracklist-section">
+    <div class="tracklist-heading">TRACKLIST</div>
+    <div class="tracklist">
+      <div class="track track-featured">
+        <span class="track-num track-num-red">01</span>
+        <span class="track-name">WAKE UP CALL</span>
+        <span class="track-dur">3:24</span>
+      </div>
+      <div class="track">
+        <span class="track-num track-num-blue">02</span>
+        <span class="track-name">PRIMARY COLORS</span>
+        <span class="track-dur">4:11</span>
+      </div>
+      <div class="track">
+        <span class="track-num track-num-red">03</span>
+        <span class="track-name">DOT DOT DOT</span>
+        <span class="track-dur">3:45</span>
+      </div>
+      <div class="track">
+        <span class="track-num track-num-blue">04</span>
+        <span class="track-name">BOLD TYPE</span>
+        <span class="track-dur">2:58</span>
+      </div>
+      <div class="track">
+        <span class="track-num track-num-red">05</span>
+        <span class="track-name">SCREEN PRINT</span>
+        <span class="track-dur">4:33</span>
+      </div>
+      <div class="track">
+        <span class="track-num track-num-blue">06</span>
+        <span class="track-name">HALF TONE</span>
+        <span class="track-dur">3:12</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">&copy; 2026 LOLA POP &middot; LOUD &amp; CLEAR</footer>
+
+  <!-- ============ COMPONENT SHOWCASE ============ -->
+  <hr class="showcase-sep">
+  <div class="showcase-title" id="components">Components</div>
+
+  <!-- Typography -->
+  <div class="comp-section">
+    <div class="section-label">Typography</div>
+    <div class="type-specimen">
+      <h1>Display Heading H1</h1>
+      <h2>Section Heading H2</h2>
+      <h3>Subsection Heading H3</h3>
+      <p>Body text in Inter 400. The quick brown fox jumps over the lazy dog. Clean and readable for gallery descriptions, exhibition notes, and longer content blocks.</p>
+      <p style="font-weight:700">Bold body text (700) for emphasis and key information.</p>
+    </div>
+  </div>
+
+  <!-- Colors -->
+  <div class="comp-section">
+    <div class="section-label">Colors</div>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-color" style="background:var(--white)"></div><div class="swatch-label">White</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--black)"></div><div class="swatch-label">Black</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--primary)"></div><div class="swatch-label">Red</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--accent)"></div><div class="swatch-label">Blue</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--yellow)"></div><div class="swatch-label">Yellow</div></div>
+    </div>
+  </div>
+
+  <!-- Ben-Day Dot Patterns -->
+  <div class="comp-section">
+    <div class="section-label">Ben-Day Dot Patterns</div>
+    <div class="dot-samples">
+      <div class="dot-sample dots-red"></div>
+      <div class="dot-sample dots-blue"></div>
+      <div class="dot-sample dots-yellow"></div>
+      <div class="dot-sample dots-blue-on-yellow"></div>
+      <div class="dot-sample dots-red-on-yellow"></div>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="comp-section">
+    <div class="section-label">Buttons</div>
+    <div class="btn-row">
+      <button class="btn btn-black">Black</button>
+      <button class="btn btn-primary">Red</button>
+      <button class="btn btn-accent">Blue</button>
+      <button class="btn">Yellow</button>
+      <button class="btn btn-outline">Outline</button>
+    </div>
+  </div>
+
+  <!-- Speech Bubble -->
+  <div class="comp-section">
+    <div class="section-label">Speech Bubble</div>
+    <div style="display:flex; flex-wrap:wrap; gap:1.5rem; align-items:flex-start; padding-bottom:1.5rem">
+      <div class="speech-sm">OH, JEFF...</div>
+      <div class="speech-sm">I CAN SEE THE WHOLE ROOM!</div>
+    </div>
+  </div>
+
+  <!-- Thought Bubble -->
+  <div class="comp-section">
+    <div class="section-label">Thought Bubble</div>
+    <div style="display:flex; flex-wrap:wrap; gap:1.5rem; align-items:flex-start; padding-bottom:2rem">
+      <div class="thought-sm">MAYBE...</div>
+      <div class="thought-sm">THAT'S THE WAY</div>
+    </div>
+  </div>
+
+  <!-- Panel Card -->
+  <div class="comp-section">
+    <div class="section-label">Panel Card</div>
+    <div class="panel-card">
+      <div class="panel-card-cover dots-red-on-yellow">POP ART</div>
+      <div class="panel-card-body">
+        <div class="panel-card-title">Artwork No. 1</div>
+        <p style="font-size:0.9rem; margin-top:0.25rem">Mixed media on canvas, 1963</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Input -->
+  <div class="comp-section">
+    <div class="section-label">Form Input</div>
+    <div style="max-width:400px; display:flex">
+      <input type="text" class="input" placeholder="Search the collection..." style="flex:1; border-right:none;">
+      <button class="btn btn-black" style="border-left:var(--border)">Search</button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="comp-section">
+    <div class="section-label">Data Table</div>
+    <table class="demo-table">
+      <thead>
+        <tr><th>Artwork</th><th>Year</th><th>Medium</th><th>Collection</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Drowning Girl</td><td>1963</td><td>Oil and acrylic</td><td>MoMA</td></tr>
+        <tr><td>Whaam!</td><td>1963</td><td>Acrylic on canvas</td><td>Tate Modern</td></tr>
+        <tr><td>Look Mickey</td><td>1961</td><td>Oil on canvas</td><td>NGA</td></tr>
+        <tr><td>In the Car</td><td>1963</td><td>Magna on canvas</td><td>Private</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="height:2rem"></div>
+</div>
+
+</body>
+</html>

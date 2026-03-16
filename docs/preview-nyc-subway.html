@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NYC Subway — MTA New York City Transit Theme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* === Tokens === */
+:root {
+  --bg: oklch(96% 0.005 80);
+  --surface: oklch(100% 0 0);
+  --text: oklch(15% 0 0);
+  --muted: oklch(45% 0.01 0);
+  --border: oklch(88% 0.005 80);
+  --black: oklch(15% 0 0);
+  --mta-green: oklch(45% 0.15 145);
+  --line-blue: oklch(50% 0.2 255);
+  --line-red: oklch(55% 0.22 25);
+  --line-orange: oklch(68% 0.18 60);
+  --line-yellow: oklch(82% 0.15 95);
+  --line-purple: oklch(45% 0.15 300);
+  --line-green: oklch(45% 0.15 145);
+  --line-light-green: oklch(55% 0.15 145);
+  --line-grey: oklch(55% 0.02 0);
+  --line-brown: oklch(50% 0.1 50);
+  --tile-cream: oklch(94% 0.008 80);
+  --tile-grout: oklch(85% 0.01 80);
+  --font-display: 'Archivo', 'Helvetica Neue', 'Inter', sans-serif;
+  --font-body: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+  --radius-sm: 0px; --radius-md: 2px; --radius-lg: 4px; --radius-full: 9999px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 1.25rem; }
+
+/* === Line Circle Indicator === */
+.lc {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; border-radius: 50%; color: oklch(100% 0 0);
+  font-family: var(--font-display); font-size: 0.72rem; font-weight: 700;
+  flex-shrink: 0; line-height: 1;
+}
+.lc-sm { width: 20px; height: 20px; font-size: 0.58rem; }
+.lc-lg { width: 34px; height: 34px; font-size: 0.95rem; }
+
+/* === Header === */
+header { background: var(--black); color: oklch(100% 0 0); padding: 0.85rem 0; }
+.header-inner { display: flex; align-items: center; gap: 1rem; }
+.mta-logo {
+  font-family: var(--font-display); font-size: 1.6rem; font-weight: 700;
+  letter-spacing: -0.02em; background: var(--line-blue); color: oklch(100% 0 0);
+  width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; flex-shrink: 0;
+}
+.header-text h1 { font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.header-text p { font-size: 0.78rem; opacity: 0.6; }
+.header-lines { display: flex; flex-wrap: wrap; gap: 4px; padding: 0.5rem 0 0; }
+.header-lines .lc { width: 22px; height: 22px; font-size: 0.6rem; }
+
+/* === Subway Map === */
+.map-section { padding: 2rem 0 1.5rem; }
+.map-section h2 { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; text-transform: uppercase; margin-bottom: 1rem; letter-spacing: 0.04em; }
+.map-container {
+  position: relative; width: 100%; height: 560px;
+  background: var(--tile-cream); border: 2px solid var(--tile-grout);
+  overflow-x: auto; overflow-y: hidden;
+}
+.map-inner { position: relative; width: 100%; min-width: 700px; height: 100%; }
+
+/* Line tracks */
+.track { position: absolute; }
+.track-v { width: 6px; }
+.track-h { height: 6px; }
+.track-diag { height: 6px; transform-origin: left center; }
+
+/* Station dot */
+.station {
+  position: absolute; width: 14px; height: 14px; border-radius: 50%;
+  background: oklch(100% 0 0); border: 3px solid var(--line-grey);
+  transform: translate(-50%, -50%); z-index: 5;
+}
+.station-transfer {
+  width: 20px; height: 20px; border-width: 4px;
+  background: oklch(100% 0 0); z-index: 6;
+  box-shadow: 0 0 0 2px oklch(100% 0 0);
+}
+.station-label {
+  position: absolute; font-family: var(--font-display); font-size: 0.62rem;
+  font-weight: 700; color: var(--text); white-space: nowrap; z-index: 7;
+  letter-spacing: 0.02em;
+}
+.station-label-right { transform: translate(14px, -50%); }
+.station-label-left { transform: translate(-100%, -50%); margin-left: -14px; }
+.station-label-top { transform: translate(-50%, -100%); margin-top: -10px; }
+.station-label-bottom { transform: translate(-50%, 0); margin-top: 10px; }
+
+/* === Line Legend === */
+.legend { padding: 1rem 0 1.5rem; }
+.legend-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+.legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; font-weight: 600; }
+.legend-line { width: 24px; height: 6px; border-radius: 1px; }
+
+/* === Station Info Panel === */
+.info-panel { background: var(--surface); border: 2px solid var(--border); padding: 1.25rem; margin-bottom: 1.5rem; }
+.info-panel h3 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem; }
+.info-panel-lines { display: flex; gap: 0.35rem; margin-bottom: 0.75rem; }
+.info-panel-details { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; font-size: 0.85rem; }
+.info-panel-details dt { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.info-panel-details dd { margin: 0; font-weight: 600; }
+
+/* === Service Alerts === */
+.alerts { padding: 1rem 0 1.5rem; }
+.alerts h2 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.75rem; }
+.alert-row { display: flex; align-items: center; gap: 0.65rem; padding: 0.6rem 0.85rem; background: var(--surface); border: 1px solid var(--border); margin-bottom: 0.35rem; }
+.alert-text { flex: 1; font-size: 0.85rem; }
+.status-badge { font-size: 0.68rem; font-weight: 600; padding: 0.2rem 0.6rem; text-transform: uppercase; letter-spacing: 0.03em; }
+.badge-good { background: oklch(45% 0.15 145 / 0.12); color: oklch(38% 0.12 145); }
+.badge-delay { background: oklch(55% 0.22 25 / 0.12); color: oklch(48% 0.2 25); }
+.badge-planned { background: oklch(68% 0.18 60 / 0.15); color: oklch(45% 0.12 60); }
+
+/* === MetroCard === */
+.metrocard-section { padding: 1.5rem 0; }
+.metrocard-section h2 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.75rem; }
+.metrocard { width: 340px; max-width: 100%; aspect-ratio: 1.6; position: relative; background: oklch(85% 0.14 95); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; padding: 1.25rem; }
+.metrocard-stripe { position: absolute; bottom: 0; left: 0; right: 0; height: 35%; background: oklch(50% 0.18 255); }
+.metrocard-label { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; color: oklch(20% 0 0); letter-spacing: 0.02em; position: relative; z-index: 1; }
+.metrocard-sub { font-size: 0.65rem; color: oklch(35% 0 0); text-transform: uppercase; letter-spacing: 0.08em; position: relative; z-index: 1; }
+.metrocard-bottom { position: relative; z-index: 1; }
+.metrocard-balance { font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; color: oklch(100% 0 0); }
+.metrocard-fare { font-size: 0.72rem; color: oklch(90% 0 0); }
+.metrocard-info { margin-top: 0.75rem; padding: 0.75rem; background: var(--surface); border: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.85rem; max-width: 340px; }
+.metrocard-info dt { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.metrocard-info dd { font-weight: 600; margin: 0; }
+
+/* === Girder / Strip === */
+.girder { height: 8px; background: oklch(25% 0.005 0); margin: 1.5rem 0; position: relative; }
+.girder::before, .girder::after { content: ''; position: absolute; top: 0; width: 8px; height: 8px; background: oklch(25% 0.005 0); border-radius: 50%; }
+.girder::before { left: -4px; } .girder::after { right: -4px; }
+.line-strip { display: flex; height: 6px; margin: 1.5rem 0; gap: 2px; }
+.line-strip div { flex: 1; }
+
+/* === Footer === */
+footer { background: var(--black); color: oklch(100% 0 0); padding: 1.5rem 0; margin-top: 2rem; text-align: center; font-size: 0.82rem; line-height: 1.8; }
+footer .sub { font-size: 0.68rem; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.25rem; }
+
+/* === Component Showcase === */
+.showcase { padding: 2.5rem 0 3rem; }
+.showcase > h2 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; text-align: center; margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.section-label { font-weight: 700; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.75rem; }
+.showcase-block { margin-bottom: 2.25rem; }
+.type-h1 { font-family: var(--font-display); font-size: 2rem; font-weight: 700; text-transform: uppercase; letter-spacing: -0.01em; }
+.type-h2 { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; text-transform: uppercase; }
+.type-h3 { font-family: var(--font-body); font-weight: 600; font-size: 1.05rem; }
+.type-p { color: var(--muted); line-height: 1.6; }
+.swatches { display: flex; flex-wrap: wrap; gap: 0.65rem; }
+.swatch { width: 68px; height: 68px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; font-size: 0.5rem; font-weight: 700; padding-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.03em; }
+.circle-row { display: flex; flex-wrap: wrap; gap: 0.65rem; align-items: center; }
+.circle-demo { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; }
+.circle-demo span { font-size: 0.6rem; font-weight: 600; color: var(--muted); }
+.btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+.btn-primary { display: inline-flex; align-items: center; justify-content: center; height: 44px; padding: 0 1.5rem; background: var(--mta-green); color: oklch(100% 0 0); font-family: var(--font-display); font-size: 0.85rem; font-weight: 700; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 0.04em; transition: background 120ms; }
+.btn-primary:hover { background: oklch(40% 0.15 145); }
+.btn-secondary { height: 44px; padding: 0 1.5rem; background: var(--black); color: oklch(100% 0 0); font-family: var(--font-display); font-size: 0.85rem; font-weight: 700; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 0.04em; transition: background 120ms; }
+.btn-secondary:hover { background: oklch(25% 0 0); }
+.btn-outline { height: 44px; padding: 0 1.5rem; background: transparent; color: var(--mta-green); font-family: var(--font-display); font-size: 0.85rem; font-weight: 700; border: 2px solid var(--mta-green); cursor: pointer; text-transform: uppercase; letter-spacing: 0.04em; transition: all 120ms; }
+.btn-outline:hover { background: oklch(45% 0.15 145 / 0.08); }
+.badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.badge-change { background: oklch(50% 0.2 255 / 0.12); color: oklch(42% 0.18 255); }
+.badge-suspended { background: oklch(55% 0.02 0 / 0.12); color: oklch(40% 0.01 0); }
+.tile-card { max-width: 380px; background: var(--surface); border: 2px solid var(--border); overflow: hidden; }
+.tile-card-accent { height: 6px; display: flex; gap: 1px; }
+.tile-card-accent div { flex: 1; }
+.tile-card-body { padding: 1rem; }
+.tile-card-body h3 { font-family: var(--font-display); font-size: 1rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.25rem; }
+.tile-card-body p { font-size: 0.85rem; color: var(--muted); }
+.tile-card-lines { display: flex; gap: 0.35rem; margin-top: 0.5rem; }
+.input-showcase { max-width: 400px; }
+.input-showcase .field + .field { margin-top: 0.75rem; }
+.field label { display: block; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.3rem; }
+.field input { width: 100%; padding: 0.6rem 0.8rem; border: 2px solid var(--border); font-family: var(--font-body); font-size: 0.95rem; color: var(--text); background: var(--bg); outline: none; transition: border-color 120ms; }
+.field input:focus { border-color: var(--mta-green); }
+.timetable { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.timetable th { text-align: left; padding: 0.55rem 0.8rem; font-family: var(--font-display); font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); border-bottom: 2px solid var(--text); }
+.timetable td { padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--border); }
+.timetable tr:last-child td { border-bottom: none; }
+
+/* === Responsive === */
+@media (max-width: 600px) {
+  .map-container { height: 480px; }
+  .info-panel-details { grid-template-columns: 1fr; }
+  .metrocard { width: 100%; }
+  .metrocard-info { max-width: 100%; flex-direction: column; gap: 0.5rem; }
+  .header-inner { gap: 0.65rem; }
+  .swatches { gap: 0.5rem; }
+  .swatch { width: 54px; height: 54px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="wrap">
+    <div class="header-inner">
+      <div class="mta-logo">MTA</div>
+      <div class="header-text">
+        <h1>New York City Subway</h1>
+        <p>Metropolitan Transportation Authority</p>
+      </div>
+    </div>
+    <div class="header-lines">
+      <div class="lc lc-sm" style="background:var(--line-red);">1</div>
+      <div class="lc lc-sm" style="background:var(--line-red);">2</div>
+      <div class="lc lc-sm" style="background:var(--line-red);">3</div>
+      <div class="lc lc-sm" style="background:var(--line-green);">4</div>
+      <div class="lc lc-sm" style="background:var(--line-green);">5</div>
+      <div class="lc lc-sm" style="background:var(--line-green);">6</div>
+      <div class="lc lc-sm" style="background:var(--line-purple);">7</div>
+      <div class="lc lc-sm" style="background:var(--line-blue);">A</div>
+      <div class="lc lc-sm" style="background:var(--line-blue);">C</div>
+      <div class="lc lc-sm" style="background:var(--line-blue);">E</div>
+      <div class="lc lc-sm" style="background:var(--line-orange);">B</div>
+      <div class="lc lc-sm" style="background:var(--line-orange);">D</div>
+      <div class="lc lc-sm" style="background:var(--line-orange);">F</div>
+      <div class="lc lc-sm" style="background:var(--line-orange);">M</div>
+      <div class="lc lc-sm" style="background:var(--line-yellow);color:oklch(25% 0 0);">N</div>
+      <div class="lc lc-sm" style="background:var(--line-yellow);color:oklch(25% 0 0);">Q</div>
+      <div class="lc lc-sm" style="background:var(--line-yellow);color:oklch(25% 0 0);">R</div>
+      <div class="lc lc-sm" style="background:var(--line-yellow);color:oklch(25% 0 0);">W</div>
+      <div class="lc lc-sm" style="background:var(--line-grey);">L</div>
+      <div class="lc lc-sm" style="background:var(--line-light-green);">G</div>
+      <div class="lc lc-sm" style="background:var(--line-brown);">J</div>
+      <div class="lc lc-sm" style="background:var(--line-brown);">Z</div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ========== SUBWAY MAP ========== -->
+  <section class="map-section">
+    <h2>Midtown Manhattan</h2>
+    <div class="map-container">
+      <div class="map-inner">
+
+        <!-- GRID LINES (subtle background) -->
+        <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;" preserveAspectRatio="none">
+          <defs>
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="oklch(85% 0.01 80)" stroke-width="0.5"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)"/>
+        </svg>
+
+        <!--
+          COORDINATE SYSTEM (approximate pixel positions):
+          X-axis layout (left to right):
+            Blue (A/C/E):   x=160   (8th Ave)
+            Red (1/2/3):    x=280   (7th Ave)
+            Orange (B/D/F): x=400   (6th Ave / Broadway)
+            Yellow (N/Q/R): x=400   (Broadway, shares with Orange at some pts)
+            Green (4/5/6):  x=560   (Lex Ave)
+            Purple (7):     horizontal cross at y=100
+
+          Y-axis layout (top to bottom):
+            y=60   — 50 St / Rockefeller area
+            y=100  — Times Sq 42nd (main transfer hub)
+            y=190  — 34th St
+            y=290  — 23rd St
+            y=380  — 14th St
+            y=460  — Christopher St / West 4th / Union Sq
+        -->
+
+        <!-- ===== TRACK LINES (SVG for clean diagonals) ===== -->
+        <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;">
+          <!-- Blue line A/C/E — vertical at x=160 -->
+          <line x1="160" y1="40" x2="160" y2="490" stroke="oklch(50% 0.2 255)" stroke-width="6" stroke-linecap="round"/>
+          <!-- Red line 1/2/3 — vertical at x=280 -->
+          <line x1="280" y1="70" x2="280" y2="490" stroke="oklch(55% 0.22 25)" stroke-width="6" stroke-linecap="round"/>
+          <!-- Orange line B/D/F/M — diagonal from top-right to center, then vertical -->
+          <line x1="480" y1="40" x2="400" y2="100" stroke="oklch(68% 0.18 60)" stroke-width="6" stroke-linecap="round"/>
+          <line x1="400" y1="100" x2="400" y2="490" stroke="oklch(68% 0.18 60)" stroke-width="6" stroke-linecap="round"/>
+          <!-- Yellow line N/Q/R/W — vertical at x=340, offset from orange -->
+          <line x1="340" y1="70" x2="340" y2="490" stroke="oklch(82% 0.15 95)" stroke-width="6" stroke-linecap="round"/>
+          <!-- Green line 4/5/6 — vertical at x=560 -->
+          <line x1="560" y1="40" x2="560" y2="490" stroke="oklch(45% 0.15 145)" stroke-width="6" stroke-linecap="round"/>
+          <!-- Purple line 7 — horizontal at y=100 from x=160 to x=560 -->
+          <line x1="245" y1="100" x2="560" y2="100" stroke="oklch(45% 0.15 300)" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+
+        <!-- ===== STATIONS ===== -->
+
+        <!-- === BLUE LINE (A/C/E) at x=160 === -->
+        <!-- 50 St -->
+        <div class="station" style="left:160px;top:60px;border-color:oklch(50% 0.2 255);"></div>
+        <div class="station-label station-label-left" style="left:160px;top:60px;">50 St</div>
+
+        <!-- 42 St Port Authority — transfer -->
+        <div class="station station-transfer" style="left:160px;top:100px;border-color:oklch(50% 0.2 255);"></div>
+        <div class="station-label station-label-left" style="left:160px;top:100px;">42 St<br>Port Authority</div>
+
+        <!-- 34 St Penn Station — transfer -->
+        <div class="station station-transfer" style="left:160px;top:190px;border-color:oklch(50% 0.2 255);"></div>
+        <div class="station-label station-label-left" style="left:160px;top:190px;">34 St<br>Penn Station</div>
+
+        <!-- 23 St (C/E) -->
+        <div class="station" style="left:160px;top:290px;border-color:oklch(50% 0.2 255);"></div>
+        <div class="station-label station-label-left" style="left:160px;top:290px;">23 St</div>
+
+        <!-- 14 St (A/C/E) — transfer -->
+        <div class="station station-transfer" style="left:160px;top:380px;border-color:oklch(50% 0.2 255);"></div>
+        <div class="station-label station-label-left" style="left:160px;top:380px;">14 St</div>
+
+        <!-- West 4 St -->
+        <div class="station" style="left:160px;top:460px;border-color:oklch(50% 0.2 255);"></div>
+        <div class="station-label station-label-left" style="left:160px;top:460px;">W 4 St<br>Wash Sq</div>
+
+        <!-- === RED LINE (1/2/3) at x=280 === -->
+        <!-- 50 St -->
+        <div class="station" style="left:280px;top:70px;border-color:oklch(55% 0.22 25);"></div>
+        <div class="station-label station-label-top" style="left:280px;top:70px;">50 St</div>
+
+        <!-- Times Sq 42 St — MAJOR transfer hub -->
+        <div class="station station-transfer" style="left:280px;top:100px;border-color:oklch(55% 0.22 25);box-shadow:0 0 0 2px oklch(100% 0 0), 0 0 0 5px oklch(55% 0.22 25 / 0.3);"></div>
+        <div class="station-label station-label-top" style="left:310px;top:68px;font-size:0.75rem;"><strong>Times Sq</strong><br>42 St</div>
+
+        <!-- 34 St Penn — transfer (shared with blue) -->
+        <div class="station station-transfer" style="left:280px;top:190px;border-color:oklch(55% 0.22 25);"></div>
+        <div class="station-label station-label-top" style="left:220px;top:162px;">34 St<br>Penn Station</div>
+
+        <!-- 28 St -->
+        <div class="station" style="left:280px;top:240px;border-color:oklch(55% 0.22 25);"></div>
+        <div class="station-label station-label-right" style="left:280px;top:240px;">28 St</div>
+
+        <!-- 23 St -->
+        <div class="station" style="left:280px;top:290px;border-color:oklch(55% 0.22 25);"></div>
+        <div class="station-label station-label-right" style="left:280px;top:290px;">23 St</div>
+
+        <!-- 18 St -->
+        <div class="station" style="left:280px;top:335px;border-color:oklch(55% 0.22 25);"></div>
+        <div class="station-label station-label-right" style="left:280px;top:335px;">18 St</div>
+
+        <!-- 14 St — transfer -->
+        <div class="station station-transfer" style="left:280px;top:380px;border-color:oklch(55% 0.22 25);"></div>
+        <div class="station-label station-label-right" style="left:280px;top:380px;">14 St</div>
+
+        <!-- Christopher St -->
+        <div class="station" style="left:280px;top:460px;border-color:oklch(55% 0.22 25);"></div>
+        <div class="station-label station-label-right" style="left:280px;top:460px;">Christopher St<br>Sheridan Sq</div>
+
+        <!-- === YELLOW LINE (N/Q/R/W) at x=340 === -->
+        <!-- 49 St -->
+        <div class="station" style="left:340px;top:70px;border-color:oklch(72% 0.12 95);"></div>
+        <div class="station-label station-label-top" style="left:340px;top:70px;">49 St</div>
+
+        <!-- Times Sq 42 St (already shown as transfer on red, yellow connects here) -->
+
+        <!-- 34 St Herald Sq — transfer -->
+        <div class="station station-transfer" style="left:370px;top:190px;border-color:oklch(72% 0.12 95);box-shadow:0 0 0 2px oklch(100% 0 0), 0 0 0 5px oklch(72% 0.12 95 / 0.3);"></div>
+        <div class="station-label station-label-right" style="left:370px;top:190px;font-size:0.72rem;"><strong>34 St</strong><br>Herald Sq</div>
+
+        <!-- 28 St -->
+        <div class="station" style="left:340px;top:240px;border-color:oklch(72% 0.12 95);"></div>
+
+        <!-- 23 St -->
+        <div class="station" style="left:340px;top:290px;border-color:oklch(72% 0.12 95);"></div>
+
+        <!-- Union Sq 14 St — transfer -->
+        <div class="station station-transfer" style="left:340px;top:380px;border-color:oklch(72% 0.12 95);"></div>
+
+        <!-- 8 St NYU -->
+        <div class="station" style="left:340px;top:460px;border-color:oklch(72% 0.12 95);"></div>
+        <div class="station-label station-label-right" style="left:340px;top:460px;">8 St &ndash; NYU</div>
+
+        <!-- === ORANGE LINE (B/D/F/M) at x=400 === -->
+        <!-- 47-50 St Rockefeller -->
+        <div class="station" style="left:480px;top:40px;border-color:oklch(68% 0.18 60);"></div>
+        <div class="station-label station-label-right" style="left:480px;top:40px;">47&ndash;50 Sts<br>Rockefeller Ctr</div>
+
+        <!-- 42 St Bryant Park -->
+        <div class="station" style="left:400px;top:100px;border-color:oklch(68% 0.18 60);"></div>
+        <div class="station-label station-label-right" style="left:400px;top:100px;">42 St<br>Bryant Park</div>
+
+        <!-- 34 St Herald Sq (already shown as yellow transfer) -->
+
+        <!-- 23 St -->
+        <div class="station" style="left:400px;top:290px;border-color:oklch(68% 0.18 60);"></div>
+
+        <!-- 14 St -->
+        <div class="station" style="left:400px;top:380px;border-color:oklch(68% 0.18 60);"></div>
+
+        <!-- Broadway-Lafayette -->
+        <div class="station" style="left:400px;top:460px;border-color:oklch(68% 0.18 60);"></div>
+        <div class="station-label station-label-right" style="left:400px;top:460px;">Broadway<br>Lafayette St</div>
+
+        <!-- === GREEN LINE (4/5/6) at x=560 === -->
+        <!-- 51 St -->
+        <div class="station" style="left:560px;top:40px;border-color:oklch(45% 0.15 145);"></div>
+        <div class="station-label station-label-right" style="left:560px;top:40px;">51 St</div>
+
+        <!-- Grand Central 42 St — MAJOR transfer hub -->
+        <div class="station station-transfer" style="left:560px;top:100px;border-color:oklch(45% 0.15 145);box-shadow:0 0 0 2px oklch(100% 0 0), 0 0 0 5px oklch(45% 0.15 145 / 0.3);"></div>
+        <div class="station-label station-label-right" style="left:560px;top:100px;font-size:0.75rem;"><strong>Grand Central</strong><br>42 St</div>
+
+        <!-- 33 St -->
+        <div class="station" style="left:560px;top:160px;border-color:oklch(45% 0.15 145);"></div>
+        <div class="station-label station-label-right" style="left:560px;top:160px;">33 St</div>
+
+        <!-- 28 St -->
+        <div class="station" style="left:560px;top:220px;border-color:oklch(45% 0.15 145);"></div>
+        <div class="station-label station-label-right" style="left:560px;top:220px;">28 St</div>
+
+        <!-- 23 St -->
+        <div class="station" style="left:560px;top:290px;border-color:oklch(45% 0.15 145);"></div>
+        <div class="station-label station-label-right" style="left:560px;top:290px;">23 St</div>
+
+        <!-- Union Sq 14 St — MAJOR transfer hub -->
+        <div class="station station-transfer" style="left:560px;top:380px;border-color:oklch(45% 0.15 145);box-shadow:0 0 0 2px oklch(100% 0 0), 0 0 0 5px oklch(45% 0.15 145 / 0.3);"></div>
+        <div class="station-label station-label-right" style="left:560px;top:380px;font-size:0.72rem;"><strong>14 St</strong><br>Union Sq</div>
+
+        <!-- Astor Pl -->
+        <div class="station" style="left:560px;top:440px;border-color:oklch(45% 0.15 145);"></div>
+        <div class="station-label station-label-right" style="left:560px;top:440px;">Astor Pl</div>
+
+        <!-- === PURPLE LINE (7) horizontal at y=100 === -->
+        <!-- 5 Av -->
+        <div class="station" style="left:480px;top:100px;border-color:oklch(45% 0.15 300);"></div>
+        <div class="station-label station-label-bottom" style="left:480px;top:100px;">5 Av</div>
+
+        <!-- === TRANSFER CONNECTORS (thin lines between shared stations) === -->
+        <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:4;">
+          <!-- Times Sq: Red(280) to Yellow(340) at y=100 -->
+          <line x1="280" y1="100" x2="340" y2="100" stroke="oklch(70% 0.01 0)" stroke-width="3" stroke-dasharray="4 3"/>
+          <!-- 34 St: Blue(160) to Red(280) at y=190 -->
+          <line x1="160" y1="190" x2="280" y2="190" stroke="oklch(70% 0.01 0)" stroke-width="3" stroke-dasharray="4 3"/>
+          <!-- 34 St Herald: Yellow(340) to Orange-ish zone (370) at y=190 — already close -->
+          <!-- 14 St: Blue(160) to Red(280) to Yellow(340) to Orange(400) to Green(560) at y=380 -->
+          <line x1="160" y1="380" x2="560" y2="380" stroke="oklch(70% 0.01 0)" stroke-width="2" stroke-dasharray="4 3"/>
+        </svg>
+
+        <!-- Map border label -->
+        <div style="position:absolute;bottom:10px;right:16px;font-family:var(--font-display);font-size:0.58rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:oklch(60% 0.01 0);z-index:8;">
+          Not to scale &mdash; Diagrammatic
+        </div>
+        <div style="position:absolute;top:12px;left:16px;font-family:var(--font-display);font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:oklch(40% 0.01 0);z-index:8;">
+          Midtown &amp; Downtown Manhattan
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Line Legend -->
+  <section class="legend">
+    <div class="legend-row">
+      <div class="legend-item"><div class="legend-line" style="background:oklch(55% 0.22 25);"></div><div class="lc lc-sm" style="background:var(--line-red);">1</div><div class="lc lc-sm" style="background:var(--line-red);">2</div><div class="lc lc-sm" style="background:var(--line-red);">3</div></div>
+      <div class="legend-item"><div class="legend-line" style="background:oklch(45% 0.15 145);"></div><div class="lc lc-sm" style="background:var(--line-green);">4</div><div class="lc lc-sm" style="background:var(--line-green);">5</div><div class="lc lc-sm" style="background:var(--line-green);">6</div></div>
+      <div class="legend-item"><div class="legend-line" style="background:oklch(45% 0.15 300);"></div><div class="lc lc-sm" style="background:var(--line-purple);">7</div></div>
+      <div class="legend-item"><div class="legend-line" style="background:oklch(50% 0.2 255);"></div><div class="lc lc-sm" style="background:var(--line-blue);">A</div><div class="lc lc-sm" style="background:var(--line-blue);">C</div><div class="lc lc-sm" style="background:var(--line-blue);">E</div></div>
+      <div class="legend-item"><div class="legend-line" style="background:oklch(68% 0.18 60);"></div><div class="lc lc-sm" style="background:var(--line-orange);">B</div><div class="lc lc-sm" style="background:var(--line-orange);">D</div><div class="lc lc-sm" style="background:var(--line-orange);">F</div><div class="lc lc-sm" style="background:var(--line-orange);">M</div></div>
+      <div class="legend-item"><div class="legend-line" style="background:oklch(82% 0.15 95);"></div><div class="lc lc-sm" style="background:var(--line-yellow);color:oklch(25% 0 0);">N</div><div class="lc lc-sm" style="background:var(--line-yellow);color:oklch(25% 0 0);">Q</div><div class="lc lc-sm" style="background:var(--line-yellow);color:oklch(25% 0 0);">R</div><div class="lc lc-sm" style="background:var(--line-yellow);color:oklch(25% 0 0);">W</div></div>
+      <div class="legend-item" style="gap:0.25rem;"><span style="display:inline-block;width:16px;height:16px;border-radius:50%;border:3px dashed oklch(70% 0.01 0);"></span><span style="font-size:0.72rem;">Transfer</span></div>
+    </div>
+  </section>
+
+  <!-- Station Info Panel -->
+  <section class="info-panel">
+    <h3>Times Square &ndash; 42nd St</h3>
+    <div class="info-panel-lines">
+      <div class="lc" style="background:var(--line-red);">1</div>
+      <div class="lc" style="background:var(--line-red);">2</div>
+      <div class="lc" style="background:var(--line-red);">3</div>
+      <div class="lc" style="background:var(--line-purple);">7</div>
+      <div class="lc" style="background:var(--line-yellow);color:oklch(25% 0 0);">N</div>
+      <div class="lc" style="background:var(--line-yellow);color:oklch(25% 0 0);">Q</div>
+      <div class="lc" style="background:var(--line-yellow);color:oklch(25% 0 0);">R</div>
+      <div class="lc" style="background:var(--line-yellow);color:oklch(25% 0 0);">W</div>
+      <div class="lc" style="background:var(--line-grey);">S</div>
+    </div>
+    <div class="info-panel-details">
+      <div><dt>Accessibility</dt><dd>&#9855; ADA Accessible</dd></div>
+      <div><dt>Exits</dt><dd>Broadway &amp; 42 St<br>7th Ave &amp; 42 St</dd></div>
+      <div><dt>Connections</dt><dd>Port Authority (A/C/E)<br>42 St Shuttle (S)</dd></div>
+    </div>
+  </section>
+
+  <!-- Service Alerts -->
+  <section class="alerts">
+    <h2>Service Alerts</h2>
+    <div class="alert-row">
+      <div class="lc lc-sm" style="background:var(--line-green);">4</div>
+      <div class="lc lc-sm" style="background:var(--line-green);">5</div>
+      <div class="lc lc-sm" style="background:var(--line-green);">6</div>
+      <span class="alert-text">Delays northbound due to signal problems at Grand Central</span>
+      <span class="status-badge badge-delay">Delays</span>
+    </div>
+    <div class="alert-row">
+      <div class="lc lc-sm" style="background:var(--line-yellow);color:oklch(25% 0 0);">N</div>
+      <div class="lc lc-sm" style="background:var(--line-yellow);color:oklch(25% 0 0);">R</div>
+      <span class="alert-text">Weekend planned work: N/R running express 34 St to Canal St</span>
+      <span class="status-badge badge-planned">Planned</span>
+    </div>
+    <div class="alert-row">
+      <div class="lc lc-sm" style="background:var(--line-red);">1</div>
+      <div class="lc lc-sm" style="background:var(--line-red);">2</div>
+      <div class="lc lc-sm" style="background:var(--line-red);">3</div>
+      <span class="alert-text">Good service on all 7th Avenue lines</span>
+      <span class="status-badge badge-good">Good</span>
+    </div>
+  </section>
+
+  <!-- MetroCard -->
+  <section class="metrocard-section">
+    <h2>MetroCard</h2>
+    <div class="metrocard">
+      <div>
+        <div class="metrocard-label">MetroCard</div>
+        <div class="metrocard-sub">New York City Transit</div>
+      </div>
+      <div class="metrocard-stripe"></div>
+      <div class="metrocard-bottom">
+        <div class="metrocard-balance">$27.50</div>
+        <div class="metrocard-fare">Last ride: Times Sq &rarr; Grand Central &middot; $2.90</div>
+      </div>
+    </div>
+    <div class="metrocard-info">
+      <div><dt>Base Fare</dt><dd>$2.90</dd></div>
+      <div><dt>7-Day</dt><dd>$33.00</dd></div>
+      <div><dt>30-Day</dt><dd>$127.00</dd></div>
+    </div>
+  </section>
+
+  <!-- Line Strip -->
+  <div class="line-strip">
+    <div style="background:var(--line-red);"></div>
+    <div style="background:var(--line-green);"></div>
+    <div style="background:var(--line-blue);"></div>
+    <div style="background:var(--line-orange);"></div>
+    <div style="background:var(--line-yellow);"></div>
+    <div style="background:var(--line-purple);"></div>
+    <div style="background:var(--line-grey);"></div>
+    <div style="background:var(--line-brown);"></div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="wrap">
+    &copy; Metropolitan Transportation Authority &middot; New York City Transit<br>
+    <div class="sub">Accessible formats available upon request</div>
+  </div>
+</footer>
+
+<div class="wrap">
+  <!-- ========== COMPONENT SHOWCASE ========== -->
+  <div class="girder" style="margin-top:2rem;"></div>
+
+  <section class="showcase" id="components">
+    <h2>Components</h2>
+
+    <!-- Typography -->
+    <div class="showcase-block">
+      <p class="section-label">Typography</p>
+      <p class="type-h1" style="margin-bottom:0.3rem;">Heading One &mdash; Archivo</p>
+      <p class="type-h2" style="margin-bottom:0.3rem;">Heading Two &mdash; Archivo</p>
+      <p class="type-h3" style="margin-bottom:0.3rem;">Heading Three &mdash; Inter Semibold</p>
+      <p class="type-p">Body text in Inter. Tight, geometric, and functional &mdash; inspired by Helvetica, the typeface adopted by the MTA in the 1970s following Massimo Vignelli's iconic signage standards. Every letterform serves navigation.</p>
+    </div>
+
+    <!-- Color Swatches -->
+    <div class="showcase-block">
+      <p class="section-label">MTA Line Colors</p>
+      <div class="swatches">
+        <div class="swatch" style="background:var(--line-red);color:oklch(100% 0 0);">1 2 3</div>
+        <div class="swatch" style="background:var(--line-green);color:oklch(100% 0 0);">4 5 6</div>
+        <div class="swatch" style="background:var(--line-blue);color:oklch(100% 0 0);">A C E</div>
+        <div class="swatch" style="background:var(--line-orange);color:oklch(100% 0 0);">B D F M</div>
+        <div class="swatch" style="background:var(--line-yellow);color:oklch(25% 0 0);">N Q R W</div>
+        <div class="swatch" style="background:var(--line-purple);color:oklch(100% 0 0);">7</div>
+        <div class="swatch" style="background:var(--line-grey);color:oklch(100% 0 0);">L</div>
+        <div class="swatch" style="background:var(--line-light-green);color:oklch(100% 0 0);">G</div>
+        <div class="swatch" style="background:var(--line-brown);color:oklch(100% 0 0);">J Z</div>
+        <div class="swatch" style="background:var(--black);color:oklch(100% 0 0);">Black</div>
+      </div>
+    </div>
+
+    <!-- Line Circles -->
+    <div class="showcase-block">
+      <p class="section-label">Line Indicator Circles</p>
+      <div class="circle-row">
+        <div class="circle-demo"><div class="lc lc-lg" style="background:var(--line-red);">1</div><span>Red</span></div>
+        <div class="circle-demo"><div class="lc lc-lg" style="background:var(--line-red);">2</div><span></span></div>
+        <div class="circle-demo"><div class="lc lc-lg" style="background:var(--line-red);">3</div><span></span></div>
+        <div class="circle-demo"><div class="lc lc-lg" style="background:var(--line-green);">4</div><span>Green</span></div>
+        <div class="circle-demo"><div class="lc lc-lg" style="background:var(--line-green);">5</div><span></span></div>
+        <div class="circle-demo"><div class="lc lc-lg" style="background:var(--line-green);">6</div><span></span></div>
+        <div class="circle-demo"><div class="lc lc-lg" style="background:var(--line-purple);">7</div><span>Purple</span></div>
+        <div class="circle-demo"><div class="lc lc-lg" style="background:var(--line-blue);">A</div><span>Blue</span></div>
+        <div class="circle-demo"><div class="lc lc-lg" style="background:var(--line-blue);">C</div><span></span></div>
+        <div class="circle-demo"><div class="lc lc-lg" style="background:var(--line-orange);">B</div><span>Orange</span></div>
+        <div class="circle-demo"><div class="lc lc-lg" style="background:var(--line-orange);">D</div><span></span></div>
+        <div class="circle-demo"><div class="lc lc-lg" style="background:var(--line-orange);">F</div><span></span></div>
+        <div class="circle-demo"><div class="lc lc-lg" style="background:var(--line-yellow);color:oklch(25% 0 0);">N</div><span>Yellow</span></div>
+        <div class="circle-demo"><div class="lc lc-lg" style="background:var(--line-yellow);color:oklch(25% 0 0);">Q</div><span></span></div>
+        <div class="circle-demo"><div class="lc lc-lg" style="background:var(--line-grey);">L</div><span>Grey</span></div>
+        <div class="circle-demo"><div class="lc lc-lg" style="background:var(--line-brown);">J</div><span>Brown</span></div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="showcase-block">
+      <p class="section-label">Buttons</p>
+      <div class="btn-row">
+        <button class="btn-primary">MTA Green</button>
+        <button class="btn-secondary">Black</button>
+        <button class="btn-outline">Outline</button>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="showcase-block">
+      <p class="section-label">Service Badges</p>
+      <div class="badge-row">
+        <span class="status-badge badge-good">Good Service</span>
+        <span class="status-badge badge-delay">Delays</span>
+        <span class="status-badge badge-planned">Planned Work</span>
+        <span class="status-badge badge-change">Service Change</span>
+        <span class="status-badge badge-suspended">Suspended</span>
+      </div>
+    </div>
+
+    <!-- Tile Card -->
+    <div class="showcase-block">
+      <p class="section-label">Station Card</p>
+      <div class="tile-card">
+        <div class="tile-card-accent"><div style="background:var(--line-blue);"></div><div style="background:var(--line-blue);"></div><div style="background:var(--line-blue);"></div><div style="background:var(--line-blue);"></div><div style="background:var(--line-blue);"></div><div style="background:var(--line-blue);"></div></div>
+        <div class="tile-card-body">
+          <h3>59 St &ndash; Columbus Circle</h3>
+          <p>Upper West Side &middot; Zone 1 &middot; ADA Accessible</p>
+          <div class="tile-card-lines">
+            <div class="lc lc-sm" style="background:var(--line-blue);">A</div>
+            <div class="lc lc-sm" style="background:var(--line-blue);">C</div>
+            <div class="lc lc-sm" style="background:var(--line-orange);">B</div>
+            <div class="lc lc-sm" style="background:var(--line-orange);">D</div>
+            <div class="lc lc-sm" style="background:var(--line-red);">1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Fields -->
+    <div class="showcase-block">
+      <p class="section-label">Input Fields</p>
+      <div class="input-showcase">
+        <div class="field">
+          <label>Station</label>
+          <input type="text" placeholder="e.g. Times Sq - 42 St">
+        </div>
+        <div class="field">
+          <label>Date</label>
+          <input type="text" placeholder="MM/DD/YYYY">
+        </div>
+      </div>
+    </div>
+
+    <!-- Timetable -->
+    <div class="showcase-block">
+      <p class="section-label">Train Schedule</p>
+      <div style="background:var(--surface);border:2px solid var(--border);overflow:hidden;">
+        <table class="timetable">
+          <thead>
+            <tr><th>Departs</th><th>Destination</th><th>Line</th><th>Track</th></tr>
+          </thead>
+          <tbody>
+            <tr><td style="font-weight:600;">3:42 PM</td><td>Woodlawn</td><td><div class="lc lc-sm" style="background:var(--line-green);display:inline-flex;">4</div></td><td>1</td></tr>
+            <tr><td style="font-weight:600;">3:45 PM</td><td>Flushing &ndash; Main St</td><td><div class="lc lc-sm" style="background:var(--line-purple);display:inline-flex;">7</div></td><td>2</td></tr>
+            <tr><td style="font-weight:600;">3:47 PM</td><td>Pelham Bay Park</td><td><div class="lc lc-sm" style="background:var(--line-green);display:inline-flex;">6</div></td><td>3</td></tr>
+            <tr><td style="font-weight:600;">3:50 PM</td><td>Flatbush Av</td><td><div class="lc lc-sm" style="background:var(--line-green);display:inline-flex;">5</div></td><td>4</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CSS MetroCard Art -->
+    <div class="showcase-block">
+      <p class="section-label">CSS MetroCard</p>
+      <div class="metrocard">
+        <div>
+          <div class="metrocard-label">MetroCard</div>
+          <div class="metrocard-sub">New York City Transit</div>
+        </div>
+        <div class="metrocard-stripe"></div>
+        <div class="metrocard-bottom">
+          <div class="metrocard-balance">$27.50</div>
+          <div class="metrocard-fare">Go anywhere. Be anything.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+</body>
+</html>

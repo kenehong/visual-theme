@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V A P O R W A V E — Theme Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* === Tokens === */
+:root {
+  --bg: oklch(18% 0.05 300);
+  --surface: oklch(22% 0.05 290);
+  --text: oklch(90% 0.02 330);
+  --muted: oklch(55% 0.04 300);
+  --primary: oklch(70% 0.22 340);
+  --accent: oklch(72% 0.15 200);
+  --purple: oklch(60% 0.2 290);
+  --orange: oklch(75% 0.18 55);
+  --yellow: oklch(85% 0.15 90);
+  --glow-pink: 0 0 8px oklch(70% 0.22 340 / 0.5), 0 0 24px oklch(70% 0.22 340 / 0.2);
+  --glow-cyan: 0 0 8px oklch(72% 0.15 200 / 0.5), 0 0 24px oklch(72% 0.15 200 / 0.2);
+  --glow-purple: 0 0 8px oklch(60% 0.2 290 / 0.5), 0 0 24px oklch(60% 0.2 290 / 0.2);
+  --glow-orange: 0 0 8px oklch(75% 0.18 55 / 0.5), 0 0 24px oklch(75% 0.18 55 / 0.2);
+  --font-display: 'Bungee Shade', cursive;
+  --font-body: 'DM Sans', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+  --sunset: linear-gradient(180deg, oklch(30% 0.12 290) 0%, oklch(50% 0.2 330) 30%, oklch(65% 0.22 340) 50%, oklch(75% 0.18 55) 75%, oklch(85% 0.15 90) 100%);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-body); background: var(--bg); color: var(--text);
+  line-height: 1.6; -webkit-font-smoothing: antialiased;
+}
+/* VHS scan lines */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+  background: repeating-linear-gradient(0deg, oklch(0% 0 0 / 0.06) 0px, oklch(0% 0 0 / 0.06) 1px, transparent 1px, transparent 4px);
+}
+.wrap { max-width: 900px; margin: 0 auto; padding: 0 1.25rem; }
+
+/* === Neon text === */
+.neon-pink { color: var(--primary); text-shadow: var(--glow-pink); }
+.neon-cyan { color: var(--accent); text-shadow: var(--glow-cyan); }
+.neon-purple { color: var(--purple); text-shadow: var(--glow-purple); }
+
+/* Chrome/metallic text */
+.chrome-text {
+  background: linear-gradient(180deg, oklch(95% 0.01 90) 0%, oklch(70% 0.12 340) 40%, oklch(80% 0.08 200) 60%, oklch(95% 0.01 90) 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+/* === Sunset Header === */
+.sunset-header {
+  background: var(--sunset);
+  padding: 3rem 1.5rem 2rem; text-align: center; position: relative; overflow: hidden;
+}
+.sunset-header::after {
+  content: 'ア エ ス セ テ ィ ッ ク'; position: absolute; top: 0.75rem; right: 1.5rem;
+  font-size: 0.7rem; color: oklch(90% 0.02 330 / 0.3); letter-spacing: 0.3em;
+}
+.hero-title {
+  font-family: var(--font-display); font-size: clamp(2rem, 6vw, 3.2rem);
+  letter-spacing: 0.2em; color: oklch(98% 0.01 330);
+  text-shadow: 0 0 20px oklch(70% 0.22 340 / 0.6), 0 0 60px oklch(70% 0.22 340 / 0.3);
+  margin-bottom: 0.5rem;
+}
+.hero-sub {
+  font-size: 1.1rem; letter-spacing: 0.4em; color: oklch(95% 0.02 330 / 0.7);
+}
+/* Sun circle */
+.sun {
+  width: 120px; height: 120px; border-radius: 50%; margin: 1.5rem auto 0;
+  background: linear-gradient(180deg, oklch(85% 0.15 90) 0%, oklch(75% 0.18 55) 40%, oklch(70% 0.22 340) 100%);
+  box-shadow: 0 0 40px oklch(75% 0.18 55 / 0.5), 0 0 80px oklch(70% 0.22 340 / 0.3);
+  position: relative; overflow: hidden;
+}
+/* Sun horizontal stripes (retro grid lines through sun) */
+.sun::before {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent 0px, transparent 8px, oklch(30% 0.12 290 / 0.6) 8px, oklch(30% 0.12 290 / 0.6) 10px);
+  mask: linear-gradient(180deg, transparent 40%, black 100%); -webkit-mask: linear-gradient(180deg, transparent 40%, black 100%);
+}
+
+/* === Grid Floor === */
+.grid-floor {
+  height: 180px; position: relative; overflow: hidden;
+  background: linear-gradient(180deg, oklch(30% 0.12 290 / 0.5) 0%, var(--bg) 100%);
+}
+.grid-floor-inner {
+  position: absolute; bottom: 0; left: -50%; width: 200%; height: 160px;
+  background:
+    repeating-linear-gradient(90deg, oklch(70% 0.22 340 / 0.25) 0 1px, transparent 1px 60px),
+    repeating-linear-gradient(0deg, oklch(72% 0.15 200 / 0.2) 0 1px, transparent 1px 30px);
+  transform: perspective(300px) rotateX(60deg);
+  transform-origin: center bottom;
+}
+
+/* === Music Player === */
+.player-section { padding: 2.5rem 0; }
+.player-card {
+  background: var(--surface); border: 1px solid oklch(70% 0.22 340 / 0.25);
+  padding: 2rem; max-width: 480px; margin: 0 auto; position: relative;
+  box-shadow: 0 0 20px oklch(70% 0.22 340 / 0.15);
+}
+.player-label {
+  font-family: var(--font-body); font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
+  text-shadow: var(--glow-cyan); margin-bottom: 1.25rem;
+  padding-bottom: 0.5rem; border-bottom: 1px solid oklch(72% 0.15 200 / 0.15);
+}
+.player-art {
+  width: 100%; aspect-ratio: 1; margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, oklch(60% 0.2 290), oklch(70% 0.22 340), oklch(75% 0.18 55));
+  position: relative; display: flex; align-items: center; justify-content: center;
+}
+.player-art-text {
+  font-family: var(--font-display); font-size: 1.4rem; color: oklch(98% 0.01 330);
+  text-shadow: 0 0 20px oklch(70% 0.22 340 / 0.5);
+}
+.player-art-jp {
+  position: absolute; bottom: 0.75rem; right: 1rem; font-size: 0.8rem;
+  color: oklch(95% 0.02 330 / 0.5); letter-spacing: 0.2em;
+}
+.player-track { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.15rem; }
+.player-artist { font-size: 0.85rem; color: var(--muted); margin-bottom: 1rem; }
+.progress-bar {
+  width: 100%; height: 4px; background: oklch(30% 0.04 290); margin-bottom: 0.5rem; position: relative;
+}
+.progress-fill {
+  width: 38%; height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  box-shadow: 0 0 8px oklch(70% 0.22 340 / 0.4);
+}
+.progress-times {
+  display: flex; justify-content: space-between; font-family: var(--font-mono);
+  font-size: 0.7rem; color: var(--muted); margin-bottom: 1rem;
+}
+.player-controls { display: flex; align-items: center; justify-content: center; gap: 1.5rem; }
+.ctrl-btn {
+  width: 44px; height: 44px; border-radius: 50%; border: 1px solid oklch(70% 0.22 340 / 0.3);
+  background: oklch(25% 0.05 290); color: var(--primary); display: flex;
+  align-items: center; justify-content: center; cursor: pointer; font-size: 1rem;
+  transition: all 200ms ease;
+}
+.ctrl-btn:hover { box-shadow: var(--glow-pink); border-color: var(--primary); }
+.ctrl-btn.play {
+  width: 56px; height: 56px; font-size: 1.2rem;
+  background: oklch(70% 0.22 340 / 0.15); border-color: oklch(70% 0.22 340 / 0.5);
+}
+.ctrl-btn.play:hover { background: oklch(70% 0.22 340 / 0.25); }
+
+/* === VHS Divider === */
+.vhs-divider {
+  height: 24px; position: relative; margin: 0.5rem 0; overflow: hidden;
+  background: repeating-linear-gradient(0deg, transparent 0px, transparent 2px, oklch(70% 0.22 340 / 0.08) 2px, oklch(70% 0.22 340 / 0.08) 3px);
+}
+.vhs-divider::before {
+  content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+  width: 100%; height: 3px;
+  background: linear-gradient(90deg, transparent, oklch(70% 0.22 340 / 0.6), oklch(72% 0.15 200 / 0.6), transparent);
+}
+.vhs-divider::after {
+  content: 'PLAY ▶ REC ●'; position: absolute; right: 1rem; top: 50%;
+  transform: translateY(-50%); font-family: var(--font-mono); font-size: 0.55rem;
+  color: oklch(70% 0.22 340 / 0.5); letter-spacing: 0.1em;
+}
+
+/* === Album Cards === */
+.albums-section { padding: 2rem 0; }
+.albums-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.album-card {
+  background: var(--surface); border: 1px solid oklch(72% 0.15 200 / 0.2);
+  padding: 1rem; transition: all 200ms ease;
+}
+.album-card:hover {
+  border-color: oklch(70% 0.22 340 / 0.4);
+  box-shadow: 0 0 16px oklch(70% 0.22 340 / 0.2), 0 0 32px oklch(72% 0.15 200 / 0.1);
+}
+.album-art {
+  width: 100%; aspect-ratio: 1; margin-bottom: 0.75rem;
+}
+.album-art-1 { background: linear-gradient(135deg, oklch(60% 0.2 290), oklch(70% 0.22 340)); }
+.album-art-2 { background: linear-gradient(135deg, oklch(72% 0.15 200), oklch(60% 0.2 290)); }
+.album-art-3 { background: linear-gradient(135deg, oklch(75% 0.18 55), oklch(70% 0.22 340)); }
+.album-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.15rem; }
+.album-artist { font-size: 0.7rem; color: var(--muted); margin-bottom: 0.6rem; }
+.track-list { list-style: none; font-size: 0.7rem; }
+.track-list li {
+  display: flex; justify-content: space-between; padding: 0.3rem 0;
+  border-bottom: 1px solid oklch(90% 0.02 330 / 0.05);
+}
+.track-list li:last-child { border: none; }
+.track-num { color: var(--muted); width: 1.5rem; }
+.track-dur { color: var(--muted); font-family: var(--font-mono); font-size: 0.65rem; }
+
+/* === Palm Trees === */
+.palm-section {
+  height: 200px; position: relative; overflow: hidden;
+  background: linear-gradient(180deg, oklch(50% 0.2 330) 0%, oklch(65% 0.22 340) 30%, oklch(75% 0.18 55) 60%, oklch(85% 0.15 90) 100%);
+}
+.palm-tree { position: absolute; bottom: 0; }
+.palm-trunk { background: oklch(10% 0.02 300); position: absolute; bottom: 0; }
+.palm-frond {
+  width: 0; height: 0; position: absolute; border-style: solid;
+  border-color: oklch(10% 0.02 300) transparent transparent transparent;
+}
+/* Palm 1 — left */
+.palm-1 { left: 8%; }
+.palm-1 .palm-trunk { width: 6px; height: 110px; left: 22px; border-radius: 2px; }
+.palm-1 .frond-1 { bottom: 100px; left: 0; border-width: 50px 25px 0 25px; transform: rotate(-20deg); }
+.palm-1 .frond-2 { bottom: 105px; left: 10px; border-width: 55px 22px 0 22px; transform: rotate(15deg); }
+.palm-1 .frond-3 { bottom: 108px; left: -5px; border-width: 45px 30px 0 15px; transform: rotate(-40deg); }
+/* Palm 2 — right */
+.palm-2 { right: 5%; }
+.palm-2 .palm-trunk { width: 7px; height: 130px; left: 28px; border-radius: 2px; }
+.palm-2 .frond-1 { bottom: 120px; left: 5px; border-width: 60px 28px 0 28px; transform: rotate(-15deg); }
+.palm-2 .frond-2 { bottom: 125px; left: 15px; border-width: 55px 25px 0 25px; transform: rotate(20deg); }
+.palm-2 .frond-3 { bottom: 128px; left: 0; border-width: 50px 35px 0 10px; transform: rotate(-35deg); }
+
+/* === Quote Section === */
+.quote-section {
+  text-align: center; padding: 3rem 1rem;
+}
+.quote-text {
+  font-family: var(--font-display); font-size: clamp(1.5rem, 4vw, 2.5rem);
+  letter-spacing: 0.1em;
+}
+.quote-jp {
+  font-size: 0.9rem; color: var(--muted); margin-top: 0.75rem; letter-spacing: 0.3em;
+}
+
+/* === Footer === */
+footer {
+  text-align: center; padding: 2rem 0; font-size: 0.75rem;
+  color: var(--muted); letter-spacing: 0.06em; position: relative;
+  border-top: 1px solid oklch(70% 0.22 340 / 0.15);
+}
+footer::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 60px;
+  background: repeating-linear-gradient(90deg, oklch(70% 0.22 340 / 0.06) 0 1px, transparent 1px 40px);
+  pointer-events: none;
+}
+.footer-aesthetic { color: var(--accent); text-shadow: 0 0 4px oklch(72% 0.15 200 / 0.4); }
+
+/* === Component Showcase === */
+.showcase { padding: 2.5rem 0 3rem; }
+.showcase h2 {
+  font-family: var(--font-display); font-size: 1.3rem; text-align: center;
+  letter-spacing: 0.12em; margin-bottom: 2rem;
+}
+.section-label {
+  font-weight: 700; font-size: 0.65rem; text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--muted); margin-bottom: 0.75rem;
+}
+.showcase-block { margin-bottom: 2rem; }
+
+/* Typography showcase */
+.type-h1 { font-family: var(--font-display); font-size: 2rem; letter-spacing: 0.1em; }
+.type-h2 { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 0.08em; }
+.type-h3 { font-weight: 700; font-size: 1.05rem; }
+.type-body { color: oklch(70% 0.03 300); font-size: 0.9rem; }
+.type-mono { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent); }
+
+/* Swatches */
+.swatches { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.swatch {
+  width: 64px; height: 64px; display: flex; align-items: flex-end; justify-content: center;
+  font-size: 0.55rem; font-weight: 700; padding-bottom: 0.3rem; text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Buttons */
+.btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+.btn {
+  font-family: var(--font-body); font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase; padding: 0.65rem 1.5rem;
+  border: none; cursor: pointer; transition: all 200ms ease;
+}
+.btn-pill { border-radius: 999px; }
+.btn-pink {
+  background: oklch(70% 0.22 340 / 0.2); color: var(--primary);
+  border: 1px solid oklch(70% 0.22 340 / 0.4); border-radius: 999px;
+}
+.btn-pink:hover { background: oklch(70% 0.22 340 / 0.3); box-shadow: var(--glow-pink); }
+.btn-cyan {
+  background: oklch(72% 0.15 200 / 0.2); color: var(--accent);
+  border: 1px solid oklch(72% 0.15 200 / 0.4); border-radius: 999px;
+}
+.btn-cyan:hover { background: oklch(72% 0.15 200 / 0.3); box-shadow: var(--glow-cyan); }
+.btn-gradient {
+  background: linear-gradient(90deg, oklch(70% 0.22 340), oklch(72% 0.15 200));
+  color: oklch(98% 0.01 330); border: none; border-radius: 999px;
+}
+.btn-gradient:hover { box-shadow: var(--glow-pink); }
+.btn-outline {
+  background: transparent; color: var(--text);
+  border: 1px solid oklch(90% 0.02 330 / 0.2); border-radius: 999px;
+}
+.btn-outline:hover { border-color: oklch(90% 0.02 330 / 0.4); }
+.btn-ghost { background: transparent; color: var(--muted); border: 1px solid transparent; border-radius: 999px; }
+.btn-ghost:hover { color: var(--text); }
+
+/* Badges */
+.badge {
+  display: inline-block; font-size: 0.6rem; font-weight: 700; padding: 0.2rem 0.65rem;
+  text-transform: uppercase; letter-spacing: 0.06em; border-radius: 999px;
+}
+.badge-pink { background: oklch(70% 0.22 340 / 0.18); color: var(--primary); }
+.badge-cyan { background: oklch(72% 0.15 200 / 0.18); color: var(--accent); }
+.badge-purple { background: oklch(60% 0.2 290 / 0.18); color: var(--purple); }
+.badge-orange { background: oklch(75% 0.18 55 / 0.18); color: var(--orange); }
+.badge-yellow { background: oklch(85% 0.15 90 / 0.18); color: var(--yellow); }
+.badge-outline { background: transparent; border: 1px solid oklch(90% 0.02 330 / 0.2); color: var(--muted); }
+.badge-glow-pink { background: oklch(70% 0.22 340 / 0.18); color: var(--primary); box-shadow: var(--glow-pink); }
+
+/* Cards */
+.card-vapor {
+  background: var(--surface); border: 1px solid oklch(70% 0.22 340 / 0.2);
+  padding: 1.25rem; transition: all 200ms ease;
+}
+.card-vapor:hover { box-shadow: 0 0 16px oklch(70% 0.22 340 / 0.2); border-color: oklch(70% 0.22 340 / 0.4); }
+.card-title { font-weight: 700; margin-bottom: 0.25rem; }
+.card-desc { font-size: 0.85rem; color: oklch(65% 0.03 300); }
+
+/* Input */
+.input-vapor {
+  font-family: var(--font-body); font-size: 0.85rem; padding: 0.6rem 1rem;
+  background: oklch(15% 0.04 300); color: var(--text);
+  border: 1px solid oklch(70% 0.22 340 / 0.2); border-radius: 999px;
+  outline: none; transition: all 200ms ease; width: 100%;
+}
+.input-vapor::placeholder { color: var(--muted); }
+.input-vapor:focus { border-color: oklch(72% 0.15 200 / 0.5); box-shadow: 0 0 8px oklch(72% 0.15 200 / 0.3); }
+.form-row { display: flex; gap: 0.75rem; max-width: 420px; }
+
+/* Table */
+.vapor-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+.vapor-table th {
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  text-align: left; color: var(--muted); padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid oklch(70% 0.22 340 / 0.2);
+}
+.vapor-table td {
+  padding: 0.55rem 0.75rem; border-bottom: 1px solid oklch(90% 0.02 330 / 0.04);
+}
+.vapor-table tr:hover td { background: oklch(25% 0.05 290 / 0.5); }
+
+/* === Responsive === */
+@media (max-width: 640px) {
+  .albums-grid { grid-template-columns: 1fr; }
+  .hero-title { letter-spacing: 0.1em; }
+  .player-card { padding: 1.25rem; }
+  .palm-1 { left: 2%; }
+  .palm-2 { right: 0%; }
+}
+</style>
+</head>
+<body>
+
+<!-- === Sunset Header === -->
+<div class="sunset-header">
+  <div class="hero-title">V A P O R</div>
+  <div class="hero-sub">美 的 感 覚</div>
+  <div class="sun"></div>
+</div>
+
+<!-- === Grid Floor === -->
+<div class="grid-floor">
+  <div class="grid-floor-inner"></div>
+</div>
+
+<div class="wrap">
+
+  <!-- === Now Playing === -->
+  <section class="player-section">
+    <div class="player-card">
+      <div class="player-label">Now Playing</div>
+      <div class="player-art">
+        <div class="player-art-text">リサフランク</div>
+        <div class="player-art-jp">420</div>
+      </div>
+      <div class="player-track neon-pink">Macintosh Plus - リサフランク420 / 現代のコンピュー</div>
+      <div class="player-artist">MACINTOSH PLUS</div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+      <div class="progress-times"><span>2:47</span><span>7:14</span></div>
+      <div class="player-controls">
+        <div class="ctrl-btn">&#9198;</div>
+        <div class="ctrl-btn play">&#9654;</div>
+        <div class="ctrl-btn">&#9197;</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- === VHS Divider === -->
+  <div class="vhs-divider"></div>
+
+  <!-- === Album Cards === -->
+  <section class="albums-section">
+    <p class="section-label neon-cyan" style="margin-bottom:1rem;">Collection</p>
+    <div class="albums-grid">
+      <!-- Album 1 -->
+      <div class="album-card">
+        <div class="album-art album-art-1"></div>
+        <div class="album-title">Floral Shoppe</div>
+        <div class="album-artist">MACINTOSH PLUS</div>
+        <ul class="track-list">
+          <li><span><span class="track-num">1.</span> Lisa Frank 420</span><span class="track-dur">7:14</span></li>
+          <li><span><span class="track-num">2.</span> Flower Shoppe</span><span class="track-dur">4:21</span></li>
+          <li><span><span class="track-num">3.</span> Library</span><span class="track-dur">6:05</span></li>
+        </ul>
+      </div>
+      <!-- Album 2 -->
+      <div class="album-card">
+        <div class="album-art album-art-2"></div>
+        <div class="album-title">Blank Banshee 0</div>
+        <div class="album-artist">BLANK BANSHEE</div>
+        <ul class="track-list">
+          <li><span><span class="track-num">1.</span> B:/ Start Up</span><span class="track-dur">2:13</span></li>
+          <li><span><span class="track-num">2.</span> Teen Pregnancy</span><span class="track-dur">3:31</span></li>
+          <li><span><span class="track-num">3.</span> Eco Zones</span><span class="track-dur">3:47</span></li>
+        </ul>
+      </div>
+      <!-- Album 3 -->
+      <div class="album-card">
+        <div class="album-art album-art-3"></div>
+        <div class="album-title">Palm Mall</div>
+        <div class="album-artist">Cat System Corp.</div>
+        <ul class="track-list">
+          <li><span><span class="track-num">1.</span> Luxury Floor</span><span class="track-dur">5:02</span></li>
+          <li><span><span class="track-num">2.</span> Open Air</span><span class="track-dur">4:38</span></li>
+          <li><span><span class="track-num">3.</span> White Lagoon</span><span class="track-dur">3:55</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="vhs-divider"></div>
+
+</div>
+
+<!-- === Palm Trees === -->
+<div class="palm-section">
+  <div class="palm-tree palm-1">
+    <div class="palm-trunk"></div>
+    <div class="palm-frond frond-1"></div>
+    <div class="palm-frond frond-2"></div>
+    <div class="palm-frond frond-3"></div>
+  </div>
+  <div class="palm-tree palm-2">
+    <div class="palm-trunk"></div>
+    <div class="palm-frond frond-1"></div>
+    <div class="palm-frond frond-2"></div>
+    <div class="palm-frond frond-3"></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- === Quote === -->
+  <section class="quote-section">
+    <div class="quote-text chrome-text">It's all a dream</div>
+    <div class="quote-jp">夢はすべてです</div>
+  </section>
+
+  <div class="vhs-divider"></div>
+
+  <!-- ========== COMPONENT SHOWCASE ========== -->
+  <section class="showcase" id="components">
+    <h2 class="neon-pink">C O M P O N E N T S</h2>
+
+    <!-- Typography -->
+    <div class="showcase-block">
+      <p class="section-label">Typography</p>
+      <p class="type-h1 neon-pink" style="margin-bottom:0.3rem;">Heading One</p>
+      <p class="type-h2 neon-cyan" style="margin-bottom:0.3rem;">Heading Two</p>
+      <p class="type-h3" style="margin-bottom:0.3rem;">Heading Three</p>
+      <p class="type-body" style="margin-bottom:0.3rem;">Body text in DM Sans. Soft, modern, easy to read. Designed for laid-back interfaces where the vibe matters more than density.</p>
+      <p class="type-mono">const dream = await vapor.connect({ year: 1992 });</p>
+    </div>
+
+    <!-- Colors -->
+    <div class="showcase-block">
+      <p class="section-label">Colors</p>
+      <div class="swatches">
+        <div class="swatch" style="background:var(--primary);box-shadow:var(--glow-pink);color:#000;">Pink</div>
+        <div class="swatch" style="background:var(--accent);box-shadow:var(--glow-cyan);color:#000;">Cyan</div>
+        <div class="swatch" style="background:var(--purple);box-shadow:var(--glow-purple);color:#fff;">Purple</div>
+        <div class="swatch" style="background:var(--orange);box-shadow:var(--glow-orange);color:#000;">Orange</div>
+        <div class="swatch" style="background:var(--yellow);color:#000;">Yellow</div>
+        <div class="swatch" style="background:var(--surface);border:1px solid oklch(90% 0.02 330 / 0.1);">Surface</div>
+        <div class="swatch" style="background:var(--bg);border:1px solid oklch(90% 0.02 330 / 0.1);">BG</div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="showcase-block">
+      <p class="section-label">Buttons</p>
+      <div class="btn-row">
+        <button class="btn btn-pink">Pink</button>
+        <button class="btn btn-cyan">Cyan</button>
+        <button class="btn btn-gradient">Gradient</button>
+        <button class="btn btn-outline">Outline</button>
+        <button class="btn btn-ghost">Ghost</button>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="showcase-block">
+      <p class="section-label">Badges</p>
+      <div class="btn-row">
+        <span class="badge badge-pink">Pink</span>
+        <span class="badge badge-cyan">Cyan</span>
+        <span class="badge badge-purple">Purple</span>
+        <span class="badge badge-orange">Orange</span>
+        <span class="badge badge-yellow">Yellow</span>
+        <span class="badge badge-glow-pink">Glow</span>
+        <span class="badge badge-outline">Outline</span>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="showcase-block">
+      <p class="section-label">Card</p>
+      <div class="card-vapor" style="max-width:400px;">
+        <div class="card-title neon-cyan">System Module</div>
+        <div class="card-desc">Dark surface panel with pink neon border glow on hover. The signature container for vaporwave content blocks.</div>
+      </div>
+    </div>
+
+    <!-- Form Input -->
+    <div class="showcase-block">
+      <p class="section-label">Form Input + Button</p>
+      <div class="form-row">
+        <input class="input-vapor" type="text" placeholder="Enter the dream...">
+        <button class="btn btn-gradient" style="white-space:nowrap;">Enter</button>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="showcase-block">
+      <p class="section-label">Table</p>
+      <div class="card-vapor" style="padding:0;overflow:hidden;">
+        <table class="vapor-table">
+          <thead>
+            <tr><th>Track</th><th>Artist</th><th>Year</th><th>Mood</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="neon-pink">Lisa Frank 420</td>
+              <td>Macintosh Plus</td>
+              <td>2011</td>
+              <td><span class="badge badge-pink">Classic</span></td>
+            </tr>
+            <tr>
+              <td class="neon-cyan">Teen Pregnancy</td>
+              <td>Blank Banshee</td>
+              <td>2012</td>
+              <td><span class="badge badge-cyan">Hype</span></td>
+            </tr>
+            <tr>
+              <td class="neon-purple">Luxury Floor</td>
+              <td>Cat System Corp.</td>
+              <td>2014</td>
+              <td><span class="badge badge-purple">Chill</span></td>
+            </tr>
+            <tr>
+              <td style="color:var(--orange);">Nobody Here</td>
+              <td>Saint Pepsi</td>
+              <td>2013</td>
+              <td><span class="badge badge-orange">Funky</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- === Footer === -->
+  <footer>
+    2026 &nbsp;&middot;&nbsp; <span class="footer-aesthetic">ア エ ス セ テ ィ ッ ク</span><br>
+    <span style="opacity:0.4;">It's all in your head &middot; 夢 &middot; V A P O R W A V E</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

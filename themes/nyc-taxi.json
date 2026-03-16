@@ -1,0 +1,82 @@
+{
+  "name": "NYC Taxi",
+  "description": "뉴욕 옐로우캡 택시 문화. 메트로폴리탄, 대담하고 아이코닉한 느낌. 택시 영수증, 미터기 숫자, 헬베티카 사인에서 추출.",
+  "source": "NYC Yellow Cab — taxi receipts, TLC rate cards, NYC wayfinding signage",
+  "mood": ["metropolitan", "bold", "iconic"],
+  "shape": {
+    "radiusSm": "0px",
+    "radiusMd": "2px",
+    "radiusLg": "4px",
+    "radiusFull": "0px",
+    "borderWidth": "2px"
+  },
+  "typography": {
+    "fontSans": "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Antonio', 'Helvetica Neue Condensed', 'Arial Narrow', sans-serif",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "0.06em",
+    "letterSpacingBody": "0.01em",
+    "lineHeight": 1.5,
+    "lineHeightHeading": 1.1,
+    "textTransformHeading": "uppercase"
+  },
+  "spacing": {
+    "density": "default",
+    "scale": 1.0
+  },
+  "depth": {
+    "shadowSm": "0 1px 2px oklch(0% 0 0 / 0.08)",
+    "shadowMd": "0 2px 6px oklch(0% 0 0 / 0.1)",
+    "shadowLg": "0 4px 12px oklch(0% 0 0 / 0.12)",
+    "shadowStyle": "subtle"
+  },
+  "motion": {
+    "durationFast": "100ms",
+    "durationNormal": "150ms",
+    "easing": "cubic-bezier(0.2, 0, 0, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(97% 0.01 90)",
+    "surface": "oklch(100% 0 0)",
+    "text": "oklch(15% 0 0)",
+    "primary": "oklch(88% 0.18 95)",
+    "accent": "oklch(20% 0.01 0)",
+    "red": "oklch(55% 0.2 25)",
+    "green": "oklch(55% 0.15 155)",
+    "warm": "oklch(70% 0.08 70)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(12% 0.01 90)",
+    "surface": "oklch(18% 0.01 90)",
+    "text": "oklch(93% 0.01 90)",
+    "primary": "oklch(85% 0.16 95)",
+    "accent": "oklch(85% 0.01 0)"
+  },
+  "demo": {
+    "type": "ride-service",
+    "title": "NYC RIDE",
+    "subtitle": "EST. 1907",
+    "items": [
+      { "name": "JFK Airport → Midtown", "fare": "$52.00", "tag": "Flat Rate" },
+      { "name": "Brooklyn → SoHo", "fare": "$23.40", "tag": "Metered" },
+      { "name": "Upper East → Penn Station", "fare": "$18.75", "tag": "Metered" }
+    ],
+    "rates": {
+      "initial": "$3.00",
+      "perMile": "$2.50",
+      "perMinute": "$0.50",
+      "surchargeRush": "$2.50",
+      "surchargeNight": "$1.00"
+    }
+  },
+  "suggestions": {
+    "icons": "Lucide (stroke 1.5px) — clean, functional, transit-style",
+    "components": "checker patterns, receipt cards, meter-style numbers, rate tables, dotted separators, monospace fare data",
+    "avoid": "gradients, rounded pills, decorative cursive, pastel colors, playful illustrations",
+    "googleFonts": "Antonio:wght@400;500;600;700&family=Inter:wght@400;500;600;700",
+    "texture": "subtle paper texture via low-opacity noise, receipt-style dotted lines"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "name": "Dense / Data",
+  "description": "금융, 대시보드, 데이터 분석. 정보 밀도 높고 정확한 느낌.",
+  "mood": ["precise", "professional", "data-driven"],
+  "shape": {
+    "radiusSm": "2px",
+    "radiusMd": "4px",
+    "radiusLg": "6px",
+    "radiusFull": "9999px",
+    "borderWidth": "1px"
+  },
+  "typography": {
+    "fontSans": "'IBM Plex Sans', -apple-system, 'Pretendard', sans-serif",
+    "fontMono": "'IBM Plex Mono', 'JetBrains Mono', monospace",
+    "fontDisplay": null,
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 600,
+    "letterSpacingHeading": "0.04em",
+    "letterSpacingBody": "0em",
+    "lineHeight": 1.4,
+    "lineHeightHeading": 1.2,
+    "textTransformHeading": "uppercase",
+    "fontFeatures": "'tnum' 1"
+  },
+  "spacing": {
+    "density": "compact",
+    "scale": 0.75
+  },
+  "depth": {
+    "shadowSm": "none",
+    "shadowMd": "0 1px 4px oklch(0% 0 0 / 0.06)",
+    "shadowLg": "0 2px 8px oklch(0% 0 0 / 0.1)",
+    "shadowStyle": "flat"
+  },
+  "motion": {
+    "durationFast": "60ms",
+    "durationNormal": "80ms",
+    "easing": "linear"
+  },
+  "colorDefaults": {
+    "bg": "oklch(100% 0 0)",
+    "surface": "oklch(97% 0 0)",
+    "text": "oklch(12% 0 0)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(10% 0 0)",
+    "surface": "oklch(15% 0 0)",
+    "text": "oklch(93% 0 0)"
+  },
+  "demo": {
+    "type": "dashboard",
+    "title": "MarketView",
+    "subtitle": "Real-time Market Dashboard",
+    "tickers": [
+      { "symbol": "AAPL", "price": "198.52", "change": "+1.24%" },
+      { "symbol": "GOOGL", "price": "172.38", "change": "-0.52%" },
+      { "symbol": "TSLA", "price": "245.10", "change": "+3.17%" },
+      { "symbol": "MSFT", "price": "422.86", "change": "+0.89%" }
+    ],
+    "portfolio": { "total": "$124,580", "dayChange": "+$1,842", "dayPct": "+1.5%" }
+  },
+  "suggestions": {
+    "icons": "Lucide (default stroke 1.5px, small 16px)",
+    "components": "data tables, sparklines, KPI cards, alternating rows, mini-charts",
+    "typography": "tabular-nums for all numbers, monospace for data, compact labels",
+    "avoid": "large text, decorative elements, excessive padding",
+    "googleFonts": "IBM+Plex+Sans:wght@400;500;600 + IBM+Plex+Mono:wght@400;500"
+  }
+}

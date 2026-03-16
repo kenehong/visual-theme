@@ -1,0 +1,84 @@
+{
+  "name": "NYC Subway",
+  "description": "뉴욕 지하철 시스템의 상징적 디자인 언어. Helvetica 사이니지, 컬러 라인 서클, 백색 타일 벽, 모자이크 역명판에서 추출. 체계적이고 도시적이며 지하적인 미학.",
+  "source": "MTA New York City Transit — Helvetica signage, line indicator circles, station tile mosaics, MetroCard, Vignelli map legacy",
+  "mood": ["underground", "systematic", "NewYork"],
+  "shape": {
+    "radiusSm": "0px",
+    "radiusMd": "2px",
+    "radiusLg": "4px",
+    "radiusFull": "9999px",
+    "borderWidth": "2px"
+  },
+  "typography": {
+    "fontSans": "'Inter', -apple-system, 'Segoe UI', sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Archivo', 'Inter', 'Helvetica Neue', sans-serif",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "-0.01em",
+    "letterSpacingBody": "0em",
+    "lineHeight": 1.5,
+    "lineHeightHeading": 1.1,
+    "textTransformHeading": "uppercase"
+  },
+  "spacing": {
+    "density": "comfortable",
+    "scale": 1.0
+  },
+  "depth": {
+    "shadowSm": "none",
+    "shadowMd": "0 1px 3px oklch(15% 0 0 / 0.06)",
+    "shadowLg": "0 2px 6px oklch(15% 0 0 / 0.08)",
+    "shadowStyle": "flat"
+  },
+  "motion": {
+    "durationFast": "80ms",
+    "durationNormal": "120ms",
+    "easing": "cubic-bezier(0.2, 0, 0.2, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(96% 0.005 80)",
+    "surface": "oklch(100% 0 0)",
+    "text": "oklch(15% 0 0)",
+    "primary": "oklch(45% 0.15 145)",
+    "accent": "oklch(50% 0.2 255)",
+    "red": "oklch(55% 0.22 25)",
+    "orange": "oklch(68% 0.18 60)",
+    "yellow": "oklch(82% 0.15 95)",
+    "purple": "oklch(45% 0.15 300)",
+    "green": "oklch(45% 0.15 145)",
+    "grey": "oklch(55% 0.02 0)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(12% 0.005 80)",
+    "surface": "oklch(18% 0.01 80)",
+    "text": "oklch(92% 0.005 80)",
+    "primary": "oklch(55% 0.15 145)",
+    "accent": "oklch(58% 0.2 255)"
+  },
+  "demo": {
+    "type": "trip-planner",
+    "title": "MTA",
+    "subtitle": "New York City Transit",
+    "items": [
+      { "name": "1/2/3", "color": "red", "status": "Good Service" },
+      { "name": "4/5/6", "color": "green", "status": "Delays" },
+      { "name": "A/C/E", "color": "blue", "status": "Good Service" },
+      { "name": "B/D/F/M", "color": "orange", "status": "Good Service" },
+      { "name": "N/Q/R/W", "color": "yellow", "status": "Planned Work" },
+      { "name": "7", "color": "purple", "status": "Good Service" },
+      { "name": "L", "color": "grey", "status": "Good Service" },
+      { "name": "G", "color": "green", "status": "Service Change" }
+    ],
+    "banner": "Plan Your Trip"
+  },
+  "suggestions": {
+    "icons": "Lucide (stroke 1.5px) — flat, functional, wayfinding style",
+    "components": "line indicator circles (colored circle + white letter), tile mosaic station names, MetroCard CSS art, service status rows, trip planner, timetable, station info grids",
+    "avoid": "gradients, decorative shadows, rounded pills, script fonts, playful colors, anything that doesn't feel like infrastructure signage",
+    "googleFonts": "Archivo:wght@400;500;600;700&family=Inter:wght@400;500;600;700",
+    "texture": "tile grid pattern via CSS grid for station name mosaics — cream/white small squares forming letters"
+  }
+}

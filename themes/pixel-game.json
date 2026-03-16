@@ -1,0 +1,84 @@
+{
+  "name": "Pixel Art Game",
+  "description": "8-bit retro game aesthetic. CRT scanlines, pixel-perfect borders, terminal greens and hot magentas on deep purple-navy. Inspired by indie games on itch.io and retro arcade culture.",
+  "source": "Retro pixel art games, NES/SNES era UI, itch.io indie game pages, arcade high-score screens",
+  "mood": ["nostalgic", "playful", "retro", "immersive"],
+  "shape": {
+    "radiusSm": "0px",
+    "radiusMd": "0px",
+    "radiusLg": "0px",
+    "radiusFull": "0px",
+    "borderWidth": "3px"
+  },
+  "typography": {
+    "fontSans": "'VT323', 'Courier New', monospace",
+    "fontMono": "'VT323', 'Courier New', monospace",
+    "fontDisplay": "'Press Start 2P', 'Courier New', monospace",
+    "weightNormal": 400,
+    "weightMedium": 400,
+    "weightBold": 400,
+    "letterSpacingHeading": "0.05em",
+    "letterSpacingBody": "0.02em",
+    "lineHeight": 1.6,
+    "lineHeightHeading": 1.3,
+    "textTransformHeading": "uppercase"
+  },
+  "spacing": {
+    "density": "normal",
+    "scale": 1.0
+  },
+  "depth": {
+    "shadowSm": "2px 2px 0 oklch(5% 0.02 280)",
+    "shadowMd": "3px 3px 0 oklch(5% 0.02 280)",
+    "shadowLg": "4px 4px 0 oklch(5% 0.02 280)",
+    "shadowStyle": "hard"
+  },
+  "motion": {
+    "durationFast": "0ms",
+    "durationNormal": "0ms",
+    "easing": "steps(1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(15% 0.03 280)",
+    "surface": "oklch(20% 0.03 280)",
+    "text": "oklch(90% 0.02 120)",
+    "primary": "oklch(75% 0.25 150)",
+    "accent": "oklch(70% 0.25 330)",
+    "cyan": "oklch(75% 0.15 195)",
+    "yellow": "oklch(85% 0.2 90)",
+    "red": "oklch(60% 0.25 25)",
+    "border": "oklch(40% 0.05 280)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(15% 0.03 280)",
+    "surface": "oklch(20% 0.03 280)",
+    "text": "oklch(90% 0.02 120)",
+    "primary": "oklch(75% 0.25 150)",
+    "accent": "oklch(70% 0.25 330)"
+  },
+  "demo": {
+    "type": "game",
+    "title": "DUNGEON QUEST",
+    "subtitle": "A Retro RPG Adventure",
+    "classes": [
+      { "name": "Warrior", "color": "red", "atk": 9, "def": 8, "spd": 4 },
+      { "name": "Mage", "color": "cyan", "atk": 7, "def": 3, "spd": 6 },
+      { "name": "Rogue", "color": "primary", "atk": 6, "def": 4, "spd": 9 }
+    ],
+    "achievements": ["FIRST BLOOD", "TREASURE HUNTER", "SPEED RUN", "BOSS SLAYER"],
+    "leaderboard": [
+      { "rank": 1, "player": "xXDragonSlayerXx", "class": "Warrior", "level": 99, "score": 2847500 },
+      { "rank": 2, "player": "PIXEL_MAGE_42", "class": "Mage", "level": 95, "score": 2340100 },
+      { "rank": 3, "player": "ShadowDagger", "class": "Rogue", "level": 91, "score": 1982750 },
+      { "rank": 4, "player": "TankMaster", "class": "Warrior", "level": 88, "score": 1756300 },
+      { "rank": 5, "player": "ArcaneStorm", "class": "Mage", "level": 85, "score": 1503200 }
+    ]
+  },
+  "suggestions": {
+    "icons": "Pixel-art style inline symbols (unicode blocks, arrows, hearts, skulls)",
+    "components": "HP/MP bars with block characters, achievement badges, high-score tables, CRT scanline overlays, pixel border frames, blinking cursor text",
+    "avoid": "border-radius, gradients, smooth transitions, anti-aliased fonts, soft shadows, pastel colors",
+    "googleFonts": "Press+Start+2P&family=VT323",
+    "texture": "CRT scanline overlay via repeating-linear-gradient, optional pixel grid pattern"
+  }
+}

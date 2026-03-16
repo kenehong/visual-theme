@@ -1,0 +1,20 @@
+{
+  "themes": [
+    { "id": "streetwear-90s", "file": "streetwear-90s.json", "featured": true },
+    { "id": "korean-menu", "file": "korean-menu.json", "featured": true },
+    { "id": "nyc-taxi", "file": "nyc-taxi.json", "featured": true },
+    { "id": "pixel-game", "file": "pixel-game.json", "featured": true },
+    { "id": "win95", "file": "win95.json", "featured": true },
+    { "id": "ios-skeu", "file": "ios-skeu.json", "featured": true },
+    { "id": "brutalist", "file": "brutalist.json", "featured": true },
+    { "id": "japanese-minimal", "file": "japanese-minimal.json", "featured": true },
+    { "id": "scandinavian", "file": "scandinavian.json", "featured": true },
+    { "id": "cyberpunk", "file": "cyberpunk.json", "featured": true },
+    { "id": "kids-portrait", "file": "kids-portrait.json", "featured": true },
+    { "id": "art-deco", "file": "art-deco.json", "featured": true },
+    { "id": "vaporwave", "file": "vaporwave.json", "featured": true },
+    { "id": "comic-book", "file": "comic-book.json", "featured": true },
+    { "id": "manga", "file": "manga.json", "featured": true },
+    { "id": "tamagotchi", "file": "tamagotchi.json", "featured": true }
+  ]
+}

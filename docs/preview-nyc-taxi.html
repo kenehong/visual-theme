@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NYC RIDE — Taxi Fare & Ride Service</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: oklch(97% 0.01 90); --surface: oklch(100% 0 0); --text: oklch(15% 0 0);
+    --primary: oklch(88% 0.18 95); --accent: oklch(20% 0.01 0);
+    --red: oklch(55% 0.2 25); --green: oklch(55% 0.15 155); --warm: oklch(70% 0.08 70);
+    --black: oklch(10% 0 0); --white: oklch(99% 0 0); --muted: oklch(50% 0.01 0);
+    --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.08); --shadow-md: 0 2px 6px oklch(0% 0 0 / 0.1);
+    --font-display: 'Antonio', 'Helvetica Neue Condensed', 'Arial Narrow', sans-serif;
+    --font-body: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+    --border: 2px solid var(--accent); --radius: 2px;
+  }
+  body { font-family: var(--font-body); font-weight: 500; color: var(--text); background: var(--bg); letter-spacing: 0.01em; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 1rem; }
+
+  /* HEADER — taxi roof sign feel */
+  .header { background: var(--accent); padding: 1rem 1rem; display: flex; align-items: center; justify-content: space-between; }
+  .header-brand { display: flex; align-items: baseline; gap: 0.75rem; }
+  .header h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 700; color: var(--primary); letter-spacing: 0.18em; text-transform: uppercase; line-height: 1; }
+  .header .est { font-size: 0.7rem; font-weight: 600; color: oklch(55% 0.01 0); letter-spacing: 0.12em; text-transform: uppercase; font-family: var(--font-mono); }
+  .header-nav { display: flex; gap: 1.25rem; }
+  .header-nav a { font-weight: 600; font-size: 0.8rem; color: oklch(75% 0.01 0); text-decoration: none; text-transform: uppercase; letter-spacing: 0.04em; transition: color 100ms; }
+  .header-nav a:hover { color: var(--primary); }
+
+  /* CHECKER — more prominent */
+  .checker { height: 20px; background: repeating-conic-gradient(var(--black) 0% 25%, var(--primary) 0% 50%) 0 0 / 20px 20px; }
+
+  /* HERO */
+  .hero { background: var(--surface); padding: 2.5rem 1.5rem; text-align: center; border-bottom: var(--border); }
+  .hero-heading { position: relative; display: inline-block; margin-bottom: 1.75rem; }
+  .hero h2 { font-family: var(--font-display); font-size: clamp(2rem, 5.5vw, 3rem); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; line-height: 1; }
+  .hero-heading::after { content: ''; display: block; width: 100%; height: 4px; background: var(--primary); margin-top: 0.5rem; }
+  .fare-form { display: flex; gap: 0.75rem; max-width: 600px; margin: 0 auto 1.5rem; flex-wrap: wrap; }
+  .fare-input { flex: 1; min-width: 180px; font-family: var(--font-body); font-weight: 500; font-size: 0.95rem; padding: 0.75rem 1rem; border: var(--border); border-radius: var(--radius); background: var(--bg); outline: none; transition: border-color 100ms; }
+  .fare-input:focus { border-color: var(--primary); background: var(--white); }
+  .fare-input::placeholder { color: var(--muted); }
+
+  /* BUTTONS */
+  .btn { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.75rem 2rem; border: var(--border); border-radius: var(--radius); cursor: pointer; transition: all 100ms; }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--primary); color: var(--accent); border-color: var(--accent); }
+  .btn-primary:hover { background: oklch(85% 0.18 95); }
+  .btn-secondary { background: var(--accent); color: var(--primary); border-color: var(--accent); }
+  .btn-secondary:hover { background: oklch(25% 0.01 0); }
+  .btn-outline { background: transparent; color: var(--accent); border-color: var(--accent); }
+  .btn-outline:hover { background: oklch(95% 0.01 90); }
+  .btn-ghost { background: transparent; color: var(--accent); border: 2px solid transparent; }
+  .btn-ghost:hover { background: oklch(93% 0.01 90); }
+
+  /* FARE RESULT */
+  .fare-result { display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; }
+  .fare-stat { text-align: center; }
+  .fare-stat .label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 0.25rem; font-family: var(--font-body); }
+  .fare-stat .value { font-family: var(--font-mono); font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1; }
+  .fare-stat .value.fare-amount { color: var(--accent); }
+
+  /* RIDES / RECEIPTS — thermal receipt feel */
+  .section-heading { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.25rem; }
+  .rides { padding: 2rem 0; }
+  .rides-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 1rem; }
+  .receipt { background: var(--surface); border: 1px solid oklch(85% 0.01 90); border-radius: var(--radius); padding: 1rem 1.25rem; box-shadow: var(--shadow-md); font-variant-numeric: tabular-nums; }
+  .receipt-title { font-family: var(--font-mono); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); text-align: center; margin-bottom: 0.5rem; }
+  .receipt-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; padding-bottom: 0.4rem; border-bottom: 2px dashed oklch(70% 0.01 0); }
+  .receipt-date { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500; color: var(--muted); }
+  .receipt-taxi { font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; color: var(--muted); letter-spacing: 0.04em; }
+  .receipt-route { font-family: var(--font-display); font-size: 1rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .receipt-route .arrow { color: var(--primary); margin: 0 0.2rem; }
+  .receipt-line { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.78rem; padding: 0.15rem 0; color: oklch(40% 0.01 0); line-height: 1.35; }
+  .receipt-line.dotted { border-bottom: 1px dotted oklch(72% 0.01 0); padding-bottom: 0.25rem; margin-bottom: 0.1rem; }
+  .receipt-total { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 1rem; font-weight: 700; padding-top: 0.4rem; margin-top: 0.25rem; border-top: 2px solid var(--accent); color: var(--text); }
+  .receipt-footer { margin-top: 0.5rem; padding-top: 0.4rem; border-top: 2px dashed oklch(70% 0.01 0); font-family: var(--font-mono); font-size: 0.65rem; color: var(--muted); display: flex; justify-content: space-between; letter-spacing: 0.02em; }
+
+  /* RATE TABLE — official TLC feel */
+  .rates { padding: 2rem 0; }
+  .rate-card-header { background: var(--accent); color: var(--primary); padding: 0.6rem 1rem; font-family: var(--font-display); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; text-align: center; border: var(--border); border-bottom: none; }
+  .rate-table { width: 100%; border-collapse: collapse; border: var(--border); border-radius: var(--radius); overflow: hidden; font-variant-numeric: tabular-nums; }
+  .rate-table th, .rate-table td { padding: 0.6rem 1rem; text-align: left; }
+  .rate-table thead th { background: var(--accent); color: var(--primary); font-family: var(--font-display); font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  .rate-table tbody td { border-bottom: 1px solid oklch(90% 0.01 0); font-size: 0.88rem; font-weight: 500; }
+  .rate-table tbody td:first-child { font-weight: 700; }
+  .rate-table tbody td:last-child { font-family: var(--font-mono); font-weight: 700; }
+  .rate-table tbody tr:last-child td { border-bottom: none; }
+  .rate-table tbody tr:nth-child(even) { background: oklch(97% 0.005 90); }
+  .rate-effective { font-family: var(--font-mono); font-size: 0.65rem; color: var(--muted); text-align: center; padding: 0.4rem 1rem; border: var(--border); border-top: none; letter-spacing: 0.04em; background: oklch(97% 0.005 90); }
+
+  /* FOOTER */
+  .footer { background: var(--accent); color: oklch(55% 0.01 0); text-align: center; padding: 1.25rem 1rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+  .footer strong { color: var(--primary); letter-spacing: 0.12em; }
+
+  /* SHOWCASE */
+  .showcase-sep { margin: 3rem 0 2rem; border: none; border-top: 3px solid var(--accent); }
+  .showcase-title { font-family: var(--font-display); font-size: 2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; text-align: center; margin-bottom: 2rem; }
+  .section-label { font-family: var(--font-display); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); border-bottom: 2px solid oklch(85% 0.01 0); padding-bottom: 0.25rem; margin-bottom: 1rem; }
+  .comp-section { margin-bottom: 2.5rem; }
+
+  /* Typography specimen */
+  .type-specimen h1 { font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; line-height: 1.1; margin-bottom: 0.5rem; }
+  .type-specimen h2 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.1; margin-bottom: 0.5rem; }
+  .type-specimen h3 { font-family: var(--font-display); font-size: 1.15rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.2; margin-bottom: 0.5rem; }
+  .type-specimen p { font-size: 0.95rem; font-weight: 500; margin-bottom: 0.5rem; max-width: 60ch; }
+  .type-specimen .strong { font-weight: 700; }
+  .type-specimen .mono { font-family: var(--font-mono); font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+
+  /* Swatches */
+  .swatches { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .swatch { width: 80px; border: 1px solid oklch(85% 0.01 0); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); }
+  .swatch-color { height: 56px; }
+  .swatch-label { padding: 0.3rem 0.4rem; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; background: var(--surface); text-align: center; border-top: 1px solid oklch(85% 0.01 0); }
+
+  /* Rows */
+  .btn-row, .badge-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+  .badge { display: inline-block; padding: 0.2rem 0.6rem; font-weight: 700; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; border-radius: var(--radius); }
+  .badge-available { background: var(--green); color: var(--white); }
+  .badge-occupied { background: var(--red); color: var(--white); }
+  .badge-offduty { background: var(--warm); color: var(--white); }
+
+  /* Checker small */
+  .checker-small { height: 24px; background: repeating-conic-gradient(var(--black) 0% 25%, var(--primary) 0% 50%) 0 0 / 12px 12px; border-radius: var(--radius); }
+
+  /* Demo input */
+  .demo-input { font-family: var(--font-body); font-weight: 500; font-size: 0.95rem; padding: 0.65rem 0.85rem; border: var(--border); border-radius: var(--radius); background: var(--bg); outline: none; width: 100%; max-width: 320px; transition: border-color 100ms; }
+  .demo-input:focus { border-color: var(--primary); background: var(--white); }
+  .demo-input-label { display: block; font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.35rem; color: var(--muted); }
+
+  @media (max-width: 480px) {
+    .header { flex-direction: column; gap: 0.75rem; text-align: center; }
+    .header-nav { justify-content: center; }
+    .fare-result { gap: 1.5rem; }
+    .rides-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER — taxi roof sign -->
+  <header class="header">
+    <div class="header-brand">
+      <h1>NYC RIDE</h1>
+      <span class="est">Est. 1907</span>
+    </div>
+    <nav class="header-nav">
+      <a href="#">Rides</a>
+      <a href="#">Rates</a>
+      <a href="#">Account</a>
+    </nav>
+  </header>
+  <div class="checker"></div>
+
+  <!-- FARE CALCULATOR HERO -->
+  <section class="hero">
+    <div class="hero-heading">
+      <h2>Estimate Your Fare</h2>
+    </div>
+    <div class="fare-form">
+      <input class="fare-input" type="text" placeholder="Pickup — e.g. Times Square">
+      <input class="fare-input" type="text" placeholder="Dropoff — e.g. JFK Airport">
+      <button class="btn btn-primary" style="flex-shrink:0">Get Fare</button>
+    </div>
+    <div class="fare-result">
+      <div class="fare-stat">
+        <div class="label">Estimated Fare</div>
+        <div class="value fare-amount">$24.50</div>
+      </div>
+      <div class="fare-stat">
+        <div class="label">Distance</div>
+        <div class="value">5.2 mi</div>
+      </div>
+      <div class="fare-stat">
+        <div class="label">Duration</div>
+        <div class="value">18 min</div>
+      </div>
+    </div>
+  </section>
+  <div class="checker"></div>
+
+  <!-- RECENT RIDES -->
+  <section class="rides">
+    <div class="section-heading">Your Rides</div>
+    <div class="rides-grid">
+      <div class="receipt">
+        <div class="receipt-title">Taxi Receipt</div>
+        <div class="receipt-header">
+          <span class="receipt-date">Mar 14, 2026 &middot; 8:42 PM</span>
+          <span class="receipt-taxi">T-4N72</span>
+        </div>
+        <div class="receipt-route">Midtown <span class="arrow">&rarr;</span> Brooklyn Heights</div>
+        <div class="receipt-line dotted"><span>Base fare</span><span>$3.00</span></div>
+        <div class="receipt-line dotted"><span>Distance (4.8 mi)</span><span>$12.00</span></div>
+        <div class="receipt-line dotted"><span>Time (22 min)</span><span>$4.50</span></div>
+        <div class="receipt-line dotted"><span>Night surcharge</span><span>$1.00</span></div>
+        <div class="receipt-line"><span>Tip</span><span>$3.90</span></div>
+        <div class="receipt-total"><span>Total</span><span>$24.40</span></div>
+        <div class="receipt-footer"><span>Visa *4821</span><span>Medallion 4N72</span></div>
+      </div>
+      <div class="receipt">
+        <div class="receipt-title">Taxi Receipt</div>
+        <div class="receipt-header">
+          <span class="receipt-date">Mar 13, 2026 &middot; 5:15 PM</span>
+          <span class="receipt-taxi">T-7K19</span>
+        </div>
+        <div class="receipt-route">Penn Station <span class="arrow">&rarr;</span> Upper East Side</div>
+        <div class="receipt-line dotted"><span>Base fare</span><span>$3.00</span></div>
+        <div class="receipt-line dotted"><span>Distance (3.1 mi)</span><span>$7.75</span></div>
+        <div class="receipt-line dotted"><span>Time (18 min)</span><span>$3.50</span></div>
+        <div class="receipt-line dotted"><span>Rush hour surcharge</span><span>$2.50</span></div>
+        <div class="receipt-line"><span>Tip</span><span>$3.35</span></div>
+        <div class="receipt-total"><span>Total</span><span>$20.10</span></div>
+        <div class="receipt-footer"><span>Amex *1093</span><span>Medallion 7K19</span></div>
+      </div>
+      <div class="receipt">
+        <div class="receipt-title">Taxi Receipt</div>
+        <div class="receipt-header">
+          <span class="receipt-date">Mar 12, 2026 &middot; 11:30 AM</span>
+          <span class="receipt-taxi">T-2M55</span>
+        </div>
+        <div class="receipt-route">SoHo <span class="arrow">&rarr;</span> LaGuardia</div>
+        <div class="receipt-line dotted"><span>Base fare</span><span>$3.00</span></div>
+        <div class="receipt-line dotted"><span>Distance (9.2 mi)</span><span>$23.00</span></div>
+        <div class="receipt-line dotted"><span>Time (35 min)</span><span>$7.00</span></div>
+        <div class="receipt-line dotted"><span>Tolls</span><span>$6.55</span></div>
+        <div class="receipt-line"><span>Tip</span><span>$7.90</span></div>
+        <div class="receipt-total"><span>Total</span><span>$47.45</span></div>
+        <div class="receipt-footer"><span>Mastercard *7762</span><span>Medallion 2M55</span></div>
+      </div>
+    </div>
+  </section>
+  <div class="checker"></div>
+
+  <!-- RATE CARD — official TLC -->
+  <section class="rates">
+    <div class="section-heading">Current Rates</div>
+    <div class="rate-card-header">NYC Taxi &amp; Limousine Commission &mdash; Authorized Rate Schedule</div>
+    <table class="rate-table">
+      <thead><tr><th>Charge</th><th>Description</th><th>Amount</th></tr></thead>
+      <tbody>
+        <tr><td>Initial charge</td><td>Includes first 1/5 mile</td><td>$3.00</td></tr>
+        <tr><td>Per mile</td><td>Each additional 1/5 mile or 60 sec</td><td>$2.50</td></tr>
+        <tr><td>Per minute</td><td>Slow traffic / waiting</td><td>$0.50</td></tr>
+        <tr><td>Rush hour</td><td>Mon-Fri 4PM-8PM</td><td>$2.50</td></tr>
+        <tr><td>Night surcharge</td><td>8PM-6AM daily</td><td>$1.00</td></tr>
+        <tr><td>NY State tax</td><td>Per ride</td><td>$0.50</td></tr>
+        <tr><td>MTA tax</td><td>Per ride</td><td>$0.50</td></tr>
+        <tr><td>Improvement surcharge</td><td>Per ride</td><td>$1.00</td></tr>
+      </tbody>
+    </table>
+    <div class="rate-effective">Effective Jan 1, 2026 &middot; Rates set by NYC TLC</div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <strong>NYC RIDE</strong> &middot; Licensed by NYC Taxi &amp; Limousine Commission &middot; &copy; 2026
+  </footer>
+
+  <!-- COMPONENT SHOWCASE -->
+  <hr class="showcase-sep">
+  <div class="showcase-title" id="components">Components</div>
+
+  <!-- Typography -->
+  <div class="comp-section">
+    <div class="section-label">Typography</div>
+    <div class="type-specimen">
+      <h1>Display Heading H1</h1>
+      <h2>Section Heading H2</h2>
+      <h3>Subsection Heading H3</h3>
+      <p>Body text in Inter 500. The quick brown fox jumps over the lazy dog. Designed for clean, functional layouts with efficient information density.</p>
+      <p class="strong">Bold body text (700 weight) for emphasis and labels.</p>
+      <p class="mono">$1,234.56 &middot; 12:45 PM &middot; 4.8 mi &middot; Medallion 4N72</p>
+    </div>
+  </div>
+
+  <!-- Colors -->
+  <div class="comp-section">
+    <div class="section-label">Colors</div>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-color" style="background:var(--bg)"></div><div class="swatch-label">BG</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--surface)"></div><div class="swatch-label">Surface</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--text)"></div><div class="swatch-label">Text</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--primary)"></div><div class="swatch-label">Primary</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--accent)"></div><div class="swatch-label">Accent</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--red)"></div><div class="swatch-label">Red</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--green)"></div><div class="swatch-label">Green</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--warm)"></div><div class="swatch-label">Warm</div></div>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="comp-section">
+    <div class="section-label">Buttons</div>
+    <div class="btn-row">
+      <button class="btn btn-primary">Primary</button>
+      <button class="btn btn-secondary">Secondary</button>
+      <button class="btn btn-outline">Outline</button>
+      <button class="btn btn-ghost">Ghost</button>
+    </div>
+  </div>
+
+  <!-- Badges -->
+  <div class="comp-section">
+    <div class="section-label">Badges</div>
+    <div class="badge-row">
+      <span class="badge badge-available">Available</span>
+      <span class="badge badge-occupied">Occupied</span>
+      <span class="badge badge-offduty">Off Duty</span>
+    </div>
+  </div>
+
+  <!-- Receipt Card -->
+  <div class="comp-section">
+    <div class="section-label">Receipt Card</div>
+    <div style="max-width:300px">
+      <div class="receipt">
+        <div class="receipt-title">Taxi Receipt</div>
+        <div class="receipt-header"><span class="receipt-date">Mar 15, 2026</span><span class="receipt-taxi">T-9A03</span></div>
+        <div class="receipt-route">Sample <span class="arrow">&rarr;</span> Destination</div>
+        <div class="receipt-line dotted"><span>Base fare</span><span>$3.00</span></div>
+        <div class="receipt-line"><span>Distance</span><span>$7.50</span></div>
+        <div class="receipt-total"><span>Total</span><span>$10.50</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input Fields -->
+  <div class="comp-section">
+    <div class="section-label">Input Fields</div>
+    <div style="display:flex; flex-direction:column; gap:1rem; max-width:320px;">
+      <div>
+        <label class="demo-input-label">Pickup Location</label>
+        <input class="demo-input" type="text" placeholder="Enter address...">
+      </div>
+      <div>
+        <label class="demo-input-label">Dropoff Location</label>
+        <input class="demo-input" type="text" placeholder="Enter destination...">
+      </div>
+    </div>
+  </div>
+
+  <!-- Data Table -->
+  <div class="comp-section">
+    <div class="section-label">Data Table</div>
+    <table class="rate-table">
+      <thead><tr><th>Item</th><th>Detail</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Sample Row</td><td>Description text</td><td>$12.50</td></tr>
+        <tr><td>Another Row</td><td>More details</td><td>$8.00</td></tr>
+        <tr><td>Third Row</td><td>Additional info</td><td>$3.50</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Checker Pattern -->
+  <div class="comp-section">
+    <div class="section-label">Checker Pattern</div>
+    <div class="checker-small"></div>
+  </div>
+
+  <div style="height:2rem"></div>
+</div>
+</body>
+</html>

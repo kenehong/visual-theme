@@ -1,0 +1,83 @@
+{
+  "name": "Glassmorphism",
+  "description": "Frosted glass panels floating over rich gradients. Apple Vision Pro / visionOS / iOS 17 era aesthetic — translucent surfaces, soft glows, and layered depth.",
+  "source": "Apple visionOS, macOS Ventura widgets, modern dashboard UI trends",
+  "mood": ["translucent", "futuristic", "ethereal"],
+  "shape": {
+    "radiusSm": "12px",
+    "radiusMd": "16px",
+    "radiusLg": "24px",
+    "radiusFull": "9999px",
+    "borderWidth": "1px"
+  },
+  "typography": {
+    "fontSans": "'Inter', -apple-system, 'Segoe UI', sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Inter', -apple-system, sans-serif",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "-0.02em",
+    "letterSpacingBody": "-0.01em",
+    "lineHeight": 1.6,
+    "lineHeightHeading": 1.15,
+    "textTransformHeading": "none"
+  },
+  "spacing": {
+    "density": "comfortable",
+    "scale": 1.0
+  },
+  "depth": {
+    "shadowSm": "0 2px 8px oklch(0% 0 0 / 0.08)",
+    "shadowMd": "0 8px 32px oklch(0% 0 0 / 0.15)",
+    "shadowLg": "0 16px 48px oklch(0% 0 0 / 0.2)",
+    "shadowStyle": "soft-glow"
+  },
+  "motion": {
+    "durationFast": "150ms",
+    "durationNormal": "250ms",
+    "easing": "cubic-bezier(0.4, 0, 0.2, 1)"
+  },
+  "glass": {
+    "blur": "20px",
+    "bg": "oklch(98% 0 0 / 0.1)",
+    "bgStrong": "oklch(98% 0 0 / 0.18)",
+    "border": "oklch(98% 0 0 / 0.15)",
+    "borderHover": "oklch(98% 0 0 / 0.25)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(25% 0.05 280)",
+    "surface": "oklch(95% 0 0 / 0.12)",
+    "text": "oklch(98% 0 0)",
+    "textDark": "oklch(15% 0 0)",
+    "primary": "oklch(70% 0.2 280)",
+    "accent": "oklch(72% 0.18 200)",
+    "pink": "oklch(72% 0.2 340)",
+    "orange": "oklch(75% 0.18 55)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(15% 0.04 280)",
+    "surface": "oklch(95% 0 0 / 0.08)",
+    "text": "oklch(95% 0 0)",
+    "primary": "oklch(72% 0.2 280)",
+    "accent": "oklch(74% 0.18 200)"
+  },
+  "demo": {
+    "type": "dashboard",
+    "title": "Glass Dashboard",
+    "subtitle": "Real-time analytics at a glance",
+    "items": [
+      { "name": "Revenue", "value": "$48.2K", "change": "+12%", "tag": "Trending" },
+      { "name": "Users", "value": "12.8K", "change": "+8%", "tag": "Growing" },
+      { "name": "Growth", "value": "+24%", "change": "+3.2%", "tag": "Record" }
+    ],
+    "banner": "System Status: All Services Operational"
+  },
+  "suggestions": {
+    "icons": "Lucide (stroke 1.5px) or SF Symbols style — thin, refined",
+    "components": "frosted panels, floating cards, gradient orbs, pill navigation, glass buttons, glow borders, layered surfaces",
+    "avoid": "hard shadows, sharp corners, opaque backgrounds, solid borders, heavy textures, gritty/raw aesthetics",
+    "googleFonts": "Inter:wght@300;400;500;600;700",
+    "texture": "none — rely on transparency, blur, and gradient layering for depth"
+  }
+}

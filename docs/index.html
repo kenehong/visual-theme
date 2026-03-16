@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>visual-theme — Design themes inspired by images</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Dela+Gothic+One&family=Righteous&family=DM+Sans:wght@400;500;600;700&family=Press+Start+2P&family=VT323&family=Pixelify+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --g-bg: oklch(97% 0.003 260);
+  --g-surface: oklch(100% 0 0);
+  --g-border: oklch(90% 0.008 260);
+  --g-text: oklch(15% 0 0);
+  --g-muted: oklch(50% 0.01 260);
+  --g-accent: oklch(55% 0.18 250);
+  --g-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+html, body { height: 100%; }
+body {
+  font-family: var(--g-font); color: var(--g-text); line-height: 1.6;
+  background: var(--g-bg); display: flex; flex-direction: column;
+}
+
+/* ===== HEADER ===== */
+.header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--g-border);
+  background: var(--g-surface);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+}
+.header-left { display: flex; align-items: baseline; gap: 1rem; }
+.header h1 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; }
+.header h1 span { color: var(--g-accent); }
+.header .catch { font-size: 0.85rem; color: var(--g-muted); font-weight: 400; }
+.header-right { display: flex; align-items: center; gap: 1rem; }
+.header-right a {
+  font-size: 0.8rem; color: var(--g-muted); text-decoration: none;
+  transition: color 0.15s;
+}
+.header-right a:hover { color: var(--g-text); }
+
+/* ===== MAIN LAYOUT ===== */
+.main {
+  display: flex; flex: 1; overflow: hidden;
+}
+
+/* ===== LEFT SIDEBAR — THEME LIST ===== */
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--g-border);
+  background: var(--g-surface);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-title {
+  padding: 0.75rem 1rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--g-muted);
+  border-bottom: 1px solid var(--g-border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.sidebar-title .hiw-link {
+  font-size: 0.65rem; font-weight: 500; color: var(--g-accent);
+  text-transform: none; letter-spacing: 0; cursor: pointer;
+  text-decoration: none;
+}
+.sidebar-title .hiw-link:hover { text-decoration: underline; }
+
+/* Theme thumbnails in sidebar */
+.theme-item {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--g-border);
+  cursor: pointer;
+  transition: background 0.15s;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+.theme-item:hover { background: oklch(96% 0.005 260); }
+.theme-item.active {
+  background: oklch(95% 0.01 250);
+  border-left: 3px solid var(--g-accent);
+  padding-left: calc(1rem - 3px);
+}
+
+/* Mini color preview in sidebar */
+.theme-mini {
+  width: 48px; height: 48px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 1px solid var(--g-border);
+  position: relative;
+}
+
+/* Streetwear mini */
+.mini-sw {
+  background: oklch(95% 0.015 75);
+  display: flex; flex-wrap: wrap;
+}
+.mini-sw > div { width: 50%; height: 50%; }
+
+/* Neon mini */
+.mini-kn {
+  background: oklch(12% 0.015 260);
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Pixel mini */
+.mini-px {
+  background: oklch(15% 0.03 280);
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Win95 mini */
+.mini-w95 {
+  background: oklch(55% 0.12 195);
+  display: flex; flex-direction: column;
+}
+
+.theme-info h3 { font-size: 0.88rem; font-weight: 600; margin-bottom: 0.1rem; }
+.theme-info .mood { font-size: 0.72rem; color: var(--g-muted); }
+
+/* Sidebar scroll + fixed footer */
+.sidebar-scroll { flex: 1; overflow-y: auto; }
+.sidebar-fixed {
+  flex-shrink: 0;
+  border-top: 1px solid var(--g-border);
+  background: var(--g-surface);
+}
+
+/* ===== RIGHT PREVIEW ===== */
+.preview-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--g-bg);
+}
+
+.preview-toolbar {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--g-border);
+  background: var(--g-surface);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.preview-toolbar .left { display: flex; align-items: center; gap: 1rem; }
+.preview-toolbar .title { font-weight: 600; font-size: 0.9rem; }
+.preview-toolbar .actions { display: flex; gap: 0.5rem; }
+
+/* Tabs */
+.preview-tabs { display: flex; gap: 0; }
+.preview-tab {
+  padding: 0.35rem 0.75rem; font-size: 0.8rem; font-weight: 500;
+  background: none; border: 1px solid var(--g-border); cursor: pointer;
+  color: var(--g-muted); transition: all 0.15s;
+}
+.preview-tab:first-child { border-radius: 6px 0 0 6px; }
+.preview-tab:last-child { border-radius: 0 6px 6px 0; border-left: none; }
+.preview-tab.active { background: var(--g-accent); color: white; border-color: var(--g-accent); }
+.preview-tab:not(.active):hover { color: var(--g-text); }
+
+.action-btn {
+  padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: 500;
+  background: var(--g-bg); color: var(--g-text);
+  border: 1px solid var(--g-border); border-radius: 6px; cursor: pointer;
+  transition: border-color 0.15s;
+}
+.action-btn:hover:not(:disabled) { border-color: var(--g-accent); }
+.action-btn:disabled { opacity: 0.4; cursor: default; }
+.action-btn.copied { border-color: oklch(55% 0.2 155); color: oklch(55% 0.2 155); }
+
+.preview-iframe {
+  flex: 1;
+  width: 100%;
+  border: none;
+  background: var(--g-bg);
+}
+
+/* Empty state */
+.empty-state {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: var(--g-muted);
+}
+.empty-state .icon { font-size: 2rem; opacity: 0.3; }
+.empty-state p { font-size: 0.9rem; }
+
+/* Contribute CTA */
+.contribute-cta {
+  display: flex; gap: 0.75rem; align-items: center;
+  padding: 0.75rem 1rem;
+  margin: 0;
+  text-decoration: none; color: var(--g-text);
+  transition: background 0.15s;
+}
+.contribute-cta:hover { background: oklch(96% 0.005 250); }
+.contribute-icon {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 6px;
+  border: 1px dashed var(--g-border);
+  font-size: 1.2rem; font-weight: 300; color: var(--g-muted);
+  flex-shrink: 0;
+}
+.contribute-cta:hover .contribute-icon { border-color: var(--g-accent); color: var(--g-accent); }
+
+/* How it works modal */
+.hiw-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: oklch(0% 0 0 / 0.3); backdrop-filter: blur(8px);
+  display: none; align-items: center; justify-content: center;
+  padding: 2rem;
+}
+.hiw-overlay.open { display: flex; }
+.hiw-modal {
+  background: var(--g-surface); border: 1px solid var(--g-border);
+  border-radius: 12px; max-width: 680px; width: 100%;
+  padding: 2rem 2.5rem; position: relative;
+  animation: hiwIn 0.2s ease;
+  max-height: 90vh; overflow-y: auto;
+}
+@keyframes hiwIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+.hiw-modal h2 { font-size: 1.15rem; font-weight: 700; margin-bottom: 1.25rem; }
+.hiw-close {
+  position: absolute; top: 0.75rem; right: 0.75rem;
+  background: none; border: none; font-size: 1.2rem; color: var(--g-muted);
+  cursor: pointer; width: 32px; height: 32px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+}
+.hiw-close:hover { background: var(--g-bg); color: var(--g-text); }
+.hiw-steps { display: flex; flex-direction: column; gap: 1rem; }
+.hiw-step {
+  display: flex; gap: 0.75rem; align-items: flex-start;
+}
+.hiw-num {
+  width: 24px; height: 24px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: none; color: var(--g-text);
+  font-size: 0.85rem; font-weight: 700;
+}
+.hiw-step h4 { font-size: 0.88rem; font-weight: 600; margin-bottom: 0.1rem; }
+.hiw-step p { font-size: 0.8rem; color: var(--g-muted); line-height: 1.5; }
+
+/* Hamburger button (mobile only) */
+.hamburger {
+  display: none;
+  background: none; border: none; cursor: pointer;
+  width: 36px; height: 36px; border-radius: 6px;
+  align-items: center; justify-content: center;
+  color: var(--g-text); font-size: 1.3rem;
+  transition: background 0.15s;
+}
+.hamburger:hover { background: var(--g-bg); }
+
+/* Mobile sidebar overlay */
+.sidebar-overlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 150;
+  background: oklch(0% 0 0 / 0.3);
+}
+.sidebar-overlay.open { display: block; }
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+  .sidebar {
+    position: fixed; left: -300px; top: 0; bottom: 0;
+    width: 280px; z-index: 160;
+    transition: left 0.25s ease;
+    box-shadow: none;
+  }
+  .sidebar.open { left: 0; box-shadow: 4px 0 20px oklch(0% 0 0 / 0.15); }
+  .header .catch { display: none; }
+  .preview-toolbar .left { gap: 0.5rem; }
+  .preview-toolbar .title { font-size: 0.8rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <h1>visual-<span>theme</span></h1>
+    <span class="catch">Your inspiration, not a prompt.</span>
+  </div>
+  <div class="header-right">
+    <a href="https://github.com/kennyhong/visual-theme">GitHub</a>
+    <a href="https://github.com/kennyhong/visual-theme/blob/main/CONTRIBUTING.md">Contribute</a>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-scroll">
+    <div class="sidebar-title">Themes</div>
+
+    <!-- 1. Streetwear 90s -->
+    <div class="theme-item active" onclick="selectTheme('streetwear-90s', this)">
+      <div class="theme-mini" style="background:oklch(95% 0.015 75);display:flex;flex-direction:column;overflow:hidden;border:2px solid oklch(15% 0 0);">
+        <div style="height:14px;background:oklch(50% 0.2 255);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:0.35rem;font-weight:800;color:white;text-transform:uppercase;letter-spacing:0.06em;">SHOES</div>
+        <div style="flex:1;display:flex;">
+          <div style="flex:1;background:oklch(55% 0.22 30);"></div>
+          <div style="flex:1;background:oklch(82% 0.18 90);"></div>
+        </div>
+        <div style="height:6px;background-image:repeating-conic-gradient(oklch(15% 0 0) 0% 25%,oklch(95% 0.015 75) 0% 50%);background-size:6px 6px;"></div>
+      </div>
+      <div class="theme-info">
+        <h3>Streetwear 90s</h3>
+        <div class="mood">urban · gritty · authentic</div>
+      </div>
+    </div>
+
+    <!-- Windows 95 -->
+    <div class="theme-item" onclick="selectTheme('win95', this)">
+      <div class="theme-mini mini-w95">
+        <div style="background:oklch(35% 0.12 250);height:25%;"></div>
+        <div style="background:oklch(85% 0.01 80);flex:1;border:2px outset oklch(85% 0.01 80);"></div>
+      </div>
+      <div class="theme-info">
+        <h3>Windows 95</h3>
+        <div class="mood">nostalgic · systematic · familiar</div>
+      </div>
+    </div>
+
+    <!-- iPod -->
+    <div class="theme-item" onclick="selectTheme('ios-skeu', this)">
+      <div class="theme-mini" style="background:linear-gradient(180deg,oklch(85% 0.005 250),oklch(75% 0.005 250));display:flex;align-items:center;justify-content:center;border-radius:6px;">
+        <div style="width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 40% 35%,oklch(85% 0.005 250),oklch(72% 0.008 250));box-shadow:inset 0 1px 2px oklch(90% 0 0/0.4);"></div>
+      </div>
+      <div class="theme-info">
+        <h3>iPod</h3>
+        <div class="mood">glossy · tangible · premium</div>
+      </div>
+    </div>
+
+    <!-- Brutalist -->
+    <div class="theme-item" onclick="selectTheme('brutalist', this)">
+      <div class="theme-mini" style="background:white;display:flex;align-items:center;justify-content:center;border:2px solid oklch(0% 0 0);">
+        <span style="font-family:'Space Mono',monospace;font-size:0.55rem;font-weight:700;color:black;">RAW</span>
+      </div>
+      <div class="theme-info">
+        <h3>Brutalist</h3>
+        <div class="mood">raw · anti-design · confrontational</div>
+      </div>
+    </div>
+
+    <!-- 12. Tamagotchi -->
+    <div class="theme-item" onclick="selectTheme('tamagotchi', this)">
+      <div class="theme-mini" style="background:oklch(92% 0.02 90);display:flex;align-items:center;justify-content:center;border-radius:24px;">
+        <div style="width:28px;height:22px;background:oklch(78% 0.08 125);border-radius:4px;border:2px solid oklch(50% 0.05 125);display:flex;align-items:center;justify-content:center;">
+          <div style="width:4px;height:4px;background:oklch(25% 0.05 125);border-radius:1px;"></div>
+        </div>
+      </div>
+      <div class="theme-info">
+        <h3>Tamagotchi</h3>
+        <div class="mood">cute · pixelated · nostalgic</div>
+      </div>
+    </div>
+
+    <!-- 13. Pixel Game -->
+    <div class="theme-item" onclick="selectTheme('pixel-game', this)">
+      <div class="theme-mini mini-px">
+        <span style="font-family:'Press Start 2P',monospace;font-size:0.4rem;color:oklch(75% 0.25 150);text-shadow:1px 1px 0 oklch(30% 0.1 150);">RPG</span>
+      </div>
+      <div class="theme-info">
+        <h3>Pixel Game</h3>
+        <div class="mood">retro · pixelated · adventurous</div>
+      </div>
+    </div>
+
+    <!-- NYC Taxi -->
+    <div class="theme-item" onclick="selectTheme('nyc-taxi', this)">
+      <div class="theme-mini" style="background:oklch(88% 0.18 95);display:flex;flex-direction:column;overflow:hidden;">
+        <div style="height:12px;background:oklch(20% 0.01 0);"></div>
+        <div style="flex:1;"></div>
+        <div style="height:6px;background:repeating-conic-gradient(oklch(20% 0.01 0) 0% 25%,oklch(88% 0.18 95) 0% 50%);background-size:8px 8px;"></div>
+      </div>
+      <div class="theme-info">
+        <h3>NYC Taxi</h3>
+        <div class="mood">metropolitan · bold · iconic</div>
+      </div>
+    </div>
+
+    <!-- Japanese Minimal -->
+    <div class="theme-item" onclick="selectTheme('japanese-minimal', this)">
+      <div class="theme-mini" style="background:oklch(98% 0.005 80);display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;">
+        <div style="width:1px;height:20px;background:oklch(45% 0.05 60);"></div>
+      </div>
+      <div class="theme-info">
+        <h3>Japanese Minimal</h3>
+        <div class="mood">quiet · intentional · natural</div>
+      </div>
+    </div>
+
+    <!-- 15. Scandinavian -->
+    <div class="theme-item" onclick="selectTheme('scandinavian', this)">
+      <div class="theme-mini" style="background:oklch(98% 0.005 90);display:flex;gap:3px;padding:6px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:16px;height:16px;border-radius:4px;background:oklch(75% 0.06 155);"></div>
+        <div style="flex:1;min-width:16px;height:16px;border-radius:4px;background:oklch(85% 0.06 20);"></div>
+        <div style="flex:1;min-width:16px;height:16px;border-radius:4px;background:oklch(72% 0.08 70);"></div>
+      </div>
+      <div class="theme-info">
+        <h3>Scandinavian</h3>
+        <div class="mood">cozy · functional · Nordic</div>
+      </div>
+    </div>
+
+    <!-- 16. Kids: Portrait -->
+    <div class="theme-item" onclick="selectTheme('kids-portrait', this)">
+      <div class="theme-mini" style="background:oklch(97% 0.005 80);display:flex;align-items:center;justify-content:center;">
+        <div style="width:24px;height:28px;border:3px solid oklch(10% 0 0);border-radius:50% 50% 45% 45%;position:relative;">
+          <div style="position:absolute;top:6px;left:3px;width:4px;height:4px;border-radius:50%;background:oklch(10% 0 0);"></div>
+          <div style="position:absolute;top:6px;right:3px;width:4px;height:4px;border-radius:50%;background:oklch(10% 0 0);"></div>
+        </div>
+      </div>
+      <div class="theme-info">
+        <h3>Kids: Portrait</h3>
+        <div class="mood">raw · expressive · artbrut</div>
+      </div>
+    </div>
+
+    <!-- Pop Art -->
+    <div class="theme-item" onclick="selectTheme('comic-book', this)">
+      <div class="theme-mini" style="background-color:white;background-image:radial-gradient(circle,oklch(55% 0.28 30) 2px,transparent 2px);background-size:8px 8px;display:flex;align-items:center;justify-content:center;border:3px solid oklch(5% 0 0);">
+        <span style="font-family:'Bangers',cursive;font-size:0.55rem;color:oklch(5% 0 0);transform:rotate(-3deg);">POP!</span>
+      </div>
+      <div class="theme-info">
+        <h3>Pop Art</h3>
+        <div class="mood">pop · graphic · bold</div>
+      </div>
+    </div>
+
+    <!-- Vaporwave -->
+    <div class="theme-item" onclick="selectTheme('vaporwave', this)">
+      <div class="theme-mini" style="background:linear-gradient(180deg,oklch(40% 0.15 290),oklch(60% 0.2 340),oklch(70% 0.18 55));display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;">
+        <div style="width:20px;height:10px;border-radius:10px 10px 0 0;background:oklch(85% 0.15 90);"></div>
+      </div>
+      <div class="theme-info">
+        <h3>Vaporwave</h3>
+        <div class="mood">aesthetic · nostalgic · dreamy</div>
+      </div>
+    </div>
+
+    <!-- Manga -->
+    <div class="theme-item" onclick="selectTheme('manga', this)">
+      <div class="theme-mini" style="background:oklch(98% 0 0);display:flex;align-items:center;justify-content:center;border:3px solid oklch(8% 0 0);">
+        <div style="background:repeating-linear-gradient(45deg,transparent,transparent 2px,oklch(70% 0 0) 2px,oklch(70% 0 0) 3px);width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:'Bangers',cursive;font-size:0.5rem;color:oklch(8% 0 0);">漫画</span>
+        </div>
+      </div>
+      <div class="theme-info">
+        <h3>Manga</h3>
+        <div class="mood">dramatic · monochrome · kinetic</div>
+      </div>
+    </div>
+
+    <!-- Cyberpunk -->
+    <div class="theme-item" onclick="selectTheme('cyberpunk', this)">
+      <div class="theme-mini" style="background:oklch(8% 0.02 280);display:flex;align-items:center;justify-content:center;">
+        <span style="font-family:'Orbitron',sans-serif;font-size:0.4rem;font-weight:700;color:oklch(72% 0.25 290);text-shadow:0 0 4px oklch(72% 0.25 290/0.5);">SYS</span>
+      </div>
+      <div class="theme-info">
+        <h3>Cyberpunk</h3>
+        <div class="mood">futuristic · electric · dystopian</div>
+      </div>
+    </div>
+
+    <!-- Art Deco -->
+    <div class="theme-item" onclick="selectTheme('art-deco', this)">
+      <div class="theme-mini" style="background:oklch(15% 0.02 80);display:flex;align-items:center;justify-content:center;">
+        <div style="width:30px;height:30px;background:conic-gradient(from 180deg at 50% 100%,oklch(75% 0.12 80) 0deg,transparent 15deg,transparent 30deg,oklch(75% 0.12 80) 30deg,transparent 45deg,transparent 60deg,oklch(75% 0.12 80) 60deg,transparent 75deg,transparent 105deg,oklch(75% 0.12 80) 105deg,transparent 120deg,transparent 135deg,oklch(75% 0.12 80) 135deg,transparent 150deg,transparent 165deg,oklch(75% 0.12 80) 165deg,transparent 180deg);"></div>
+      </div>
+      <div class="theme-info">
+        <h3>Art Deco</h3>
+        <div class="mood">glamorous · geometric · golden</div>
+      </div>
+    </div>
+
+    <!-- Korean Menu -->
+    <div class="theme-item" onclick="selectTheme('korean-menu', this)">
+      <div class="theme-mini" style="background:oklch(90% 0.06 85);display:flex;flex-direction:column;overflow:hidden;border:2px solid oklch(50% 0.25 25);">
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:2px;padding:4px;">
+          <div style="font-family:'Gaegu',cursive;font-size:0.5rem;font-weight:700;color:oklch(15% 0 0);writing-mode:vertical-rl;">김치찌개</div>
+          <div style="font-family:'Gaegu',cursive;font-size:0.45rem;color:oklch(50% 0.25 25);">8,000</div>
+        </div>
+      </div>
+      <div class="theme-info">
+        <h3>Korean Menu</h3>
+        <div class="mood">nostalgic · handwritten · homestyle</div>
+      </div>
+    </div>
+
+    </div><!-- /sidebar-scroll -->
+    <div class="sidebar-fixed">
+      <div class="contribute-cta" onclick="openHiw()">
+        <span class="contribute-icon">+</span>
+        <div class="theme-info">
+          <h3>How it works</h3>
+          <div class="mood">Contribute yours</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PREVIEW AREA -->
+  <div class="preview-area">
+    <div class="preview-toolbar">
+      <div class="left">
+        <button class="hamburger" onclick="toggleSidebar()">☰</button>
+        <span class="title" id="preview-title">Streetwear 90s</span>
+        <div class="preview-tabs">
+          <button class="preview-tab active" onclick="switchView('demo', this)">Demo</button>
+          <button class="preview-tab" onclick="switchView('components', this)">Components</button>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="action-btn" id="btnCSS" onclick="copyCSS()" disabled>Copy CSS</button>
+        <button class="action-btn" id="btnJSON" onclick="copyJSON()" disabled>Copy JSON</button>
+      </div>
+    </div>
+    <iframe class="preview-iframe" id="preview-iframe" src="preview-streetwear-90s.html"></iframe>
+  </div>
+
+</div>
+
+<!-- SIDEBAR OVERLAY (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<!-- HOW IT WORKS MODAL -->
+<div class="hiw-overlay" id="hiwModal" onclick="if(event.target===this)closeHiw()">
+  <div class="hiw-modal">
+    <button class="hiw-close" onclick="closeHiw()">&times;</button>
+    <h2>How it works</h2>
+    <!-- Before → After visual -->
+    <div style="display:flex;gap:1rem;align-items:stretch;margin-bottom:1.5rem;max-height:200px;">
+      <!-- BEFORE -->
+      <div style="flex:1;display:flex;align-items:stretch;">
+        <img src="assets/ref-source.jpg" alt="90s sneaker store photo" style="width:100%;object-fit:cover;border:3px solid oklch(15% 0 0);box-shadow:4px 4px 0 oklch(15% 0 0);">
+      </div>
+      <!-- Arrow -->
+      <div style="display:flex;align-items:center;flex-shrink:0;color:var(--g-text);font-size:1.5rem;font-weight:700;">→</div>
+      <!-- AFTER: Matches actual Streetwear 90s demo -->
+      <div style="flex:1;background:oklch(95% 0.015 75);border-radius:0;overflow:hidden;border:3px solid oklch(15% 0 0);box-shadow:5px 5px 0 oklch(15% 0 0);display:flex;flex-direction:column;position:relative;">
+        <!-- Film grain -->
+        <div style="position:absolute;inset:0;opacity:0.04;pointer-events:none;background:url('data:image/svg+xml,%3Csvg viewBox=%270 0 256 256%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.9%27 numOctaves=%274%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E');z-index:2;"></div>
+        <!-- Header — matching demo (cream bg, black text) -->
+        <div style="padding:0.5rem 0.6rem;text-align:center;border-bottom:3px solid oklch(15% 0 0);position:relative;z-index:1;">
+          <div style="font-family:'Dela Gothic One',sans-serif;font-size:1rem;color:oklch(15% 0 0);text-transform:uppercase;letter-spacing:0.04em;line-height:1;">Giant Shoes</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.35rem;color:oklch(40% 0.01 0);text-transform:uppercase;letter-spacing:0.08em;font-weight:700;margin-top:0.15rem;">West Philly · Est. 1990</div>
+        </div>
+        <!-- Brands row -->
+        <div style="display:flex;justify-content:center;gap:0.5rem;padding:0.2rem 0.4rem;font-family:'Barlow Condensed',sans-serif;font-size:0.35rem;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;color:oklch(40% 0.01 0);position:relative;z-index:1;">
+          <span>Nike</span><span>FILA</span><span>Timberland</span><span>Reebok</span>
+        </div>
+        <!-- SALE banner (red, matching demo) -->
+        <div style="background:oklch(55% 0.22 30);padding:0.15rem;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:0.4rem;font-weight:800;color:white;text-transform:uppercase;letter-spacing:0.04em;border-top:2px solid oklch(15% 0 0);border-bottom:2px solid oklch(15% 0 0);position:relative;z-index:1;">Buy One Get One — Half Price</div>
+        <!-- 2x2 Product grid -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.25rem;padding:0.25rem 0.4rem;position:relative;z-index:1;flex:1;">
+          <div style="border:2px solid oklch(15% 0 0);box-shadow:2px 2px 0 oklch(15% 0 0);overflow:hidden;">
+            <div style="height:24px;background:oklch(50% 0.2 255);display:flex;align-items:center;justify-content:center;font-family:'Dela Gothic One',sans-serif;font-size:0.6rem;color:white;">95</div>
+            <div style="padding:0.1rem 0.2rem;background:oklch(99% 0.005 75);">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.4rem;font-weight:800;text-transform:uppercase;">Air Max 95</div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-family:'Barlow Condensed',sans-serif;font-size:0.4rem;font-weight:700;color:oklch(55% 0.22 30);">$160</span>
+                <span style="font-size:0.3rem;font-weight:700;text-transform:uppercase;border:1px solid oklch(15% 0 0);padding:0 2px;font-family:'Barlow Condensed',sans-serif;background:oklch(82% 0.18 90);">Classic</span>
+              </div>
+            </div>
+          </div>
+          <div style="border:2px solid oklch(15% 0 0);box-shadow:2px 2px 0 oklch(15% 0 0);overflow:hidden;">
+            <div style="height:24px;background:oklch(55% 0.22 30);display:flex;align-items:center;justify-content:center;font-family:'Dela Gothic One',sans-serif;font-size:0.6rem;color:white;">6"</div>
+            <div style="padding:0.1rem 0.2rem;background:oklch(99% 0.005 75);">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.4rem;font-weight:800;text-transform:uppercase;">Timberland</div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-family:'Barlow Condensed',sans-serif;font-size:0.4rem;font-weight:700;color:oklch(55% 0.22 30);">$198</span>
+                <span style="font-size:0.3rem;font-weight:700;text-transform:uppercase;border:1px solid oklch(15% 0 0);padding:0 2px;font-family:'Barlow Condensed',sans-serif;background:oklch(55% 0.22 30);color:white;">Hot</span>
+              </div>
+            </div>
+          </div>
+          <div style="border:2px solid oklch(15% 0 0);box-shadow:2px 2px 0 oklch(15% 0 0);overflow:hidden;">
+            <div style="height:24px;background:oklch(55% 0.15 155);display:flex;align-items:center;justify-content:center;font-family:'Dela Gothic One',sans-serif;font-size:0.6rem;color:white;">FD</div>
+            <div style="padding:0.1rem 0.2rem;background:oklch(99% 0.005 75);">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.4rem;font-weight:800;text-transform:uppercase;">FILA Disruptor</div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-family:'Barlow Condensed',sans-serif;font-size:0.4rem;font-weight:700;color:oklch(55% 0.22 30);">$65</span>
+                <span style="font-size:0.3rem;font-weight:700;text-transform:uppercase;border:1px solid oklch(15% 0 0);padding:0 2px;font-family:'Barlow Condensed',sans-serif;background:oklch(82% 0.18 90);">Sale</span>
+              </div>
+            </div>
+          </div>
+          <div style="border:2px solid oklch(15% 0 0);box-shadow:2px 2px 0 oklch(15% 0 0);overflow:hidden;">
+            <div style="height:24px;background:oklch(82% 0.18 90);display:flex;align-items:center;justify-content:center;font-family:'Dela Gothic One',sans-serif;font-size:0.6rem;color:oklch(15% 0 0);">Q</div>
+            <div style="padding:0.1rem 0.2rem;background:oklch(99% 0.005 75);">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.4rem;font-weight:800;text-transform:uppercase;">Reebok Question</div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-family:'Barlow Condensed',sans-serif;font-size:0.4rem;font-weight:700;color:oklch(55% 0.22 30);">$140</span>
+                <span style="font-size:0.3rem;font-weight:700;text-transform:uppercase;border:1px solid oklch(15% 0 0);padding:0 2px;font-family:'Barlow Condensed',sans-serif;">New</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Checkerboard -->
+        <div style="position:relative;z-index:1;">
+          <div style="height:6px;background-image:repeating-conic-gradient(oklch(15% 0 0) 0% 25%, oklch(95% 0.015 75) 0% 50%);background-size:6px 6px;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="hiw-steps">
+      <div class="hiw-step">
+        <span class="hiw-num">1</span>
+        <div>
+          <h4>Find your inspiration</h4>
+          <p>A photo, moodboard, advertisement, storefront — anything with a strong visual identity you love.</p>
+        </div>
+      </div>
+      <div class="hiw-step">
+        <span class="hiw-num">2</span>
+        <div>
+          <h4>Translate the visual language</h4>
+          <p>Use the Claude Code skill to analyze the image. It translates colors, typography, spacing, shadows, and mood into a theme JSON — all in oklch.</p>
+        </div>
+      </div>
+      <div class="hiw-step">
+        <span class="hiw-num">3</span>
+        <div>
+          <h4>Preview &amp; refine</h4>
+          <p>See your theme applied to real UI components instantly. Tweak until it captures the feeling of your reference.</p>
+        </div>
+      </div>
+      <div class="hiw-step">
+        <span class="hiw-num">4</span>
+        <div>
+          <h4>Share with the community</h4>
+          <p>Submit a PR with your theme JSON. It gets added to the gallery for everyone to discover and use.</p>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:1.5rem; padding-top:1.25rem; border-top:1px solid var(--g-border);">
+      <h3 style="font-size:0.95rem; font-weight:700; margin-bottom:0.6rem;">Why this matters</h3>
+      <p style="font-size:0.82rem; color:var(--g-muted); line-height:1.6; margin-bottom:0.5rem;">
+        <strong style="color:var(--g-text);">Every AI-generated design looks the same because they all start from the same research.</strong>
+        Health app gets green, finance gets blue, SaaS gets clean and minimal. The "correct" answer is always the same answer.
+      </p>
+      <p style="font-size:0.82rem; color:var(--g-muted); line-height:1.6; margin-bottom:0.5rem;">
+        But your creative identity doesn't come from research. It comes from things you saw — a storefront you walked past, a vintage poster that caught your eye, a photo that gave you a feeling. These experiences are deeply personal and almost impossible to describe in a text prompt.
+      </p>
+      <p style="font-size:0.82rem; color:var(--g-muted); line-height:1.6;">
+        <strong style="color:var(--g-text);">visual-theme lets you skip the prompt and show it directly.</strong> Instead of typing "make it feel retro and urban", you show it a photo of a 90s sneaker store and get a complete design system that captures that exact feeling.
+      </p>
+    </div>
+    <div style="margin-top:1.25rem; text-align:center;">
+      <a href="https://github.com/kennyhong/visual-theme/blob/main/CONTRIBUTING.md" target="_blank"
+         style="display:inline-block; padding:0.6rem 1.5rem; background:var(--g-accent); color:white; border-radius:6px; text-decoration:none; font-size:0.9rem; font-weight:600;">
+        Contribute Yours
+      </a>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { toCSS } from '../lib/convert.js';
+
+const themes = {};
+let currentTheme = null;
+let baseTheme = {};
+
+window.openHiw = function() { document.getElementById('hiwModal').classList.add('open'); };
+window.closeHiw = function() { document.getElementById('hiwModal').classList.remove('open'); };
+
+window.toggleSidebar = function() {
+  document.querySelector('.sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+};
+
+const previewUrls = {
+  'streetwear-90s': 'preview-streetwear-90s.html',
+  'korean-menu': 'preview-korean-menu.html',
+  'nyc-taxi': 'preview-nyc-taxi.html',
+  'pixel-game': 'preview-pixel-game.html',
+  'win95': 'preview-win95.html',
+  'ios-skeu': 'preview-ios-skeu.html',
+  'brutalist': 'preview-brutalist.html',
+  'japanese-minimal': 'preview-japanese-minimal.html',
+  'scandinavian': 'preview-scandinavian.html',
+  'cyberpunk': 'preview-cyberpunk.html',
+  'kids-portrait': 'preview-kids-portrait.html',
+  'art-deco': 'preview-art-deco.html',
+  'vaporwave': 'preview-vaporwave.html',
+  'comic-book': 'preview-comic-book.html',
+  'manga': 'preview-manga.html',
+  'tamagotchi': 'preview-tamagotchi.html'
+};
+
+const themeNames = {
+  'streetwear-90s': 'Streetwear 90s',
+  'korean-menu': 'Korean Menu',
+  'nyc-taxi': 'NYC Taxi',
+  'pixel-game': 'Pixel Game',
+  'win95': 'Windows 95',
+  'ios-skeu': 'iPod',
+  'brutalist': 'Brutalist',
+  'japanese-minimal': 'Japanese Minimal',
+  'scandinavian': 'Scandinavian',
+  'cyberpunk': 'Cyberpunk',
+  'kids-portrait': 'Kids: Portrait',
+  'art-deco': 'Art Deco',
+  'vaporwave': 'Vaporwave',
+  'comic-book': 'Comic Book',
+  'manga': 'Manga',
+  'tamagotchi': 'Tamagotchi'
+};
+
+async function loadThemes() {
+  try {
+    const baseRes = await fetch('../themes/_base.json');
+    baseTheme = await baseRes.json();
+  } catch(e) {}
+
+  const manifest = await fetch('../themes/manifest.json').then(r => r.json());
+  for (const entry of manifest.themes) {
+    try {
+      const res = await fetch(`../themes/${entry.file}`);
+      themes[entry.id] = await res.json();
+    } catch(e) { console.warn(`Failed to load ${entry.file}`); }
+  }
+}
+
+let currentId = 'streetwear-90s';
+let currentView = 'demo';
+
+// Single persistent onload handler — scrolls based on currentView
+const iframe = document.getElementById('preview-iframe');
+iframe.addEventListener('load', () => {
+  try {
+    if (currentView === 'components') {
+      const el = iframe.contentDocument?.getElementById('components');
+      if (el) el.scrollIntoView({ behavior: 'instant' });
+    } else {
+      iframe.contentWindow.scrollTo(0, 0);
+    }
+  } catch(e) {}
+});
+
+function scrollIframeToView(view) {
+  try {
+    if (view === 'components') {
+      const el = iframe.contentDocument?.getElementById('components');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      iframe.contentWindow.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  } catch(e) {}
+}
+
+window.switchView = function(view, btn) {
+  currentView = view;
+  document.querySelectorAll('.preview-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+
+  // The iframe already has the correct page loaded — just scroll within it.
+  // No need to reload the iframe or change its src.
+  scrollIframeToView(view);
+};
+
+window.selectTheme = async function(id, el) {
+  if (!themes[id]) await loadThemes();
+  currentTheme = themes[id];
+
+  // Update active state
+  document.querySelectorAll('.theme-item').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+
+  // Close mobile sidebar if open
+  document.querySelector('.sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+
+  // Reset to Demo tab and load new theme
+  currentId = id;
+  currentView = 'demo';
+  document.querySelectorAll('.preview-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('.preview-tab:first-child').classList.add('active');
+  document.getElementById('preview-title').textContent = themeNames[id] || id;
+  // Setting src triggers iframe load; the load handler will scroll to top since currentView is 'demo'
+  iframe.src = previewUrls[id] || '';
+};
+
+window.copyCSS = async function() {
+  if (!currentTheme) return;
+  const css = toCSS(currentTheme, baseTheme);
+  await navigator.clipboard.writeText(css);
+  const btn = event.target;
+  btn.textContent = 'Copied!';
+  btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = 'Copy CSS'; btn.classList.remove('copied'); }, 1500);
+};
+
+window.copyJSON = async function() {
+  if (!currentTheme) return;
+  await navigator.clipboard.writeText(JSON.stringify(currentTheme, null, 2));
+  const btn = event.target;
+  btn.textContent = 'Copied!';
+  btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = 'Copy JSON'; btn.classList.remove('copied'); }, 1500);
+};
+
+// Load initial theme
+loadThemes().then(() => {
+  currentTheme = themes['streetwear-90s'];
+  document.getElementById('btnCSS').disabled = false;
+  document.getElementById('btnJSON').disabled = false;
+});
+</script>
+
+</body>
+</html>

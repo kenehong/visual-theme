@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>왕김밥 — Hanok Traditional Theme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* === Tokens === */
+:root {
+  --bg: oklch(92% 0.015 70);
+  --surface: oklch(96% 0.01 70);
+  --text: oklch(18% 0.03 50);
+  --muted: oklch(45% 0.03 50);
+  --primary: oklch(42% 0.18 25);
+  --accent: oklch(40% 0.12 160);
+  --blue: oklch(42% 0.12 250);
+  --gold: oklch(68% 0.14 80);
+  --wood: oklch(25% 0.05 55);
+  --giwa: oklch(30% 0.02 260);
+  --border: oklch(78% 0.02 70);
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+  --radius: 3px;
+  --shadow-sm: 0 1px 3px oklch(18% 0.03 50 / 0.1);
+  --shadow-md: 0 3px 10px oklch(18% 0.03 50 / 0.12);
+  --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-body); background: var(--bg); color: var(--text);
+  line-height: 1.7; -webkit-font-smoothing: antialiased; font-size: 15px;
+}
+/* === Hanji paper texture === */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.wrap { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; line-height: 1.3; letter-spacing: 0.04em; }
+
+/* === Dancheong pattern strip — multi-layered nested borders === */
+.dancheong {
+  height: 34px; position: relative;
+  background: var(--gold);
+  /* nested color bands built with box-shadow inset */
+  box-shadow:
+    inset 0  16px 0 0 var(--wood),
+    inset 0 -16px 0 0 var(--wood),
+    inset 0  15px 0 0 var(--gold),
+    inset 0 -15px 0 0 var(--gold),
+    inset 0  13px 0 0 var(--primary),
+    inset 0 -13px 0 0 var(--primary),
+    inset 0   9px 0 0 var(--gold),
+    inset 0  -9px 0 0 var(--gold),
+    inset 0   8px 0 0 var(--accent),
+    inset 0  -8px 0 0 var(--accent),
+    inset 0   4px 0 0 var(--gold),
+    inset 0  -4px 0 0 var(--gold),
+    inset 0   3px 0 0 var(--blue),
+    inset 0  -3px 0 0 var(--blue);
+  /* center 6px strip stays gold from background */
+}
+/* Overlay a repeating diamond/lozenge motif on top of the bands */
+.dancheong::before {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background:
+    /* small diamonds on the red band area */
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px, transparent 4px,
+      oklch(68% 0.14 80 / 0.35) 4px, oklch(68% 0.14 80 / 0.35) 5px,
+      transparent 5px, transparent 9px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px, transparent 4px,
+      oklch(68% 0.14 80 / 0.35) 4px, oklch(68% 0.14 80 / 0.35) 5px,
+      transparent 5px, transparent 9px
+    );
+}
+/* 뇌문 (thunder/angular spiral) tick marks along the edges */
+.dancheong::after {
+  content: ''; position: absolute; inset: 0; z-index: 2;
+  background:
+    /* top edge ticks */
+    repeating-linear-gradient(
+      90deg,
+      oklch(18% 0.03 50 / 0.5) 0px, oklch(18% 0.03 50 / 0.5) 2px,
+      transparent 2px, transparent 18px
+    ),
+    /* bottom edge ticks */
+    repeating-linear-gradient(
+      90deg,
+      oklch(18% 0.03 50 / 0.3) 0px, oklch(18% 0.03 50 / 0.3) 1px,
+      transparent 1px, transparent 12px
+    );
+  background-size: 18px 1px, 12px 1px;
+  background-position: 0 0, 0 100%;
+  background-repeat: repeat-x;
+}
+
+.dancheong-thin {
+  height: 14px; position: relative;
+  background: var(--gold);
+  box-shadow:
+    inset 0  6px 0 0 var(--wood),
+    inset 0 -6px 0 0 var(--wood),
+    inset 0  5px 0 0 var(--gold),
+    inset 0 -5px 0 0 var(--gold),
+    inset 0  4px 0 0 var(--primary),
+    inset 0 -4px 0 0 var(--primary),
+    inset 0  2px 0 0 var(--gold),
+    inset 0 -2px 0 0 var(--gold),
+    inset 0  1px 0 0 var(--accent),
+    inset 0 -1px 0 0 var(--accent);
+}
+/* subtle cross-hatch on thin strip */
+.dancheong-thin::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(
+      60deg,
+      transparent 0px, transparent 3px,
+      oklch(68% 0.14 80 / 0.25) 3px, oklch(68% 0.14 80 / 0.25) 4px,
+      transparent 4px, transparent 7px
+    ),
+    repeating-linear-gradient(
+      -60deg,
+      transparent 0px, transparent 3px,
+      oklch(68% 0.14 80 / 0.25) 3px, oklch(68% 0.14 80 / 0.25) 4px,
+      transparent 4px, transparent 7px
+    );
+}
+
+/* === 뇌문 (Thunder/Greek-key) decorative band between sections === */
+.noemun-band {
+  height: 20px; position: relative; overflow: hidden;
+  background: var(--wood);
+}
+.noemun-band::before {
+  content: ''; position: absolute; inset: 2px 0;
+  background:
+    /* stepped angular spiral approximation via layered gradients */
+    repeating-linear-gradient(90deg,
+      var(--gold) 0px, var(--gold) 4px,
+      var(--primary) 4px, var(--primary) 8px,
+      var(--gold) 8px, var(--gold) 10px,
+      var(--accent) 10px, var(--accent) 14px,
+      var(--gold) 14px, var(--gold) 16px,
+      var(--blue) 16px, var(--blue) 20px,
+      var(--gold) 20px, var(--gold) 24px
+    );
+}
+.noemun-band::after {
+  content: ''; position: absolute; inset: 2px 0;
+  /* angular stepped pattern overlay — creates the interlocking key effect */
+  background:
+    repeating-linear-gradient(90deg,
+      transparent 0px, transparent 6px,
+      oklch(25% 0.05 55 / 0.7) 6px, oklch(25% 0.05 55 / 0.7) 8px,
+      transparent 8px, transparent 24px
+    ),
+    repeating-linear-gradient(0deg,
+      transparent 0px, transparent 3px,
+      oklch(25% 0.05 55 / 0.5) 3px, oklch(25% 0.05 55 / 0.5) 4px,
+      transparent 4px, transparent 8px
+    ),
+    /* diagonal stepped lines */
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px, transparent 5px,
+      oklch(25% 0.05 55 / 0.3) 5px, oklch(25% 0.05 55 / 0.3) 6px,
+      transparent 6px, transparent 11px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px, transparent 5px,
+      oklch(25% 0.05 55 / 0.3) 5px, oklch(25% 0.05 55 / 0.3) 6px,
+      transparent 6px, transparent 11px
+    );
+}
+
+/* === Dark wood beam separator — decorated with gold line accents === */
+.wood-beam {
+  height: 12px; background: var(--wood); position: relative;
+  box-shadow: 0 2px 4px oklch(18% 0.03 50 / 0.2);
+}
+/* thin gold pin-stripes along beam edges */
+.wood-beam::before {
+  content: ''; position: absolute; inset: 0;
+  box-shadow:
+    inset 0  1px 0 0 oklch(68% 0.14 80 / 0.4),
+    inset 0 -1px 0 0 oklch(68% 0.14 80 / 0.4);
+}
+/* subtle repeating accent dots along center of beam */
+.wood-beam::after {
+  content: ''; position: absolute; top: 4px; left: 0; right: 0; height: 4px;
+  background: repeating-linear-gradient(90deg,
+    transparent 0px, transparent 14px,
+    oklch(68% 0.14 80 / 0.3) 14px, oklch(68% 0.14 80 / 0.3) 16px,
+    transparent 16px, transparent 30px,
+    oklch(42% 0.18 25 / 0.3) 30px, oklch(42% 0.18 25 / 0.3) 32px,
+    transparent 32px, transparent 46px,
+    oklch(40% 0.12 160 / 0.3) 46px, oklch(40% 0.12 160 / 0.3) 48px,
+    transparent 48px, transparent 60px
+  );
+}
+.wood-beam-thin {
+  height: 6px; background: var(--wood); position: relative;
+}
+.wood-beam-thin::before {
+  content: ''; position: absolute; inset: 0;
+  box-shadow:
+    inset 0  1px 0 0 oklch(68% 0.14 80 / 0.3),
+    inset 0 -1px 0 0 oklch(68% 0.14 80 / 0.3);
+}
+
+/* === Giwa roof header === */
+.giwa-roof {
+  background: var(--giwa); position: relative; padding: 0;
+  border-radius: 0 0 50% 50% / 0 0 8px 8px;
+}
+
+/* === Header: Giwa + Dancheong + Title === */
+header { background: var(--giwa); }
+.header-giwa { padding: 0.75rem 0; }
+.header-giwa .wrap { display: flex; justify-content: flex-end; gap: 2rem; }
+.header-giwa nav a {
+  text-decoration: none; color: oklch(75% 0.01 70); font-size: 0.82rem;
+  letter-spacing: 0.08em; text-transform: uppercase; transition: color var(--transition);
+}
+.header-giwa nav a:hover { color: oklch(95% 0.01 70); }
+
+.hero-area {
+  background: var(--surface); border-left: 6px solid var(--wood); border-right: 6px solid var(--wood);
+  padding: 3.5rem 2rem; text-align: center; position: relative;
+}
+/* large decorative corner brackets on hero */
+.hero-area::before {
+  content: ''; position: absolute; top: 16px; left: 20px; width: 24px; height: 24px;
+  border-top: 2px solid var(--gold); border-left: 2px solid var(--gold);
+  box-shadow:
+    3px 3px 0 -1px var(--surface),
+    4px 4px 0 0 oklch(68% 0.14 80 / 0.3);
+}
+.hero-area::after {
+  content: ''; position: absolute; top: 16px; right: 20px; width: 24px; height: 24px;
+  border-top: 2px solid var(--gold); border-right: 2px solid var(--gold);
+  box-shadow:
+    -3px 3px 0 -1px var(--surface),
+    -4px 4px 0 0 oklch(68% 0.14 80 / 0.3);
+}
+.hero-area h1 {
+  font-size: clamp(2.4rem, 5vw, 3.4rem); font-weight: 700; color: var(--text);
+  margin-bottom: 0.25rem;
+}
+.hero-area .subtitle {
+  font-family: var(--font-display); font-size: 1.15rem; color: var(--muted);
+  letter-spacing: 0.08em; font-weight: 400;
+}
+.hero-area .tagline {
+  margin-top: 1.5rem; font-size: 0.9rem; color: var(--muted); max-width: 520px;
+  margin-left: auto; margin-right: auto; line-height: 1.8;
+}
+
+/* === Section structure === */
+.section-panel {
+  background: var(--surface); border-left: 6px solid var(--wood); border-right: 6px solid var(--wood);
+  padding: 3rem 2rem;
+}
+.section-title {
+  font-size: 1.6rem; font-weight: 600; margin-bottom: 2rem; text-align: center;
+  color: var(--text); position: relative; padding-bottom: 1.25rem;
+}
+/* multi-layered dancheong underline for section titles */
+.section-title::before {
+  content: ''; position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%);
+  width: 90px; height: 1px; background: var(--gold);
+}
+.section-title::after {
+  content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 80px; height: 5px;
+  background:
+    linear-gradient(
+      to bottom,
+      oklch(25% 0.05 55 / 0.6) 0px, oklch(25% 0.05 55 / 0.6) 1px,
+      var(--primary) 1px, var(--primary) 2px,
+      var(--gold) 2px, var(--gold) 3px,
+      var(--accent) 3px, var(--accent) 4px,
+      oklch(25% 0.05 55 / 0.6) 4px, oklch(25% 0.05 55 / 0.6) 5px
+    );
+}
+
+/* === Exhibit cards with dancheong header motif + corner ornaments === */
+.exhibit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+.exhibit-card {
+  background: var(--bg); border: 3px solid var(--wood); border-radius: var(--radius);
+  padding: 0; transition: box-shadow var(--transition); position: relative; overflow: hidden;
+}
+/* dancheong-inspired card header band */
+.exhibit-card::before {
+  content: ''; display: block; height: 8px;
+  background:
+    repeating-linear-gradient(90deg,
+      var(--primary) 0px, var(--primary) 6px,
+      var(--gold) 6px, var(--gold) 8px,
+      var(--accent) 8px, var(--accent) 14px,
+      var(--gold) 14px, var(--gold) 16px,
+      var(--blue) 16px, var(--blue) 22px,
+      var(--gold) 22px, var(--gold) 24px
+    );
+  box-shadow:
+    inset 0 -1px 0 0 oklch(25% 0.05 55 / 0.4),
+    inset 0  1px 0 0 oklch(25% 0.05 55 / 0.4);
+}
+/* corner bracket ornament (머리초) — top-left and top-right */
+.exhibit-card::after {
+  content: ''; position: absolute; top: 12px; left: 8px; width: 14px; height: 14px;
+  border-top: 2px solid var(--gold); border-left: 2px solid var(--gold);
+  box-shadow:
+    /* mirror to top-right — use width offset trick */
+    calc(100% - 44px) 0 0 0 transparent;
+}
+.exhibit-card .card-inner { padding: 1.5rem 1.5rem 1.75rem; position: relative; }
+/* top-right corner ornament via card-inner */
+.exhibit-card .card-inner::before {
+  content: ''; position: absolute; top: 4px; right: 8px; width: 14px; height: 14px;
+  border-top: 2px solid var(--gold); border-right: 2px solid var(--gold);
+}
+/* bottom decorative line */
+.exhibit-card .card-inner::after {
+  content: ''; position: absolute; bottom: 8px; left: 1.5rem; right: 1.5rem; height: 1px;
+  background: repeating-linear-gradient(90deg,
+    var(--gold) 0px, var(--gold) 4px,
+    transparent 4px, transparent 8px,
+    var(--primary) 8px, var(--primary) 10px,
+    transparent 10px, transparent 14px
+  );
+}
+.exhibit-card:hover { box-shadow: var(--shadow-md); }
+.exhibit-card .tag {
+  display: inline-block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
+  padding: 0.2rem 0.6rem; border-radius: var(--radius); margin-bottom: 1rem; font-weight: 600;
+}
+.exhibit-card h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.4rem; }
+.exhibit-card .date { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.75rem; font-weight: 500; }
+.exhibit-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+
+/* === Visit info grid === */
+.visit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+.visit-item {
+  background: var(--bg); border: 2px solid var(--wood); border-radius: var(--radius);
+  padding: 1.5rem; text-align: center; position: relative;
+  /* subtle inner gold frame */
+  box-shadow: inset 0 0 0 4px var(--bg), inset 0 0 0 5px oklch(68% 0.14 80 / 0.3);
+}
+/* corner bracket ornaments */
+.visit-item::before {
+  content: ''; position: absolute; top: 6px; left: 6px; width: 10px; height: 10px;
+  border-top: 1.5px solid var(--gold); border-left: 1.5px solid var(--gold);
+}
+.visit-item::after {
+  content: ''; position: absolute; top: 6px; right: 6px; width: 10px; height: 10px;
+  border-top: 1.5px solid var(--gold); border-right: 1.5px solid var(--gold);
+}
+.visit-item h4 {
+  font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--muted); margin-bottom: 0.75rem;
+}
+.visit-item .value { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; color: var(--text); }
+.visit-item .detail { font-size: 0.82rem; color: var(--muted); margin-top: 0.5rem; }
+
+/* === Reservation Form === */
+.reserve-form { max-width: 480px; margin: 0 auto; }
+.field { margin-bottom: 1.5rem; }
+.field label {
+  display: block; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--muted); margin-bottom: 0.5rem; font-weight: 500;
+}
+.field input, .field select {
+  width: 100%; padding: 0.8rem 1rem; border: 2px solid oklch(78% 0.02 70);
+  border-radius: var(--radius); background: var(--surface);
+  font-family: var(--font-body); font-size: 0.92rem; color: var(--text);
+  transition: border-color var(--transition); outline: none;
+}
+.field input:focus, .field select:focus { border-color: var(--wood); }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.btn-primary {
+  display: block; width: 100%; padding: 0.9rem; margin-top: 2rem;
+  background: var(--primary); color: oklch(96% 0.01 70); border: none;
+  border-radius: var(--radius); font-family: var(--font-body); font-size: 0.88rem;
+  letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer;
+  transition: opacity var(--transition); font-weight: 600;
+}
+.btn-primary:hover { opacity: 0.88; }
+
+/* === Footer with elaborate dancheong crown === */
+.footer-wood { background: var(--wood); padding: 2rem 0; text-align: center; position: relative; }
+.footer-wood p { font-size: 0.82rem; color: oklch(70% 0.01 70); margin-bottom: 0.4rem; position: relative; z-index: 1; }
+/* ornamental gold line near bottom */
+.footer-wood::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  background: repeating-linear-gradient(90deg,
+    oklch(68% 0.14 80 / 0.3) 0px, oklch(68% 0.14 80 / 0.3) 6px,
+    transparent 6px, transparent 10px,
+    oklch(42% 0.18 25 / 0.3) 10px, oklch(42% 0.18 25 / 0.3) 14px,
+    transparent 14px, transparent 18px,
+    oklch(40% 0.12 160 / 0.3) 18px, oklch(40% 0.12 160 / 0.3) 22px,
+    transparent 22px, transparent 26px
+  );
+}
+/* elaborate footer dancheong crown band */
+.footer-dancheong {
+  height: 28px; position: relative;
+  background: var(--wood);
+  box-shadow:
+    inset 0  13px 0 0 var(--gold),
+    inset 0 -13px 0 0 var(--gold),
+    inset 0  12px 0 0 var(--primary),
+    inset 0 -12px 0 0 var(--blue),
+    inset 0   8px 0 0 var(--gold),
+    inset 0  -8px 0 0 var(--gold),
+    inset 0   7px 0 0 var(--accent),
+    inset 0  -7px 0 0 var(--primary),
+    inset 0   3px 0 0 var(--gold),
+    inset 0  -3px 0 0 var(--gold);
+  /* center 6px stays wood-colored */
+}
+.footer-dancheong::before {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background:
+    repeating-linear-gradient(45deg,
+      transparent 0px, transparent 3px,
+      oklch(25% 0.05 55 / 0.2) 3px, oklch(25% 0.05 55 / 0.2) 4px,
+      transparent 4px, transparent 7px
+    ),
+    repeating-linear-gradient(-45deg,
+      transparent 0px, transparent 3px,
+      oklch(25% 0.05 55 / 0.2) 3px, oklch(25% 0.05 55 / 0.2) 4px,
+      transparent 4px, transparent 7px
+    );
+}
+.footer-dancheong::after {
+  content: ''; position: absolute; inset: 0; z-index: 2;
+  /* dark frame lines at top and bottom */
+  box-shadow:
+    inset 0  1px 0 0 oklch(18% 0.03 50 / 0.6),
+    inset 0 -1px 0 0 oklch(18% 0.03 50 / 0.6);
+}
+
+/* === Components Section === */
+.components { padding: 4rem 0 3rem; }
+.components > .wrap > h2 {
+  text-align: center; font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem;
+}
+.comp-subtitle {
+  text-align: center; font-size: 0.82rem; color: var(--muted);
+  margin-bottom: 3rem; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.comp-group { margin-bottom: 3rem; }
+.comp-group > h3 {
+  font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--muted); margin-bottom: 1.25rem; padding-bottom: 0.75rem;
+  border-bottom: 3px solid var(--wood); font-family: var(--font-body); font-weight: 600;
+  position: relative;
+}
+/* thin gold accent line below comp group heading */
+.comp-group > h3::after {
+  content: ''; position: absolute; bottom: -5px; left: 0; right: 0; height: 1px;
+  background: repeating-linear-gradient(90deg,
+    var(--gold) 0px, var(--gold) 8px,
+    transparent 8px, transparent 12px,
+    var(--primary) 12px, var(--primary) 14px,
+    transparent 14px, transparent 18px
+  );
+}
+
+/* Swatches */
+.swatches { display: flex; flex-wrap: wrap; gap: 1rem; }
+.swatch { text-align: center; }
+.swatch-color {
+  width: 64px; height: 64px; border-radius: var(--radius);
+  border: 2px solid var(--wood); margin-bottom: 0.5rem;
+}
+.swatch span { font-size: 0.7rem; color: var(--muted); }
+
+/* Buttons */
+.btn-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+.btn {
+  padding: 0.7rem 1.5rem; border-radius: var(--radius); font-family: var(--font-body);
+  font-size: 0.85rem; cursor: pointer; transition: all var(--transition);
+  letter-spacing: 0.03em; border: 2px solid transparent; font-weight: 500;
+}
+.btn-fill-primary { background: var(--primary); color: var(--surface); border-color: var(--primary); }
+.btn-fill-primary:hover { opacity: 0.88; }
+.btn-fill-accent { background: var(--accent); color: var(--surface); border-color: var(--accent); }
+.btn-fill-accent:hover { opacity: 0.88; }
+.btn-fill-wood { background: var(--wood); color: oklch(90% 0.01 70); border-color: var(--wood); }
+.btn-fill-wood:hover { opacity: 0.88; }
+.btn-outline { background: transparent; color: var(--text); border-color: var(--wood); }
+.btn-outline:hover { background: oklch(25% 0.05 55 / 0.05); }
+.btn-ghost { background: transparent; color: var(--muted); border-color: transparent; }
+.btn-ghost:hover { color: var(--text); }
+
+/* Badges */
+.badge-row { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.badge {
+  padding: 0.3rem 0.85rem; border-radius: var(--radius);
+  font-size: 0.75rem; letter-spacing: 0.04em; font-weight: 600;
+}
+
+/* Table */
+.comp-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.comp-table thead { background: var(--wood); }
+.comp-table th {
+  text-align: left; font-weight: 600; font-size: 0.78rem; text-transform: uppercase;
+  letter-spacing: 0.06em; color: oklch(85% 0.01 70); padding: 0.9rem 1rem;
+}
+.comp-table td {
+  padding: 0.9rem 1rem; border-bottom: 1px solid oklch(85% 0.015 70); color: var(--text);
+}
+.comp-table tr:hover td { background: oklch(94% 0.012 70); }
+
+/* === Mobile === */
+@media (max-width: 640px) {
+  .hero-area { padding: 2.5rem 1.25rem; }
+  .section-panel { padding: 2rem 1.25rem; }
+  .hero-area, .section-panel { border-left-width: 4px; border-right-width: 4px; }
+  .header-giwa .wrap { justify-content: center; }
+  .visit-grid { grid-template-columns: 1fr; }
+  .field-row { grid-template-columns: 1fr; }
+  .exhibit-grid { grid-template-columns: 1fr; }
+  .kimbap-art { width: 160px; height: 160px; }
+  .combo-grid { grid-template-columns: 1fr; }
+}
+
+/* === Kimbap cross-section CSS art === */
+.kimbap-art {
+  width: 200px; height: 200px; border-radius: 50%; position: relative; margin: 0 auto 2rem;
+  background: oklch(35% 0.08 155); /* nori */
+  box-shadow: var(--shadow-md), inset 0 0 0 10px oklch(35% 0.08 155), inset 0 0 0 12px oklch(30% 0.06 155);
+}
+.kimbap-rice {
+  position: absolute; inset: 8px; border-radius: 50%;
+  background: oklch(96% 0.005 80); /* rice */
+  border: 2px solid oklch(90% 0.01 70);
+}
+.kimbap-filling {
+  position: absolute; border-radius: 50%;
+}
+.filling-danmuji { width: 28px; height: 28px; background: oklch(82% 0.16 90); top: 40px; left: 50%; transform: translateX(-50%); }
+.filling-carrot { width: 22px; height: 22px; background: oklch(68% 0.18 55); top: 58px; left: 34%; }
+.filling-spinach { width: 24px; height: 24px; background: oklch(50% 0.14 145); top: 75px; left: 52%; }
+.filling-beef { width: 26px; height: 26px; background: oklch(38% 0.08 45); top: 52px; right: 34%; }
+.filling-ham { width: 20px; height: 20px; background: oklch(72% 0.12 15); top: 80px; left: 42%; }
+.filling-egg { width: 24px; height: 24px; background: oklch(88% 0.1 95); top: 62px; left: 28%; border: 2px solid oklch(80% 0.08 90); }
+.filling-crab { width: 20px; height: 20px; background: oklch(62% 0.16 30); top: 68px; right: 30%; }
+
+/* === Menu card color accent top bar === */
+.card-accent-green .exhibit-card::before {
+  background: repeating-linear-gradient(90deg,
+    oklch(40% 0.12 160) 0px, oklch(40% 0.12 160) 6px,
+    var(--gold) 6px, var(--gold) 8px,
+    oklch(35% 0.08 155) 8px, oklch(35% 0.08 155) 14px,
+    var(--gold) 14px, var(--gold) 16px
+  );
+}
+.card-accent-red .exhibit-card::before {
+  background: repeating-linear-gradient(90deg,
+    var(--primary) 0px, var(--primary) 8px,
+    var(--gold) 8px, var(--gold) 10px,
+    oklch(50% 0.2 25) 10px, oklch(50% 0.2 25) 16px,
+    var(--gold) 16px, var(--gold) 18px
+  );
+}
+.card-accent-brown .exhibit-card::before {
+  background: repeating-linear-gradient(90deg,
+    oklch(38% 0.08 45) 0px, oklch(38% 0.08 45) 6px,
+    var(--gold) 6px, var(--gold) 8px,
+    var(--wood) 8px, var(--wood) 14px,
+    var(--gold) 14px, var(--gold) 16px
+  );
+}
+.card-accent-gold .exhibit-card::before {
+  background: repeating-linear-gradient(90deg,
+    var(--gold) 0px, var(--gold) 6px,
+    var(--primary) 6px, var(--primary) 8px,
+    oklch(75% 0.14 80) 8px, oklch(75% 0.14 80) 14px,
+    var(--primary) 14px, var(--primary) 16px
+  );
+}
+
+/* Menu item layout */
+.menu-item-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.25rem; }
+.menu-item-header h3 { font-size: 1.2rem; margin-bottom: 0; }
+.menu-price {
+  font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; color: var(--primary);
+  white-space: nowrap;
+}
+.menu-name-ko { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.75rem; font-weight: 500; }
+.btn-order {
+  display: inline-block; margin-top: 1rem; padding: 0.5rem 1.2rem; background: var(--wood);
+  color: oklch(90% 0.01 70); border: none; border-radius: var(--radius); font-family: var(--font-body);
+  font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
+  transition: opacity var(--transition); font-weight: 600;
+}
+.btn-order:hover { opacity: 0.85; }
+
+/* Combo cards */
+.combo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.combo-card {
+  background: var(--bg); border: 3px solid var(--gold); border-radius: var(--radius);
+  padding: 0; position: relative; overflow: hidden;
+  box-shadow: inset 0 0 0 4px var(--bg), inset 0 0 0 5px oklch(68% 0.14 80 / 0.3);
+}
+.combo-card::before {
+  content: ''; display: block; height: 10px;
+  background:
+    repeating-linear-gradient(90deg,
+      var(--gold) 0px, var(--gold) 4px,
+      var(--primary) 4px, var(--primary) 8px,
+      var(--gold) 8px, var(--gold) 12px,
+      var(--accent) 12px, var(--accent) 16px,
+      var(--gold) 16px, var(--gold) 20px,
+      var(--blue) 20px, var(--blue) 24px,
+      var(--gold) 24px, var(--gold) 28px
+    );
+}
+.combo-inner { padding: 1.5rem; text-align: center; }
+.combo-inner h3 { font-size: 1.25rem; margin-bottom: 0.25rem; }
+.combo-inner .combo-subtitle { font-size: 0.82rem; color: var(--muted); margin-bottom: 1rem; }
+.combo-inner .combo-items { font-size: 0.88rem; color: var(--text); line-height: 1.9; margin-bottom: 1rem; }
+.combo-inner .combo-price {
+  font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; color: var(--primary);
+}
+
+/* About section */
+.about-text {
+  max-width: 560px; margin: 0 auto; text-align: center;
+  font-size: 0.95rem; color: var(--muted); line-height: 1.9;
+}
+.about-text .pull-quote {
+  font-family: var(--font-display); font-size: 1.3rem; font-weight: 600;
+  color: var(--text); display: block; margin: 1.5rem 0; line-height: 1.5;
+  border-left: 3px solid var(--gold); padding-left: 1rem; text-align: left;
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Giwa Roof + Dancheong + Hero ===== -->
+<header>
+  <div class="header-giwa">
+    <div class="wrap">
+      <nav>
+        <a href="#menu">Menu</a>
+        <a href="#combos">Order</a>
+        <a href="#about">About</a>
+      </nav>
+    </div>
+  </div>
+</header>
+<div class="dancheong"></div>
+<div class="wood-beam-thin"></div>
+
+<div class="wrap">
+  <div class="hero-area">
+    <h1>왕김밥</h1>
+    <div class="subtitle">WANG KIMBAP &middot; Royal Street Food &middot; Since 2003</div>
+    <p class="tagline">Street food, royal style. We wrap the same care that built palaces into every roll of kimbap. Traditional Korean flavors, served fast and fresh from our corner kitchen.</p>
+
+    <!-- CSS Kimbap cross-section art -->
+    <div class="kimbap-art" style="margin-top:2rem;">
+      <div class="kimbap-rice">
+        <div class="kimbap-filling filling-danmuji"></div>
+        <div class="kimbap-filling filling-carrot"></div>
+        <div class="kimbap-filling filling-spinach"></div>
+        <div class="kimbap-filling filling-beef"></div>
+        <div class="kimbap-filling filling-ham"></div>
+        <div class="kimbap-filling filling-egg"></div>
+        <div class="kimbap-filling filling-crab"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wood-beam"></div>
+<div class="dancheong-thin"></div>
+
+<!-- ===== Menu ===== -->
+<div class="wrap" id="menu">
+  <div class="section-panel">
+    <div class="section-title">오늘의 메뉴</div>
+    <div class="exhibit-grid">
+
+      <div class="card-accent-green">
+        <div class="exhibit-card">
+          <div class="card-inner">
+            <span class="tag" style="background:oklch(40% 0.12 160 / 0.12);color:var(--accent);">Classic</span>
+            <div class="menu-item-header">
+              <h3>Kimbap</h3>
+              <span class="menu-price">$8</span>
+            </div>
+            <div class="menu-name-ko">김밥</div>
+            <p>Classic rolled rice wrapped in crispy seaweed with fresh vegetables, pickled radish, and seasoned beef.</p>
+            <button class="btn-order">Order</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-accent-red">
+        <div class="exhibit-card">
+          <div class="card-inner">
+            <span class="tag" style="background:oklch(42% 0.18 25 / 0.12);color:var(--primary);">Spicy</span>
+            <div class="menu-item-header">
+              <h3>Tteokbokki</h3>
+              <span class="menu-price">$10</span>
+            </div>
+            <div class="menu-name-ko">떡볶이</div>
+            <p>Chewy rice cakes simmered in our house gochujang sauce. The kind of spicy that keeps you coming back.</p>
+            <button class="btn-order">Order</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-accent-brown">
+        <div class="exhibit-card">
+          <div class="card-inner">
+            <span class="tag" style="background:oklch(38% 0.08 45 / 0.15);color:oklch(38% 0.08 45);">Traditional</span>
+            <div class="menu-item-header">
+              <h3>Sundae</h3>
+              <span class="menu-price">$9</span>
+            </div>
+            <div class="menu-name-ko">순대</div>
+            <p>Traditional Korean blood sausage stuffed with glass noodles. Served sliced with salt-pepper dip.</p>
+            <button class="btn-order">Order</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-accent-gold">
+        <div class="exhibit-card">
+          <div class="card-inner">
+            <span class="tag" style="background:oklch(68% 0.14 80 / 0.2);color:oklch(50% 0.12 80);">Fusion</span>
+            <div class="menu-item-header">
+              <h3>Rabokki</h3>
+              <span class="menu-price">$12</span>
+            </div>
+            <div class="menu-name-ko">라볶이</div>
+            <p>Ramen noodles meet tteokbokki in a rich, spicy broth. The best of both worlds in one steaming bowl.</p>
+            <button class="btn-order">Order</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="noemun-band"></div>
+<div class="wood-beam"></div>
+
+<!-- ===== Combo Sets ===== -->
+<div class="wrap" id="combos">
+  <div class="section-panel">
+    <div class="section-title">세트 메뉴</div>
+    <div class="combo-grid">
+
+      <div class="combo-card">
+        <div class="combo-inner">
+          <h3>Set A</h3>
+          <div class="combo-subtitle">The Classic Pair</div>
+          <div class="combo-items">
+            Kimbap 김밥<br>
+            Tteokbokki 떡볶이<br>
+            Drink 음료
+          </div>
+          <div class="combo-price">$16</div>
+          <button class="btn-order" style="margin-top:1.25rem;">Order Set A</button>
+        </div>
+      </div>
+
+      <div class="combo-card">
+        <div class="combo-inner">
+          <h3>Set B</h3>
+          <div class="combo-subtitle">The Bold Choice</div>
+          <div class="combo-items">
+            Rabokki 라볶이<br>
+            Sundae 순대<br>
+            Drink 음료
+          </div>
+          <div class="combo-price">$18</div>
+          <button class="btn-order" style="margin-top:1.25rem;">Order Set B</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="dancheong-thin"></div>
+<div class="wood-beam-thin"></div>
+
+<!-- ===== About ===== -->
+<div class="wrap" id="about">
+  <div class="section-panel">
+    <div class="section-title">Our Story</div>
+    <div class="about-text">
+      <p>Wang Kimbap started as a tiny corner stall in 2003 with one belief: everyday food deserves royal presentation. Our founder grew up watching her grandmother roll kimbap with the same precision a master carpenter joins wood beams without a single nail.</p>
+      <span class="pull-quote">We believe the same care that painted palace ceilings belongs in a plate of tteokbokki.</span>
+      <p>Every dish is made fresh to order. The rice is seasoned by hand. The gochujang sauce follows a recipe three generations old. The only thing fast about us is the service.</p>
+    </div>
+  </div>
+</div>
+
+<div class="wood-beam"></div>
+
+<!-- ===== Order Form ===== -->
+<div class="wrap">
+  <div class="section-panel">
+    <div class="section-title">Place an Order</div>
+    <div class="reserve-form">
+      <div class="field">
+        <label>Name</label>
+        <input type="text" placeholder="Your name">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Phone</label>
+          <input type="tel" placeholder="(206) 555-0123">
+        </div>
+        <div class="field">
+          <label>Pickup Time</label>
+          <input type="time">
+        </div>
+      </div>
+      <div class="field">
+        <label>Special Requests</label>
+        <input type="text" placeholder="Extra spicy, no beef, etc.">
+      </div>
+      <button class="btn-primary">Place Order</button>
+    </div>
+  </div>
+</div>
+
+<div class="dancheong-thin"></div>
+<div class="noemun-band"></div>
+
+<!-- ===== Footer ===== -->
+<div class="footer-dancheong"></div>
+<div class="footer-wood">
+  <div class="wrap">
+    <p style="font-family:var(--font-display);font-size:1.2rem;color:oklch(85% 0.01 70);margin-bottom:0.5rem;font-weight:600;">왕김밥 Wang Kimbap</p>
+    <p>Royal Street Food &middot; Since 2003</p>
+    <p>Mon — Sat, 11:00 AM — 9:00 PM</p>
+  </div>
+</div>
+
+<!-- ===== COMPONENTS ===== -->
+<section class="components">
+  <div class="wrap">
+    <h2>Components</h2>
+    <p class="comp-subtitle">Hanok Architectural Design Tokens</p>
+
+    <!-- Typography -->
+    <div class="comp-group">
+      <h3>Typography</h3>
+      <div style="margin-bottom:1rem;">
+        <span style="font-family:var(--font-display);font-size:2.2rem;font-weight:700;">경복궁 Gyeongbokgung</span>
+      </div>
+      <div style="margin-bottom:0.75rem;">
+        <span style="font-family:var(--font-display);font-size:1.5rem;font-weight:600;">Cormorant Garamond Display</span>
+      </div>
+      <div style="color:var(--muted);">
+        <span style="font-size:0.92rem;">Inter body text for readability. 본문 텍스트는 인터 서체를 사용합니다.</span>
+      </div>
+    </div>
+
+    <!-- Colors -->
+    <div class="comp-group">
+      <h3>단청 Colors</h3>
+      <div class="swatches">
+        <div class="swatch"><div class="swatch-color" style="background:var(--primary);"></div><span>적 Red</span></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--accent);"></div><span>녹 Green</span></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--blue);"></div><span>청 Blue</span></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--gold);"></div><span>금 Gold</span></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--wood);"></div><span>목 Wood</span></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--giwa);"></div><span>와 Giwa</span></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--bg);"></div><span>지 Hanji</span></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--surface);"></div><span>면 Surface</span></div>
+        <div class="swatch"><div class="swatch-color" style="background:var(--text);"></div><span>묵 Text</span></div>
+      </div>
+    </div>
+
+    <!-- Dancheong Pattern -->
+    <div class="comp-group">
+      <h3>Dancheong Pattern</h3>
+      <div class="dancheong" style="margin-bottom:0.75rem;"></div>
+      <div class="dancheong-thin" style="margin-bottom:0.75rem;"></div>
+      <div class="noemun-band" style="margin-bottom:0.75rem;"></div>
+      <div class="footer-dancheong"></div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="comp-group">
+      <h3>Buttons</h3>
+      <div class="btn-row">
+        <button class="btn btn-fill-primary">Primary</button>
+        <button class="btn btn-fill-accent">Accent</button>
+        <button class="btn btn-fill-wood">Wood</button>
+        <button class="btn btn-outline">Outline</button>
+        <button class="btn btn-ghost">Ghost</button>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="comp-group">
+      <h3>Badges</h3>
+      <div class="badge-row">
+        <span class="badge" style="background:oklch(42% 0.18 25 / 0.12);color:var(--primary);">단청 Red</span>
+        <span class="badge" style="background:oklch(40% 0.12 160 / 0.12);color:var(--accent);">단청 Green</span>
+        <span class="badge" style="background:oklch(42% 0.12 250 / 0.12);color:var(--blue);">단청 Blue</span>
+        <span class="badge" style="background:oklch(68% 0.14 80 / 0.2);color:oklch(50% 0.12 80);">단청 Gold</span>
+        <span class="badge" style="background:oklch(25% 0.05 55 / 0.1);color:var(--wood);">Wood</span>
+        <span class="badge" style="background:oklch(30% 0.02 260 / 0.1);color:var(--giwa);">Giwa</span>
+      </div>
+    </div>
+
+    <!-- Card -->
+    <div class="comp-group">
+      <h3>Card</h3>
+      <div style="max-width:360px;">
+        <div class="exhibit-card">
+          <div class="card-inner">
+            <span class="tag" style="background:oklch(68% 0.14 80 / 0.2);color:oklch(50% 0.12 80);">Featured</span>
+            <h3 style="font-size:1.1rem;">Wood-Framed Card</h3>
+            <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin-top:0.5rem;">A hanji-colored card framed in dark timber borders. Structural, weighty, and grounded in traditional craft.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <div class="comp-group">
+      <h3>Form Input</h3>
+      <div style="max-width:360px;">
+        <div class="field">
+          <label>Email Address</label>
+          <input type="email" placeholder="visitor@example.com">
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="comp-group">
+      <h3>Data Table</h3>
+      <div style="overflow-x:auto;">
+        <table class="comp-table">
+          <thead><tr><th>Building</th><th>Era</th><th>Purpose</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>근정전 Geunjeongjeon</td><td>1395</td><td>Throne Hall</td><td>Restored</td></tr>
+            <tr><td>경회루 Gyeonghoeru</td><td>1412</td><td>Banquet Pavilion</td><td>Restored</td></tr>
+            <tr><td>향원정 Hyangwonjeong</td><td>1873</td><td>Garden Pavilion</td><td>Restored</td></tr>
+            <tr><td>자경전 Jagyeongjeon</td><td>1865</td><td>Queen's Quarters</td><td>Restored</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+{
+  "name": "Brutalist Web",
+  "description": "2020s anti-design movement. Raw, confrontational, intentionally ugly. Bloomberg.com redesign, Balenciaga.com, Craigslist-meets-high-fashion. Monospace everything, black borders, zero decoration.",
+  "source": "Bloomberg.com redesign, Balenciaga.com, brutalistwebsites.com, Craigslist aesthetic",
+  "mood": ["raw", "anti-design", "confrontational"],
+  "shape": {
+    "radiusSm": "0px",
+    "radiusMd": "0px",
+    "radiusLg": "0px",
+    "radiusFull": "0px",
+    "borderWidth": "2px"
+  },
+  "typography": {
+    "fontSans": "'Space Mono', monospace",
+    "fontMono": "'Space Mono', monospace",
+    "fontDisplay": "'Space Mono', monospace",
+    "weightNormal": 400,
+    "weightMedium": 400,
+    "weightBold": 700,
+    "letterSpacingHeading": "-0.02em",
+    "letterSpacingBody": "0em",
+    "lineHeight": 1.5,
+    "lineHeightHeading": 0.95,
+    "textTransformHeading": "uppercase"
+  },
+  "spacing": {
+    "density": "irregular",
+    "scale": 1.0
+  },
+  "depth": {
+    "shadowSm": "none",
+    "shadowMd": "none",
+    "shadowLg": "none",
+    "shadowStyle": "none"
+  },
+  "motion": {
+    "durationFast": "0ms",
+    "durationNormal": "0ms",
+    "easing": "linear"
+  },
+  "colorDefaults": {
+    "bg": "oklch(100% 0 0)",
+    "surface": "oklch(96% 0 0)",
+    "text": "oklch(0% 0 0)",
+    "primary": "oklch(0% 0 0)",
+    "accent": "oklch(60% 0.28 30)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(0% 0 0)",
+    "surface": "oklch(8% 0 0)",
+    "text": "oklch(100% 0 0)",
+    "primary": "oklch(100% 0 0)",
+    "accent": "oklch(65% 0.28 30)"
+  },
+  "demo": {
+    "type": "portfolio-magazine",
+    "title": "BRUTALIST",
+    "subtitle": "Design is not about making things pretty.",
+    "items": [
+      { "name": "MANIFESTO", "desc": "We reject decoration." },
+      { "name": "2026", "desc": "The year of raw." },
+      { "name": "INDEX", "desc": "Work, Process, Nothing." }
+    ],
+    "banner": "THIS IS NOT A WEBSITE. THIS IS A STATEMENT.",
+    "data": [
+      { "label": "Founded", "value": "2026" },
+      { "label": "Projects", "value": "47" },
+      { "label": "Awards", "value": "0" },
+      { "label": "Decorations", "value": "NONE" }
+    ]
+  },
+  "suggestions": {
+    "icons": "None. Use text, brackets, slashes.",
+    "components": "black border rectangles, full-width dividers, raw data tables, oversized monospace text, irregular grids",
+    "avoid": "gradients, shadows, rounded corners, decorative elements, smooth animations, color variety, icons, illustrations",
+    "googleFonts": "Space+Mono:wght@400;700",
+    "texture": "none — raw flat surfaces only"
+  }
+}

@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weather — Glassmorphism Theme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* === Tokens === */
+:root {
+  --bg: oklch(25% 0.05 280);
+  --surface: oklch(95% 0 0 / 0.12);
+  --text: oklch(98% 0 0);
+  --text-muted: oklch(80% 0 0 / 0.7);
+  --primary: oklch(70% 0.2 280);
+  --accent: oklch(72% 0.18 200);
+  --pink: oklch(72% 0.2 340);
+  --orange: oklch(75% 0.18 55);
+  --glass-bg: oklch(98% 0 0 / 0.1);
+  --glass-bg-strong: oklch(98% 0 0 / 0.18);
+  --glass-border: oklch(98% 0 0 / 0.15);
+  --glass-border-hover: oklch(98% 0 0 / 0.25);
+  --blur: 20px;
+  --radius-sm: 12px; --radius-md: 16px; --radius-lg: 24px; --radius-full: 9999px;
+  --shadow-sm: 0 2px 8px oklch(0% 0 0 / 0.08);
+  --shadow-md: 0 8px 32px oklch(0% 0 0 / 0.15);
+  --shadow-lg: 0 16px 48px oklch(0% 0 0 / 0.2);
+  /* Depth elevation tokens */
+  --shadow-elevated: 0 8px 32px oklch(0% 0 0 / 0.12), 0 2px 8px oklch(0% 0 0 / 0.08), inset 0 1px 0 oklch(100% 0 0 / 0.1);
+  --shadow-mid: 0 4px 20px oklch(0% 0 0 / 0.1), 0 1px 4px oklch(0% 0 0 / 0.06), inset 0 1px 0 oklch(100% 0 0 / 0.08);
+  --shadow-recessed: 0 2px 12px oklch(0% 0 0 / 0.08), inset 0 1px 0 oklch(100% 0 0 / 0.06);
+  --font: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font); color: var(--text); line-height: 1.6;
+  -webkit-font-smoothing: antialiased; min-height: 100vh; position: relative;
+  background:
+    radial-gradient(circle at 20% 20%, oklch(55% 0.22 300) 0%, transparent 35%),
+    radial-gradient(circle at 85% 15%, oklch(60% 0.18 200) 0%, transparent 30%),
+    radial-gradient(circle at 50% 60%, oklch(55% 0.15 340) 0%, transparent 45%),
+    radial-gradient(circle at 80% 80%, oklch(65% 0.16 55) 0%, transparent 30%),
+    oklch(20% 0.05 280);
+  background-attachment: fixed;
+}
+/* Floating orbs */
+body::before, body::after {
+  content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0;
+  filter: blur(80px);
+}
+body::before {
+  width: 400px; height: 400px; top: -80px; left: -60px;
+  background: oklch(60% 0.25 290 / 0.35);
+}
+body::after {
+  width: 350px; height: 350px; bottom: -50px; right: -40px;
+  background: oklch(65% 0.2 200 / 0.3);
+}
+.wrap { max-width: 900px; margin: 0 auto; padding: 0 1.25rem; position: relative; z-index: 1; }
+
+/* === Glass utility === */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: border-color 250ms var(--ease), box-shadow 250ms var(--ease);
+}
+.glass:hover { border-color: var(--glass-border-hover); }
+.glass-strong {
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+/* === Glass Buttons === */
+.glass-btn {
+  padding: 0.5rem 1rem; border-radius: var(--radius-full); border: 1px solid var(--glass-border);
+  background: oklch(98% 0 0 / 0.08); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  color: var(--text); font-family: var(--font); font-size: 0.8rem; font-weight: 500;
+  cursor: pointer; transition: all 200ms var(--ease);
+}
+.glass-btn:hover { background: oklch(98% 0 0 / 0.18); border-color: var(--glass-border-hover); }
+.glass-btn-primary {
+  background: oklch(70% 0.2 280 / 0.3); border-color: oklch(70% 0.2 280 / 0.4);
+}
+.glass-btn-primary:hover { background: oklch(70% 0.2 280 / 0.45); }
+.badge {
+  display: inline-block; padding: 0.2rem 0.6rem; border-radius: var(--radius-full);
+  font-size: 0.7rem; font-weight: 600; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.badge-purple { background: oklch(70% 0.2 280 / 0.2); color: oklch(80% 0.15 280); border: 1px solid oklch(70% 0.2 280 / 0.3); }
+.badge-cyan { background: oklch(72% 0.18 200 / 0.2); color: oklch(82% 0.12 200); border: 1px solid oklch(72% 0.18 200 / 0.3); }
+.badge-pink { background: oklch(72% 0.2 340 / 0.2); color: oklch(82% 0.14 340); border: 1px solid oklch(72% 0.2 340 / 0.3); }
+.badge-orange { background: oklch(75% 0.18 55 / 0.2); color: oklch(85% 0.12 55); border: 1px solid oklch(75% 0.18 55 / 0.3); }
+
+/* === Component Showcase === */
+.showcase-title {
+  font-size: 1.1rem; font-weight: 600; letter-spacing: -0.01em; margin: 2.5rem 0 1rem;
+  padding-bottom: 0.5rem; border-bottom: 1px solid oklch(98% 0 0 / 0.1);
+}
+.showcase-section { margin-bottom: 2rem; }
+.showcase-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 0.75rem; }
+
+/* Typography showcase */
+.type-light { font-weight: 300; font-size: 2rem; letter-spacing: -0.03em; margin-bottom: 0.25rem; }
+.type-regular { font-weight: 400; font-size: 1.5rem; letter-spacing: -0.02em; margin-bottom: 0.25rem; }
+.type-medium { font-weight: 500; font-size: 1.2rem; letter-spacing: -0.01em; margin-bottom: 0.25rem; }
+.type-semibold { font-weight: 600; font-size: 1rem; margin-bottom: 0.25rem; }
+.type-bold { font-weight: 700; font-size: 0.9rem; }
+
+/* Color swatches */
+.swatches { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.swatch { width: 72px; text-align: center; }
+.swatch-circle {
+  width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 0.4rem;
+  border: 2px solid oklch(98% 0 0 / 0.12); box-shadow: 0 4px 16px oklch(0% 0 0 / 0.2);
+}
+.swatch-label { font-size: 0.65rem; font-weight: 500; color: var(--text-muted); }
+
+/* Glass level showcase */
+.blur-levels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+.blur-card { padding: 1rem; text-align: center; font-size: 0.8rem; font-weight: 500; }
+.blur-light { background: oklch(98% 0 0 / 0.06); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid oklch(98% 0 0 / 0.08); border-radius: var(--radius-md); }
+.blur-med { background: oklch(98% 0 0 / 0.12); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid oklch(98% 0 0 / 0.15); border-radius: var(--radius-md); }
+.blur-heavy { background: oklch(98% 0 0 / 0.2); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border: 1px solid oklch(98% 0 0 / 0.22); border-radius: var(--radius-md); }
+
+/* Glass input */
+.glass-input {
+  width: 100%; max-width: 320px; padding: 0.65rem 1rem; border-radius: var(--radius-full);
+  border: 1px solid var(--glass-border); background: oklch(98% 0 0 / 0.06);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  color: var(--text); font-family: var(--font); font-size: 0.85rem; outline: none;
+  transition: all 200ms var(--ease);
+}
+.glass-input::placeholder { color: oklch(80% 0 0 / 0.4); }
+.glass-input:focus {
+  border-color: oklch(70% 0.2 280 / 0.5);
+  box-shadow: 0 0 0 3px oklch(70% 0.2 280 / 0.15), 0 0 20px oklch(70% 0.2 280 / 0.1);
+}
+
+/* Toggle */
+.toggle-track {
+  width: 44px; height: 24px; border-radius: 12px; position: relative; cursor: pointer;
+  background: oklch(98% 0 0 / 0.1); border: 1px solid oklch(98% 0 0 / 0.15);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  transition: all 200ms var(--ease);
+}
+.toggle-track.active { background: oklch(70% 0.2 280 / 0.4); border-color: oklch(70% 0.2 280 / 0.5); }
+.toggle-knob {
+  position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%;
+  background: var(--text); box-shadow: 0 1px 4px oklch(0% 0 0 / 0.2);
+  transition: transform 200ms var(--ease);
+}
+.toggle-track.active .toggle-knob { transform: translateX(20px); }
+.toggle-row { display: flex; align-items: center; gap: 0.75rem; }
+.toggle-label { font-size: 0.85rem; font-weight: 500; }
+
+/* Glass panel showcase */
+.panel-demo {
+  padding: 1.5rem; position: relative; overflow: hidden;
+}
+.panel-demo::before {
+  content: ''; position: absolute; top: -30px; left: -30px; width: 120px; height: 120px;
+  background: var(--primary); border-radius: 50%; filter: blur(50px); opacity: 0.3;
+}
+.panel-demo::after {
+  content: ''; position: absolute; bottom: -20px; right: -20px; width: 100px; height: 100px;
+  background: var(--accent); border-radius: 50%; filter: blur(40px); opacity: 0.25;
+}
+.panel-inner { position: relative; z-index: 1; }
+
+/* Footer */
+.footer { text-align: center; padding: 2rem 0 3rem; font-size: 0.75rem; color: var(--text-muted); }
+
+/* === Weather App Demo === */
+.demo-scroll {
+  position: relative;
+  isolation: isolate;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* Fixed background — sunset sky gradient */
+.demo-sky {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(to bottom,
+    oklch(25% 0.12 270) 0%,
+    oklch(35% 0.15 290) 25%,
+    oklch(50% 0.18 330) 55%,
+    oklch(65% 0.2 35) 80%,
+    oklch(72% 0.18 50) 100%
+  );
+}
+.demo-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+/* Purple-blue — top left */
+.demo-orb--1 {
+  width: 55vw; height: 55vw; max-width: 500px; max-height: 500px;
+  top: 5%; left: -10%;
+  background: radial-gradient(circle, oklch(45% 0.22 270 / 0.5) 0%, transparent 70%);
+  filter: blur(60px);
+}
+/* Pink-magenta — top right */
+.demo-orb--2 {
+  width: 50vw; height: 50vw; max-width: 450px; max-height: 450px;
+  top: 8%; right: -8%;
+  background: radial-gradient(circle, oklch(55% 0.22 340 / 0.45) 0%, transparent 70%);
+  filter: blur(55px);
+}
+/* Teal-cyan — bottom center */
+.demo-orb--3 {
+  width: 60vw; height: 60vw; max-width: 550px; max-height: 550px;
+  bottom: 10%; left: 20%;
+  background: radial-gradient(circle, oklch(55% 0.16 200 / 0.35) 0%, transparent 70%);
+  filter: blur(70px);
+}
+/* Violet — mid right */
+.demo-orb--4 {
+  width: 45vw; height: 45vw; max-width: 400px; max-height: 400px;
+  top: 40%; right: 5%;
+  background: radial-gradient(circle, oklch(42% 0.2 290 / 0.4) 0%, transparent 70%);
+  filter: blur(50px);
+}
+
+/* Sticky glass nav — thin frosted strip */
+.glass-nav { display: none; }
+.glass-nav-old {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  height: 50px;
+  padding: 0 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: oklch(98% 0 0 / 0.06);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid oklch(98% 0 0 / 0.1);
+  will-change: transform;
+}
+.glass-nav-location {
+  font-weight: 400;
+  font-size: 0.95rem;
+  color: oklch(98% 0 0 / 0.85);
+  letter-spacing: -0.01em;
+}
+.glass-nav-unit {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: oklch(98% 0 0 / 0.5);
+  letter-spacing: 0.02em;
+}
+
+/* Sticky hero weather card */
+.weather-hero {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  margin: 0 0 1rem;
+  padding: 1.75rem 2rem;
+  background: oklch(98% 0 0 / 0.12);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid oklch(98% 0 0 / 0.15);
+  border-radius: 20px;
+  box-shadow: inset 0 1px 0 oklch(100% 0 0 / 0.15), var(--shadow-md);
+  text-align: center;
+  will-change: transform;
+}
+.weather-hero-city {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: oklch(98% 0 0 / 0.85);
+  margin-bottom: 0.25rem;
+}
+.weather-hero-temp {
+  font-size: 4.5rem;
+  font-weight: 200;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: oklch(98% 0 0);
+  margin-bottom: 0.15rem;
+}
+.weather-hero-condition {
+  font-size: 1rem;
+  font-weight: 400;
+  color: oklch(98% 0 0 / 0.7);
+  margin-bottom: 0.25rem;
+}
+.weather-hero-range {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: oklch(98% 0 0 / 0.6);
+}
+
+/* Scrolling glass cards */
+.weather-card {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: oklch(98% 0 0 / 0.08);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid oklch(98% 0 0 / 0.1);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  will-change: transform;
+}
+.weather-card-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: oklch(98% 0 0 / 0.5);
+  margin-bottom: 1rem;
+}
+
+/* Hourly forecast — horizontal scroll */
+.hourly-scroll {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 0.25rem;
+}
+.hourly-scroll::-webkit-scrollbar { display: none; }
+.hourly-slot {
+  flex: 0 0 auto;
+  width: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+.hourly-time {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: oklch(98% 0 0 / 0.6);
+}
+.hourly-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.hourly-temp {
+  font-size: 1rem;
+  font-weight: 400;
+  color: oklch(98% 0 0 / 0.9);
+}
+
+/* Weather indicator dot colors */
+.dot-sun { background: oklch(82% 0.15 80); box-shadow: 0 0 4px oklch(82% 0.15 80 / 0.5); }
+.dot-cloud { background: oklch(70% 0.02 250); }
+.dot-rain { background: oklch(65% 0.12 230); box-shadow: 0 0 4px oklch(65% 0.12 230 / 0.4); }
+
+/* 7-day forecast */
+.forecast-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0;
+}
+.forecast-row + .forecast-row {
+  border-top: 1px solid oklch(98% 0 0 / 0.06);
+}
+.forecast-day {
+  width: 44px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: oklch(98% 0 0 / 0.85);
+  flex-shrink: 0;
+}
+.forecast-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.forecast-low {
+  width: 28px;
+  text-align: right;
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: oklch(98% 0 0 / 0.5);
+  flex-shrink: 0;
+}
+.forecast-high {
+  width: 28px;
+  text-align: left;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: oklch(98% 0 0 / 0.9);
+  flex-shrink: 0;
+}
+.temp-bar {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: oklch(98% 0 0 / 0.15);
+  position: relative;
+  min-width: 60px;
+}
+.temp-bar-fill {
+  position: absolute;
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, oklch(72% 0.18 200), oklch(75% 0.18 55));
+}
+
+/* Detail cards — 2x2 grid */
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 1rem;
+}
+.detail-card {
+  padding: 1.25rem;
+  background: oklch(98% 0 0 / 0.08);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid oklch(98% 0 0 / 0.1);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  will-change: transform;
+}
+.detail-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: oklch(98% 0 0 / 0.5);
+  margin-bottom: 0.75rem;
+}
+.detail-value {
+  font-size: 1.75rem;
+  font-weight: 300;
+  color: oklch(98% 0 0 / 0.9);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.detail-desc {
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: oklch(98% 0 0 / 0.55);
+  margin-top: 0.25rem;
+}
+
+/* Bottom spacer for scroll-behind effect */
+.demo-spacer {
+  height: 20rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* === Responsive === */
+@media (max-width: 640px) {
+  .blur-levels { grid-template-columns: 1fr; }
+  .detail-grid { grid-template-columns: 1fr; }
+  .weather-hero-temp { font-size: 3.5rem; }
+  .weather-hero { padding: 1.25rem 1.25rem; }
+  .weather-card { padding: 1rem 1rem; }
+  .detail-card { padding: 1rem; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="demo-scroll">
+
+  <!-- Fixed background: sunset sky gradient + diffuse color orbs -->
+  <div class="demo-sky">
+    <div class="demo-orb demo-orb--1"></div>
+    <div class="demo-orb demo-orb--2"></div>
+    <div class="demo-orb demo-orb--3"></div>
+    <div class="demo-orb demo-orb--4"></div>
+  </div>
+
+  <!-- Sticky hero weather card (the only sticky element) -->
+  <div class="weather-hero">
+    <div class="weather-hero-city">Seattle, WA</div>
+    <div class="weather-hero-temp">28°</div>
+    <div class="weather-hero-condition">Partly Cloudy</div>
+    <div class="weather-hero-range">H:31° L:22°</div>
+    <div style="display:flex;gap:1.25rem;justify-content:center;margin-top:0.75rem;font-size:0.8rem;color:oklch(98% 0 0 / 0.6);">
+      <div><span style="color:oklch(98% 0 0 / 0.4);font-size:0.65rem;display:block;">Wind</span>12 km/h NW</div>
+      <div><span style="color:oklch(98% 0 0 / 0.4);font-size:0.65rem;display:block;">Humidity</span>58%</div>
+      <div><span style="color:oklch(98% 0 0 / 0.4);font-size:0.65rem;display:block;">UV</span>4 Moderate</div>
+      <div><span style="color:oklch(98% 0 0 / 0.4);font-size:0.65rem;display:block;">Visibility</span>14 km</div>
+    </div>
+  </div>
+
+  <!-- Hourly forecast -->
+  <div class="weather-card">
+    <div class="weather-card-label">Hourly Forecast</div>
+    <div class="hourly-scroll">
+      <div class="hourly-slot">
+        <span class="hourly-time">Now</span>
+        <span class="hourly-dot dot-sun"></span>
+        <span class="hourly-temp">28</span>
+      </div>
+      <div class="hourly-slot">
+        <span class="hourly-time">4 PM</span>
+        <span class="hourly-dot dot-sun"></span>
+        <span class="hourly-temp">27</span>
+      </div>
+      <div class="hourly-slot">
+        <span class="hourly-time">5 PM</span>
+        <span class="hourly-dot dot-cloud"></span>
+        <span class="hourly-temp">26</span>
+      </div>
+      <div class="hourly-slot">
+        <span class="hourly-time">6 PM</span>
+        <span class="hourly-dot dot-cloud"></span>
+        <span class="hourly-temp">25</span>
+      </div>
+      <div class="hourly-slot">
+        <span class="hourly-time">7 PM</span>
+        <span class="hourly-dot dot-cloud"></span>
+        <span class="hourly-temp">24</span>
+      </div>
+      <div class="hourly-slot">
+        <span class="hourly-time">8 PM</span>
+        <span class="hourly-dot dot-rain"></span>
+        <span class="hourly-temp">22</span>
+      </div>
+      <div class="hourly-slot">
+        <span class="hourly-time">9 PM</span>
+        <span class="hourly-dot dot-rain"></span>
+        <span class="hourly-temp">21</span>
+      </div>
+      <div class="hourly-slot">
+        <span class="hourly-time">10 PM</span>
+        <span class="hourly-dot dot-cloud"></span>
+        <span class="hourly-temp">20</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7-day forecast -->
+  <div class="weather-card">
+    <div class="weather-card-label">7-Day Forecast</div>
+    <div class="forecast-row">
+      <span class="forecast-day">Mon</span>
+      <span class="forecast-dot dot-sun"></span>
+      <span class="forecast-low">19</span>
+      <div class="temp-bar"><div class="temp-bar-fill" style="left:25%;width:55%"></div></div>
+      <span class="forecast-high">30</span>
+    </div>
+    <div class="forecast-row">
+      <span class="forecast-day">Tue</span>
+      <span class="forecast-dot dot-cloud"></span>
+      <span class="forecast-low">18</span>
+      <div class="temp-bar"><div class="temp-bar-fill" style="left:20%;width:50%"></div></div>
+      <span class="forecast-high">28</span>
+    </div>
+    <div class="forecast-row">
+      <span class="forecast-day">Wed</span>
+      <span class="forecast-dot dot-rain"></span>
+      <span class="forecast-low">16</span>
+      <div class="temp-bar"><div class="temp-bar-fill" style="left:10%;width:40%"></div></div>
+      <span class="forecast-high">24</span>
+    </div>
+    <div class="forecast-row">
+      <span class="forecast-day">Thu</span>
+      <span class="forecast-dot dot-rain"></span>
+      <span class="forecast-low">15</span>
+      <div class="temp-bar"><div class="temp-bar-fill" style="left:5%;width:38%"></div></div>
+      <span class="forecast-high">22</span>
+    </div>
+    <div class="forecast-row">
+      <span class="forecast-day">Fri</span>
+      <span class="forecast-dot dot-cloud"></span>
+      <span class="forecast-low">17</span>
+      <div class="temp-bar"><div class="temp-bar-fill" style="left:15%;width:48%"></div></div>
+      <span class="forecast-high">27</span>
+    </div>
+    <div class="forecast-row">
+      <span class="forecast-day">Sat</span>
+      <span class="forecast-dot dot-sun"></span>
+      <span class="forecast-low">20</span>
+      <div class="temp-bar"><div class="temp-bar-fill" style="left:30%;width:55%"></div></div>
+      <span class="forecast-high">31</span>
+    </div>
+    <div class="forecast-row">
+      <span class="forecast-day">Sun</span>
+      <span class="forecast-dot dot-sun"></span>
+      <span class="forecast-low">21</span>
+      <div class="temp-bar"><div class="temp-bar-fill" style="left:32%;width:52%"></div></div>
+      <span class="forecast-high">30</span>
+    </div>
+  </div>
+
+  <!-- Detail cards — 2x2 grid -->
+  <div class="detail-grid">
+    <div class="detail-card">
+      <div class="detail-label">UV Index</div>
+      <div class="detail-value">4</div>
+      <div class="detail-desc">Moderate</div>
+    </div>
+    <div class="detail-card">
+      <div class="detail-label">Wind</div>
+      <div class="detail-value">12 km/h</div>
+      <div class="detail-desc">NW</div>
+    </div>
+    <div class="detail-card">
+      <div class="detail-label">Humidity</div>
+      <div class="detail-value">58%</div>
+      <div class="detail-desc">Comfortable</div>
+    </div>
+    <div class="detail-card">
+      <div class="detail-label">Visibility</div>
+      <div class="detail-value">14.2 km</div>
+      <div class="detail-desc">Clear</div>
+    </div>
+  </div>
+
+  <!-- Additional detail cards -->
+  <div class="detail-grid">
+    <div class="detail-card">
+      <div class="detail-label">Pressure</div>
+      <div class="detail-value">1013 hPa</div>
+      <div class="detail-desc">Standard</div>
+    </div>
+    <div class="detail-card">
+      <div class="detail-label">Sunrise / Sunset</div>
+      <div class="detail-value" style="font-size:1.25rem;">6:12 AM</div>
+      <div class="detail-desc">7:48 PM</div>
+    </div>
+  </div>
+
+  <!-- Bottom padding for scroll-behind effect -->
+  <div class="demo-spacer"></div>
+
+  </div><!-- /.demo-scroll -->
+
+  <!-- Component Showcase -->
+  <div class="showcase-title" id="components">Component Showcase</div>
+
+  <!-- Typography -->
+  <div class="showcase-section">
+    <div class="showcase-label">Typography &mdash; Inter</div>
+    <div class="type-light">Light 300 &mdash; Translucent Layers</div>
+    <div class="type-regular">Regular 400 &mdash; Floating Surfaces</div>
+    <div class="type-medium">Medium 500 &mdash; Frosted Glass Panels</div>
+    <div class="type-semibold">Semibold 600 &mdash; Layered Depth</div>
+    <div class="type-bold">Bold 700 &mdash; Ethereal Interface</div>
+  </div>
+
+  <!-- Color swatches -->
+  <div class="showcase-section">
+    <div class="showcase-label">Color Palette</div>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-circle" style="background:var(--primary)"></div><div class="swatch-label">Primary</div></div>
+      <div class="swatch"><div class="swatch-circle" style="background:var(--accent)"></div><div class="swatch-label">Accent</div></div>
+      <div class="swatch"><div class="swatch-circle" style="background:var(--pink)"></div><div class="swatch-label">Pink</div></div>
+      <div class="swatch"><div class="swatch-circle" style="background:var(--orange)"></div><div class="swatch-label">Orange</div></div>
+      <div class="swatch"><div class="swatch-circle" style="background:var(--glass-bg-strong);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--glass-border)"></div><div class="swatch-label">Glass</div></div>
+    </div>
+  </div>
+
+  <!-- Glass blur levels -->
+  <div class="showcase-section">
+    <div class="showcase-label">Glass Blur Levels</div>
+    <div class="blur-levels">
+      <div class="blur-card blur-light">Subtle &mdash; 8px</div>
+      <div class="blur-card blur-med">Standard &mdash; 20px</div>
+      <div class="blur-card blur-heavy">Heavy &mdash; 40px</div>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="showcase-section">
+    <div class="showcase-label">Glass Buttons</div>
+    <div style="display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center;">
+      <button class="glass-btn glass-btn-primary">Primary Action</button>
+      <button class="glass-btn">Secondary</button>
+      <button class="glass-btn" style="border-color:oklch(72% 0.18 200 / 0.4);color:var(--accent)">Accent</button>
+      <button class="glass-btn" style="border-color:oklch(72% 0.2 340 / 0.4);color:var(--pink)">Pink</button>
+    </div>
+  </div>
+
+  <!-- Badges -->
+  <div class="showcase-section">
+    <div class="showcase-label">Glass Badges</div>
+    <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+      <span class="badge badge-purple">Purple</span>
+      <span class="badge badge-cyan">Cyan</span>
+      <span class="badge badge-pink">Pink</span>
+      <span class="badge badge-orange">Orange</span>
+    </div>
+  </div>
+
+  <!-- Input -->
+  <div class="showcase-section">
+    <div class="showcase-label">Glass Input</div>
+    <input class="glass-input" type="text" placeholder="Search anything...">
+  </div>
+
+  <!-- Toggle -->
+  <div class="showcase-section">
+    <div class="showcase-label">Frosted Toggle</div>
+    <div style="display:flex;gap:1.5rem;">
+      <div class="toggle-row">
+        <div class="toggle-track" onclick="this.classList.toggle('active')"><div class="toggle-knob"></div></div>
+        <span class="toggle-label">Notifications</span>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-track active" onclick="this.classList.toggle('active')"><div class="toggle-knob"></div></div>
+        <span class="toggle-label">Dark Mode</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Glass panel -->
+  <div class="showcase-section">
+    <div class="showcase-label">Glass Panel</div>
+    <div class="panel-demo glass">
+      <div class="panel-inner">
+        <div style="font-size:1.1rem;font-weight:600;margin-bottom:0.5rem;">Frosted Panel</div>
+        <div style="font-size:0.85rem;color:var(--text-muted);line-height:1.6;">
+          Translucent surfaces with layered blur create a sense of depth and dimension.
+          The colored glow bleeds through the glass, adding warmth and life to the interface.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Glassmorphism Theme &middot; oklch color space &middot; visionOS inspired</div>
+
+</div>
+</body>
+</html>

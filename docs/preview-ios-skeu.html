@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Giant iPod Classic — iOS Skeuomorphism Theme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --chrome-hi: oklch(88% 0.005 250);
+    --chrome-mid: oklch(78% 0.005 250);
+    --chrome-lo: oklch(72% 0.008 250);
+    --chrome-rim: oklch(82% 0.005 250);
+    --lcd-bg: oklch(96% 0.008 90);
+    --lcd-warm: oklch(94% 0.012 85);
+    --face: oklch(94% 0.003 250);
+    --text: oklch(18% 0.01 0);
+    --text-dim: oklch(45% 0.01 240);
+    --blue-hi: oklch(58% 0.18 250);
+    --blue-lo: oklch(45% 0.18 250);
+    --green: oklch(62% 0.2 145);
+    --red: oklch(55% 0.22 25);
+    --white: oklch(100% 0 0);
+    --font: 'Inter', -apple-system, 'Helvetica Neue', sans-serif;
+  }
+
+  body {
+    font-family: var(--font); font-size: 14px; color: var(--text);
+    background: oklch(30% 0.005 250);
+    min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+    padding: 32px 16px;
+  }
+
+  /* ====== THE GIANT iPOD DEVICE ====== */
+  .ipod-device {
+    max-width: 880px; width: 100%;
+    background: var(--face);
+    border-radius: 32px;
+    border: 7px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+    box-shadow:
+      0 20px 60px oklch(0% 0 0 / 0.5),
+      0 2px 4px oklch(0% 0 0 / 0.2),
+      inset 0 1px 0 oklch(100% 0 0 / 0.4);
+    overflow: hidden;
+    display: flex; flex-direction: row;
+  }
+  .ipod-screen-col {
+    flex: 65 0 0%; min-width: 0;
+  }
+  .ipod-wheel-col {
+    flex: 0 0 260px; min-width: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 12px 16px;
+    border-left: 1px solid oklch(80% 0.006 250);
+  }
+  /* Chrome bezel via pseudo-element */
+  .ipod-device::before {
+    content: ''; position: absolute; inset: -7px; z-index: -1;
+    border-radius: 36px;
+    background: linear-gradient(170deg,
+      oklch(90% 0.004 250) 0%,
+      oklch(80% 0.006 250) 25%,
+      oklch(70% 0.008 250) 50%,
+      oklch(82% 0.005 250) 75%,
+      oklch(88% 0.004 250) 100%
+    );
+    box-shadow: 0 1px 0 oklch(100% 0 0 / 0.3) inset;
+  }
+
+  /* ====== LCD SCREEN AREA (top ~62%) ====== */
+  .lcd-screen {
+    margin: 16px 20px 12px;
+    border-radius: 12px;
+    background: var(--lcd-bg);
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 1px, oklch(92% 0.006 85 / 0.25) 1px, oklch(92% 0.006 85 / 0.25) 2px);
+    background-size: 100% 2px;
+    border: 2px solid oklch(70% 0.008 250);
+    box-shadow:
+      inset 0 2px 8px oklch(0% 0 0 / 0.12),
+      inset 0 0 20px oklch(95% 0.01 85 / 0.3),
+      0 1px 0 oklch(100% 0 0 / 0.4);
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 420px;
+  }
+
+  /* -- Status bar -- */
+  .status-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 6px 14px; font-size: 11px; font-weight: 600;
+    color: oklch(30% 0.01 0);
+    border-bottom: 1px solid oklch(85% 0.005 85);
+    background: linear-gradient(180deg, oklch(97% 0.005 85) 0%, oklch(93% 0.008 85) 100%);
+  }
+  .status-bar .title { font-weight: 700; letter-spacing: 0.02em; }
+  .status-bar .play-status { font-size: 10px; color: var(--text-dim); }
+  .battery {
+    display: flex; align-items: center; gap: 3px; font-size: 10px; color: oklch(35% 0.01 0);
+  }
+  .battery-icon {
+    width: 22px; height: 10px; border-radius: 2px;
+    border: 1.5px solid oklch(40% 0.01 0); position: relative;
+    display: flex; align-items: center; padding: 1px;
+  }
+  .battery-icon::after {
+    content: ''; position: absolute; right: -4px; top: 2px;
+    width: 2px; height: 4px; border-radius: 0 1px 1px 0;
+    background: oklch(40% 0.01 0);
+  }
+  .battery-fill {
+    width: 80%; height: 100%; border-radius: 1px;
+    background: var(--green);
+  }
+
+  /* -- Now Playing hero -- */
+  .now-playing {
+    padding: 14px 20px 12px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .now-playing-art {
+    width: 130px; height: 130px; flex-shrink: 0; border-radius: 6px;
+    background: linear-gradient(135deg,
+      oklch(55% 0.22 300) 0%,
+      oklch(42% 0.18 340) 35%,
+      oklch(35% 0.2 280) 70%,
+      oklch(48% 0.15 260) 100%
+    );
+    box-shadow: 0 4px 16px oklch(0% 0 0 / 0.35);
+  }
+  .now-playing-info { flex: 1; min-width: 0; }
+  .np-song { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .np-artist { font-size: 14px; font-weight: 500; color: var(--blue-hi); margin-bottom: 2px; }
+  .np-album { font-size: 12px; color: var(--text-dim); margin-bottom: 12px; }
+  .np-progress { display: flex; align-items: center; gap: 8px; }
+  .np-time { font-size: 11px; color: var(--text-dim); font-variant-numeric: tabular-nums; min-width: 32px; }
+  .np-time.right { text-align: right; }
+  .np-track {
+    flex: 1; height: 5px; border-radius: 3px;
+    background: oklch(82% 0.005 85);
+    box-shadow: inset 0 1px 2px oklch(0% 0 0 / 0.1);
+    position: relative;
+  }
+  .np-fill {
+    height: 100%; width: 43%; border-radius: 3px;
+    background: linear-gradient(180deg, oklch(55% 0.18 250) 0%, oklch(48% 0.18 250) 100%);
+  }
+  .np-thumb {
+    width: 14px; height: 14px; border-radius: 50%;
+    background: linear-gradient(180deg, var(--white) 0%, oklch(90% 0.005 0) 100%);
+    box-shadow: 0 1px 4px oklch(0% 0 0 / 0.3);
+    position: absolute; top: 50%; left: calc(43% - 7px); transform: translateY(-50%);
+    border: 0.5px solid oklch(75% 0.005 0);
+  }
+  .np-play-icon { font-size: 13px; color: var(--text); margin-right: 4px; }
+
+  /* -- Cover Flow -- */
+  .coverflow-section { padding: 0 20px 12px; }
+  .coverflow-label {
+    font-size: 10px; font-weight: 700; color: var(--text-dim);
+    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;
+  }
+  .coverflow {
+    display: flex; align-items: center; justify-content: center;
+    gap: 0; perspective: 800px; height: 120px; position: relative;
+  }
+  .cf-album {
+    width: 90px; height: 90px; border-radius: 4px; flex-shrink: 0;
+    position: relative; transition: transform 0.3s, opacity 0.3s;
+    box-shadow: 0 4px 16px oklch(0% 0 0 / 0.3);
+  }
+  /* Reflection on each album */
+  .cf-album::after {
+    content: ''; position: absolute;
+    bottom: -40px; left: 0; right: 0; height: 40px;
+    background: inherit; border-radius: 4px;
+    transform: scaleY(-1); opacity: 0.15; filter: blur(1px);
+    -webkit-mask-image: linear-gradient(180deg, oklch(0% 0 0 / 0.5) 0%, transparent 80%);
+    mask-image: linear-gradient(180deg, oklch(0% 0 0 / 0.5) 0%, transparent 80%);
+    pointer-events: none;
+  }
+  .cf-left-2 { transform: rotateY(45deg) translateZ(-80px) translateX(-40px); opacity: 0.6; z-index: 1; }
+  .cf-left-1 { transform: rotateY(30deg) translateZ(-40px) translateX(-20px); opacity: 0.8; z-index: 2; }
+  .cf-center { width: 110px; height: 110px; transform: rotateY(0) translateZ(20px); z-index: 10; box-shadow: 0 6px 24px oklch(0% 0 0 / 0.4); }
+  .cf-right-1 { transform: rotateY(-30deg) translateZ(-40px) translateX(20px); opacity: 0.8; z-index: 2; }
+  .cf-right-2 { transform: rotateY(-45deg) translateZ(-80px) translateX(40px); opacity: 0.6; z-index: 1; }
+  .cfa1 { background: linear-gradient(135deg, oklch(55% 0.2 280), oklch(40% 0.22 320), oklch(30% 0.15 300)); }
+  .cfa2 { background: linear-gradient(135deg, oklch(60% 0.2 25), oklch(48% 0.22 40), oklch(38% 0.18 15)); }
+  .cfa3 { background: linear-gradient(135deg, oklch(70% 0.15 85), oklch(55% 0.18 65), oklch(42% 0.15 50)); }
+  .cfa4 { background: linear-gradient(135deg, oklch(50% 0.2 145), oklch(38% 0.18 160), oklch(28% 0.15 170)); }
+  .cfa5 { background: linear-gradient(135deg, oklch(55% 0.18 200), oklch(42% 0.15 220), oklch(32% 0.12 210)); }
+
+  /* -- iPod Menu List -- */
+  .ipod-menu { padding: 0 20px 14px; }
+  .menu-list {
+    border-radius: 8px; overflow: hidden;
+    border: 1px solid oklch(82% 0.005 85);
+    box-shadow: inset 0 1px 0 var(--white);
+    background: var(--white);
+  }
+  .menu-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 14px; font-size: 13px; font-weight: 500;
+    color: var(--text); cursor: pointer;
+  }
+  .menu-item + .menu-item { border-top: 1px solid oklch(90% 0.004 85); }
+  .menu-item:hover { background: oklch(95% 0.005 85); }
+  .menu-item.selected {
+    background: linear-gradient(180deg, var(--blue-hi) 0%, var(--blue-lo) 100%);
+    color: var(--white);
+    text-shadow: 0 -1px 0 oklch(0% 0 0 / 0.2);
+  }
+  .menu-item .chev { color: oklch(72% 0.005 0); font-size: 13px; }
+  .menu-item.selected .chev { color: oklch(85% 0.03 250); }
+
+  /* ====== CLICK WHEEL AREA ====== */
+  .wheel-area {
+    display: flex; align-items: center; justify-content: center;
+    padding: 0;
+    background: var(--face);
+  }
+  .click-wheel {
+    width: 200px; height: 200px; border-radius: 50%; position: relative;
+    background: radial-gradient(ellipse at 48% 38%,
+      oklch(90% 0.004 250) 0%,
+      oklch(82% 0.006 250) 35%,
+      oklch(75% 0.008 250) 65%,
+      oklch(70% 0.01 250) 100%
+    );
+    box-shadow:
+      0 6px 20px oklch(0% 0 0 / 0.3),
+      0 2px 4px oklch(0% 0 0 / 0.15),
+      inset 0 3px 6px oklch(100% 0 0 / 0.35),
+      inset 0 -3px 8px oklch(0% 0 0 / 0.12);
+    border: 2.5px solid oklch(65% 0.008 250);
+    user-select: none;
+  }
+  .wheel-label {
+    position: absolute; font-weight: 700;
+    color: oklch(38% 0.01 250);
+    text-shadow: 0 1px 0 oklch(95% 0 0 / 0.5);
+  }
+  .wl-menu { top: 18px; left: 50%; transform: translateX(-50%); font-size: 11px; letter-spacing: 0.08em; }
+  .wl-prev { left: 18px; top: 50%; transform: translateY(-50%); font-size: 16px; }
+  .wl-next { right: 18px; top: 50%; transform: translateY(-50%); font-size: 16px; }
+  .wl-play { bottom: 18px; left: 50%; transform: translateX(-50%); font-size: 14px; }
+  .wheel-center {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 80px; height: 80px; border-radius: 50%;
+    background: radial-gradient(ellipse at 48% 36%,
+      oklch(97% 0.002 250) 0%,
+      oklch(92% 0.004 250) 45%,
+      oklch(86% 0.006 250) 100%
+    );
+    box-shadow:
+      0 3px 10px oklch(0% 0 0 / 0.2),
+      inset 0 2px 4px oklch(100% 0 0 / 0.5),
+      inset 0 -2px 3px oklch(0% 0 0 / 0.08);
+    border: 1.5px solid oklch(72% 0.006 250);
+    cursor: pointer;
+  }
+
+  /* ====== "iPod" BRANDING ====== */
+  .ipod-brand {
+    text-align: center; padding: 6px 0 0;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+    color: oklch(55% 0.005 250);
+    text-shadow: 0 1px 0 oklch(100% 0 0 / 0.5);
+  }
+
+  /* ====== COMPONENT SHOWCASE ====== */
+  .showcase {
+    max-width: 880px; width: 100%; padding: 40px 0 20px;
+    display: flex; flex-direction: column; gap: 24px;
+  }
+  .showcase-title {
+    font-size: 18px; font-weight: 700; color: oklch(72% 0.005 250);
+    text-align: center; letter-spacing: 0.03em;
+  }
+  .showcase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .comp-section {
+    background: oklch(25% 0.008 250);
+    border-radius: 10px; padding: 16px;
+    border: 1px solid oklch(33% 0.008 250);
+  }
+  .comp-label {
+    font-size: 10px; font-weight: 700; color: oklch(58% 0.005 250);
+    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;
+  }
+
+  /* Showcase: Typography */
+  .type-sample { margin-bottom: 5px; color: oklch(88% 0.005 0); }
+
+  /* Showcase: Swatches */
+  .swatches { display: flex; flex-wrap: wrap; gap: 8px; }
+  .swatch {
+    width: 54px; height: 54px; border-radius: 8px;
+    display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px;
+    box-shadow: 0 1px 3px oklch(0% 0 0 / 0.3), inset 0 1px 0 oklch(100% 0 0 / 0.15);
+    border: 1px solid oklch(0% 0 0 / 0.15);
+  }
+  .swatch span { font-size: 7px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--white); text-shadow: 0 1px 2px oklch(0% 0 0 / 0.5); }
+  .swatch.light span { color: oklch(30% 0.01 0); text-shadow: none; }
+
+  /* Showcase: Glossy Buttons */
+  .glossy-btn {
+    display: inline-block; padding: 10px 22px; border-radius: 8px;
+    font-family: var(--font); font-size: 14px; font-weight: 600;
+    color: var(--white); text-shadow: 0 -1px 0 oklch(0% 0 0 / 0.3);
+    border: 1px solid oklch(0% 0 0 / 0.25); cursor: pointer;
+    box-shadow: 0 1px 3px oklch(0% 0 0 / 0.25), inset 0 1px 0 oklch(100% 0 0 / 0.25);
+  }
+  .glossy-btn.play {
+    background: linear-gradient(180deg, oklch(67% 0.2 145) 0%, oklch(55% 0.2 145) 50%, oklch(50% 0.2 145) 50.5%, oklch(58% 0.2 145) 100%);
+  }
+  .glossy-btn.chrome {
+    background: linear-gradient(180deg, var(--chrome-hi) 0%, var(--chrome-mid) 50%, var(--chrome-lo) 50.5%, var(--chrome-rim) 100%);
+    color: oklch(30% 0.01 250); text-shadow: 0 1px 0 oklch(95% 0 0 / 0.5);
+  }
+  .glossy-btn.blue-hl {
+    background: linear-gradient(180deg, oklch(62% 0.18 250) 0%, oklch(50% 0.18 250) 50%, oklch(46% 0.18 250) 50.5%, oklch(54% 0.18 250) 100%);
+  }
+  .glossy-btn:active { box-shadow: inset 0 2px 4px oklch(0% 0 0 / 0.3); }
+
+  /* Showcase: iPod Menu */
+  .showcase-menu {
+    border-radius: 8px; overflow: hidden;
+    background: var(--lcd-bg); border: 1px solid oklch(78% 0.005 85);
+    box-shadow: inset 0 1px 0 var(--white);
+  }
+  .showcase-menu-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 12px; font-size: 13px; font-weight: 500; color: var(--text);
+    cursor: pointer;
+  }
+  .showcase-menu-item + .showcase-menu-item { border-top: 1px solid oklch(88% 0.004 85); }
+  .showcase-menu-item.active-row {
+    background: linear-gradient(180deg, var(--blue-hi) 0%, var(--blue-lo) 100%);
+    color: var(--white);
+  }
+  .showcase-menu-item .chev { color: oklch(72% 0.005 0); font-size: 12px; }
+  .showcase-menu-item.active-row .chev { color: oklch(85% 0.03 250); }
+
+  /* Showcase: Album + Reflection */
+  .showcase-album { width: 130px; }
+  .showcase-album .art {
+    width: 130px; height: 130px; border-radius: 6px;
+    background: linear-gradient(135deg, oklch(60% 0.2 25), oklch(48% 0.22 40), oklch(38% 0.18 15));
+    box-shadow: 0 2px 8px oklch(0% 0 0 / 0.3); position: relative; margin-bottom: 36px;
+  }
+  .showcase-album .art::after {
+    content: ''; position: absolute;
+    bottom: -32px; left: 5%; right: 5%; height: 32px;
+    background: inherit; border-radius: 6px;
+    transform: scaleY(-1); opacity: 0.18; filter: blur(2px);
+    -webkit-mask-image: linear-gradient(180deg, oklch(0% 0 0 / 0.5) 0%, transparent 100%);
+    mask-image: linear-gradient(180deg, oklch(0% 0 0 / 0.5) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* Showcase: Wheel standalone */
+  .wheel-standalone { display: flex; justify-content: center; }
+  .wheel-standalone .click-wheel { width: 140px; height: 140px; }
+  .wheel-standalone .wheel-center { width: 52px; height: 52px; }
+  .wheel-standalone .wl-menu { font-size: 9px; top: 12px; }
+  .wheel-standalone .wl-prev { font-size: 13px; left: 12px; }
+  .wheel-standalone .wl-next { font-size: 13px; right: 12px; }
+  .wheel-standalone .wl-play { font-size: 11px; bottom: 12px; }
+
+  /* Showcase: Progress/Slider */
+  .showcase-slider-track {
+    flex: 1; height: 6px; max-width: 240px;
+    background: oklch(68% 0.005 250); border-radius: 3px;
+    position: relative; box-shadow: inset 0 1px 2px oklch(0% 0 0 / 0.15);
+  }
+  .showcase-slider-fill {
+    height: 100%; width: 60%; border-radius: 3px;
+    background: linear-gradient(180deg, oklch(55% 0.18 250), oklch(48% 0.18 250));
+  }
+  .showcase-slider-thumb {
+    width: 16px; height: 16px; border-radius: 50%;
+    background: linear-gradient(180deg, var(--white), oklch(92% 0.005 0));
+    box-shadow: 0 1px 4px oklch(0% 0 0 / 0.3);
+    position: absolute; top: 50%; left: calc(60% - 8px); transform: translateY(-50%);
+    border: 0.5px solid oklch(75% 0.005 0);
+  }
+
+  /* Showcase: Input */
+  .ipod-input {
+    width: 100%; padding: 9px 12px; border-radius: 8px;
+    border: 1px solid oklch(75% 0.005 85);
+    background: var(--white);
+    box-shadow: inset 0 2px 4px oklch(0% 0 0 / 0.1);
+    font-family: var(--font); font-size: 14px; color: var(--text); outline: none;
+  }
+  .ipod-input:focus {
+    border-color: var(--blue-hi);
+    box-shadow: inset 0 2px 4px oklch(0% 0 0 / 0.1), 0 0 0 2px oklch(55% 0.18 250 / 0.3);
+  }
+
+  /* ====== RESPONSIVE ====== */
+  @media (max-width: 700px) {
+    .ipod-device { flex-direction: column; max-width: 500px; }
+    .ipod-wheel-col {
+      flex: 0 0 auto;
+      border-left: none;
+      border-top: 1px solid oklch(80% 0.006 250);
+      padding: 20px 16px 28px;
+    }
+    body { padding: 16px 8px; }
+    .lcd-screen { margin: 14px 16px 12px; }
+    .now-playing { padding: 14px 16px 12px; gap: 14px; }
+    .now-playing-art { width: 120px; height: 120px; }
+    .np-song { font-size: 18px; }
+    .coverflow-section { padding: 0 16px 12px; }
+    .cf-album { width: 80px; height: 80px; }
+    .cf-center { width: 100px; height: 100px; }
+    .coverflow { height: 120px; }
+    .ipod-menu { padding: 0 16px 14px; }
+    .click-wheel { width: 170px; height: 170px; }
+    .wheel-center { width: 62px; height: 62px; }
+    .showcase-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 440px) {
+    .now-playing { flex-direction: column; text-align: center; }
+    .now-playing-art { width: 140px; height: 140px; }
+    .click-wheel { width: 150px; height: 150px; }
+    .wheel-center { width: 54px; height: 54px; }
+    .cf-album { width: 60px; height: 60px; }
+    .cf-center { width: 80px; height: 80px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ====== THE GIANT iPOD CLASSIC ====== -->
+<div class="ipod-device">
+
+  <!-- LEFT COLUMN: SCREEN -->
+  <div class="ipod-screen-col">
+
+  <!-- LCD SCREEN AREA -->
+  <div class="lcd-screen">
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <span class="title">iPod</span>
+      <span class="play-status">&#9654; Playing</span>
+      <div class="battery">
+        <div class="battery-icon"><div class="battery-fill"></div></div>
+      </div>
+    </div>
+
+    <!-- Now Playing -->
+    <div class="now-playing">
+      <div class="now-playing-art"></div>
+      <div class="now-playing-info">
+        <div class="np-song">Bohemian Rhapsody</div>
+        <div class="np-artist">Queen</div>
+        <div class="np-album">A Night at the Opera</div>
+        <div class="np-progress">
+          <span class="np-time"><span class="np-play-icon">&#9654;</span>2:34</span>
+          <div class="np-track">
+            <div class="np-fill"></div>
+            <div class="np-thumb"></div>
+          </div>
+          <span class="np-time right">5:55</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cover Flow -->
+    <div class="coverflow-section">
+      <div class="coverflow-label">Cover Flow</div>
+      <div class="coverflow">
+        <div class="cf-album cf-left-2 cfa4"></div>
+        <div class="cf-album cf-left-1 cfa2"></div>
+        <div class="cf-album cf-center cfa1"></div>
+        <div class="cf-album cf-right-1 cfa3"></div>
+        <div class="cf-album cf-right-2 cfa5"></div>
+      </div>
+    </div>
+
+    <!-- iPod Menu List -->
+    <div class="ipod-menu">
+      <div class="menu-list">
+        <div class="menu-item"><span>Now Playing</span><span class="chev">&#10095;</span></div>
+        <div class="menu-item selected"><span>Music</span><span class="chev">&#10095;</span></div>
+        <div class="menu-item"><span>Playlists</span><span class="chev">&#10095;</span></div>
+        <div class="menu-item"><span>Artists</span><span class="chev">&#10095;</span></div>
+        <div class="menu-item"><span>Albums</span><span class="chev">&#10095;</span></div>
+        <div class="menu-item"><span>Settings</span><span class="chev">&#10095;</span></div>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /.ipod-screen-col -->
+
+  <!-- RIGHT COLUMN: WHEEL -->
+  <div class="ipod-wheel-col">
+
+    <!-- CLICK WHEEL AREA -->
+    <div class="wheel-area">
+      <div class="click-wheel">
+        <span class="wheel-label wl-menu">MENU</span>
+        <span class="wheel-label wl-prev">&#9198;</span>
+        <span class="wheel-label wl-next">&#9197;</span>
+        <span class="wheel-label wl-play">&#9654;&#10074;&#10074;</span>
+        <div class="wheel-center"></div>
+      </div>
+    </div>
+
+    <!-- iPod branding -->
+    <div class="ipod-brand">iPod</div>
+
+  </div><!-- /.ipod-wheel-col -->
+
+</div>
+
+<!-- ====== COMPONENT SHOWCASE ====== -->
+<div class="showcase">
+  <div class="showcase-title" id="components">Components</div>
+  <div class="showcase-grid">
+
+    <!-- Typography -->
+    <div class="comp-section">
+      <div class="comp-label">Typography</div>
+      <div class="type-sample" style="font-size:22px;font-weight:700;">Display Heading</div>
+      <div class="type-sample" style="font-size:16px;font-weight:600;">Section Header</div>
+      <div class="type-sample" style="font-size:14px;">Body text for content. The quick brown fox jumps.</div>
+      <div class="type-sample" style="font-size:12px;color:oklch(60% 0.005 250);">Detail text and captions</div>
+      <div class="type-sample" style="font-size:10px;color:oklch(50% 0.005 250);">Fine print at 10px</div>
+    </div>
+
+    <!-- Color Swatches -->
+    <div class="comp-section">
+      <div class="comp-label">Color Palette</div>
+      <div class="swatches">
+        <div class="swatch light" style="background:var(--chrome-hi)"><span>Chrome</span></div>
+        <div class="swatch light" style="background:var(--lcd-bg)"><span>LCD</span></div>
+        <div class="swatch" style="background:var(--blue-hi)"><span>Select</span></div>
+        <div class="swatch" style="background:var(--green)"><span>Battery</span></div>
+        <div class="swatch" style="background:var(--red)"><span>Alert</span></div>
+        <div class="swatch light" style="background:var(--face)"><span>Face</span></div>
+      </div>
+    </div>
+
+    <!-- iPod Menu List -->
+    <div class="comp-section">
+      <div class="comp-label">iPod Menu List</div>
+      <div class="showcase-menu">
+        <div class="showcase-menu-item"><span>Songs</span><span class="chev">&#10095;</span></div>
+        <div class="showcase-menu-item active-row"><span>Playlists</span><span class="chev">&#10095;</span></div>
+        <div class="showcase-menu-item"><span>Artists</span><span class="chev">&#10095;</span></div>
+        <div class="showcase-menu-item"><span>Genres</span><span class="chev">&#10095;</span></div>
+      </div>
+    </div>
+
+    <!-- Glossy Buttons -->
+    <div class="comp-section">
+      <div class="comp-label">Glossy Buttons</div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;">
+        <button class="glossy-btn play">&#9654; Play</button>
+        <button class="glossy-btn chrome">Chrome</button>
+        <button class="glossy-btn blue-hl">Select</button>
+      </div>
+    </div>
+
+    <!-- Album Card with Reflection -->
+    <div class="comp-section">
+      <div class="comp-label">Album Card + Reflection</div>
+      <div class="showcase-album">
+        <div class="art"></div>
+        <div style="color:oklch(88% 0.005 0);font-size:12px;font-weight:600;">Rumours</div>
+        <div style="color:oklch(60% 0.005 250);font-size:11px;">Fleetwood Mac</div>
+      </div>
+    </div>
+
+    <!-- Click Wheel Standalone -->
+    <div class="comp-section">
+      <div class="comp-label">Click Wheel</div>
+      <div class="wheel-standalone">
+        <div class="click-wheel">
+          <span class="wheel-label wl-menu">MENU</span>
+          <span class="wheel-label wl-prev">&#9198;</span>
+          <span class="wheel-label wl-next">&#9197;</span>
+          <span class="wheel-label wl-play">&#9654;&#10074;&#10074;</span>
+          <div class="wheel-center"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress / Slider -->
+    <div class="comp-section">
+      <div class="comp-label">Progress / Slider</div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:11px;color:oklch(60% 0.005 250);">0:00</span>
+          <div class="showcase-slider-track" style="flex:1;">
+            <div class="showcase-slider-fill"></div>
+            <div class="showcase-slider-thumb"></div>
+          </div>
+          <span style="font-size:11px;color:oklch(60% 0.005 250);">4:12</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:12px;color:oklch(60% 0.005 250);">&#128264;</span>
+          <div class="showcase-slider-track" style="flex:1;">
+            <div class="showcase-slider-fill" style="width:80%;"></div>
+            <div class="showcase-slider-thumb" style="left:calc(80% - 8px);"></div>
+          </div>
+          <span style="font-size:12px;color:oklch(60% 0.005 250);">&#128266;</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Field -->
+    <div class="comp-section">
+      <div class="comp-label">Text Input</div>
+      <input class="ipod-input" type="text" placeholder="Search your library...">
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center;padding:0 0 1.5rem;font-size:11px;color:oklch(50% 0.005 250);">
+  iOS SKEUOMORPHISM THEME &mdash; Giant iPod Classic &mdash; VISUAL THEME SYSTEM
+</div>
+
+<script>
+  document.querySelectorAll('.menu-item').forEach(function(item) {
+    item.addEventListener('click', function() {
+      document.querySelectorAll('.menu-item').forEach(function(i) { i.classList.remove('selected'); });
+      item.classList.add('selected');
+    });
+  });
+</script>
+</body>
+</html>
