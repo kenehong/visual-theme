@@ -1,0 +1,77 @@
+{
+  "name": "Scandinavian",
+  "description": "Nordic interior design aesthetic. Copenhagen apartment, IKEA catalog, hygge. Warm but airy, functional but cozy — light wood, warm whites, soft pastels.",
+  "source": "Scandinavian / Nordic interior design — IKEA, HAY, Muji, Copenhagen living",
+  "mood": ["cozy", "functional", "Nordic"],
+  "shape": {
+    "radiusSm": "8px",
+    "radiusMd": "10px",
+    "radiusLg": "12px",
+    "radiusFull": "999px",
+    "borderWidth": "1px"
+  },
+  "typography": {
+    "fontSans": "'Inter', -apple-system, 'Segoe UI', sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'DM Sans', 'Inter', sans-serif",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "-0.01em",
+    "letterSpacingBody": "0",
+    "lineHeight": 1.65,
+    "lineHeightHeading": 1.2,
+    "textTransformHeading": "none"
+  },
+  "spacing": {
+    "density": "airy",
+    "scale": 1.15
+  },
+  "depth": {
+    "shadowSm": "0 1px 4px oklch(55% 0.04 70 / 0.08)",
+    "shadowMd": "0 4px 16px oklch(55% 0.04 70 / 0.1)",
+    "shadowLg": "0 8px 30px oklch(55% 0.04 70 / 0.12)",
+    "shadowStyle": "soft-warm"
+  },
+  "motion": {
+    "durationFast": "120ms",
+    "durationNormal": "200ms",
+    "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(98% 0.005 90)",
+    "surface": "oklch(100% 0 0)",
+    "text": "oklch(22% 0.02 250)",
+    "primary": "oklch(55% 0.12 250)",
+    "accent": "oklch(70% 0.1 55)",
+    "blush": "oklch(85% 0.06 20)",
+    "sage": "oklch(75% 0.06 155)",
+    "wood": "oklch(72% 0.08 70)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(15% 0.01 250)",
+    "surface": "oklch(20% 0.015 250)",
+    "text": "oklch(92% 0.01 90)",
+    "primary": "oklch(65% 0.12 250)",
+    "accent": "oklch(72% 0.1 55)"
+  },
+  "demo": {
+    "type": "shop",
+    "title": "norden",
+    "subtitle": "Make your home feel like home.",
+    "items": [
+      { "name": "Birch Side Table", "price": "kr 1,290", "tag": "Popular" },
+      { "name": "Linen Throw Blanket", "price": "kr 890", "tag": "Cozy" },
+      { "name": "Ceramic Vase Set", "price": "kr 450", "tag": "New" }
+    ],
+    "banner": "Free shipping on orders over kr 999",
+    "brands": ["HAY", "Muuto", "IKEA", "Fritz Hansen", "Ferm Living", "Menu"]
+  },
+  "suggestions": {
+    "icons": "Lucide (stroke 1.5px), rounded and friendly",
+    "components": "rounded cards with generous padding, soft pastel badges, warm shadow depth, whitespace-heavy layouts, subtle dividers",
+    "avoid": "hard shadows, sharp corners, neon colors, dense layouts, heavy borders, dark backgrounds as default",
+    "googleFonts": "DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600",
+    "texture": "none — clean and flat, warmth from color not texture"
+  }
+}

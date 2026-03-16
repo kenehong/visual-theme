@@ -1,0 +1,77 @@
+{
+  "name": "Tamagotchi",
+  "description": "1996 Bandai virtual pet LCD aesthetic. Egg-shaped device, yellow-green monochrome screen, pixel characters, 3-button interface. The charm of extreme limitation — tiny resolution, 1-bit graphics, simple beeps.",
+  "source": "Bandai Tamagotchi (1996), virtual pet LCD devices, low-res monochrome handheld games",
+  "mood": ["cute", "pixelated", "nostalgic"],
+  "shape": {
+    "radiusSm": "0px",
+    "radiusMd": "0px",
+    "radiusLg": "8px",
+    "radiusFull": "50%",
+    "borderWidth": "3px"
+  },
+  "typography": {
+    "fontSans": "'Press Start 2P', 'Courier New', monospace",
+    "fontMono": "'Press Start 2P', 'Courier New', monospace",
+    "fontDisplay": "'Press Start 2P', 'Courier New', monospace",
+    "weightNormal": 400,
+    "weightMedium": 400,
+    "weightBold": 400,
+    "letterSpacingHeading": "0.02em",
+    "letterSpacingBody": "0.01em",
+    "lineHeight": 1.8,
+    "lineHeightHeading": 1.4,
+    "textTransformHeading": "uppercase"
+  },
+  "spacing": {
+    "density": "comfortable",
+    "scale": 1.0
+  },
+  "depth": {
+    "shadowSm": "0 2px 6px oklch(0% 0 0 / 0.1)",
+    "shadowMd": "0 4px 12px oklch(0% 0 0 / 0.12)",
+    "shadowLg": "0 8px 24px oklch(0% 0 0 / 0.15)",
+    "shadowStyle": "soft"
+  },
+  "motion": {
+    "durationFast": "0ms",
+    "durationNormal": "300ms",
+    "easing": "steps(2)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(92% 0.02 90)",
+    "surface": "oklch(78% 0.08 125)",
+    "text": "oklch(25% 0.05 125)",
+    "primary": "oklch(65% 0.1 125)",
+    "accent": "oklch(50% 0.08 125)",
+    "shell": "oklch(88% 0.03 90)",
+    "button": "oklch(75% 0.02 0)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(18% 0.02 125)",
+    "surface": "oklch(30% 0.06 125)",
+    "text": "oklch(78% 0.08 125)",
+    "primary": "oklch(65% 0.1 125)",
+    "accent": "oklch(55% 0.08 125)"
+  },
+  "demo": {
+    "type": "pet",
+    "title": "TAMAGOTCHI",
+    "subtitle": "Virtual Pet 1996",
+    "stats": {
+      "happy": 4,
+      "hunger": 6,
+      "age": "3yr",
+      "weight": "25lb"
+    },
+    "icons": ["meal", "light", "game", "medicine", "bath", "stats", "discipline", "attention"],
+    "buttons": ["SELECT", "EXECUTE", "CANCEL"]
+  },
+  "suggestions": {
+    "icons": "Pixel block shapes made from CSS grid squares, avoid emoji rendering",
+    "components": "LCD stat bars with block characters, pixel pet grid, egg-shaped device frame, physical round buttons, icon bar, monochrome display",
+    "avoid": "gradients inside LCD, anti-aliased fonts, smooth animations, bright colors inside screen, rounded corners on pixel elements",
+    "googleFonts": "Press+Start+2P",
+    "texture": "LCD pixel grid via subtle repeating pattern, plastic shell texture via inset highlight shadow"
+  }
+}

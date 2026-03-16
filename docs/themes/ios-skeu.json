@@ -1,0 +1,81 @@
+{
+  "name": "iOS Skeuomorphism",
+  "description": "2007-2012 Apple iOS 디자인. iPhone OS 1부터 iOS 6까지의 광택 버튼, 리넨 텍스처, 가죽/펠트 질감, 실물처럼 보이는 그림자와 반사. 2011년 iPhone 4를 손에 들고 있는 느낌.",
+  "source": "Apple iOS 1.0 – 6.x Human Interface Guidelines, Settings/Notes/Calculator native apps",
+  "mood": ["glossy", "tangible", "premium"],
+  "shape": {
+    "radiusSm": "6px",
+    "radiusMd": "10px",
+    "radiusLg": "12px",
+    "radiusFull": "50%",
+    "borderWidth": "1px"
+  },
+  "typography": {
+    "fontSans": "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+    "fontMono": "'SF Mono', 'Menlo', monospace",
+    "fontDisplay": "'Inter', 'Helvetica Neue', Helvetica, sans-serif",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "-0.01em",
+    "letterSpacingBody": "0",
+    "lineHeight": 1.45,
+    "lineHeightHeading": 1.1,
+    "textTransformHeading": "none"
+  },
+  "spacing": {
+    "density": "comfortable",
+    "scale": 1.0
+  },
+  "depth": {
+    "shadowSm": "0 1px 3px oklch(0% 0 0 / 0.2)",
+    "shadowMd": "0 2px 8px oklch(0% 0 0 / 0.25), inset 0 1px 0 oklch(100% 0 0 / 0.3)",
+    "shadowLg": "0 4px 16px oklch(0% 0 0 / 0.3), inset 0 1px 0 oklch(100% 0 0 / 0.2)",
+    "shadowStyle": "glossy"
+  },
+  "motion": {
+    "durationFast": "150ms",
+    "durationNormal": "300ms",
+    "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(88% 0.01 230)",
+    "surface": "oklch(97% 0.005 80)",
+    "text": "oklch(18% 0.01 0)",
+    "primary": "oklch(55% 0.18 250)",
+    "accent": "oklch(60% 0.2 145)",
+    "red": "oklch(55% 0.22 25)",
+    "orange": "oklch(65% 0.2 65)",
+    "navBar": "oklch(52% 0.12 240)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(15% 0.01 230)",
+    "surface": "oklch(22% 0.01 240)",
+    "text": "oklch(92% 0.005 80)",
+    "primary": "oklch(60% 0.18 250)",
+    "accent": "oklch(65% 0.2 145)",
+    "red": "oklch(60% 0.22 25)",
+    "orange": "oklch(70% 0.2 65)",
+    "navBar": "oklch(25% 0.08 240)"
+  },
+  "demo": {
+    "type": "settings-app",
+    "title": "Settings",
+    "subtitle": "iPhone OS Style",
+    "items": [
+      { "name": "Airplane Mode", "detail": "toggle", "tag": "Off" },
+      { "name": "Wi-Fi", "detail": "Home_5G", "tag": "Connected" },
+      { "name": "Bluetooth", "detail": "On", "tag": "Active" },
+      { "name": "Brightness", "detail": "slider", "tag": "75%" }
+    ],
+    "banner": "Software Update Available",
+    "brands": ["Settings", "Notes", "Contacts", "Calculator"]
+  },
+  "suggestions": {
+    "icons": "SF Symbols style or simple glyph icons, rounded corners",
+    "components": "glossy gradient buttons, grouped table views, toggle switches, inset text fields, navigation bars with gloss, tab bars with glass effect, alert dialogs, badges",
+    "avoid": "flat design, thin hairlines without depth, matte surfaces, brutalist layouts, sharp corners on interactive elements",
+    "googleFonts": "Inter:wght@400;500;600;700",
+    "texture": "linen texture via CSS repeating-linear-gradient crosshatch, leather via radial gradients, yellow legal pad lines, torn paper edges via CSS"
+  }
+}

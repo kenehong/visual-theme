@@ -1,0 +1,77 @@
+{
+  "name": "Streetwear 90s",
+  "description": "90년대 미국 스니커/스트리트웨어 문화. 도시적이고 거칠고 진짜인 느낌. West Philly 신발가게, 그래피티, 컬러블록 재킷에서 추출.",
+  "source": "~/Downloads/Photos-3-001/ (6장 — Giant Shoes, Sports & Things, Crunch Time, Sneaker City, Joseph's Sports 등)",
+  "mood": ["urban", "gritty", "authentic"],
+  "shape": {
+    "radiusSm": "0px",
+    "radiusMd": "2px",
+    "radiusLg": "4px",
+    "radiusFull": "0px",
+    "borderWidth": "3px"
+  },
+  "typography": {
+    "fontSans": "'Barlow Condensed', 'Arial Narrow', sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Dela Gothic One', 'Impact', sans-serif",
+    "weightNormal": 500,
+    "weightMedium": 600,
+    "weightBold": 800,
+    "letterSpacingHeading": "0.04em",
+    "letterSpacingBody": "0.01em",
+    "lineHeight": 1.4,
+    "lineHeightHeading": 1.0,
+    "textTransformHeading": "uppercase"
+  },
+  "spacing": {
+    "density": "dense",
+    "scale": 0.9
+  },
+  "depth": {
+    "shadowSm": "3px 3px 0 oklch(20% 0 0)",
+    "shadowMd": "4px 4px 0 oklch(15% 0 0)",
+    "shadowLg": "6px 6px 0 oklch(10% 0 0)",
+    "shadowStyle": "hard"
+  },
+  "motion": {
+    "durationFast": "60ms",
+    "durationNormal": "100ms",
+    "easing": "cubic-bezier(0.0, 0, 0.2, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(95% 0.015 75)",
+    "surface": "oklch(99% 0.005 75)",
+    "text": "oklch(15% 0.01 0)",
+    "primary": "oklch(50% 0.2 255)",
+    "accent": "oklch(55% 0.22 30)",
+    "yellow": "oklch(82% 0.18 90)",
+    "green": "oklch(55% 0.15 155)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(12% 0.01 250)",
+    "surface": "oklch(18% 0.015 250)",
+    "text": "oklch(93% 0.01 75)",
+    "primary": "oklch(60% 0.2 255)",
+    "accent": "oklch(62% 0.22 30)"
+  },
+  "demo": {
+    "type": "shop",
+    "title": "Giant Shoes",
+    "subtitle": "West Philly's Finest Since 1990",
+    "items": [
+      { "name": "Air Max 95", "price": "$160", "tag": "Classic" },
+      { "name": "Timberland 6-Inch", "price": "$198", "tag": "Hot" },
+      { "name": "FILA Disruptor II", "price": "$65", "tag": "Sale" },
+      { "name": "Reebok Question Mid", "price": "$140", "tag": "New" }
+    ],
+    "banner": "Buy One Get One — Half Price",
+    "brands": ["Nike", "FILA", "Timberland", "Reebok", "Adidas", "Converse"]
+  },
+  "suggestions": {
+    "icons": "Lucide (bold stroke 2.5px) or custom pictogram style",
+    "components": "sign-board banners, checkerboard patterns, stripe accents, tag/sticker badges, colorblock sections",
+    "avoid": "gradients, rounded pills, thin hairline borders, pastel colors, clean minimal aesthetics",
+    "googleFonts": "Barlow+Condensed:wght@400;500;600;700;800&family=Dela+Gothic+One",
+    "texture": "film grain overlay via SVG noise filter, concrete/brick background tones"
+  }
+}

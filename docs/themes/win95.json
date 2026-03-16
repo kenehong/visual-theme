@@ -1,0 +1,78 @@
+{
+  "name": "Windows 95",
+  "description": "The iconic Windows 95 operating system aesthetic. Gray windows, navy title bars, teal desktop, and 3D beveled borders. Instantly recognizable nostalgia from the dawn of consumer computing.",
+  "source": "Microsoft Windows 95 UI, Chicago design language, classic Win32 controls",
+  "mood": ["nostalgic", "systematic", "familiar"],
+  "shape": {
+    "radiusSm": "0px",
+    "radiusMd": "0px",
+    "radiusLg": "0px",
+    "radiusFull": "0px",
+    "borderWidth": "2px"
+  },
+  "typography": {
+    "fontSans": "'Pixelify Sans', 'MS Sans Serif', 'Segoe UI', Tahoma, sans-serif",
+    "fontMono": "'Courier New', monospace",
+    "fontDisplay": "'Pixelify Sans', 'MS Sans Serif', Tahoma, sans-serif",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "0em",
+    "letterSpacingBody": "0em",
+    "lineHeight": 1.4,
+    "lineHeightHeading": 1.2,
+    "textTransformHeading": "none"
+  },
+  "spacing": {
+    "density": "dense",
+    "scale": 0.9
+  },
+  "depth": {
+    "shadowSm": "none",
+    "shadowMd": "none",
+    "shadowLg": "2px 2px 0 oklch(15% 0 0)",
+    "shadowStyle": "3d-border"
+  },
+  "motion": {
+    "durationFast": "0ms",
+    "durationNormal": "0ms",
+    "easing": "steps(1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(78% 0.02 195)",
+    "surface": "oklch(85% 0.01 80)",
+    "text": "oklch(15% 0 0)",
+    "primary": "oklch(35% 0.12 250)",
+    "accent": "oklch(85% 0.01 80)",
+    "white": "oklch(100% 0 0)",
+    "border-light": "oklch(95% 0 0)",
+    "border-dark": "oklch(30% 0 0)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(78% 0.02 195)",
+    "surface": "oklch(85% 0.01 80)",
+    "text": "oklch(15% 0 0)",
+    "primary": "oklch(35% 0.12 250)",
+    "accent": "oklch(85% 0.01 80)"
+  },
+  "demo": {
+    "type": "os",
+    "title": "Windows 95",
+    "subtitle": "Where do you want to go today?",
+    "windows": [
+      { "name": "My Files", "type": "explorer" },
+      { "name": "Notepad", "type": "editor" },
+      { "name": "Properties", "type": "dialog" }
+    ],
+    "desktopIcons": ["My Computer", "Recycle Bin", "Network Neighborhood", "My Documents"],
+    "startMenu": true,
+    "taskbar": true
+  },
+  "suggestions": {
+    "icons": "System icons as emoji/unicode — folders, documents, computer, trash",
+    "components": "3D beveled buttons, sunken text inputs, tabbed dialogs, window title bars with controls, start menu, progress bars with chunky blocks",
+    "avoid": "border-radius, gradients (except title bar), soft shadows, rounded anything, modern flat design, blur effects",
+    "googleFonts": "Pixelify+Sans:wght@400;500;600;700",
+    "texture": "None — flat solid colors with 3D border illusions only"
+  }
+}

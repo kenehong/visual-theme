@@ -1,0 +1,71 @@
+{
+  "name": "Japanese Manga",
+  "description": "週刊少年ジャンプ風モノクロマンガ。スクリーントーン、集中線、効果線、墨ベタ。Dragon Ball・Naruto・One Pieceの白黒原稿から抽出した純粋なモノクロームデザイン。",
+  "source": "Shonen Jump manga pages — screentone patterns, speed lines, concentration lines, ink brush strokes, dramatic panel layouts",
+  "mood": ["dramatic", "monochrome", "kinetic"],
+  "shape": {
+    "radiusSm": "0px",
+    "radiusMd": "0px",
+    "radiusLg": "0px",
+    "radiusFull": "0px",
+    "borderWidth": "3px"
+  },
+  "typography": {
+    "fontSans": "'Inter', system-ui, sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Bangers', 'Impact', cursive",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "0.06em",
+    "letterSpacingBody": "0.01em",
+    "lineHeight": 1.5,
+    "lineHeightHeading": 1.0,
+    "textTransformHeading": "uppercase"
+  },
+  "spacing": {
+    "density": "normal",
+    "scale": 1.0
+  },
+  "depth": {
+    "shadowSm": "none",
+    "shadowMd": "none",
+    "shadowLg": "none",
+    "shadowStyle": "none — manga uses linework, not shadows"
+  },
+  "motion": {
+    "durationFast": "80ms",
+    "durationNormal": "150ms",
+    "easing": "cubic-bezier(0.0, 0, 0.2, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(98% 0 0)",
+    "surface": "oklch(100% 0 0)",
+    "text": "oklch(8% 0 0)",
+    "primary": "oklch(8% 0 0)",
+    "accent": "oklch(45% 0 0)",
+    "light": "oklch(75% 0 0)",
+    "lighter": "oklch(90% 0 0)"
+  },
+  "colorDefaultsDark": null,
+  "demo": {
+    "type": "manga-magazine",
+    "title": "WEEKLY MANGA",
+    "subtitle": "週刊マンガ · VOL. 42",
+    "items": [
+      { "name": "Dragon Saga", "genre": "Action", "chapter": "Ch. 142", "tag": "NEW" },
+      { "name": "Night Runner", "genre": "Mystery", "chapter": "Ch. 78", "tag": "HOT" },
+      { "name": "School Days", "genre": "Comedy", "chapter": "Ch. 231", "tag": "Popular" },
+      { "name": "Spirit Blade", "genre": "Fantasy", "chapter": "Ch. 56", "tag": "NEW" }
+    ],
+    "banner": "NEW CHAPTER!",
+    "sfx": ["ドドド", "バン!", "ゴゴゴ"]
+  },
+  "suggestions": {
+    "icons": "None or minimal — manga relies on linework and screentone, not icons",
+    "components": "screentone pattern fills (dots/diagonal lines), speed lines, concentration lines, speech bubbles with pointed tails, manga panel grids with variable border thickness, onomatopoeia SFX text, ink brush stroke accents",
+    "avoid": "color, gradients, rounded corners, drop shadows, thin hairline borders, soft/pastel anything",
+    "googleFonts": "Bangers&family=Inter:wght@400;500;600;700",
+    "texture": "screentone dots (radial-gradient), diagonal line hatching (repeating-linear-gradient), speed lines (repeating-conic-gradient)"
+  }
+}

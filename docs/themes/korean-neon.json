@@ -1,0 +1,77 @@
+{
+  "name": "Korean Neon Night",
+  "description": "한국 밤거리 네온사인. 을지로/종로/홍대 골목의 어두운 배경 위 빛나는 유리관 네온. 도시적이고 감성적이며 약간의 레트로 무드.",
+  "source": "Gemini moodboard (korean neon signage collage) + ~/Downloads/Photos-3-001/",
+  "mood": ["nocturnal", "luminous", "nostalgic"],
+  "shape": {
+    "radiusSm": "2px",
+    "radiusMd": "6px",
+    "radiusLg": "10px",
+    "radiusFull": "9999px",
+    "borderWidth": "1px"
+  },
+  "typography": {
+    "fontSans": "'DM Sans', -apple-system, 'Segoe UI', sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Righteous', 'Arial Black', sans-serif",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "0.03em",
+    "letterSpacingBody": "0em",
+    "lineHeight": 1.6,
+    "lineHeightHeading": 1.15,
+    "textTransformHeading": "none"
+  },
+  "spacing": {
+    "density": "airy",
+    "scale": 1.1
+  },
+  "depth": {
+    "shadowSm": "0 0 8px oklch(70% 0.22 330 / 0.3)",
+    "shadowMd": "0 0 18px oklch(70% 0.22 330 / 0.4)",
+    "shadowLg": "0 0 36px oklch(70% 0.22 330 / 0.5)",
+    "shadowStyle": "glow"
+  },
+  "motion": {
+    "durationFast": "150ms",
+    "durationNormal": "250ms",
+    "easing": "cubic-bezier(0.4, 0, 0.2, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(12% 0.015 260)",
+    "surface": "oklch(17% 0.02 260)",
+    "text": "oklch(90% 0.01 260)",
+    "primary": "oklch(70% 0.24 330)",
+    "accent": "oklch(72% 0.19 170)",
+    "blue": "oklch(65% 0.2 255)",
+    "warm": "oklch(78% 0.18 80)",
+    "red": "oklch(65% 0.26 20)",
+    "green": "oklch(72% 0.22 150)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(12% 0.015 260)",
+    "surface": "oklch(17% 0.02 260)",
+    "text": "oklch(90% 0.01 260)"
+  },
+  "demo": {
+    "type": "bar",
+    "title": "Eulji Hof",
+    "subtitle": "Since 1995 — Open Till Late",
+    "items": [
+      { "name": "Draft Beer", "price": "$5", "tag": "Popular" },
+      { "name": "Soju Original", "price": "$4", "tag": "" },
+      { "name": "Fried Chicken", "price": "$15", "tag": "Best" },
+      { "name": "Tteokbokki", "price": "$8", "tag": "Spicy" }
+    ],
+    "banner": "We're Open — 24 Hours",
+    "signs": ["Open", "Cheers", "Cold Beer"]
+  },
+  "suggestions": {
+    "icons": "Lucide (default stroke 1.5px, with glow effect on active)",
+    "components": "glowing text, neon-bordered cards, glass-morphism panels, pill buttons with glow, subtle flicker animation, neon sign components, tube-style borders",
+    "avoid": "bright white backgrounds, heavy drop shadows, uppercase everything, thick solid borders, flat non-glowing colors",
+    "googleFonts": "Righteous&family=DM+Sans:wght@400;500;600;700",
+    "texture": "subtle noise on dark bg, glass-blur backdrop-filter on surfaces"
+  }
+}

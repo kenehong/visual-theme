@@ -1,0 +1,82 @@
+{
+  "name": "Android Material",
+  "description": "Early Android Material Design (2014-2017). Paper metaphor, bold color bars, floating action buttons, elevation shadows. Google apps era — Inbox, Gmail, Calendar. Roboto everything.",
+  "source": "Google Material Design spec v1 (2014), Android Lollipop/Marshmallow system UI",
+  "mood": ["material", "layered", "colorful"],
+  "shape": {
+    "radiusSm": "2px",
+    "radiusMd": "2px",
+    "radiusLg": "4px",
+    "radiusFull": "50%",
+    "borderWidth": "0px"
+  },
+  "typography": {
+    "fontSans": "'Roboto', 'Helvetica Neue', Arial, sans-serif",
+    "fontMono": "'Roboto Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Roboto', 'Helvetica Neue', sans-serif",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "0.01em",
+    "letterSpacingBody": "0.01em",
+    "lineHeight": 1.5,
+    "lineHeightHeading": 1.2,
+    "textTransformHeading": "none"
+  },
+  "spacing": {
+    "density": "comfortable",
+    "scale": 1.0
+  },
+  "depth": {
+    "shadowSm": "0 2px 2px oklch(0% 0 0 / 0.14), 0 3px 1px oklch(0% 0 0 / 0.12), 0 1px 5px oklch(0% 0 0 / 0.2)",
+    "shadowMd": "0 4px 5px oklch(0% 0 0 / 0.14), 0 1px 10px oklch(0% 0 0 / 0.12), 0 2px 4px oklch(0% 0 0 / 0.2)",
+    "shadowLg": "0 8px 10px oklch(0% 0 0 / 0.14), 0 3px 14px oklch(0% 0 0 / 0.12), 0 5px 5px oklch(0% 0 0 / 0.2)",
+    "shadowStyle": "elevation"
+  },
+  "motion": {
+    "durationFast": "150ms",
+    "durationNormal": "250ms",
+    "easing": "cubic-bezier(0.4, 0.0, 0.2, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(96% 0.005 0)",
+    "surface": "oklch(100% 0 0)",
+    "text": "oklch(15% 0.01 0)",
+    "textSecondary": "oklch(45% 0.01 0)",
+    "primary": "oklch(55% 0.2 250)",
+    "primaryDark": "oklch(42% 0.2 250)",
+    "accent": "oklch(65% 0.25 350)",
+    "green": "oklch(60% 0.18 155)",
+    "orange": "oklch(70% 0.18 65)",
+    "red": "oklch(55% 0.22 25)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(15% 0.005 0)",
+    "surface": "oklch(22% 0.005 0)",
+    "text": "oklch(90% 0.005 0)",
+    "textSecondary": "oklch(65% 0.005 0)",
+    "primary": "oklch(62% 0.2 250)",
+    "primaryDark": "oklch(50% 0.2 250)",
+    "accent": "oklch(70% 0.25 350)"
+  },
+  "demo": {
+    "type": "app",
+    "title": "Inbox",
+    "subtitle": "by Google",
+    "items": [
+      { "name": "Google Play", "preview": "Your weekly app recommendations are ready", "time": "10:30 AM" },
+      { "name": "Alice Chen", "preview": "Hey! Are we still on for lunch tomorrow?", "time": "9:45 AM" },
+      { "name": "GitHub", "preview": "[material-ui] PR #4521 merged: Fix elevation", "time": "9:12 AM" },
+      { "name": "Dave Wilson", "preview": "Check out this new Material Design spec update", "time": "Yesterday" },
+      { "name": "Spotify", "preview": "Your Discover Weekly is ready!", "time": "Yesterday" }
+    ],
+    "nav": ["Inbox", "Chat", "Spaces", "Meet"]
+  },
+  "suggestions": {
+    "icons": "Material Icons (filled style, 24dp)",
+    "components": "FAB, cards with elevation, bottom sheets, snackbars, chips, floating label inputs, bottom navigation, app bar with actions",
+    "avoid": "gradients, heavy borders, flat design without shadows, rounded pills (use 2px radius), skeuomorphic textures",
+    "googleFonts": "Roboto:wght@300;400;500;700",
+    "texture": "none — Material Design is clean paper surfaces with shadow depth"
+  }
+}

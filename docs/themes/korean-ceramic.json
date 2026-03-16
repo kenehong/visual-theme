@@ -1,0 +1,76 @@
+{
+  "name": "Korean Ceramics",
+  "description": "고려청자의 비색과 조선백자의 순백. 국립중앙박물관 도자기 전시실의 고요한 아름다움 - 여백의 미, 상감의 섬세함, 달항아리의 완벽한 불완전함.",
+  "source": "National Museum of Korea ceramics gallery, Goryeo celadon (12c), Joseon white porcelain moon jars (18c), Buncheong ware (15c)",
+  "mood": ["ethereal", "refined", "timeless"],
+  "shape": {
+    "radiusSm": "10px",
+    "radiusMd": "14px",
+    "radiusLg": "20px",
+    "radiusFull": "9999px",
+    "borderWidth": "1px"
+  },
+  "typography": {
+    "fontSans": "'Inter', -apple-system, 'Segoe UI', sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Cormorant Garamond', Georgia, serif",
+    "weightNormal": 300,
+    "weightMedium": 400,
+    "weightBold": 500,
+    "letterSpacingHeading": "0.06em",
+    "letterSpacingBody": "0.01em",
+    "lineHeight": 1.9,
+    "lineHeightHeading": 1.3,
+    "textTransformHeading": "none"
+  },
+  "spacing": {
+    "density": "spacious",
+    "scale": 1.8
+  },
+  "depth": {
+    "shadowSm": "0 1px 3px oklch(50% 0.02 75 / 0.03)",
+    "shadowMd": "0 2px 8px oklch(50% 0.02 75 / 0.05)",
+    "shadowLg": "0 4px 16px oklch(50% 0.02 75 / 0.07)",
+    "shadowStyle": "barely-there"
+  },
+  "motion": {
+    "durationFast": "250ms",
+    "durationNormal": "450ms",
+    "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(97% 0.008 90)",
+    "surface": "oklch(100% 0 0)",
+    "text": "oklch(22% 0.02 250)",
+    "primary": "oklch(62% 0.08 175)",
+    "accent": "oklch(50% 0.06 250)",
+    "cream": "oklch(92% 0.03 75)",
+    "gold": "oklch(68% 0.1 75)",
+    "clay": "oklch(55% 0.06 55)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(14% 0.01 175)",
+    "surface": "oklch(19% 0.015 175)",
+    "text": "oklch(92% 0.01 90)",
+    "primary": "oklch(70% 0.08 175)",
+    "accent": "oklch(62% 0.06 250)"
+  },
+  "demo": {
+    "type": "gallery",
+    "title": "Korean Ceramics",
+    "subtitle": "The Secret of Celadon",
+    "items": [
+      { "name": "Goryeo Celadon Vase", "period": "12th Century", "tag": "Celadon" },
+      { "name": "Joseon Moon Jar", "period": "18th Century", "tag": "Baekja" },
+      { "name": "Buncheong Ware", "period": "15th Century", "tag": "Buncheong" }
+    ],
+    "quote": "The beauty of Korean ceramics lies not in what is added, but in what is left empty."
+  },
+  "suggestions": {
+    "icons": "Lucide (stroke 1px, extremely thin and delicate)",
+    "components": "hairline dividers, bottom-border inputs, generous whitespace (6rem+ section gaps), curved cards with huge padding, CSS ceramic shapes, subtle sanggam inlaid patterns",
+    "avoid": "sharp corners, heavy shadows, bright saturated colors, dense layouts, gradients, heavy borders, decorative clutter",
+    "googleFonts": "Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500",
+    "texture": "subtle rice-paper grain via SVG noise filter at very low opacity (0.015-0.02)"
+  }
+}

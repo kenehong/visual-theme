@@ -1,0 +1,78 @@
+{
+  "name": "Kids Botanical",
+  "description": "A child's framed canvas painting — colorful flower with geometric border patterns. Bold brushstrokes, diamond/triangle borders, deep greens and bright petals. Signed 'GINA'.",
+  "source": "Child's canvas painting — multi-colored flower (red, yellow, blue petals), dark green stem, geometric border patterns (diamonds, triangles, zigzags)",
+  "mood": ["botanical", "patterned", "crafted"],
+  "shape": {
+    "radiusSm": "2px",
+    "radiusMd": "3px",
+    "radiusLg": "4px",
+    "radiusFull": "2px",
+    "borderWidth": "2.5px"
+  },
+  "typography": {
+    "fontSans": "'Inter', -apple-system, 'Segoe UI', sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Playfair Display', 'Georgia', serif",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "0.01em",
+    "letterSpacingBody": "0.005em",
+    "lineHeight": 1.6,
+    "lineHeightHeading": 1.15,
+    "textTransformHeading": "none"
+  },
+  "spacing": {
+    "density": "balanced",
+    "scale": 1.0
+  },
+  "depth": {
+    "shadowSm": "0 1px 3px oklch(50% 0.04 80 / 0.1)",
+    "shadowMd": "0 3px 12px oklch(50% 0.04 80 / 0.12)",
+    "shadowLg": "0 6px 24px oklch(50% 0.04 80 / 0.15)",
+    "shadowStyle": "soft"
+  },
+  "motion": {
+    "durationFast": "120ms",
+    "durationNormal": "200ms",
+    "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(96% 0.01 80)",
+    "surface": "oklch(99% 0.005 80)",
+    "text": "oklch(18% 0.03 150)",
+    "primary": "oklch(42% 0.15 155)",
+    "accent": "oklch(58% 0.2 25)",
+    "yellow": "oklch(78% 0.16 85)",
+    "blue": "oklch(48% 0.18 255)",
+    "brown": "oklch(50% 0.1 55)",
+    "navy": "oklch(22% 0.05 260)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(14% 0.02 155)",
+    "surface": "oklch(20% 0.025 155)",
+    "text": "oklch(92% 0.01 80)",
+    "primary": "oklch(55% 0.15 155)",
+    "accent": "oklch(62% 0.2 25)"
+  },
+  "demo": {
+    "type": "botanical",
+    "title": "GINA'S GARDEN",
+    "subtitle": "Botanical Collection",
+    "items": [
+      { "name": "Sunflower", "price": "$12", "tag": "Bright" },
+      { "name": "Rose Garden", "price": "$18", "tag": "Classic" },
+      { "name": "Blue Iris", "price": "$15", "tag": "Rare" }
+    ],
+    "banner": "Spring Painting Workshop — Open Enrollment",
+    "brands": ["Sunflower", "Rose", "Iris", "Tulip", "Daisy", "Lavender"]
+  },
+  "suggestions": {
+    "icons": "Lucide (stroke 1.5px) or botanical line illustrations",
+    "components": "geometric border patterns (diamonds, triangles, zigzags), CSS flower art, botanical cards, canvas-textured backgrounds, handcrafted badges",
+    "avoid": "neon colors, heavy drop shadows, overly polished/corporate aesthetics, dark mode defaults",
+    "googleFonts": "Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;500;600",
+    "texture": "subtle canvas/paper texture via CSS noise, warm cream backgrounds"
+  }
+}

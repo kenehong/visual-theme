@@ -1,0 +1,76 @@
+{
+  "name": "Vaporwave",
+  "description": "80s-90s internet nostalgia meets Miami Vice. Sunset gradients, marble busts, Japanese text, Windows 95 dialogs, VHS tracking lines. You fell asleep watching a tape in 1992 and woke up in a digital paradise.",
+  "source": "Vaporwave / Retrowave aesthetics — Floral Shoppe, Arizona Iced Tea, early Macintosh, Greek statues, Fiji water, mall culture",
+  "mood": ["aesthetic", "nostalgic", "dreamy"],
+  "shape": {
+    "radiusSm": "0px",
+    "radiusMd": "0px",
+    "radiusLg": "4px",
+    "radiusFull": "999px",
+    "borderWidth": "2px"
+  },
+  "typography": {
+    "fontSans": "'DM Sans', -apple-system, sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Bungee Shade', 'Monoton', cursive",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "0.12em",
+    "letterSpacingBody": "0.01em",
+    "lineHeight": 1.6,
+    "lineHeightHeading": 1.2,
+    "textTransformHeading": "uppercase"
+  },
+  "spacing": {
+    "density": "relaxed",
+    "scale": 1.1
+  },
+  "depth": {
+    "shadowSm": "0 0 8px oklch(70% 0.22 340 / 0.4)",
+    "shadowMd": "0 0 12px oklch(70% 0.22 340 / 0.4), 0 0 24px oklch(72% 0.15 200 / 0.2)",
+    "shadowLg": "0 0 20px oklch(70% 0.22 340 / 0.5), 0 0 40px oklch(72% 0.15 200 / 0.25), inset 0 0 10px oklch(70% 0.22 340 / 0.1)",
+    "shadowStyle": "neon-glow"
+  },
+  "motion": {
+    "durationFast": "150ms",
+    "durationNormal": "300ms",
+    "easing": "cubic-bezier(0.4, 0, 0.2, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(18% 0.05 300)",
+    "surface": "oklch(22% 0.05 290)",
+    "text": "oklch(90% 0.02 330)",
+    "primary": "oklch(70% 0.22 340)",
+    "accent": "oklch(72% 0.15 200)",
+    "purple": "oklch(60% 0.2 290)",
+    "orange": "oklch(75% 0.18 55)",
+    "yellow": "oklch(85% 0.15 90)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(18% 0.05 300)",
+    "surface": "oklch(22% 0.05 290)",
+    "text": "oklch(90% 0.02 330)",
+    "primary": "oklch(70% 0.22 340)",
+    "accent": "oklch(72% 0.15 200)"
+  },
+  "demo": {
+    "type": "music-player",
+    "title": "V A P O R",
+    "subtitle": "美的感覚",
+    "tracks": [
+      { "name": "Macintosh Plus", "artist": "MACINTOSH PLUS", "tag": "Classic" },
+      { "name": "Teen Pregnancy", "artist": "BLANK BANSHEE", "tag": "Hot" },
+      { "name": "Palm Mall", "artist": "Cat System Corp.", "tag": "New" }
+    ],
+    "quote": "It's all a dream"
+  },
+  "suggestions": {
+    "icons": "Lucide (stroke 1.5px) or pixel-art style icons",
+    "components": "sunset gradient bands, CSS perspective grids, VHS scan-line overlays, neon-glow borders, chrome/metallic gradient text, pill buttons, album cards, palm tree silhouettes",
+    "avoid": "clean minimal aesthetics, serif fonts, flat matte colors, corporate layouts, sharp angular cuts",
+    "googleFonts": "Bungee+Shade&family=DM+Sans:wght@400;500;700",
+    "texture": "VHS scan lines via repeating-linear-gradient, sunset gradient bands, perspective grid floor, Japanese decorative text"
+  }
+}

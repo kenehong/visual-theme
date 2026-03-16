@@ -1,0 +1,76 @@
+{
+  "name": "Pop Art / Lichtenstein",
+  "description": "Roy Lichtenstein 팝아트. Ben-Day 도트가 주인공, 원색(빨강/파랑/노랑/검정/흰색)만 사용, 두꺼운 검정 아웃라인, 플랫 컬러, 말풍선/생각풍선. 미술관 회고전 느낌.",
+  "source": "Roy Lichtenstein retrospective, MoMA Pop Art collection, 1960s commercial art turned fine art",
+  "mood": ["pop", "graphic", "bold"],
+  "shape": {
+    "radiusSm": "0px",
+    "radiusMd": "0px",
+    "radiusLg": "0px",
+    "radiusFull": "24px",
+    "borderWidth": "4px"
+  },
+  "typography": {
+    "fontSans": "'Inter', system-ui, sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Bangers', 'Impact', cursive",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "0.05em",
+    "letterSpacingBody": "0.01em",
+    "lineHeight": 1.5,
+    "lineHeightHeading": 1.1,
+    "textTransformHeading": "uppercase"
+  },
+  "spacing": {
+    "density": "normal",
+    "scale": 1.0
+  },
+  "depth": {
+    "shadowSm": "none",
+    "shadowMd": "none",
+    "shadowLg": "none",
+    "shadowStyle": "none"
+  },
+  "motion": {
+    "durationFast": "80ms",
+    "durationNormal": "150ms",
+    "easing": "cubic-bezier(0.4, 0, 0.2, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(95% 0.02 90)",
+    "surface": "oklch(100% 0 0)",
+    "text": "oklch(5% 0 0)",
+    "primary": "oklch(55% 0.28 30)",
+    "accent": "oklch(55% 0.22 255)",
+    "yellow": "oklch(88% 0.18 95)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(10% 0.01 90)",
+    "surface": "oklch(15% 0.01 90)",
+    "text": "oklch(95% 0.01 90)",
+    "primary": "oklch(60% 0.28 30)",
+    "accent": "oklch(60% 0.22 255)",
+    "yellow": "oklch(85% 0.16 95)"
+  },
+  "demo": {
+    "type": "gallery",
+    "title": "POP ART",
+    "subtitle": "In the style of Lichtenstein",
+    "panels": [
+      { "label": "BOLD", "bg": "accent", "dots": "white" },
+      { "label": "VIVID", "bg": "primary", "dots": "yellow" },
+      { "label": "GRAPHIC", "bg": "yellow", "dots": "accent" }
+    ],
+    "speechBubble": "WHY NOT TURN YOUR DESIGN INTO ART?",
+    "thoughtBubble": "I WONDER WHAT THIS WOULD LOOK LIKE AS A DESIGN SYSTEM..."
+  },
+  "suggestions": {
+    "icons": "Lucide (bold stroke 2.5px) or custom graphic pictograms",
+    "components": "speech bubbles, thought bubbles, Ben-Day dot backgrounds (3 sizes), thick-border panels, flat color cards, dot-patterned table rows",
+    "avoid": "shadows, gradients, thin borders, muted colors, pastels, any color outside red/blue/yellow/black/white",
+    "googleFonts": "Bangers&family=Inter:wght@400;500;700",
+    "texture": "Ben-Day dots via radial-gradient at 3 sizes: large (12px), medium (8px), small (6px)"
+  }
+}
