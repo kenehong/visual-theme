@@ -15,6 +15,10 @@ Stop letting AI pick your theme. Design themes inspired by real-world visual ref
   <img src="docs/assets/screenshot-brutalist.png" width="49%" />
 </p>
 
+### How it works
+
+![How it works](docs/assets/screenshot-howitworks.png)
+
 ## What is this?
 
 A collection of design themes inspired by real-world visual references — vintage storefronts, neon signs, magazine ads, architecture, anything with a distinct visual identity.
