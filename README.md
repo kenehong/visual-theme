@@ -1,6 +1,6 @@
 # visual-theme
 
-Design themes from visual references, not text prompts. Show it a photo, get a complete design system.
+Stop letting AI pick your theme. Design themes inspired by real-world visual references — not generic AI defaults.
 
 **[Browse the Gallery →](https://kennyhong.github.io/visual-theme/)**
 
