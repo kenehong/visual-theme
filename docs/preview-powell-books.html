@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Powell's City of Books — Powell's Twilight Theme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Source+Serif+4:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* === Tokens === */
+:root {
+  --bg: oklch(96% 0.01 60);
+  --surface: oklch(99% 0.005 60);
+  --text: oklch(25% 0.02 50);
+  --muted: oklch(60% 0.03 60);
+  --primary: oklch(52% 0.2 25);
+  --accent: oklch(55% 0.12 60);
+  --amber: oklch(70% 0.14 70);
+  --sage: oklch(62% 0.06 155);
+  --burgundy: oklch(40% 0.14 20);
+  --glow-amber: oklch(70% 0.14 70 / 0.25);
+  --font-display: 'Lora', Georgia, serif;
+  --font-body: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 4px oklch(55% 0.06 60 / 0.1);
+  --shadow-md: 0 4px 14px oklch(55% 0.06 60 / 0.12);
+  --shadow-lg: 0 8px 28px oklch(55% 0.06 60 / 0.15);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-body); background: var(--bg); color: var(--text);
+  line-height: 1.7; -webkit-font-smoothing: antialiased;
+}
+/* Paper grain overlay */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.wrap { max-width: 860px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* === Card base === */
+.card {
+  background: var(--surface);
+  border: 1px solid oklch(55% 0.06 60 / 0.12);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 220ms cubic-bezier(0.25, 0.1, 0.25, 1), transform 220ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* === Hero / Header === */
+.hero {
+  text-align: center; padding: 4.5rem 1rem 3rem; position: relative;
+  background: oklch(22% 0.02 50);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background: radial-gradient(ellipse at center 60%, oklch(52% 0.2 25 / 0.2) 0%, oklch(70% 0.14 70 / 0.08) 40%, transparent 70%);
+}
+.hero > * { position: relative; z-index: 1; }
+.hero h1 {
+  font-family: var(--font-display); font-size: clamp(2.5rem, 7vw, 4rem);
+  color: oklch(90% 0.04 25); letter-spacing: 0.01em; font-weight: 700;
+  text-shadow: 0 0 40px oklch(52% 0.2 25 / 0.4);
+}
+.hero-subtitle {
+  color: oklch(70% 0.04 60); font-size: 1.05rem; margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* === Banner === */
+.banner {
+  background: oklch(52% 0.2 25 / 0.1);
+  border: 1px solid oklch(52% 0.2 25 / 0.2);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1.5rem;
+  text-align: center;
+  margin: 2rem 0;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* === Nav / Search === */
+.search-bar {
+  display: flex; gap: 0.75rem; margin: 2rem 0;
+  max-width: 500px;
+}
+.input-field {
+  flex: 1; padding: 0.7rem 1rem; border-radius: var(--radius-md);
+  font-family: var(--font-body); font-size: 0.95rem;
+  background: var(--surface); color: var(--text);
+  border: 1px solid oklch(55% 0.06 60 / 0.15);
+  outline: none; transition: border-color 220ms, box-shadow 220ms;
+}
+.input-field::placeholder { color: var(--muted); }
+.input-field:focus {
+  border-color: oklch(52% 0.2 25 / 0.4);
+  box-shadow: 0 0 0 3px oklch(52% 0.2 25 / 0.1);
+}
+
+/* === Buttons === */
+.btn {
+  display: inline-block; font-family: var(--font-body); font-size: 0.9rem;
+  padding: 0.65rem 1.5rem; border-radius: var(--radius-md); border: none;
+  cursor: pointer; font-weight: 600;
+  transition: all 220ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.btn-primary {
+  background: var(--primary); color: oklch(98% 0.005 60);
+  box-shadow: 0 2px 8px oklch(52% 0.2 25 / 0.2);
+}
+.btn-primary:hover { background: oklch(48% 0.2 25); box-shadow: 0 4px 14px oklch(52% 0.2 25 / 0.3); }
+.btn-outline {
+  background: transparent; color: var(--primary);
+  border: 1px solid oklch(52% 0.2 25 / 0.3);
+}
+.btn-outline:hover { background: oklch(52% 0.2 25 / 0.06); border-color: oklch(52% 0.2 25 / 0.5); }
+
+/* === Tags === */
+.tag {
+  display: inline-block; font-size: 0.7rem; font-weight: 700;
+  padding: 0.15rem 0.6rem; border-radius: var(--radius-full);
+  letter-spacing: 0.02em;
+}
+.tag-pick { background: oklch(52% 0.2 25 / 0.12); color: var(--primary); }
+.tag-rare { background: oklch(48% 0.08 25 / 0.12); color: var(--accent); }
+.tag-fiction { background: oklch(62% 0.06 155 / 0.15); color: var(--sage); }
+.tag-used { background: oklch(60% 0.03 60 / 0.12); color: var(--muted); }
+
+/* === Section headings === */
+.section-title {
+  font-family: var(--font-display); font-size: 1.6rem; font-weight: 700;
+  color: var(--text); margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid oklch(52% 0.2 25 / 0.18);
+}
+.section-title span { color: var(--primary); }
+
+/* === Book grid === */
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+.book-card { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.book-title { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; line-height: 1.35; }
+.book-author { color: var(--muted); font-size: 0.88rem; font-style: italic; }
+.book-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 0.5rem; }
+.book-price { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: var(--primary); }
+
+/* === Staff Picks featured === */
+.featured-card {
+  padding: 1.75rem;
+  border-left: 3px solid var(--primary);
+  display: flex; gap: 1.25rem; align-items: flex-start;
+}
+.featured-number {
+  font-family: var(--font-display); font-size: 2.5rem; font-weight: 700;
+  color: oklch(52% 0.2 25 / 0.25); line-height: 1; flex-shrink: 0;
+}
+.featured-info { display: flex; flex-direction: column; gap: 0.35rem; }
+.featured-blurb { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+/* === Blockquote === */
+.quote-section {
+  margin: 3rem 0; padding: 2.5rem; text-align: center;
+  background: oklch(52% 0.2 25 / 0.04);
+  border-radius: var(--radius-lg);
+  border: 1px solid oklch(52% 0.2 25 / 0.08);
+}
+.quote-section blockquote {
+  font-family: var(--font-display); font-size: 1.25rem;
+  font-style: italic; color: oklch(35% 0.03 50);
+  line-height: 1.7; max-width: 600px; margin: 0 auto;
+}
+.quote-section cite {
+  display: block; margin-top: 1rem; color: var(--muted);
+  font-size: 0.88rem; font-style: normal;
+}
+
+/* === Divider === */
+.divider {
+  height: 1px; margin: 2.5rem 0;
+  background: linear-gradient(90deg, transparent, oklch(52% 0.2 25 / 0.2), oklch(55% 0.12 60 / 0.15), transparent);
+}
+
+/* === Component Showcase === */
+.showcase { padding: 3rem 0 2rem; }
+.showcase-title {
+  font-family: var(--font-display); font-size: 1.4rem;
+  text-align: center; margin-bottom: 2.5rem; color: var(--primary);
+}
+.showcase-block { margin-bottom: 2.5rem; }
+.showcase-label {
+  font-weight: 700; font-size: 0.75rem; letter-spacing: 0.06em;
+  color: var(--muted); margin-bottom: 0.75rem;
+}
+
+/* Swatches */
+.swatches { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.swatch {
+  width: 64px; height: 64px; border-radius: var(--radius-md);
+  display: flex; align-items: flex-end; justify-content: center;
+  font-size: 0.6rem; font-weight: 700; padding-bottom: 0.35rem;
+  letter-spacing: 0.03em; border: 1px solid oklch(55% 0.06 60 / 0.1);
+}
+/* Rows */
+.btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+.badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+
+/* === Footer === */
+footer {
+  text-align: center; padding: 2.5rem 0 3rem;
+  color: var(--muted); font-size: 0.88rem; line-height: 2;
+  border-top: 1px solid oklch(55% 0.06 60 / 0.1);
+}
+footer strong { color: var(--text); font-family: var(--font-display); }
+
+/* === Responsive === */
+@media (max-width: 600px) {
+  .hero { padding: 3rem 1rem 2rem; }
+  .hero h1 { font-size: 2.2rem; }
+  .book-grid { grid-template-columns: 1fr; }
+  .featured-card { flex-direction: column; gap: 0.75rem; }
+  .featured-number { font-size: 1.8rem; }
+  .search-bar { flex-direction: column; }
+  .quote-section { padding: 1.5rem; }
+  .quote-section blockquote { font-size: 1.05rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <!-- Hero -->
+  <header class="hero">
+    <h1>Powell's</h1>
+    <p class="hero-subtitle">City of Books &mdash; Used &amp; New Since 1971</p>
+  </header>
+
+  <!-- Banner -->
+  <div class="banner" id="banner"></div>
+
+  <!-- Search -->
+  <div class="search-bar">
+    <input class="input-field" type="text" placeholder="Search by title, author, or ISBN...">
+    <button class="btn btn-primary">Search</button>
+  </div>
+
+  <!-- Staff Picks -->
+  <section style="padding: 1rem 0 2rem;">
+    <h2 class="section-title"><span>Staff Picks</span></h2>
+    <div id="staff-picks" style="display:flex;flex-direction:column;gap:1.25rem;"></div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Recent Arrivals -->
+  <section style="padding: 1rem 0 2rem;">
+    <h2 class="section-title"><span>Recent Arrivals</span></h2>
+    <div class="book-grid" id="arrivals-grid"></div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Quote -->
+  <div class="quote-section">
+    <blockquote id="quote-text"></blockquote>
+    <cite id="quote-cite"></cite>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ========== COMPONENT SHOWCASE ========== -->
+  <section class="showcase">
+    <h2 class="showcase-title" id="components">Components</h2>
+
+    <!-- Typography -->
+    <div class="showcase-block">
+      <p class="showcase-label">Typography</p>
+      <p style="font-family:var(--font-display);font-size:2.2rem;font-weight:700;margin-bottom:0.25rem;">Heading One</p>
+      <p style="font-family:var(--font-display);font-size:1.5rem;font-weight:600;margin-bottom:0.25rem;">Heading Two</p>
+      <p style="font-weight:600;font-size:1.1rem;margin-bottom:0.25rem;">Heading Three</p>
+      <p style="color:var(--muted);">Body text in Source Serif 4. Warm, readable, and literary. The kind of type you'd find on a well-loved paperback spine, clear and inviting under warm lamplight.</p>
+    </div>
+
+    <!-- Colors -->
+    <div class="showcase-block">
+      <p class="showcase-label">Colors</p>
+      <div class="swatches" id="swatches"></div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="showcase-block">
+      <p class="showcase-label">Buttons</p>
+      <div class="btn-row" id="btn-showcase"></div>
+    </div>
+
+    <!-- Tags -->
+    <div class="showcase-block">
+      <p class="showcase-label">Tags</p>
+      <div class="badge-row" id="tag-showcase"></div>
+    </div>
+
+    <!-- Card with accent border -->
+    <div class="showcase-block">
+      <p class="showcase-label">Card (Accent Border)</p>
+      <div class="card" id="accent-card" style="max-width:420px;border-left:3px solid var(--primary);padding:1.5rem;"></div>
+    </div>
+
+    <!-- Form -->
+    <div class="showcase-block">
+      <p class="showcase-label">Form Input + Button</p>
+      <div class="search-bar" style="margin:0;">
+        <input class="input-field" type="email" placeholder="your@email.com">
+        <button class="btn btn-outline">Subscribe</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <strong>Powell's City of Books</strong><br>
+    1005 W Burnside St, Portland, OR 97209<br>
+    Open Daily &middot; 10 AM &ndash; 9 PM<br>
+    <span style="opacity:0.6;">503-228-4651</span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // --- Data ---
+  var staffPicks = [
+    {
+      title: 'The Left Hand of Darkness',
+      author: 'Ursula K. Le Guin',
+      price: '$8.95',
+      blurb: 'A masterpiece of speculative fiction exploring gender and politics on a frozen world. Le Guin at her most luminous.'
+    },
+    {
+      title: 'Braiding Sweetgrass',
+      author: 'Robin Wall Kimmerer',
+      price: '$16.99',
+      blurb: 'Indigenous wisdom meets scientific knowledge in this tender meditation on our relationship with the living earth.'
+    }
+  ];
+
+  var arrivals = [
+    { title: 'Piranesi', author: 'Susanna Clarke', price: '$14.99', tag: 'Fiction', tagClass: 'tag-fiction' },
+    { title: 'The Overstory', author: 'Richard Powers', price: '$6.50', tag: 'Used', tagClass: 'tag-used' },
+    { title: 'Kitchen Confidential', author: 'Anthony Bourdain', price: '$4.95', tag: 'Used', tagClass: 'tag-used' },
+    { title: 'Leaves of Grass (1st ed.)', author: 'Walt Whitman', price: '$425', tag: 'Rare', tagClass: 'tag-rare' },
+    { title: 'Klara and the Sun', author: 'Kazuo Ishiguro', price: '$12.99', tag: 'Fiction', tagClass: 'tag-fiction' },
+    { title: 'Gilead', author: 'Marilynne Robinson', price: '$5.50', tag: 'Used', tagClass: 'tag-used' }
+  ];
+
+  var swatchData = [
+    { color: 'var(--primary)', label: 'Primary', textColor: 'oklch(98% 0.005 60)' },
+    { color: 'var(--accent)', label: 'Accent', textColor: 'oklch(98% 0.005 60)' },
+    { color: 'var(--amber)', label: 'Amber', textColor: 'oklch(20% 0.02 50)' },
+    { color: 'var(--sage)', label: 'Sage', textColor: 'oklch(20% 0.02 50)' },
+    { color: 'var(--burgundy)', label: 'Burgundy', textColor: 'oklch(98% 0.005 60)' },
+    { color: 'var(--muted)', label: 'Muted', textColor: 'oklch(20% 0.02 50)' },
+    { color: 'var(--surface)', label: 'Surface', textColor: 'oklch(25% 0.02 50)' },
+    { color: 'var(--bg)', label: 'BG', textColor: 'oklch(25% 0.02 50)' }
+  ];
+
+  // --- Helpers ---
+  function el(tag, attrs, children) {
+    var node = document.createElement(tag);
+    if (attrs) {
+      Object.keys(attrs).forEach(function (k) {
+        if (k === 'textContent') { node.textContent = attrs[k]; }
+        else if (k === 'style' && typeof attrs[k] === 'object') {
+          Object.keys(attrs[k]).forEach(function (s) { node.style[s] = attrs[k][s]; });
+        }
+        else { node.setAttribute(k, attrs[k]); }
+      });
+    }
+    if (children) {
+      children.forEach(function (c) { if (c) node.appendChild(c); });
+    }
+    return node;
+  }
+
+  // --- Banner ---
+  document.getElementById('banner').textContent = 'Buy 2 Used, Get 1 Free \u2014 This Weekend';
+
+  // --- Staff Picks ---
+  var picksContainer = document.getElementById('staff-picks');
+  staffPicks.forEach(function (book, i) {
+    var numEl = el('div', { class: 'featured-number', textContent: String(i + 1) });
+    var titleEl = el('div', { class: 'book-title', textContent: book.title });
+    var authorEl = el('div', { class: 'book-author', textContent: book.author });
+    var blurbEl = el('div', { class: 'featured-blurb', textContent: book.blurb });
+    var priceEl = el('div', { class: 'book-price', style: { marginTop: '0.5rem' }, textContent: book.price });
+    var tagEl = el('span', { class: 'tag tag-pick', textContent: 'Staff Pick' });
+    var priceRow = el('div', { style: { display: 'flex', alignItems: 'center', gap: '0.75rem' } }, [priceEl, tagEl]);
+    var infoDiv = el('div', { class: 'featured-info' }, [titleEl, authorEl, blurbEl, priceRow]);
+    var cardEl = el('div', { class: 'card featured-card' }, [numEl, infoDiv]);
+    picksContainer.appendChild(cardEl);
+  });
+
+  // --- Arrivals Grid ---
+  var arrivalsGrid = document.getElementById('arrivals-grid');
+  arrivals.forEach(function (book) {
+    var titleEl = el('div', { class: 'book-title', textContent: book.title });
+    var authorEl = el('div', { class: 'book-author', textContent: book.author });
+    var priceEl = el('span', { class: 'book-price', textContent: book.price });
+    var tagEl = el('span', { class: 'tag ' + book.tagClass, textContent: book.tag });
+    var footerEl = el('div', { class: 'book-footer' }, [priceEl, tagEl]);
+    var cardEl = el('div', { class: 'card book-card' }, [titleEl, authorEl, footerEl]);
+    arrivalsGrid.appendChild(cardEl);
+  });
+
+  // --- Quote ---
+  document.getElementById('quote-text').textContent =
+    '\u201CA reader lives a thousand lives before he dies. The man who never reads lives only one.\u201D';
+  document.getElementById('quote-cite').textContent = '\u2014 George R.R. Martin';
+
+  // --- Swatches ---
+  var swatchContainer = document.getElementById('swatches');
+  swatchData.forEach(function (s) {
+    var node = el('div', {
+      class: 'swatch',
+      textContent: s.label,
+      style: { background: s.color, color: s.textColor }
+    });
+    swatchContainer.appendChild(node);
+  });
+
+  // --- Buttons ---
+  var btnContainer = document.getElementById('btn-showcase');
+  var btnPrimary = el('button', { class: 'btn btn-primary', textContent: 'Primary' });
+  var btnOutline = el('button', { class: 'btn btn-outline', textContent: 'Outline' });
+  var btnGhost = el('button', {
+    class: 'btn',
+    textContent: 'Ghost',
+    style: { background: 'transparent', color: 'var(--muted)', border: '1px solid transparent', cursor: 'pointer' }
+  });
+  btnContainer.appendChild(btnPrimary);
+  btnContainer.appendChild(btnOutline);
+  btnContainer.appendChild(btnGhost);
+
+  // --- Tags ---
+  var tagContainer = document.getElementById('tag-showcase');
+  var tags = [
+    { text: 'Staff Pick', cls: 'tag-pick' },
+    { text: 'Rare', cls: 'tag-rare' },
+    { text: 'Fiction', cls: 'tag-fiction' },
+    { text: 'Used', cls: 'tag-used' }
+  ];
+  tags.forEach(function (t) {
+    tagContainer.appendChild(el('span', { class: 'tag ' + t.cls, textContent: t.text }));
+  });
+
+  // --- Accent Card ---
+  var accentCard = document.getElementById('accent-card');
+  var cardTitle = el('p', { style: { fontWeight: '600', marginBottom: '0.5rem', fontFamily: 'var(--font-display)' }, textContent: 'Book Club This Thursday' });
+  var cardBody = el('p', { style: { color: 'var(--muted)', fontSize: '0.92rem' }, textContent: 'Join us in the Pearl Room at 7 PM to discuss Piranesi by Susanna Clarke. Coffee and pastries provided. All are welcome.' });
+  accentCard.appendChild(cardTitle);
+  accentCard.appendChild(cardBody);
+
+})();
+</script>
+
+</body>
+</html>

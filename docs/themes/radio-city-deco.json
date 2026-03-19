@@ -1,0 +1,77 @@
+{
+  "name": "Radio City Deco",
+  "description": "Radio City Music Hall at night. Art deco vertical neon signage against a deep dark urban canyon, electric red and blue neon glow, warm amber storefronts along 6th Avenue. Theatrical, not glamorous — neon tubes over gold leaf.",
+  "source": "Radio City Music Hall neon signage, 6th Avenue Manhattan at night, 1930s theater district neon",
+  "mood": ["theatrical", "deco", "electric"],
+  "shape": {
+    "radiusSm": "2px",
+    "radiusMd": "4px",
+    "radiusLg": "8px",
+    "radiusFull": "9999px",
+    "borderWidth": "1px"
+  },
+  "typography": {
+    "fontSans": "'DM Sans', -apple-system, 'Segoe UI', sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Righteous', 'Arial Black', sans-serif",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "0.06em",
+    "letterSpacingBody": "0em",
+    "lineHeight": 1.6,
+    "lineHeightHeading": 1.15,
+    "textTransformHeading": "uppercase"
+  },
+  "spacing": {
+    "density": "default",
+    "scale": 1.05
+  },
+  "depth": {
+    "shadowSm": "0 0 8px oklch(62% 0.25 25 / 0.3), 0 0 4px oklch(60% 0.2 260 / 0.2)",
+    "shadowMd": "0 0 18px oklch(62% 0.25 25 / 0.4), 0 0 10px oklch(60% 0.2 260 / 0.25)",
+    "shadowLg": "0 0 36px oklch(62% 0.25 25 / 0.5), 0 0 20px oklch(60% 0.2 260 / 0.3)",
+    "shadowStyle": "glow"
+  },
+  "motion": {
+    "durationFast": "150ms",
+    "durationNormal": "250ms",
+    "easing": "cubic-bezier(0.4, 0, 0.2, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(10% 0.01 260)",
+    "surface": "oklch(15% 0.015 260)",
+    "text": "oklch(90% 0.01 260)",
+    "primary": "oklch(62% 0.25 25)",
+    "accent": "oklch(60% 0.2 260)",
+    "amber": "oklch(75% 0.15 70)",
+    "pink": "oklch(65% 0.22 350)",
+    "blue": "oklch(60% 0.2 260)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(10% 0.01 260)",
+    "surface": "oklch(15% 0.015 260)",
+    "text": "oklch(90% 0.01 260)",
+    "primary": "oklch(62% 0.25 25)",
+    "accent": "oklch(60% 0.2 260)"
+  },
+  "demo": {
+    "type": "venue",
+    "title": "RADIO CITY",
+    "subtitle": "The Showplace of the Nation — Est. 1932",
+    "items": [
+      { "name": "The Rockettes", "price": "$95", "tag": "Classic" },
+      { "name": "Jazz Night", "price": "$65", "tag": "Live" },
+      { "name": "Comedy Hour", "price": "$45", "tag": "New" }
+    ],
+    "banner": "Holiday Spectacular — Tickets On Sale Now",
+    "signs": ["SHOW", "LIVE", "TONIGHT"]
+  },
+  "suggestions": {
+    "icons": "Lucide (stroke 1.5px, with neon glow on active states)",
+    "components": "vertical neon text, art deco chevron dividers, glass-morphism panels, neon-bordered cards, marquee banners, geometric deco accents (vertical lines, fan motifs), glow buttons",
+    "avoid": "bright white backgrounds, gold/champagne tones (use art-deco theme instead), rounded pill shapes everywhere, playful or casual typography, warm cozy palettes",
+    "googleFonts": "Righteous&family=DM+Sans:wght@400;500;600;700",
+    "texture": "subtle noise on dark bg, glass-blur backdrop-filter on surfaces, vertical neon line accents"
+  }
+}

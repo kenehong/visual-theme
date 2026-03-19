@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shiba World — Learn & Play with Shiba!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: oklch(98% 0.005 90); --surface: oklch(100% 0 0); --text: oklch(25% 0.04 150);
+    --primary: oklch(45% 0.14 155); --accent: oklch(85% 0.16 95); --yellow: oklch(88% 0.15 95);
+    --green: oklch(45% 0.14 155); --red: oklch(70% 0.18 350); --blue: oklch(72% 0.12 240);
+    --warm: oklch(75% 0.15 330); --muted: oklch(55% 0.03 150);
+    --fd: 'Baloo 2', 'Nunito', cursive; --fb: 'Nunito', 'Noto Sans KR', system-ui, sans-serif;
+    --rsm: 8px; --rmd: 12px; --rlg: 20px; --rfull: 9999px; --bw: 2px;
+    --ss: 0 1px 3px oklch(70% 0.05 150 / 0.15); --sm: 0 3px 8px oklch(70% 0.05 150 / 0.12);
+    --sl: 0 6px 16px oklch(70% 0.05 150 / 0.1);
+    --ease: cubic-bezier(0.34, 1.56, 0.64, 1); --df: 120ms; --dn: 200ms;
+  }
+  body { font-family: var(--fb); font-weight: 400; color: var(--text); background: var(--bg); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* Header */
+  .app-header { text-align: center; padding: 3rem 1rem 1.5rem; }
+  .app-header h1 { font-family: var(--fd); font-size: clamp(2.8rem, 10vw, 4.5rem); font-weight: 700; line-height: 1.1; color: var(--primary); }
+  .app-header .subtitle { font-family: var(--fb); font-weight: 600; font-size: 1.1rem; color: var(--muted); margin-top: 0.25rem; }
+
+  /* Shiba Face */
+  .shiba-hero { display: flex; justify-content: center; padding: 2rem 0 1rem; position: relative; }
+  .shiba-face { width: 160px; height: 150px; position: relative; }
+  .shiba-head { width: 140px; height: 120px; background: var(--yellow); border-radius: 50% 50% 45% 45%; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); border: var(--bw) solid oklch(70% 0.1 90); }
+  .shiba-head::after { content: ''; width: 100px; height: 80px; background: var(--surface); border-radius: 50% 50% 45% 45%; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); }
+  .shiba-ear { width: 0; height: 0; border-left: 22px solid transparent; border-right: 22px solid transparent; border-bottom: 40px solid var(--yellow); position: absolute; top: 0; }
+  .shiba-ear.left { left: 12px; transform: rotate(-12deg); }
+  .shiba-ear.right { right: 12px; transform: rotate(12deg); }
+  .shiba-eye { width: 14px; height: 14px; background: oklch(20% 0.02 0); border-radius: 50%; position: absolute; top: 55px; z-index: 2; }
+  .shiba-eye.left { left: 40px; }
+  .shiba-eye.right { right: 40px; }
+  .shiba-eye::after { content: ''; width: 4px; height: 4px; background: white; border-radius: 50%; position: absolute; top: 2px; right: 2px; }
+  .shiba-nose { width: 16px; height: 12px; background: oklch(25% 0.03 0); border-radius: 50% 50% 40% 40%; position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); z-index: 2; }
+  .shiba-mouth { width: 24px; height: 10px; border-bottom: 2.5px solid oklch(25% 0.03 0); border-radius: 0 0 50% 50%; position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 2; }
+  .shiba-cheek { width: 20px; height: 12px; background: oklch(80% 0.12 350 / 0.5); border-radius: 50%; position: absolute; top: 68px; z-index: 2; }
+  .shiba-cheek.left { left: 26px; }
+  .shiba-cheek.right { right: 26px; }
+
+  /* Decorative elements */
+  .decor-dot { position: absolute; border-radius: 50%; pointer-events: none; }
+  .decor-heart, .decor-flower { position: absolute; pointer-events: none; opacity: 0.45; }
+  .decor-heart { font-size: 1rem; opacity: 0.5; }
+  .decor-flower { font-size: 0.9rem; }
+  .shiba-hero .d1 { width: 8px; height: 8px; background: var(--blue); top: 10px; left: 15%; opacity: 0.5; }
+  .shiba-hero .d2 { width: 6px; height: 6px; background: var(--blue); top: 40px; right: 18%; opacity: 0.4; }
+  .shiba-hero .d3 { width: 10px; height: 10px; background: var(--warm); bottom: 20px; left: 22%; opacity: 0.35; }
+  .shiba-hero .d4 { width: 7px; height: 7px; background: var(--blue); bottom: 40px; right: 25%; opacity: 0.45; }
+  .shiba-hero .h1 { top: 5px; right: 30%; }
+  .shiba-hero .h2 { bottom: 10px; left: 30%; }
+  .shiba-hero .f1 { top: 20px; left: 25%; }
+  .shiba-hero .f2 { bottom: 5px; right: 20%; }
+
+  /* Streak bar */
+  .streak-bar { display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 0.75rem 1.5rem; background: var(--surface); border-radius: var(--rfull); box-shadow: var(--ss); max-width: 360px; margin: 0 auto 2rem; border: var(--bw) solid oklch(90% 0.06 95); }
+  .streak-bar .streak-text { font-family: var(--fd); font-weight: 700; font-size: 1.1rem; color: var(--primary); }
+  .streak-dots { display: flex; gap: 0.35rem; }
+  .streak-dots span { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; color: var(--surface); background: var(--primary); }
+  .streak-dots span.empty { background: oklch(92% 0.03 150); color: var(--muted); }
+
+  /* Activity cards */
+  .activities { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 1.5rem; padding: 0.5rem 0 2.5rem; }
+  .activity-card { background: var(--surface); border-radius: var(--rlg); box-shadow: var(--sm); padding: 1.5rem; position: relative; overflow: hidden; border: var(--bw) solid oklch(92% 0.04 150); transition: transform var(--dn) var(--ease), box-shadow var(--dn); }
+  .activity-card:hover { transform: translateY(-4px); box-shadow: var(--sl); }
+  .activity-card .card-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+  .activity-card .card-name { font-family: var(--fd); font-weight: 700; font-size: 1.25rem; margin-bottom: 0.25rem; }
+  .activity-card .card-desc { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.75rem; }
+  .activity-card .card-score { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--fd); font-weight: 700; font-size: 0.85rem; color: var(--surface); position: absolute; top: 1rem; right: 1rem; }
+  .activity-card::before { content: ''; position: absolute; width: 60px; height: 60px; border-radius: 50%; opacity: 0.06; bottom: -20px; left: -20px; }
+  .activity-card.green { border-color: oklch(80% 0.08 155); }
+  .activity-card.green .card-name { color: var(--green); }
+  .activity-card.green .card-score { background: var(--green); }
+  .activity-card.green::before { background: var(--green); }
+  .activity-card.pink { border-color: oklch(85% 0.08 330); }
+  .activity-card.pink .card-name { color: var(--warm); }
+  .activity-card.pink .card-score { background: var(--warm); }
+  .activity-card.pink::before { background: var(--warm); }
+  .activity-card.blue { border-color: oklch(85% 0.06 240); }
+  .activity-card.blue .card-name { color: var(--blue); }
+  .activity-card.blue .card-score { background: var(--blue); }
+  .activity-card.blue::before { background: var(--blue); }
+
+  /* Achievement banner */
+  .achievement { text-align: center; padding: 2rem 1.5rem; background: var(--surface); border-radius: var(--rlg); box-shadow: var(--sm); margin-bottom: 2.5rem; position: relative; overflow: hidden; border: var(--bw) solid oklch(90% 0.08 95); }
+  .achievement h2 { font-family: var(--fd); font-size: 2rem; font-weight: 700; color: var(--primary); }
+  .achievement p { font-size: 0.95rem; color: var(--muted); margin-top: 0.25rem; }
+  .achievement .confetti { position: absolute; border-radius: 50%; opacity: 0.35; }
+  .achievement .c1 { width: 8px; height: 8px; background: var(--red); top: 12px; left: 10%; }
+  .achievement .c2 { width: 6px; height: 6px; background: var(--blue); top: 20px; right: 15%; }
+  .achievement .c3 { width: 10px; height: 10px; background: var(--yellow); bottom: 14px; left: 20%; }
+  .achievement .c4 { width: 7px; height: 7px; background: var(--warm); bottom: 18px; right: 12%; }
+  .achievement .c5 { width: 5px; height: 5px; background: var(--green); top: 30px; left: 40%; }
+  .achievement .c6 { width: 9px; height: 9px; background: var(--blue); top: 10px; left: 60%; }
+  .achievement .c7 { width: 6px; height: 6px; background: var(--red); bottom: 10px; right: 35%; }
+  .achievement .c8 { width: 8px; height: 8px; background: var(--yellow); top: 40px; right: 30%; }
+
+  /* Daily challenge */
+  .challenge { background: var(--surface); border-radius: var(--rlg); box-shadow: var(--sm); padding: 2rem; margin-bottom: 2.5rem; border: var(--bw) solid oklch(90% 0.04 150); }
+  .challenge h3 { font-family: var(--fd); font-weight: 700; font-size: 1.4rem; color: var(--primary); margin-bottom: 0.25rem; }
+  .challenge .question { font-size: 1.05rem; font-weight: 600; margin-bottom: 1rem; }
+  .challenge-options { display: flex; flex-direction: column; gap: 0.65rem; }
+  .challenge-option { display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1.15rem; border-radius: var(--rmd); border: var(--bw) solid oklch(90% 0.04 150); background: var(--bg); cursor: pointer; transition: border-color var(--df), background var(--df), transform var(--dn) var(--ease); }
+  .challenge-option:hover { border-color: var(--primary); background: oklch(96% 0.03 155); transform: translateX(4px); }
+  .challenge-option input[type="radio"] { appearance: none; width: 22px; height: 22px; border: var(--bw) solid var(--muted); border-radius: 50%; flex-shrink: 0; position: relative; transition: border-color var(--df); }
+  .challenge-option input[type="radio"]:checked { border-color: var(--primary); background: var(--primary); }
+  .challenge-option input[type="radio"]:checked::after { content: ''; width: 8px; height: 8px; background: white; border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+  .challenge-option span { font-weight: 600; font-size: 0.95rem; }
+
+  /* Footer */
+  .paw-stripe { display: flex; justify-content: center; gap: 0.75rem; padding: 1rem 0; }
+  .paw-stripe span { width: 12px; height: 12px; border-radius: 50%; }
+  .footer { text-align: center; padding: 0.75rem 1rem 1.5rem; font-size: 0.8rem; color: var(--muted); }
+
+  /* ============ COMPONENT SHOWCASE ============ */
+  .showcase-sep { margin: 3rem 0 2rem; border: none; border-top: 3px dashed oklch(85% 0.06 150); }
+  .showcase-title { font-family: var(--fd); font-size: 2.5rem; font-weight: 700; text-align: center; margin-bottom: 2.5rem; color: var(--primary); }
+  .section-label { font-family: var(--fd); font-size: 1.3rem; font-weight: 700; color: var(--muted); border-bottom: 2px solid oklch(88% 0.05 150); padding-bottom: 0.3rem; margin-bottom: 1.15rem; }
+  .comp-section { margin-bottom: 2.75rem; }
+
+  /* Typography specimen */
+  .type-specimen h1 { font-family: var(--fd); font-size: 2.8rem; font-weight: 700; line-height: 1.1; margin-bottom: 0.5rem; color: var(--primary); }
+  .type-specimen h2 { font-family: var(--fd); font-size: 2rem; font-weight: 700; line-height: 1.15; margin-bottom: 0.5rem; }
+  .type-specimen h3 { font-family: var(--fd); font-size: 1.5rem; font-weight: 600; line-height: 1.2; margin-bottom: 0.5rem; }
+  .type-specimen p { font-size: 1rem; margin-bottom: 0.5rem; max-width: 60ch; }
+
+  /* Color swatches */
+  .swatches { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .swatch { width: 80px; border-radius: var(--rmd); overflow: hidden; box-shadow: var(--ss); border: var(--bw) solid oklch(90% 0.03 150); }
+  .swatch-color { height: 56px; }
+  .swatch-label { padding: 0.3rem 0.4rem; font-family: var(--fd); font-size: 0.75rem; font-weight: 600; background: var(--surface); text-align: center; }
+
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; justify-content: center; font-family: var(--fd); font-weight: 700; font-size: 1rem; padding: 0.65rem 1.5rem; border: var(--bw) solid transparent; border-radius: var(--rfull); cursor: pointer; transition: transform var(--dn) var(--ease), box-shadow var(--dn); box-shadow: var(--ss); background: var(--surface); color: var(--text); }
+  .btn:hover { transform: translateY(-2px); box-shadow: var(--sm); }
+  .btn:active { transform: translateY(0); box-shadow: none; }
+  .btn-primary { background: var(--primary); color: var(--surface); }
+  .btn-accent { background: var(--accent); color: var(--text); }
+  .btn-warm { background: var(--warm); color: var(--surface); }
+  .btn-blue { background: var(--blue); color: var(--surface); }
+  .btn-outline { background: transparent; border-color: var(--primary); color: var(--primary); }
+  .btn-ghost { background: transparent; box-shadow: none; color: var(--primary); }
+  .btn-ghost:hover { background: oklch(96% 0.03 155); }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+
+  /* Badges */
+  .badge { display: inline-block; padding: 0.2rem 0.85rem; font-family: var(--fd); font-weight: 700; font-size: 0.9rem; border-radius: var(--rfull); border: var(--bw) solid transparent; }
+  .badge-green { background: oklch(92% 0.08 155); color: var(--green); }
+  .badge-warm { background: oklch(92% 0.08 330); color: var(--warm); }
+  .badge-blue { background: oklch(92% 0.06 240); color: var(--blue); }
+  .badge-red { background: oklch(92% 0.08 350); color: var(--red); }
+  .badge-yellow { background: oklch(94% 0.1 95); color: oklch(45% 0.1 90); }
+  .badge-outline { background: transparent; border-color: var(--primary); color: var(--primary); }
+  .badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+
+  /* Showcase card */
+  .showcase-card { background: var(--surface); border-radius: var(--rlg); box-shadow: var(--sm); max-width: 320px; overflow: hidden; border: var(--bw) solid oklch(92% 0.04 150); }
+  .showcase-card .card-art { height: 140px; background: linear-gradient(135deg, var(--yellow), var(--accent)); display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+  .showcase-card .card-body { padding: 1.15rem; }
+  .showcase-card .card-body .title { font-family: var(--fd); font-size: 1.2rem; font-weight: 700; }
+  .showcase-card .card-body .meta { font-size: 0.85rem; color: var(--muted); margin-top: 0.15rem; }
+
+  /* Form inputs */
+  .input-field, .select-field { font-family: var(--fb); font-size: 1rem; padding: 0.7rem 1rem; border: var(--bw) solid oklch(88% 0.04 150); border-radius: var(--rmd); background: var(--surface); outline: none; width: 100%; max-width: 360px; transition: border-color var(--df), box-shadow var(--df); }
+  .input-field:focus, .select-field:focus { border-color: var(--primary); box-shadow: 0 0 0 3px oklch(45% 0.14 155 / 0.15); }
+  .input-label { display: block; font-family: var(--fd); font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .select-field { margin-top: 0.75rem; }
+
+  /* Table */
+  .demo-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.9rem; border-radius: var(--rmd); overflow: hidden; box-shadow: var(--ss); border: var(--bw) solid oklch(90% 0.04 150); }
+  .demo-table th, .demo-table td { padding: 0.65rem 1rem; text-align: left; }
+  .demo-table th { background: var(--primary); color: var(--surface); font-family: var(--fd); font-weight: 700; font-size: 0.95rem; }
+  .demo-table tr:nth-child(even) { background: oklch(97% 0.005 90); }
+  .demo-table tr:nth-child(odd) { background: var(--surface); }
+
+  @media (max-width: 480px) {
+    .activities { grid-template-columns: 1fr; }
+    .shiba-face { transform: scale(0.85); }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <h1>Shiba World</h1>
+    <div class="subtitle">Learn & Play with Shiba!</div>
+  </header>
+
+  <!-- SHIBA HERO -->
+  <section class="shiba-hero">
+    <div class="decor-dot d1"></div>
+    <div class="decor-dot d2"></div>
+    <div class="decor-dot d3"></div>
+    <div class="decor-dot d4"></div>
+    <span class="decor-heart h1">💜</span>
+    <span class="decor-heart h2">💜</span>
+    <span class="decor-flower f1">🌹</span>
+    <span class="decor-flower f2">🌿</span>
+    <div class="shiba-face">
+      <div class="shiba-ear left"></div>
+      <div class="shiba-ear right"></div>
+      <div class="shiba-head">
+        <div class="shiba-eye left"></div>
+        <div class="shiba-eye right"></div>
+        <div class="shiba-cheek left"></div>
+        <div class="shiba-cheek right"></div>
+        <div class="shiba-nose"></div>
+        <div class="shiba-mouth"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STREAK BAR -->
+  <div class="streak-bar">
+    <span class="streak-text">3-day streak! 🔥</span>
+    <div class="streak-dots">
+      <span>M</span><span>T</span><span>W</span><span class="empty">T</span><span class="empty">F</span>
+    </div>
+  </div>
+
+  <!-- ACTIVITY CARDS -->
+  <section class="activities">
+    <div class="activity-card green">
+      <div class="card-score">5/5</div>
+      <div class="card-icon">🌸</div>
+      <div class="card-name">Flower Garden</div>
+      <div class="card-desc">Count the roses around Shiba</div>
+    </div>
+    <div class="activity-card pink">
+      <div class="card-score">3/5</div>
+      <div class="card-icon">💜</div>
+      <div class="card-name">Heart Match</div>
+      <div class="card-desc">Match the colors to the hearts</div>
+    </div>
+    <div class="activity-card blue">
+      <div class="card-score">4/5</div>
+      <div class="card-icon">🐕</div>
+      <div class="card-name">Shiba Says</div>
+      <div class="card-desc">Follow Shiba's commands</div>
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENT BANNER -->
+  <div class="achievement">
+    <div class="confetti c1"></div><div class="confetti c2"></div>
+    <div class="confetti c3"></div><div class="confetti c4"></div>
+    <div class="confetti c5"></div><div class="confetti c6"></div>
+    <div class="confetti c7"></div><div class="confetti c8"></div>
+    <h2>Good job! 🎉</h2>
+    <p>You completed 3 activities today. Shiba is proud of you!</p>
+  </div>
+
+  <!-- DAILY CHALLENGE -->
+  <div class="challenge">
+    <h3>🧩 Daily Challenge</h3>
+    <div class="question">How many petals does a rose usually have?</div>
+    <div class="challenge-options">
+      <label class="challenge-option">
+        <input type="radio" name="quiz" value="a"><span>A) 3 petals</span>
+      </label>
+      <label class="challenge-option">
+        <input type="radio" name="quiz" value="b"><span>B) 5 petals</span>
+      </label>
+      <label class="challenge-option">
+        <input type="radio" name="quiz" value="c"><span>C) 10 petals</span>
+      </label>
+      <label class="challenge-option">
+        <input type="radio" name="quiz" value="d"><span>D) 20 or more petals</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="paw-stripe">
+    <span style="background:var(--green)"></span>
+    <span style="background:var(--yellow)"></span>
+    <span style="background:var(--warm)"></span>
+    <span style="background:var(--blue)"></span>
+    <span style="background:var(--red)"></span>
+  </div>
+  <div class="footer">&copy; 2026 Shiba World &middot; A cheerful place to learn</div>
+
+  <!-- ============ COMPONENT SHOWCASE ============ -->
+  <hr class="showcase-sep">
+  <div class="showcase-title" id="components">Components</div>
+
+  <!-- Typography -->
+  <div class="comp-section">
+    <div class="section-label">Typography</div>
+    <div class="type-specimen">
+      <h1>Display Heading H1</h1>
+      <h2>Section Heading H2</h2>
+      <h3>Subsection Heading H3</h3>
+      <p>Body text in Nunito 400. The quick brown fox jumps over the lazy dog. Soft, rounded letterforms that feel friendly and approachable for young readers.</p>
+      <p style="font-weight:600">Semi-bold body text (600 weight) for emphasis and labels.</p>
+    </div>
+  </div>
+
+  <!-- Colors -->
+  <div class="comp-section">
+    <div class="section-label">Colors</div>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-color" style="background:var(--bg)"></div><div class="swatch-label">Bg</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--surface)"></div><div class="swatch-label">Surface</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--text)"></div><div class="swatch-label">Text</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--primary)"></div><div class="swatch-label">Primary</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--accent)"></div><div class="swatch-label">Accent</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--yellow)"></div><div class="swatch-label">Yellow</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--green)"></div><div class="swatch-label">Green</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--red)"></div><div class="swatch-label">Red</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--blue)"></div><div class="swatch-label">Blue</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--warm)"></div><div class="swatch-label">Warm</div></div>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="comp-section">
+    <div class="section-label">Buttons</div>
+    <div class="btn-row">
+      <button class="btn btn-primary">Primary</button>
+      <button class="btn btn-accent">Accent</button>
+      <button class="btn btn-warm">Warm</button>
+      <button class="btn btn-blue">Blue</button>
+      <button class="btn btn-outline">Outline</button>
+      <button class="btn btn-ghost">Ghost</button>
+    </div>
+  </div>
+
+  <!-- Badges -->
+  <div class="comp-section">
+    <div class="section-label">Badges</div>
+    <div class="badge-row">
+      <span class="badge badge-green">Complete</span>
+      <span class="badge badge-warm">In Progress</span>
+      <span class="badge badge-blue">New</span>
+      <span class="badge badge-red">Missed</span>
+      <span class="badge badge-yellow">Star</span>
+      <span class="badge badge-outline">Default</span>
+    </div>
+  </div>
+
+  <!-- Card -->
+  <div class="comp-section">
+    <div class="section-label">Card</div>
+    <div class="showcase-card">
+      <div class="card-art">🐕</div>
+      <div class="card-body">
+        <div class="title">Shiba's Adventure</div>
+        <div class="meta">Episode 1 &middot; 5 min read</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Input -->
+  <div class="comp-section">
+    <div class="section-label">Form Input</div>
+    <label class="input-label" for="demo-input">Your Nickname</label>
+    <input id="demo-input" class="input-field" type="text" placeholder="What should Shiba call you?">
+    <select class="select-field">
+      <option>Choose your favorite color</option>
+      <option>Green</option>
+      <option>Blue</option>
+      <option>Pink</option>
+      <option>Yellow</option>
+    </select>
+  </div>
+
+  <!-- Table -->
+  <div class="comp-section">
+    <div class="section-label">Data Table</div>
+    <table class="demo-table">
+      <thead>
+        <tr><th>Activity</th><th>Score</th><th>Stars</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Flower Garden</td><td>5/5</td><td>&#11088;&#11088;&#11088;</td><td>Complete</td></tr>
+        <tr><td>Heart Match</td><td>3/5</td><td>&#11088;&#11088;</td><td>In Progress</td></tr>
+        <tr><td>Shiba Says</td><td>4/5</td><td>&#11088;&#11088;&#11088;</td><td>Complete</td></tr>
+        <tr><td>Color Splash</td><td>0/5</td><td>&mdash;</td><td>New</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="height:2rem"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+{
+  "name": "NYC Taxi Vintage",
+  "description": "1970s 뉴욕 Checker Cab. 코블스톤 거리, 붉은 벽돌, 낡은 크롬. 클래식 택시 디스패치와 다이너 문화에서 추출한 그릿티하고 따뜻한 빈티지 느낌.",
+  "source": "Classic Checker Cab on cobblestone street — red brick building, chrome bollards, warm evening light",
+  "mood": ["nostalgic", "gritty", "warm"],
+  "shape": {
+    "radiusSm": "2px",
+    "radiusMd": "4px",
+    "radiusLg": "8px",
+    "radiusFull": "2px",
+    "borderWidth": "2px"
+  },
+  "typography": {
+    "fontSans": "'DM Sans', 'Georgia', serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Antonio', 'Helvetica Neue Condensed', 'Arial Narrow', sans-serif",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "0.08em",
+    "letterSpacingBody": "0.01em",
+    "lineHeight": 1.55,
+    "lineHeightHeading": 1.1,
+    "textTransformHeading": "uppercase"
+  },
+  "spacing": {
+    "density": "default",
+    "scale": 1.0
+  },
+  "depth": {
+    "shadowSm": "0 1px 3px oklch(0% 0 0 / 0.2)",
+    "shadowMd": "0 3px 8px oklch(0% 0 0 / 0.25)",
+    "shadowLg": "0 6px 16px oklch(0% 0 0 / 0.3)",
+    "shadowStyle": "heavy"
+  },
+  "motion": {
+    "durationFast": "100ms",
+    "durationNormal": "180ms",
+    "easing": "cubic-bezier(0.2, 0, 0, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(22% 0.015 50)",
+    "surface": "oklch(28% 0.02 50)",
+    "text": "oklch(90% 0.02 80)",
+    "primary": "oklch(85% 0.17 88)",
+    "accent": "oklch(15% 0.005 0)",
+    "red": "oklch(45% 0.08 35)",
+    "green": "oklch(55% 0.12 155)",
+    "warm": "oklch(55% 0.02 60)",
+    "chrome": "oklch(72% 0.01 250)",
+    "brick": "oklch(45% 0.08 35)",
+    "sky": "oklch(70% 0.06 240)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(18% 0.012 50)",
+    "surface": "oklch(24% 0.018 50)",
+    "text": "oklch(90% 0.02 80)",
+    "primary": "oklch(82% 0.16 88)",
+    "accent": "oklch(12% 0.005 0)"
+  },
+  "demo": {
+    "type": "bar",
+    "title": "CHECKER CAB CO.",
+    "subtitle": "Dispatch & Diner — Since 1922",
+    "items": [
+      { "name": "Classic Reuben Sandwich", "price": "$8.50", "tag": "House Pick" },
+      { "name": "Meatloaf Platter w/ Gravy", "price": "$7.25", "tag": "Comfort" },
+      { "name": "Checker Burger Deluxe", "price": "$6.75", "tag": "Best Seller" },
+      { "name": "Manhattan → JFK Flat Rate", "fare": "$52.00", "tag": "Dispatch" },
+      { "name": "Brooklyn → Midtown Metered", "fare": "$23.40", "tag": "Dispatch" },
+      { "name": "Coffee & Pie Combo", "price": "$3.50", "tag": "All Day" }
+    ],
+    "rates": {
+      "initial": "$3.00",
+      "perMile": "$2.50",
+      "perMinute": "$0.50",
+      "surchargeRush": "$2.50",
+      "surchargeNight": "$1.00"
+    }
+  },
+  "suggestions": {
+    "icons": "Lucide (stroke 2px) — heavier weight for vintage feel",
+    "components": "checker patterns, diner-style menu cards, dispatch boards, brick-textured borders, worn-chrome accents, monospace fare data, thick dividers",
+    "avoid": "clean/minimal aesthetics, thin hairline borders, pastel colors, modern sans-serif body text, gradients, playful illustrations",
+    "googleFonts": "Antonio:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700",
+    "texture": "film grain overlay, worn paper feel, subtle noise, cobblestone-inspired patterns"
+  }
+}

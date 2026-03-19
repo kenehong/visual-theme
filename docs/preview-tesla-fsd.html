@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TESLA RUN — Autopilot Edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: oklch(30.1% 0.000 90); --surface: oklch(25.0% 0.000 90); --surface2: oklch(32.1% 0.000 90);
+    --border: oklch(38% 0.000 90); --text: oklch(95% 0.000 90); --text-dim: oklch(60% 0.000 90);
+    --text-dimmer: oklch(45% 0.000 90); --fsd-blue: oklch(59.8% 0.181 255);
+    --light-blue: oklch(77.3% 0.127 231); --dark-blue: oklch(42.2% 0.157 260);
+    --red: oklch(60.8% 0.209 27); --red-light: oklch(68.8% 0.142 21);
+    --green: oklch(62.9% 0.154 144); --green-light: oklch(71.8% 0.142 145);
+    --yellow: oklch(73.5% 0.146 84); --boundary-red: oklch(54.5% 0.204 27);
+    --vehicle-gray: oklch(45.0% 0.000 90); --lane-white: oklch(90.7% 0.000 90);
+    --dark-bg: oklch(21.8% 0.000 90);
+    --font-ui: 'Manrope', -apple-system, sans-serif; --font-mono: 'JetBrains Mono', monospace;
+    --glow-blue: oklch(59.8% 0.181 255 / 0.3); --glow-blue-strong: oklch(59.8% 0.181 255 / 0.45);
+    --glow-red: oklch(60.8% 0.209 27 / 0.5);
+  }
+  body { font-family: var(--font-ui); font-weight: 400; color: var(--text); background: var(--bg); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 1.25rem; }
+  .gradient-text { background: linear-gradient(135deg, var(--light-blue), var(--fsd-blue), var(--dark-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  @keyframes pulse { 0%, 100% { opacity: 0.35; } 50% { opacity: 0.9; } }
+  @keyframes fsd-pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+  /* Panels */
+  .panel { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem; }
+  .panel-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); padding: 0.75rem 1rem 0; }
+  .panel-body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem 1rem; position: relative; min-height: 360px; }
+
+  /* 1. Title Screen */
+  .title-panel .panel-body { background: var(--bg); overflow: hidden; }
+  .road-bg { position: absolute; inset: 0; opacity: 0.08; pointer-events: none;
+    background: repeating-linear-gradient(0deg, transparent 0px, transparent 40px, oklch(95% 0 0 / 0.15) 40px, oklch(95% 0 0 / 0.15) 42px), linear-gradient(90deg, transparent 0%, transparent 35%, var(--bg) 35%, var(--bg) 65%, transparent 65%, transparent 100%); }
+  .title-content { position: relative; z-index: 2; text-align: center; }
+  .title-logo { font-size: clamp(3rem, 10vw, 4.5rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1; margin-bottom: 6px; }
+  .edition-badge { display: inline-block; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.2em; color: var(--fsd-blue); background: oklch(59.8% 0.181 255 / 0.15); padding: 4px 16px; border-radius: 4px; border: 1px solid oklch(59.8% 0.181 255 / 0.3); margin-bottom: 8px; }
+  .title-sub { font-size: 1rem; color: oklch(95% 0 0 / 0.4); font-weight: 500; margin-bottom: 2.5rem; }
+  .level-buttons { display: flex; gap: 12px; margin-bottom: 12px; }
+  .level-btn { width: 64px; height: 64px; border-radius: 12px; border: 2px solid oklch(95% 0 0 / 0.12); background: oklch(95% 0 0 / 0.04); color: var(--text); font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer; transition: all 150ms; }
+  .level-btn.selected { background: oklch(59.8% 0.181 255 / 0.15); border-color: var(--fsd-blue); box-shadow: 0 0 20px var(--glow-blue); }
+  .level-btn.completed { border-color: oklch(62.9% 0.154 144 / 0.5); background: oklch(62.9% 0.154 144 / 0.1); }
+  .level-btn.completed::before { content: ''; position: absolute; top: -4px; right: -4px; width: 16px; height: 16px; background: var(--green); border-radius: 50%; border: 2px solid var(--bg); }
+  .level-btn.locked { opacity: 0.25; cursor: not-allowed; font-size: 0; }
+  .level-btn.locked::after { content: '\1F512'; font-size: 1.2rem; }
+  .best-time { font-family: var(--font-mono); font-size: 0.75rem; color: oklch(59.8% 0.181 255 / 0.6); margin-bottom: 8px; }
+  .start-hint { font-size: 0.9rem; color: oklch(95% 0 0 / 0.35); animation: pulse 2s ease-in-out infinite; }
+  .title-v2 { position: absolute; bottom: 1rem; right: 1.25rem; font-family: var(--font-mono); font-size: 0.75rem; color: oklch(95% 0 0 / 0.2); font-weight: 500; }
+
+  /* 2. Countdown */
+  .countdown-panel .panel-body { background: var(--bg); min-height: 300px; }
+  .cd-level-label { font-size: 0.85rem; color: oklch(95% 0 0 / 0.4); font-weight: 600; letter-spacing: 0.1em; margin-bottom: 4px; }
+  .cd-name { font-size: 2rem; font-weight: 800; margin-bottom: 2.5rem; }
+  .cd-lights { display: flex; gap: 18px; margin-bottom: 2rem; }
+  .cd-light { width: 52px; height: 52px; border-radius: 50%; background: var(--dark-bg); border: 3px solid var(--surface2); }
+  .cd-light.green { background: var(--green); border-color: var(--green-light); box-shadow: 0 0 24px oklch(62.9% 0.154 144 / 0.6); }
+  .cd-go { font-family: var(--font-mono); font-size: 5rem; font-weight: 700; }
+
+  /* 3. Game HUD */
+  .hud-panel .panel-body { background: var(--bg); min-height: 420px; padding: 0; display: grid; grid-template-columns: clamp(100px, 18%, 160px) 1fr clamp(100px, 18%, 160px); grid-template-rows: 3px 1fr 36px; }
+  .hud-progress { grid-column: 1 / -1; background: oklch(95% 0 0 / 0.08); }
+  .hud-progress-fill { height: 100%; width: 65%; background: linear-gradient(90deg, var(--fsd-blue), var(--light-blue)); border-radius: 0 2px 2px 0; }
+  .hud-left { display: flex; flex-direction: column; align-items: center; padding-top: 2rem; gap: 2px; }
+  .hud-gear { font-family: var(--font-mono); font-size: 1rem; font-weight: 700; color: oklch(95% 0 0 / 0.3); letter-spacing: 0.15em; }
+  .hud-gear .active { color: var(--text); font-size: 1.2rem; }
+  .hud-speed { font-family: var(--font-mono); font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 700; line-height: 1; letter-spacing: -0.02em; }
+  .hud-unit { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 500; color: oklch(95% 0 0 / 0.3); margin-bottom: 0.75rem; }
+  .speed-limit { width: 40px; height: 40px; border: 3px solid var(--boundary-red); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 1rem; font-weight: 700; margin-bottom: 1rem; }
+  .fsd-badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; background: oklch(59.8% 0.181 255 / 0.12); border: 1px solid oklch(59.8% 0.181 255 / 0.3); border-radius: 4px; font-size: 0.55rem; font-weight: 700; color: var(--fsd-blue); letter-spacing: 0.1em; white-space: nowrap; }
+  .fsd-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--fsd-blue); animation: fsd-pulse 1.5s ease-in-out infinite; }
+  .hud-divider { width: 60%; height: 1px; background: oklch(95% 0 0 / 0.08); margin: 1rem 0; }
+  .turn-signals { display: flex; gap: 20px; }
+  .turn-arrow { font-size: 1.1rem; color: oklch(95% 0 0 / 0.1); }
+  .turn-arrow.active { color: var(--green); text-shadow: 0 0 8px oklch(62.9% 0.154 144 / 0.5); }
+  .hud-center { display: flex; align-items: center; justify-content: center; color: var(--text-dimmer); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; border-left: 1px solid oklch(95% 0 0 / 0.04); border-right: 1px solid oklch(95% 0 0 / 0.04); position: relative; overflow: hidden; }
+  .hud-center::before { content: ''; position: absolute; inset: 0; opacity: 0.05; background: repeating-linear-gradient(0deg, transparent 0px, transparent 30px, oklch(95% 0 0 / 0.2) 30px, oklch(95% 0 0 / 0.2) 32px); }
+  .hud-right { display: flex; flex-direction: column; align-items: center; padding-top: 2rem; }
+  .hud-label { font-size: 0.6rem; font-weight: 600; color: oklch(95% 0 0 / 0.35); letter-spacing: 0.06em; text-align: center; margin-bottom: 4px; }
+  .hud-distance { font-family: var(--font-mono); font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700; line-height: 1; }
+  .hud-distance-pct { font-size: 0.85rem; color: oklch(95% 0 0 / 0.3); font-weight: 500; }
+  .status-icons { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 1.25rem; }
+  .status-icon { width: 32px; height: 32px; border-radius: 6px; background: oklch(95% 0 0 / 0.04); border: 1px solid oklch(95% 0 0 / 0.08); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: oklch(95% 0 0 / 0.25); }
+  .status-icon.active { background: oklch(59.8% 0.181 255 / 0.12); border-color: oklch(59.8% 0.181 255 / 0.3); color: var(--fsd-blue); }
+  .status-icon.warn { background: oklch(60.8% 0.209 27 / 0.1); border-color: oklch(60.8% 0.209 27 / 0.3); color: var(--red); }
+  .hud-bottom { grid-column: 1 / -1; background: linear-gradient(0deg, oklch(0% 0 0 / 0.7) 0%, transparent 100%); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 8px; gap: 24px; }
+  .hud-bottom span { font-family: var(--font-mono); font-size: 0.55rem; color: oklch(95% 0 0 / 0.2); letter-spacing: 0.08em; }
+
+  /* 4. Level Clear */
+  .clear-panel .panel-body { background: oklch(18% 0.000 90); }
+  .clear-flag { font-size: 3.25rem; margin-bottom: 0.75rem; }
+  .clear-title { font-size: clamp(2rem, 6vw, 3rem); font-weight: 800; margin-bottom: 8px; }
+  .clear-level { font-size: 1rem; color: oklch(95% 0 0 / 0.4); margin-bottom: 2rem; }
+  .stat-cards { display: flex; gap: 2.5rem; margin-bottom: 2.5rem; flex-wrap: wrap; justify-content: center; }
+  .stat-card { text-align: center; }
+  .stat-value { font-family: var(--font-mono); font-size: 2rem; font-weight: 700; color: var(--light-blue); line-height: 1.1; }
+  .stat-label { font-size: 0.7rem; font-weight: 600; color: oklch(95% 0 0 / 0.35); margin-top: 6px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .btn-row-game { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .btn-primary-game { padding: 14px 44px; background: linear-gradient(135deg, var(--fsd-blue), var(--dark-blue)); border: none; border-radius: 8px; color: var(--text); font-family: var(--font-ui); font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 150ms; }
+  .btn-primary-game:hover { transform: scale(1.05); box-shadow: 0 4px 24px var(--glow-blue-strong); }
+  .btn-secondary-game { padding: 14px 44px; background: oklch(95% 0 0 / 0.06); border: 2px solid oklch(95% 0 0 / 0.15); border-radius: 8px; color: var(--text); font-family: var(--font-ui); font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 150ms; }
+  .btn-secondary-game:hover { background: oklch(95% 0 0 / 0.12); border-color: oklch(95% 0 0 / 0.25); }
+
+  /* 5. Game Over */
+  .over-panel .panel-body { background: oklch(18% 0.000 90); }
+  .over-icon { font-size: 3rem; margin-bottom: 0.75rem; }
+  .over-title { font-size: clamp(2.25rem, 7vw, 3.25rem); font-weight: 800; color: var(--red); text-shadow: 0 0 32px var(--glow-red); margin-bottom: 8px; }
+  .over-progress { font-size: 1rem; color: oklch(95% 0 0 / 0.4); margin-bottom: 2rem; }
+  .over-progress strong { font-family: var(--font-mono); font-weight: 700; color: oklch(95% 0 0 / 0.7); }
+  .stat-value-red { font-family: var(--font-mono); font-size: 2rem; font-weight: 700; color: var(--red-light); line-height: 1.1; }
+
+  /* Component Showcase */
+  .showcase-sep { margin: 3rem 0 2rem; border: none; border-top: 1px solid var(--border); }
+  .showcase-title { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 2rem; }
+  .section-label { font-size: 0.8rem; font-weight: 700; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 0.25rem; margin-bottom: 1rem; }
+  .comp-section { margin-bottom: 2.5rem; }
+  .type-specimen h1 { font-family: var(--font-ui); font-size: 2.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 0.5rem; }
+  .type-specimen h2 { font-family: var(--font-ui); font-size: 1.75rem; font-weight: 700; line-height: 1.15; margin-bottom: 0.5rem; }
+  .type-specimen h3 { font-family: var(--font-ui); font-size: 1.25rem; font-weight: 600; line-height: 1.2; margin-bottom: 0.5rem; }
+  .type-specimen p { font-size: 1rem; margin-bottom: 0.5rem; max-width: 60ch; color: oklch(80% 0 0); }
+  .type-specimen .mono-sample { font-family: var(--font-mono); font-size: 1rem; color: var(--light-blue); }
+  .swatches { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .swatch { width: 80px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .swatch-color { height: 48px; }
+  .swatch-label { padding: 0.25rem 0.35rem; font-size: 0.65rem; font-weight: 600; background: var(--surface); text-align: center; border-top: 1px solid var(--border); color: var(--text-dim); }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+  .badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+  .badge-fsd { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; background: oklch(59.8% 0.181 255 / 0.12); border: 1px solid oklch(59.8% 0.181 255 / 0.3); border-radius: 4px; font-size: 0.7rem; font-weight: 700; color: var(--fsd-blue); letter-spacing: 0.1em; }
+  .badge-edition { display: inline-block; padding: 3px 12px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; color: var(--fsd-blue); background: oklch(59.8% 0.181 255 / 0.15); border-radius: 4px; border: 1px solid oklch(59.8% 0.181 255 / 0.3); }
+  .badge-status { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
+  .badge-status.active { background: oklch(59.8% 0.181 255 / 0.1); color: var(--fsd-blue); }
+  .badge-status.ok { background: oklch(62.9% 0.154 144 / 0.1); color: var(--green); }
+  .badge-status.alert { background: oklch(60.8% 0.209 27 / 0.1); color: var(--red); }
+  .demo-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; max-width: 340px; }
+  .demo-card h4 { font-weight: 700; margin-bottom: 0.5rem; }
+  .demo-card p { font-size: 0.9rem; color: var(--text-dim); line-height: 1.5; }
+  .input-dark { font-family: var(--font-ui); font-size: 1rem; padding: 0.65rem 0.85rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); outline: none; width: 100%; max-width: 360px; transition: border-color 150ms, box-shadow 150ms; }
+  .input-dark:focus { border-color: var(--fsd-blue); box-shadow: 0 0 0 3px var(--glow-blue); }
+  .input-label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.35rem; color: var(--text-dim); }
+  .demo-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .demo-table th, .demo-table td { padding: 0.6rem 0.85rem; text-align: left; border-bottom: 1px solid var(--border); }
+  .demo-table th { font-weight: 700; font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-dim); }
+  .demo-table td { font-family: var(--font-mono); font-size: 0.85rem; }
+  .demo-table tbody tr:hover { background: oklch(95% 0 0 / 0.03); }
+  .demo-table .val-blue { color: var(--light-blue); font-weight: 700; }
+  .demo-table .val-green { color: var(--green); font-weight: 700; }
+
+  @media (max-width: 600px) {
+    .level-btn { width: 48px; height: 48px; font-size: 1.1rem; border-radius: 8px; }
+    .stat-cards { gap: 1.25rem; }
+    .stat-value, .stat-value-red { font-size: 1.5rem; }
+    .hud-panel .panel-body { grid-template-columns: 90px 1fr 90px; }
+    .hud-speed { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- 1. TITLE SCREEN -->
+  <div class="panel title-panel">
+    <div class="panel-label">1 / Title Screen</div>
+    <div class="panel-body">
+      <div class="road-bg"></div>
+      <div class="title-content">
+        <div class="title-logo gradient-text">TESLA RUN</div>
+        <div class="edition-badge">AUTOPILOT</div>
+        <div class="title-sub">Dodge the traffic, reach the finish!</div>
+        <div class="level-buttons">
+          <div class="level-btn selected">1</div>
+          <div class="level-btn completed">2</div>
+          <div class="level-btn completed">3</div>
+          <div class="level-btn locked"></div>
+          <div class="level-btn locked"></div>
+        </div>
+        <div class="best-time">BEST: 24.3s</div>
+        <div class="start-hint">Press SPACE or tap to start</div>
+      </div>
+      <div class="title-v2">v2</div>
+    </div>
+  </div>
+
+  <!-- 2. COUNTDOWN SCREEN -->
+  <div class="panel countdown-panel">
+    <div class="panel-label">2 / Countdown</div>
+    <div class="panel-body">
+      <div class="cd-level-label">LEVEL 1</div>
+      <div class="cd-name">Suburban Streets</div>
+      <div class="cd-lights">
+        <div class="cd-light"></div>
+        <div class="cd-light"></div>
+        <div class="cd-light green"></div>
+      </div>
+      <div class="cd-go">GO!</div>
+    </div>
+  </div>
+
+  <!-- 3. GAME HUD -->
+  <div class="panel hud-panel">
+    <div class="panel-label">3 / Game HUD</div>
+    <div class="panel-body">
+      <div class="hud-progress"><div class="hud-progress-fill"></div></div>
+      <div class="hud-left">
+        <div class="hud-gear">P R N <span class="active">D</span></div>
+        <div class="hud-speed">127</div>
+        <div class="hud-unit">km/h</div>
+        <div class="speed-limit">60</div>
+        <div class="fsd-badge"><span class="fsd-dot"></span> SELF-DRIVING</div>
+        <div class="hud-divider"></div>
+        <div class="turn-signals">
+          <span class="turn-arrow">&#9664;</span>
+          <span class="turn-arrow active">&#9654;</span>
+        </div>
+      </div>
+      <div class="hud-center">GAME CANVAS</div>
+      <div class="hud-right">
+        <div class="hud-label">LEVEL 1</div>
+        <div class="hud-label" style="margin-bottom: 4px;">Suburban Streets</div>
+        <div class="hud-distance">65</div>
+        <div class="hud-distance-pct">%</div>
+        <div class="status-icons">
+          <div class="status-icon active" title="Autopilot">A</div>
+          <div class="status-icon" title="Camera">C</div>
+          <div class="status-icon" title="Sensors">S</div>
+          <div class="status-icon warn" title="Warning">!</div>
+        </div>
+      </div>
+      <div class="hud-bottom">
+        <span>TESLA RUN v2</span>
+        <span>AUTOPILOT</span>
+        <span>127 km/h</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. LEVEL CLEAR -->
+  <div class="panel clear-panel">
+    <div class="panel-label">4 / Level Clear</div>
+    <div class="panel-body">
+      <div class="clear-flag">&#127937;</div>
+      <div class="clear-title gradient-text">Level Clear!</div>
+      <div class="clear-level">Level 1 &mdash; Suburban Streets</div>
+      <div class="stat-cards">
+        <div class="stat-card"><div class="stat-value">24.3s</div><div class="stat-label">Time</div></div>
+        <div class="stat-card"><div class="stat-value">47</div><div class="stat-label">Cars Dodged</div></div>
+        <div class="stat-card"><div class="stat-value">185</div><div class="stat-label">Top Speed</div></div>
+      </div>
+      <div class="btn-row-game">
+        <button class="btn-primary-game">Next Level &rarr;</button>
+        <button class="btn-secondary-game">Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. GAME OVER -->
+  <div class="panel over-panel">
+    <div class="panel-label">5 / Game Over</div>
+    <div class="panel-body">
+      <div class="over-icon">&#128165;</div>
+      <div class="over-title">Crash!</div>
+      <div class="over-progress">You made it <strong>65%</strong> of the way</div>
+      <div class="stat-cards">
+        <div class="stat-card"><div class="stat-value-red">18.7s</div><div class="stat-label">Time</div></div>
+        <div class="stat-card"><div class="stat-value-red">31</div><div class="stat-label">Cars Dodged</div></div>
+        <div class="stat-card"><div class="stat-value-red">142</div><div class="stat-label">Top Speed</div></div>
+      </div>
+      <div class="btn-row-game">
+        <button class="btn-secondary-game">Try Again</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPONENT SHOWCASE -->
+  <hr class="showcase-sep">
+  <div class="showcase-title gradient-text" id="components">Components</div>
+
+  <div class="comp-section">
+    <div class="section-label">Typography</div>
+    <div class="type-specimen">
+      <h1>Manrope Display 800</h1>
+      <h2>Manrope Heading 700</h2>
+      <h3>Manrope Subheading 600</h3>
+      <p>Body text in Manrope 400. The quick brown fox jumps over the lazy dog. Clean geometric sans-serif with excellent readability on dark backgrounds.</p>
+      <p class="mono-sample">JetBrains Mono: 127 km/h &middot; 24.3s &middot; 65%</p>
+      <p style="font-weight: 800; font-size: 1.5rem;" class="gradient-text">Gradient text for emphasis</p>
+    </div>
+  </div>
+
+  <div class="comp-section">
+    <div class="section-label">Colors</div>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-color" style="background:var(--bg)"></div><div class="swatch-label">Road</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--surface)"></div><div class="swatch-label">Surface</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--text)"></div><div class="swatch-label">Text</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--fsd-blue)"></div><div class="swatch-label">FSD Blue</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--light-blue)"></div><div class="swatch-label">Light Blue</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--red)"></div><div class="swatch-label">Red</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--green)"></div><div class="swatch-label">Green</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--yellow)"></div><div class="swatch-label">Yellow</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--vehicle-gray)"></div><div class="swatch-label">Vehicle</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--boundary-red)"></div><div class="swatch-label">Boundary</div></div>
+    </div>
+  </div>
+
+  <div class="comp-section">
+    <div class="section-label">Buttons</div>
+    <div class="btn-row">
+      <button class="btn-primary-game">Primary</button>
+      <button class="btn-secondary-game">Secondary</button>
+      <div class="level-btn selected" style="font-size:1.2rem;">1</div>
+      <div class="level-btn completed" style="font-size:1.2rem;">2</div>
+      <div class="level-btn locked"></div>
+    </div>
+  </div>
+
+  <div class="comp-section">
+    <div class="section-label">Badges</div>
+    <div class="badge-row">
+      <span class="badge-fsd"><span class="fsd-dot"></span> SELF-DRIVING</span>
+      <span class="badge-edition">AUTOPILOT</span>
+      <span class="badge-status active">&#9679; Autopilot</span>
+      <span class="badge-status ok">&#9679; Camera</span>
+      <span class="badge-status alert">&#9679; Warning</span>
+    </div>
+  </div>
+
+  <div class="comp-section">
+    <div class="section-label">Card</div>
+    <div class="demo-card">
+      <h4>Level Statistics</h4>
+      <p>Dark surface card with subtle border. Used for stat blocks, menus, and information panels throughout the game UI.</p>
+    </div>
+  </div>
+
+  <div class="comp-section">
+    <div class="section-label">Form Input</div>
+    <label class="input-label" for="demo-input">Driver Name</label>
+    <input id="demo-input" class="input-dark" type="text" placeholder="Enter your name...">
+  </div>
+
+  <div class="comp-section">
+    <div class="section-label">Leaderboard</div>
+    <table class="demo-table">
+      <thead><tr><th>Level</th><th>Time</th><th>Cars Dodged</th><th>Top Speed</th></tr></thead>
+      <tbody>
+        <tr><td>1 &mdash; Suburban Streets</td><td class="val-blue">24.3s</td><td>47</td><td class="val-green">185</td></tr>
+        <tr><td>2 &mdash; Highway Rush</td><td class="val-blue">31.7s</td><td>62</td><td class="val-green">210</td></tr>
+        <tr><td>3 &mdash; Downtown Chaos</td><td class="val-blue">28.1s</td><td>54</td><td class="val-green">195</td></tr>
+        <tr><td>4 &mdash; Night Drive</td><td style="color:var(--text-dim);">&mdash;</td><td style="color:var(--text-dim);">&mdash;</td><td style="color:var(--text-dim);">&mdash;</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="height:2rem"></div>
+</div>
+
+</body>
+</html>

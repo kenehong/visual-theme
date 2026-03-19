@@ -71,6 +71,6 @@
     "components": "speech bubbles, thought bubbles, Ben-Day dot backgrounds (3 sizes), thick-border panels, flat color cards, dot-patterned table rows",
     "avoid": "shadows, gradients, thin borders, muted colors, pastels, any color outside red/blue/yellow/black/white",
     "googleFonts": "Bangers&family=Inter:wght@400;500;700",
-    "texture": "Ben-Day dots via radial-gradient at 3 sizes: large (12px), medium (8px), small (6px)"
+    "texture": "Ben-Day dots via radial-gradient at 3 sizes: large (14px grid, 5px radius), medium (10px grid, 2.5px radius), small (7px grid, 2px radius)"
   }
 }

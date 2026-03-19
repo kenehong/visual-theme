@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cobblestone — SoHo Art & Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* === Tokens === */
+:root {
+  --bg: oklch(95% 0.008 60);
+  --surface: oklch(99% 0.003 60);
+  --text: oklch(20% 0.015 30);
+  --muted: oklch(45% 0.02 30);
+  --primary: oklch(50% 0.1 25);
+  --primary-hover: oklch(45% 0.1 25);
+  --accent: oklch(68% 0.14 350);
+  --brick: oklch(45% 0.1 30);
+  --stone: oklch(75% 0.015 60);
+  --iron: oklch(40% 0.01 250);
+  --overcast: oklch(88% 0.005 250);
+  --border: oklch(88% 0.01 60);
+  --font-display: 'Sora', 'Outfit', sans-serif;
+  --font-body: 'Outfit', -apple-system, 'Segoe UI', sans-serif;
+  --radius-sm: 3px;
+  --radius: 6px;
+  --radius-lg: 8px;
+  --shadow-sm: 0 1px 3px oklch(40% 0.02 60 / 0.1);
+  --shadow-md: 0 4px 12px oklch(40% 0.02 60 / 0.12);
+  --shadow-lg: 0 8px 24px oklch(40% 0.02 60 / 0.15);
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-body); background: var(--bg); color: var(--text);
+  line-height: 1.6; -webkit-font-smoothing: antialiased; font-size: 15px;
+}
+.wrap { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; line-height: 1.15; letter-spacing: -0.01em; }
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* === Header === */
+.header { padding: 1.25rem 0; border-bottom: 1px solid var(--border); background: var(--surface); }
+.header .wrap { display: flex; align-items: center; justify-content: space-between; }
+.logo { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
+.logo-sub { font-family: var(--font-body); font-size: 0.7rem; color: var(--muted); font-weight: 400; letter-spacing: 0.06em; display: block; margin-top: -0.15rem; }
+.nav { display: flex; gap: 2rem; list-style: none; }
+.nav a { color: var(--muted); font-size: 0.9rem; font-weight: 500; transition: color 200ms var(--ease); }
+.nav a:hover { color: var(--text); text-decoration: none; }
+
+/* === Hero === */
+.hero { padding: 4rem 0 3rem; text-align: center; }
+.hero h1 { font-size: 2.75rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--text); }
+.hero p { font-size: 1.05rem; color: var(--muted); max-width: 500px; margin: 0 auto 2rem; font-weight: 400; }
+.hero-visual {
+  width: 100%; max-width: 720px; height: 300px; margin: 0 auto 2rem;
+  background: linear-gradient(135deg, var(--stone), var(--overcast), oklch(80% 0.04 350));
+  border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center;
+  color: oklch(50% 0.02 60); font-size: 0.85rem; font-weight: 500;
+  border: 1px solid var(--border); position: relative; overflow: hidden;
+}
+.hero-visual::before {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    oklch(70% 0.01 60 / 0.06) 0px,
+    transparent 1px,
+    transparent 8px
+  );
+}
+
+/* === Buttons === */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 0.7rem 1.5rem; border-radius: var(--radius); font-family: var(--font-display);
+  font-size: 0.88rem; font-weight: 600; border: 1px solid transparent;
+  cursor: pointer; transition: all 200ms var(--ease);
+}
+.btn-primary { background: var(--primary); color: oklch(100% 0 0); }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-outline { background: transparent; color: var(--primary); border-color: var(--primary); }
+.btn-outline:hover { background: var(--primary); color: oklch(100% 0 0); }
+.btn-brick { background: var(--accent); color: oklch(98% 0.005 60); border-color: transparent; }
+.btn-brick:hover { background: var(--brick); }
+.btn-text { background: none; color: var(--primary); padding: 0.5rem 0; border: none; }
+.btn-text:hover { text-decoration: underline; }
+
+/* === Section === */
+section { padding: 3rem 0; }
+.section-title { font-size: 1.5rem; margin-bottom: 0.4rem; }
+.section-subtitle { color: var(--muted); font-size: 0.92rem; margin-bottom: 2rem; }
+.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+/* === Exhibition Cards === */
+.exhibitions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+.exhibit-card {
+  background: var(--surface); border-radius: var(--radius-lg); padding: 1rem;
+  box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+  transition: box-shadow 200ms var(--ease), transform 200ms var(--ease);
+}
+.exhibit-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.exhibit-img {
+  width: 100%; aspect-ratio: 4/5; border-radius: var(--radius-sm);
+  margin-bottom: 0.85rem; display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; color: oklch(55% 0.02 60); font-weight: 500;
+}
+.exhibit-img.rose-bg { background: linear-gradient(145deg, oklch(82% 0.06 350), oklch(88% 0.03 350)); }
+.exhibit-img.brick-bg { background: linear-gradient(145deg, oklch(62% 0.06 25), oklch(72% 0.04 30)); }
+.exhibit-img.stone-bg { background: linear-gradient(145deg, var(--stone), var(--overcast)); }
+.exhibit-img.iron-bg { background: linear-gradient(145deg, oklch(50% 0.01 250), oklch(60% 0.01 250)); }
+.exhibit-img.warm-bg { background: linear-gradient(145deg, oklch(78% 0.04 60), oklch(85% 0.02 50)); }
+.exhibit-img.muted-bg { background: linear-gradient(145deg, oklch(70% 0.03 350), oklch(80% 0.05 25)); }
+.exhibit-card h3 { font-size: 0.95rem; margin-bottom: 0.2rem; }
+.exhibit-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; }
+.exhibit-price { font-family: var(--font-display); font-weight: 600; font-size: 0.95rem; }
+.exhibit-artist { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.15rem; }
+.tag {
+  padding: 0.2rem 0.55rem; border-radius: var(--radius-sm); font-size: 0.7rem; font-weight: 600;
+  font-family: var(--font-display);
+}
+.tag-featured { background: oklch(90% 0.05 350); color: oklch(40% 0.1 350); }
+.tag-new { background: oklch(90% 0.04 25); color: oklch(40% 0.08 25); }
+.tag-sold { background: oklch(88% 0.01 250); color: oklch(40% 0.02 250); }
+.tag-available { background: oklch(90% 0.04 155); color: oklch(38% 0.06 155); }
+
+/* === Banner === */
+.banner {
+  background: var(--primary); color: oklch(100% 0 0); border-radius: var(--radius-lg);
+  padding: 3rem 2rem; text-align: center; margin: 1rem 0; position: relative; overflow: hidden;
+}
+.banner::before {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    oklch(100% 0 0 / 0.03) 0px,
+    transparent 1px,
+    transparent 12px
+  );
+}
+.banner h2 { font-size: 1.75rem; margin-bottom: 0.5rem; position: relative; }
+.banner p { font-size: 0.95rem; opacity: 0.85; margin-bottom: 1.5rem; position: relative; }
+.banner .btn { position: relative; background: oklch(100% 0 0); color: var(--primary); border-color: transparent; }
+.banner .btn:hover { background: oklch(96% 0.01 350); }
+
+/* === About / Values === */
+.values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; text-align: center; padding: 2rem 0; }
+.value-icon {
+  width: 48px; height: 48px; border-radius: var(--radius); margin: 0 auto 0.75rem;
+  display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+}
+.value-icon.v-brick { background: oklch(90% 0.04 25); }
+.value-icon.v-stone { background: oklch(90% 0.01 60); }
+.value-icon.v-iron { background: oklch(88% 0.01 250); }
+.values h4 { font-size: 0.95rem; margin-bottom: 0.3rem; }
+.values p { font-size: 0.84rem; color: var(--muted); max-width: 240px; margin: 0 auto; }
+
+/* === Contact Form === */
+.contact-section {
+  background: var(--surface); border-radius: var(--radius-lg); padding: 2.5rem 2rem;
+  border: 1px solid var(--border);
+}
+.contact-section h2 { font-size: 1.4rem; margin-bottom: 0.4rem; }
+.contact-section > p { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+.input-group { display: flex; flex-direction: column; gap: 0.35rem; }
+.input-group.full { grid-column: 1 / -1; }
+.input-group label { font-size: 0.82rem; font-weight: 500; color: var(--muted); }
+.input-group input, .input-group textarea, .input-group select {
+  padding: 0.65rem 0.85rem; border: 1px solid var(--border); border-radius: var(--radius);
+  font-family: var(--font-body); font-size: 0.9rem; background: var(--bg);
+  outline: none; transition: border-color 200ms var(--ease); color: var(--text);
+}
+.input-group input:focus, .input-group textarea:focus, .input-group select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px oklch(55% 0.12 350 / 0.1);
+}
+.input-group textarea { resize: vertical; min-height: 80px; }
+
+/* === Component Showcase === */
+.showcase { border-top: 1px solid var(--border); padding-top: 3rem; }
+.showcase h2 { text-align: center; margin-bottom: 2.5rem; font-size: 1.3rem; }
+.swatch-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2rem; }
+.swatch {
+  width: 68px; height: 68px; border-radius: var(--radius-sm); border: 1px solid var(--border);
+  display: flex; align-items: flex-end; padding: 0.3rem; font-size: 0.6rem; font-weight: 500; color: var(--muted);
+}
+.type-sample { margin-bottom: 2rem; padding: 1.25rem; background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); }
+.type-sample .display { font-family: var(--font-display); font-size: 1.85rem; font-weight: 700; margin-bottom: 0.25rem; }
+.type-sample .body { font-size: 0.92rem; color: var(--muted); }
+.btn-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2rem; align-items: center; }
+.badge-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+
+/* === Footer === */
+.footer { border-top: 1px solid var(--border); padding: 3rem 0 2rem; margin-top: 2rem; background: var(--surface); }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
+.footer-brand p { font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem; max-width: 260px; }
+.footer h4 { font-size: 0.8rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--muted); letter-spacing: 0.04em; }
+.footer ul { list-style: none; }
+.footer li { margin-bottom: 0.35rem; }
+.footer a { color: var(--text); font-size: 0.84rem; }
+.footer a:hover { color: var(--primary); }
+.footer-bottom { text-align: center; font-size: 0.78rem; color: var(--muted); padding-top: 1.5rem; border-top: 1px solid var(--border); }
+
+/* === Responsive === */
+@media (max-width: 640px) {
+  .nav { gap: 1rem; font-size: 0.8rem; }
+  .hero h1 { font-size: 2rem; }
+  .hero-visual { height: 180px; }
+  .exhibitions { grid-template-columns: 1fr; }
+  .values { grid-template-columns: 1fr; gap: 1.5rem; }
+  .form-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+  .swatch-row { gap: 0.5rem; }
+  .swatch { width: 56px; height: 56px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="wrap">
+    <div>
+      <div class="logo">Cobblestone</div>
+      <span class="logo-sub">SoHo Art & Design</span>
+    </div>
+    <nav><ul class="nav">
+      <li><a href="#">Exhibitions</a></li>
+      <li><a href="#">Artists</a></li>
+      <li><a href="#">Visit</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul></nav>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-visual"></div>
+    <h1>Where the street meets the canvas</h1>
+    <p>Contemporary art rooted in the texture and rhythm of downtown New York. Since 2003.</p>
+    <button class="btn btn-primary">Current Exhibitions</button>
+  </div>
+</section>
+
+<!-- Exhibitions -->
+<section>
+  <div class="wrap">
+    <h2 class="section-title">On view now</h2>
+    <p class="section-subtitle">Selected works from our spring program.</p>
+    <div class="exhibitions" id="exhibition-grid"></div>
+  </div>
+</section>
+
+<!-- Banner -->
+<section>
+  <div class="wrap">
+    <div class="banner">
+      <h2>Opening Night</h2>
+      <p>Join us Friday at 7 PM for wine, conversation, and new work by emerging artists.</p>
+      <button class="btn">RSVP Now</button>
+    </div>
+  </div>
+</section>
+
+<!-- Values -->
+<section>
+  <div class="wrap">
+    <h2 class="section-title" style="text-align:center;">The gallery</h2>
+    <p class="section-subtitle" style="text-align:center;">Three floors of art in a restored 1890s cast-iron building.</p>
+    <div class="values">
+      <div>
+        <div class="value-icon v-brick">&#9634;</div>
+        <h4>Heritage space</h4>
+        <p>Original brick walls and iron columns. The building is part of the exhibition.</p>
+      </div>
+      <div>
+        <div class="value-icon v-stone">&#9711;</div>
+        <h4>Emerging artists</h4>
+        <p>We champion new voices. Over 200 artists shown since our founding.</p>
+      </div>
+      <div>
+        <div class="value-icon v-iron">&#9670;</div>
+        <h4>Community first</h4>
+        <p>Free admission, open studios, and monthly neighborhood events.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Contact Form -->
+<section>
+  <div class="wrap">
+    <div class="contact-section">
+      <h2>Plan your visit</h2>
+      <p>Private viewings, group tours, or just stopping by. Let us know.</p>
+      <form id="contact-form">
+        <div class="form-grid">
+          <div class="input-group">
+            <label for="cf-name">Name</label>
+            <input id="cf-name" type="text" placeholder="Your name">
+          </div>
+          <div class="input-group">
+            <label for="cf-email">Email</label>
+            <input id="cf-email" type="email" placeholder="you@email.com">
+          </div>
+          <div class="input-group">
+            <label for="cf-visit">Visit type</label>
+            <select id="cf-visit">
+              <option>General admission</option>
+              <option>Private viewing</option>
+              <option>Group tour</option>
+              <option>Press inquiry</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="cf-date">Preferred date</label>
+            <input id="cf-date" type="date">
+          </div>
+          <div class="input-group full">
+            <label for="cf-msg">Message</label>
+            <textarea id="cf-msg" placeholder="Anything we should know?"></textarea>
+          </div>
+        </div>
+        <button class="btn btn-primary" type="button">Send inquiry</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Component Showcase -->
+<section class="showcase">
+  <div class="wrap">
+    <h2 id="components">Component showcase</h2>
+
+    <h3 style="margin-bottom:1rem;">Colors</h3>
+    <div class="swatch-row" id="swatch-container"></div>
+
+    <h3 style="margin-bottom:1rem;">Typography</h3>
+    <div class="type-sample">
+      <p class="display">Sora display heading</p>
+      <p class="body">Outfit body text -- warm geometric sans-serif with a contemporary feel. Designed for editorial layouts that balance readability with personality, like a quiet afternoon in a SoHo gallery.</p>
+    </div>
+
+    <h3 style="margin-bottom:1rem;">Buttons</h3>
+    <div class="btn-row">
+      <button class="btn btn-primary">Primary</button>
+      <button class="btn btn-outline">Outlined</button>
+      <button class="btn btn-brick">Brick</button>
+      <button class="btn btn-text">Text link</button>
+    </div>
+
+    <h3 style="margin-bottom:1rem;">Badges</h3>
+    <div class="badge-row" id="badge-container"></div>
+
+    <h3 style="margin-bottom:1rem;">Input</h3>
+    <div class="input-group" style="max-width:360px;margin-bottom:1.5rem;">
+      <label for="demo-input">Artist name</label>
+      <input id="demo-input" type="text" placeholder="e.g. Jean-Michel Basquiat">
+    </div>
+    <div class="input-group" style="max-width:360px;margin-bottom:2rem;">
+      <label for="demo-select">Medium</label>
+      <select id="demo-select">
+        <option>Oil on canvas</option>
+        <option>Mixed media</option>
+        <option>Photography</option>
+        <option>Sculpture</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo" style="margin-bottom:0.25rem;">Cobblestone</div>
+        <p>Contemporary art gallery in the heart of SoHo, New York. Three floors of curated exhibitions since 2003.</p>
+      </div>
+      <div>
+        <h4>Visit</h4>
+        <ul>
+          <li><a href="#">Hours & Location</a></li>
+          <li><a href="#">Accessibility</a></li>
+          <li><a href="#">Group Tours</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Newsletter</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Info</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Artists</a></li>
+          <li><a href="#">Collect</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">2026 Cobblestone Gallery. 87 Grand Street, SoHo, New York.</div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  // === Exhibition cards (safe DOM methods) ===
+  var exhibits = [
+    { name: 'Fractured Light No. 7', artist: 'Mara Chen', price: '$4,200', tag: 'Featured', tagClass: 'tag-featured', imgClass: 'rose-bg' },
+    { name: 'Urban Patina Series', artist: 'Elias Varga', price: '$2,800', tag: 'New', tagClass: 'tag-new', imgClass: 'brick-bg' },
+    { name: 'Iron & Stone', artist: 'Kira Okonkwo', price: '$6,500', tag: 'Sold', tagClass: 'tag-sold', imgClass: 'stone-bg' },
+    { name: 'Overcast Morning', artist: 'Julian Torres', price: '$3,100', tag: '', tagClass: '', imgClass: 'iron-bg' },
+    { name: 'Brick Facade Study', artist: 'Noa Petrov', price: '$1,900', tag: 'Available', tagClass: 'tag-available', imgClass: 'warm-bg' },
+    { name: 'Pedestrian No. 12', artist: 'Davi Almeida', price: '$5,400', tag: 'Featured', tagClass: 'tag-featured', imgClass: 'muted-bg' }
+  ];
+
+  var grid = document.getElementById('exhibition-grid');
+  exhibits.forEach(function(item) {
+    var card = document.createElement('div');
+    card.className = 'exhibit-card';
+
+    var img = document.createElement('div');
+    img.className = 'exhibit-img ' + item.imgClass;
+    card.appendChild(img);
+
+    var title = document.createElement('h3');
+    title.textContent = item.name;
+    card.appendChild(title);
+
+    var artist = document.createElement('p');
+    artist.className = 'exhibit-artist';
+    artist.textContent = item.artist;
+    card.appendChild(artist);
+
+    var meta = document.createElement('div');
+    meta.className = 'exhibit-meta';
+
+    var price = document.createElement('span');
+    price.className = 'exhibit-price';
+    price.textContent = item.price;
+    meta.appendChild(price);
+
+    if (item.tag) {
+      var tag = document.createElement('span');
+      tag.className = 'tag ' + item.tagClass;
+      tag.textContent = item.tag;
+      meta.appendChild(tag);
+    }
+
+    card.appendChild(meta);
+    grid.appendChild(card);
+  });
+
+  // === Color swatches (safe DOM methods) ===
+  var swatches = [
+    { label: 'bg', color: 'oklch(95% 0.008 60)' },
+    { label: 'surface', color: 'oklch(99% 0.003 60)' },
+    { label: 'text', color: 'oklch(20% 0.015 30)', light: true },
+    { label: 'primary', color: 'oklch(55% 0.12 350)', light: true },
+    { label: 'accent', color: 'oklch(55% 0.1 25)', light: true },
+    { label: 'brick', color: 'oklch(48% 0.08 30)', light: true },
+    { label: 'stone', color: 'oklch(75% 0.015 60)' },
+    { label: 'iron', color: 'oklch(40% 0.01 250)', light: true },
+    { label: 'overcast', color: 'oklch(88% 0.005 250)' }
+  ];
+
+  var swatchContainer = document.getElementById('swatch-container');
+  swatches.forEach(function(s) {
+    var div = document.createElement('div');
+    div.className = 'swatch';
+    div.style.background = s.color;
+    if (s.light) { div.style.color = 'oklch(92% 0.005 60)'; }
+    div.textContent = s.label;
+    swatchContainer.appendChild(div);
+  });
+
+  // === Badges (safe DOM methods) ===
+  var badges = [
+    { text: 'Featured', cls: 'tag-featured' },
+    { text: 'New', cls: 'tag-new' },
+    { text: 'Sold', cls: 'tag-sold' },
+    { text: 'Available', cls: 'tag-available' }
+  ];
+
+  var badgeContainer = document.getElementById('badge-container');
+  badges.forEach(function(b) {
+    var span = document.createElement('span');
+    span.className = 'tag ' + b.cls;
+    span.textContent = b.text;
+    badgeContainer.appendChild(span);
+  });
+})();
+</script>
+
+</body>
+</html>

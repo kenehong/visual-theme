@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Brickyard — Boston's Original Pub & Eatery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: oklch(95% 0.01 60); --surface: oklch(98% 0.005 60); --text: oklch(20% 0.02 25);
+    --primary: oklch(40% 0.12 155); --accent: oklch(50% 0.15 25);
+    --red: oklch(50% 0.15 25); --green: oklch(40% 0.12 155);
+    --warm: oklch(75% 0.06 60); --gold: oklch(70% 0.1 80);
+    --white: oklch(99% 0 0); --muted: oklch(50% 0.02 25);
+    --shadow-sm: 2px 2px 0 oklch(25% 0.02 25 / 0.15);
+    --shadow-md: 3px 3px 0 oklch(25% 0.02 25 / 0.18);
+    --shadow-lg: 5px 5px 0 oklch(25% 0.02 25 / 0.2);
+    --font-display: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+    --font-body: 'DM Sans', -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+    --border: 2px solid var(--text); --radius-sm: 2px; --radius-md: 4px; --radius-lg: 8px;
+  }
+  body { font-family: var(--font-body); font-weight: 400; color: var(--text); background: var(--bg); letter-spacing: 0.01em; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 1rem; }
+
+  /* HEADER */
+  .header { background: var(--primary); padding: 1.5rem 1rem; text-align: center; border-bottom: 4px solid var(--text); }
+  .header h1 { font-family: var(--font-display); font-size: clamp(2.2rem, 6vw, 3.2rem); font-weight: 400; color: var(--white); letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.1; }
+  .header .subtitle { font-family: var(--font-body); font-size: 0.8rem; font-weight: 600; color: oklch(80% 0.04 155); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 0.25rem; }
+  .header-nav { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; }
+  .header-nav a { font-weight: 600; font-size: 0.78rem; color: oklch(85% 0.02 60); text-decoration: none; text-transform: uppercase; letter-spacing: 0.06em; transition: color 100ms; padding-bottom: 2px; border-bottom: 2px solid transparent; }
+  .header-nav a:hover { color: var(--white); border-bottom-color: var(--white); }
+
+  /* BRICK DIVIDER */
+  .brick-divider { height: 12px; background: repeating-linear-gradient(90deg, var(--accent) 0px, var(--accent) 30px, oklch(55% 0.12 25) 30px, oklch(55% 0.12 25) 32px) center / 100% 100%; border-top: 2px solid var(--text); border-bottom: 2px solid var(--text); }
+
+  /* BANNER */
+  .banner { background: var(--accent); color: var(--white); text-align: center; padding: 0.75rem 1rem; font-family: var(--font-display); font-size: 1.05rem; letter-spacing: 0.04em; border-bottom: 2px solid var(--text); }
+
+  /* RIBBON */
+  .ribbon { display: inline-block; background: var(--accent); color: var(--white); font-family: var(--font-display); font-size: 0.85rem; padding: 0.35rem 1.5rem; letter-spacing: 0.04em; position: relative; margin-bottom: 1rem; }
+  .ribbon::before, .ribbon::after { content: ''; position: absolute; top: 0; border-style: solid; border-width: 15px 8px; }
+  .ribbon::before { left: -14px; border-color: transparent var(--accent) transparent transparent; }
+  .ribbon::after { right: -14px; border-color: transparent transparent transparent var(--accent); }
+
+  /* SECTION */
+  .section { padding: 2.5rem 0; }
+  .section-heading { font-family: var(--font-display); font-size: 1.6rem; font-weight: 400; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 1.25rem; text-align: center; }
+  .section-heading::after { content: ''; display: block; width: 60px; height: 3px; background: var(--primary); margin: 0.5rem auto 0; }
+  .section-rule { border: none; border-top: 2px solid oklch(80% 0.02 60); margin: 0; }
+
+  /* MENU CARDS */
+  .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 1rem; }
+  .menu-card { background: var(--surface); border: var(--border); border-radius: var(--radius-md); padding: 1.25rem; box-shadow: var(--shadow-md); transition: transform 100ms, box-shadow 100ms; }
+  .menu-card:hover { transform: translate(-1px, -1px); box-shadow: var(--shadow-lg); }
+  .menu-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
+  .menu-card-name { font-family: var(--font-display); font-size: 1.1rem; font-weight: 400; line-height: 1.2; }
+  .menu-card-price { font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; color: var(--primary); white-space: nowrap; margin-left: 0.75rem; }
+  .menu-card-desc { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.5rem; line-height: 1.4; }
+  .menu-tag { display: inline-block; padding: 0.15rem 0.5rem; font-weight: 700; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; border-radius: var(--radius-sm); border: 2px solid var(--primary); color: var(--primary); background: oklch(92% 0.03 155); }
+
+  /* SPECIALS TABLE */
+  .specials-card { background: var(--primary); border: var(--border); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-lg); }
+  .specials-header { padding: 0.75rem 1.25rem; font-family: var(--font-display); font-size: 1.15rem; color: var(--white); text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 2px solid oklch(30% 0.1 155); text-align: center; }
+  .specials-table { width: 100%; border-collapse: collapse; }
+  .specials-table th, .specials-table td { padding: 0.65rem 1.25rem; text-align: left; }
+  .specials-table thead th { background: oklch(35% 0.1 155); color: oklch(85% 0.04 155); font-family: var(--font-body); font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  .specials-table tbody td { background: var(--surface); border-bottom: 1px solid oklch(90% 0.01 60); font-size: 0.9rem; font-weight: 500; }
+  .specials-table tbody td:first-child { font-weight: 700; color: var(--primary); }
+  .specials-table tbody td:last-child { font-family: var(--font-mono); font-weight: 700; text-align: right; }
+  .specials-table tbody tr:last-child td { border-bottom: none; }
+
+  /* BUTTONS */
+  .btn { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 400; font-size: 1rem; letter-spacing: 0.04em; padding: 0.7rem 1.75rem; border: var(--border); border-radius: var(--radius-md); cursor: pointer; transition: all 100ms; box-shadow: var(--shadow-sm); }
+  .btn:active { transform: translate(2px, 2px); box-shadow: none; }
+  .btn-primary { background: var(--primary); color: var(--white); border-color: var(--text); }
+  .btn-primary:hover { background: oklch(35% 0.12 155); }
+  .btn-accent { background: var(--accent); color: var(--white); border-color: var(--text); }
+  .btn-accent:hover { background: oklch(45% 0.15 25); }
+  .btn-outline { background: transparent; color: var(--text); border-color: var(--text); }
+  .btn-outline:hover { background: oklch(90% 0.01 60); }
+  .btn-ghost { background: transparent; color: var(--primary); border: 2px solid transparent; box-shadow: none; }
+  .btn-ghost:hover { background: oklch(90% 0.03 155); }
+
+  /* FORM */
+  .form-section { background: var(--surface); border: var(--border); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-lg); max-width: 560px; margin: 0 auto; }
+  .form-title { font-family: var(--font-display); font-size: 1.4rem; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 1.25rem; text-align: center; }
+  .form-row { margin-bottom: 1rem; }
+  .form-label { display: block; font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.35rem; color: var(--muted); }
+  .form-input { font-family: var(--font-body); font-weight: 500; font-size: 0.95rem; padding: 0.7rem 0.85rem; border: var(--border); border-radius: var(--radius-md); background: var(--bg); outline: none; width: 100%; transition: border-color 100ms; }
+  .form-input:focus { border-color: var(--primary); background: var(--white); }
+  .form-input::placeholder { color: oklch(65% 0.01 60); }
+  .form-row-double { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  select.form-input { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='3'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.75rem center; padding-right: 2rem; }
+
+  /* FOOTER */
+  .footer { background: var(--text); color: oklch(70% 0.02 60); text-align: center; padding: 1.5rem 1rem; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.04em; margin-top: 0; }
+  .footer-brand { font-family: var(--font-display); font-size: 1.2rem; color: var(--white); letter-spacing: 0.04em; margin-bottom: 0.25rem; }
+  .footer-address { margin-bottom: 0.5rem; }
+  .footer-copy { color: oklch(55% 0.02 60); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* SHOWCASE */
+  .showcase-sep { margin: 3rem 0 2rem; border: none; border-top: 3px solid var(--text); }
+  .showcase-title { font-family: var(--font-display); font-size: 2rem; font-weight: 400; text-transform: uppercase; letter-spacing: 0.04em; text-align: center; margin-bottom: 2rem; }
+  .comp-section { margin-bottom: 2.5rem; }
+  .section-label { font-family: var(--font-display); font-size: 0.9rem; font-weight: 400; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); border-bottom: 2px solid oklch(85% 0.01 60); padding-bottom: 0.25rem; margin-bottom: 1rem; }
+
+  /* Typography specimen */
+  .type-specimen h1 { font-family: var(--font-display); font-size: 2.5rem; font-weight: 400; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.1; margin-bottom: 0.5rem; }
+  .type-specimen h2 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 400; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.15; margin-bottom: 0.5rem; }
+  .type-specimen h3 { font-family: var(--font-display); font-size: 1.15rem; font-weight: 400; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.2; margin-bottom: 0.5rem; }
+  .type-specimen p { font-size: 0.95rem; margin-bottom: 0.5rem; max-width: 60ch; }
+  .type-specimen .strong { font-weight: 700; }
+  .type-specimen .mono { font-family: var(--font-mono); font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+
+  /* Swatches */
+  .swatches { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .swatch { width: 80px; border: 2px solid var(--text); border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--shadow-sm); }
+  .swatch-color { height: 56px; }
+  .swatch-label { padding: 0.3rem 0.4rem; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; background: var(--surface); text-align: center; border-top: 2px solid var(--text); }
+
+  /* Rows */
+  .btn-row, .badge-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+  .badge { display: inline-block; padding: 0.2rem 0.6rem; font-weight: 700; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; border-radius: var(--radius-sm); border: 2px solid; }
+  .badge-classic { background: oklch(92% 0.03 155); color: var(--primary); border-color: var(--primary); }
+  .badge-favorite { background: oklch(92% 0.03 25); color: var(--accent); border-color: var(--accent); }
+  .badge-seasonal { background: oklch(90% 0.03 80); color: oklch(55% 0.1 80); border-color: oklch(55% 0.1 80); }
+
+  @media (max-width: 600px) {
+    .header-nav { gap: 1rem; }
+    .menu-grid { grid-template-columns: 1fr; }
+    .form-row-double { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="header">
+    <h1>The Brickyard</h1>
+    <div class="subtitle">Est. 1984 &mdash; Boston's Original</div>
+    <nav class="header-nav">
+      <a href="#menu">Menu</a>
+      <a href="#specials">Specials</a>
+      <a href="#reserve">Reserve</a>
+      <a href="#components">Components</a>
+    </nav>
+  </header>
+  <div class="brick-divider"></div>
+
+  <!-- BANNER -->
+  <div class="banner">Celtics Watch Party &mdash; Every Game Night</div>
+
+  <!-- MENU -->
+  <section class="section" id="menu">
+    <div class="section-heading">Our Menu</div>
+    <div class="menu-grid" id="menu-grid"></div>
+  </section>
+  <hr class="section-rule">
+
+  <!-- SPECIALS -->
+  <section class="section" id="specials">
+    <div class="section-heading">Daily Specials</div>
+    <div class="specials-card">
+      <div class="specials-header">This Week at The Brickyard</div>
+      <table class="specials-table">
+        <thead><tr><th>Day</th><th>Special</th><th>Price</th></tr></thead>
+        <tbody id="specials-body"></tbody>
+      </table>
+    </div>
+  </section>
+  <hr class="section-rule">
+
+  <!-- RESERVATION FORM -->
+  <section class="section" id="reserve">
+    <div class="section-heading">Make a Reservation</div>
+    <div class="form-section">
+      <div class="form-title">Book Your Table</div>
+      <div class="form-row">
+        <label class="form-label" for="res-name">Full Name</label>
+        <input class="form-input" type="text" id="res-name" placeholder="John Sullivan">
+      </div>
+      <div class="form-row-double">
+        <div class="form-row">
+          <label class="form-label" for="res-date">Date</label>
+          <input class="form-input" type="date" id="res-date">
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="res-time">Time</label>
+          <select class="form-input" id="res-time">
+            <option value="">Select time</option>
+            <option>5:00 PM</option>
+            <option>5:30 PM</option>
+            <option>6:00 PM</option>
+            <option>6:30 PM</option>
+            <option>7:00 PM</option>
+            <option>7:30 PM</option>
+            <option>8:00 PM</option>
+            <option>8:30 PM</option>
+            <option>9:00 PM</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row-double">
+        <div class="form-row">
+          <label class="form-label" for="res-guests">Guests</label>
+          <select class="form-input" id="res-guests">
+            <option>1</option>
+            <option selected>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8+</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="res-phone">Phone</label>
+          <input class="form-input" type="tel" id="res-phone" placeholder="(617) 555-0000">
+        </div>
+      </div>
+      <div class="form-row">
+        <label class="form-label" for="res-notes">Special Requests</label>
+        <input class="form-input" type="text" id="res-notes" placeholder="Allergies, seating preference...">
+      </div>
+      <div style="text-align:center; margin-top:1.25rem;">
+        <button class="btn btn-primary">Reserve Table</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-brand">The Brickyard</div>
+    <div class="footer-address">142 Hanover Street, North End, Boston, MA 02113</div>
+    <div class="footer-copy">&copy; 2026 The Brickyard &middot; All Rights Reserved</div>
+  </footer>
+
+  <!-- COMPONENT SHOWCASE -->
+  <hr class="showcase-sep">
+  <div class="showcase-title" id="components">Components</div>
+
+  <!-- Typography -->
+  <div class="comp-section">
+    <div class="section-label">Typography</div>
+    <div class="type-specimen">
+      <h1>Display Heading H1</h1>
+      <h2>Section Heading H2</h2>
+      <h3>Subsection Heading H3</h3>
+      <p>Body text in DM Sans 400. The quick brown fox jumps over the lazy dog. Designed for classic, heritage layouts with a bold east coast character.</p>
+      <p class="strong">Bold body text (700 weight) for emphasis and labels.</p>
+      <p class="mono">$24.00 &middot; Est. 1984 &middot; Table 7 &middot; Guests: 4</p>
+    </div>
+  </div>
+
+  <!-- Colors -->
+  <div class="comp-section">
+    <div class="section-label">Colors</div>
+    <div class="swatches" id="swatches"></div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="comp-section">
+    <div class="section-label">Buttons</div>
+    <div class="btn-row">
+      <button class="btn btn-primary">Primary</button>
+      <button class="btn btn-accent">Accent</button>
+      <button class="btn btn-outline">Outline</button>
+      <button class="btn btn-ghost">Ghost</button>
+    </div>
+  </div>
+
+  <!-- Badges -->
+  <div class="comp-section">
+    <div class="section-label">Badges</div>
+    <div class="badge-row">
+      <span class="badge badge-classic">House Classic</span>
+      <span class="badge badge-favorite">Fan Favorite</span>
+      <span class="badge badge-seasonal">Seasonal</span>
+    </div>
+  </div>
+
+  <!-- Menu Card -->
+  <div class="comp-section">
+    <div class="section-label">Menu Card</div>
+    <div style="max-width:300px" id="sample-card"></div>
+  </div>
+
+  <!-- Input Fields -->
+  <div class="comp-section">
+    <div class="section-label">Input Fields</div>
+    <div style="display:flex; flex-direction:column; gap:1rem; max-width:320px;">
+      <div>
+        <label class="form-label">Name</label>
+        <input class="form-input" type="text" placeholder="Enter your name...">
+      </div>
+      <div>
+        <label class="form-label">Phone</label>
+        <input class="form-input" type="tel" placeholder="(617) 555-0000">
+      </div>
+    </div>
+  </div>
+
+  <!-- Ribbon Banner -->
+  <div class="comp-section">
+    <div class="section-label">Ribbon Banner</div>
+    <div style="text-align:center; padding: 0 1.5rem;">
+      <div class="ribbon">Game Night Special</div>
+    </div>
+  </div>
+
+  <!-- Data Table -->
+  <div class="comp-section">
+    <div class="section-label">Data Table</div>
+    <table class="specials-table" style="border: var(--border); border-radius: var(--radius-md); overflow: hidden;">
+      <thead><tr><th>Item</th><th>Detail</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Sample Row</td><td>Description text</td><td>$12.50</td></tr>
+        <tr><td>Another Row</td><td>More details</td><td>$8.00</td></tr>
+        <tr><td>Third Row</td><td>Additional info</td><td>$3.50</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Brick Divider -->
+  <div class="comp-section">
+    <div class="section-label">Brick Divider</div>
+    <div class="brick-divider" style="border-radius: var(--radius-sm);"></div>
+  </div>
+
+  <div style="height:2rem"></div>
+</div>
+
+<script>
+(function() {
+  // Menu data
+  var menuItems = [
+    { name: "New England Clam Chowder", desc: "Creamy broth, tender clams, Yukon potatoes, smoked bacon", price: "$12", tag: "House Classic", tagClass: "badge-classic" },
+    { name: "Fenway Frank", desc: "All-beef dog, mustard sauerkraut, toasted poppy seed bun", price: "$9", tag: "Fan Favorite", tagClass: "badge-favorite" },
+    { name: "Lobster Roll", desc: "Fresh Maine lobster, drawn butter, brioche roll, lemon", price: "$24", tag: "Seasonal", tagClass: "badge-seasonal" },
+    { name: "Boston Cream Pie", desc: "Vanilla custard, chocolate ganache, sponge cake layers", price: "$10", tag: "House Classic", tagClass: "badge-classic" },
+    { name: "Sam Adams Draft", desc: "Boston Lager on tap, crisp and full-bodied, 16oz pour", price: "$8", tag: "Fan Favorite", tagClass: "badge-favorite" },
+    { name: "Fish & Chips", desc: "Beer-battered Atlantic cod, hand-cut fries, tartar sauce", price: "$16", tag: "House Classic", tagClass: "badge-classic" }
+  ];
+
+  // Build menu cards
+  var grid = document.getElementById("menu-grid");
+  menuItems.forEach(function(item) {
+    var card = document.createElement("div");
+    card.className = "menu-card";
+
+    var header = document.createElement("div");
+    header.className = "menu-card-header";
+
+    var name = document.createElement("span");
+    name.className = "menu-card-name";
+    name.textContent = item.name;
+
+    var price = document.createElement("span");
+    price.className = "menu-card-price";
+    price.textContent = item.price;
+
+    header.appendChild(name);
+    header.appendChild(price);
+
+    var desc = document.createElement("div");
+    desc.className = "menu-card-desc";
+    desc.textContent = item.desc;
+
+    var tag = document.createElement("span");
+    tag.className = "menu-tag";
+    tag.textContent = item.tag;
+
+    card.appendChild(header);
+    card.appendChild(desc);
+    card.appendChild(tag);
+    grid.appendChild(card);
+  });
+
+  // Build specials table
+  var specials = [
+    { day: "Monday", special: "Half-Price Wings", price: "$7" },
+    { day: "Wednesday", special: "Lobster Night", price: "$19" },
+    { day: "Friday", special: "Fish Fry Friday", price: "$14" }
+  ];
+
+  var tbody = document.getElementById("specials-body");
+  specials.forEach(function(s) {
+    var tr = document.createElement("tr");
+    var tdDay = document.createElement("td");
+    tdDay.textContent = s.day;
+    var tdSpecial = document.createElement("td");
+    tdSpecial.textContent = s.special;
+    var tdPrice = document.createElement("td");
+    tdPrice.textContent = s.price;
+    tr.appendChild(tdDay);
+    tr.appendChild(tdSpecial);
+    tr.appendChild(tdPrice);
+    tbody.appendChild(tr);
+  });
+
+  // Build color swatches
+  var colors = [
+    { name: "BG", value: "var(--bg)" },
+    { name: "Surface", value: "var(--surface)" },
+    { name: "Text", value: "var(--text)" },
+    { name: "Primary", value: "var(--primary)" },
+    { name: "Accent", value: "var(--accent)" },
+    { name: "Warm", value: "var(--warm)" },
+    { name: "Gold", value: "var(--gold)" }
+  ];
+
+  var swatchContainer = document.getElementById("swatches");
+  colors.forEach(function(c) {
+    var swatch = document.createElement("div");
+    swatch.className = "swatch";
+
+    var colorDiv = document.createElement("div");
+    colorDiv.className = "swatch-color";
+    colorDiv.style.background = c.value;
+
+    var label = document.createElement("div");
+    label.className = "swatch-label";
+    label.textContent = c.name;
+
+    swatch.appendChild(colorDiv);
+    swatch.appendChild(label);
+    swatchContainer.appendChild(swatch);
+  });
+
+  // Build sample card in component showcase
+  var sampleContainer = document.getElementById("sample-card");
+  var sCard = document.createElement("div");
+  sCard.className = "menu-card";
+
+  var sHeader = document.createElement("div");
+  sHeader.className = "menu-card-header";
+  var sName = document.createElement("span");
+  sName.className = "menu-card-name";
+  sName.textContent = "Sample Item";
+  var sPrice = document.createElement("span");
+  sPrice.className = "menu-card-price";
+  sPrice.textContent = "$15";
+  sHeader.appendChild(sName);
+  sHeader.appendChild(sPrice);
+
+  var sDesc = document.createElement("div");
+  sDesc.className = "menu-card-desc";
+  sDesc.textContent = "A brief description of this menu item.";
+
+  var sTag = document.createElement("span");
+  sTag.className = "menu-tag";
+  sTag.textContent = "House Classic";
+
+  sCard.appendChild(sHeader);
+  sCard.appendChild(sDesc);
+  sCard.appendChild(sTag);
+  sampleContainer.appendChild(sCard);
+})();
+</script>
+</body>
+</html>

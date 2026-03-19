@@ -1,0 +1,96 @@
+{
+  "name": "Shiba Run",
+  "description": "시바견 픽셀아트 플랫포머 게임에서 추출한 테마. 다크 네이비 배경 위 골드 UI, Press Start 2P 아케이드 폰트, 8비트 레트로 감성.",
+  "source": "Shiba Inu pixel platformer game — dark navy background, gold UI accents, NES-era pixel art",
+  "mood": ["retro", "arcade", "playful"],
+
+  "shape": {
+    "radiusSm": "0px",
+    "radiusMd": "0px",
+    "radiusLg": "0px",
+    "radiusFull": "0px",
+    "borderWidth": "2px"
+  },
+
+  "typography": {
+    "fontSans": "'VT323', 'Courier New', monospace",
+    "fontMono": "'VT323', 'Courier New', monospace",
+    "fontDisplay": "'Press Start 2P', 'Courier New', monospace",
+    "weightNormal": 400,
+    "weightMedium": 400,
+    "weightBold": 400,
+    "letterSpacingHeading": "0.05em",
+    "letterSpacingBody": "0.02em",
+    "lineHeight": 1.6,
+    "lineHeightHeading": 1.3,
+    "textTransformHeading": "uppercase"
+  },
+
+  "spacing": {
+    "density": "dense",
+    "scale": 0.9
+  },
+
+  "depth": {
+    "shadowSm": "2px 2px 0 oklch(5% 0.02 280)",
+    "shadowMd": "3px 3px 0 oklch(5% 0.02 280)",
+    "shadowLg": "4px 4px 0 oklch(5% 0.02 280)",
+    "shadowStyle": "hard"
+  },
+
+  "motion": {
+    "durationFast": "80ms",
+    "durationNormal": "100ms",
+    "easing": "steps(3)"
+  },
+
+  "colorDefaults": {
+    "bg": "oklch(14% 0.03 275)",
+    "surface": "oklch(20% 0.04 275)",
+    "text": "oklch(95% 0.03 90)",
+    "primary": "oklch(84% 0.19 95)",
+    "accent": "oklch(52% 0.17 50)",
+    "orange": "oklch(52% 0.17 50)",
+    "blue": "oklch(62% 0.15 250)",
+    "green": "oklch(62% 0.18 150)",
+    "red": "oklch(60% 0.22 30)",
+    "gold": "oklch(84% 0.19 95)",
+    "border": "oklch(84% 0.19 95)"
+  },
+
+  "colorDefaultsDark": {
+    "bg": "oklch(14% 0.03 275)",
+    "surface": "oklch(20% 0.04 275)",
+    "text": "oklch(95% 0.03 90)",
+    "primary": "oklch(84% 0.19 95)",
+    "accent": "oklch(52% 0.17 50)"
+  },
+
+  "demo": {
+    "type": "fitness",
+    "title": "SHIBA RUN",
+    "subtitle": "A Pixel Platformer Adventure",
+    "stats": [
+      { "label": "LIVES", "value": "3", "icon": "heart" },
+      { "label": "COINS", "value": "247", "icon": "coin" },
+      { "label": "SCORE", "value": "089400", "icon": "star" },
+      { "label": "WORLD", "value": "1-1", "icon": "flag" }
+    ],
+    "leaderboard": [
+      { "rank": 1, "player": "DOGE_MASTER", "score": 1284700, "level": "8-4" },
+      { "rank": 2, "player": "ShibaKing99", "score": 985300, "level": "7-2" },
+      { "rank": 3, "player": "PixelPaws", "score": 871200, "level": "6-4" },
+      { "rank": 4, "player": "MuchWow42", "score": 654100, "level": "5-3" },
+      { "rank": 5, "player": "CoinHunterX", "score": 523800, "level": "4-4" }
+    ],
+    "achievements": ["FIRST COIN", "100 COMBO", "SPEED RUN", "BOSS CLEAR", "NO DAMAGE"]
+  },
+
+  "suggestions": {
+    "googleFonts": "Press+Start+2P&family=VT323",
+    "icons": "Pixel-art inline symbols — unicode blocks, arrows, hearts, stars, coins",
+    "components": "Game HUD bars, coin counters, pixel hearts, high-score tables, achievement badges, scanline/pixel-grid overlays",
+    "avoid": "border-radius, gradients, smooth transitions, anti-aliased fonts, soft shadows, rounded corners",
+    "texture": "Scanline overlay via repeating-linear-gradient(transparent 0 2px, rgba(0,0,0,0.15) 2px 4px), pixel grid pattern"
+  }
+}

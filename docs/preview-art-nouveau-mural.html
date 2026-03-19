@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa de Arte — Murales y Cultura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Barlow+Condensed:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: oklch(18% 0.02 30);
+    --surface: oklch(22% 0.025 30);
+    --text: oklch(92% 0.02 90);
+    --primary: oklch(58% 0.22 28);
+    --accent: oklch(78% 0.16 90);
+    --turquoise: oklch(62% 0.12 195);
+    --cream: oklch(90% 0.04 90);
+    --deep: oklch(12% 0.03 30);
+    --muted: oklch(65% 0.04 50);
+    --font-display: 'Dela Gothic One', 'Impact', sans-serif;
+    --font-body: 'Barlow Condensed', 'Impact', 'Arial Narrow', sans-serif;
+    --border: 3px solid var(--primary);
+    --border-accent: 3px solid var(--accent);
+    --shadow-sm: 0 2px 6px oklch(25% 0.05 30 / 0.2);
+    --shadow-md: 0 4px 14px oklch(25% 0.05 30 / 0.3);
+    --shadow-lg: 0 8px 28px oklch(25% 0.05 30 / 0.35);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-weight: 400;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Gritty wall texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.08;
+    background:
+      radial-gradient(circle 200px at 20% 30%, oklch(58% 0.22 28 / 0.4) 0%, transparent 70%),
+      radial-gradient(circle 150px at 80% 50%, oklch(78% 0.16 90 / 0.3) 0%, transparent 70%),
+      radial-gradient(circle 180px at 50% 85%, oklch(62% 0.12 195 / 0.3) 0%, transparent 70%);
+  }
+
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
+
+  /* === MURAL DIVIDER === */
+  .mural-divider {
+    height: 6px;
+    background: linear-gradient(90deg, var(--primary), var(--accent), var(--turquoise), var(--accent), var(--primary));
+    border-radius: 3px;
+    margin: 1.5rem 0;
+  }
+  .mural-divider-thin {
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--primary), var(--accent), var(--primary), transparent);
+    margin: 1rem 0;
+  }
+
+  /* === HEADER === */
+  .header {
+    text-align: center;
+    padding: 3rem 1rem 2rem;
+    position: relative;
+  }
+  .header-tag {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--turquoise);
+    margin-bottom: 0.5rem;
+  }
+  .header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 10vw, 5rem);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--primary);
+    line-height: 1.05;
+    text-shadow: 3px 3px 0 oklch(12% 0.03 30), 6px 6px 0 oklch(58% 0.22 28 / 0.15);
+  }
+  .header-sub {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 0.5rem;
+  }
+
+  /* === HERO === */
+  .hero {
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+  .hero h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    text-transform: uppercase;
+    color: var(--cream);
+    line-height: 1.15;
+  }
+  .hero p {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--muted);
+    margin-top: 0.75rem;
+    max-width: 55ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* === GALLERY CARDS === */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+    gap: 1.5rem;
+    padding: 2rem 0;
+  }
+  .gallery-card {
+    background: var(--surface);
+    border: var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: box-shadow 250ms, transform 250ms;
+    position: relative;
+  }
+  .gallery-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
+  }
+  .gallery-card .card-image {
+    height: 180px;
+    position: relative;
+    overflow: hidden;
+  }
+  .gallery-card:nth-child(1) .card-image { background: linear-gradient(135deg, oklch(58% 0.22 28 / 0.4), oklch(78% 0.16 90 / 0.2)); }
+  .gallery-card:nth-child(2) .card-image { background: linear-gradient(135deg, oklch(62% 0.12 195 / 0.3), oklch(58% 0.22 28 / 0.2)); }
+  .gallery-card:nth-child(3) .card-image { background: linear-gradient(135deg, oklch(78% 0.16 90 / 0.3), oklch(62% 0.12 195 / 0.2)); }
+  .gallery-card:nth-child(4) .card-image { background: linear-gradient(135deg, oklch(58% 0.22 28 / 0.3), oklch(78% 0.16 90 / 0.3)); }
+  .gallery-card:nth-child(5) .card-image { background: linear-gradient(135deg, oklch(62% 0.12 195 / 0.35), oklch(78% 0.16 90 / 0.15)); }
+  .gallery-card:nth-child(6) .card-image { background: linear-gradient(135deg, oklch(78% 0.16 90 / 0.25), oklch(58% 0.22 28 / 0.25)); }
+
+  /* Mural-style frame inside card */
+  .gallery-card .card-image::after {
+    content: '';
+    position: absolute;
+    inset: 10px;
+    border: 2px solid oklch(90% 0.04 90 / 0.2);
+    border-radius: var(--radius-sm);
+  }
+
+  .card-body {
+    padding: 1rem 1.15rem;
+  }
+  .card-tag {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.65rem;
+    border-radius: var(--radius-sm);
+    background: oklch(58% 0.22 28 / 0.15);
+    color: var(--primary);
+    border: 1px solid oklch(58% 0.22 28 / 0.4);
+    margin-bottom: 0.5rem;
+  }
+  .card-tag-accent {
+    background: oklch(78% 0.16 90 / 0.12);
+    color: var(--accent);
+    border-color: oklch(78% 0.16 90 / 0.4);
+  }
+  .card-tag-turquoise {
+    background: oklch(62% 0.12 195 / 0.12);
+    color: var(--turquoise);
+    border-color: oklch(62% 0.12 195 / 0.4);
+  }
+  .gallery-card h3 {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--cream);
+    line-height: 1.25;
+    margin-bottom: 0.4rem;
+  }
+  .card-price {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    color: var(--accent);
+  }
+
+  /* === BANNER === */
+  .banner {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    margin: 2rem 0;
+    background: linear-gradient(135deg, oklch(58% 0.22 28 / 0.12), oklch(78% 0.16 90 / 0.08), oklch(62% 0.12 195 / 0.06));
+    border: var(--border);
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  .banner h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    text-transform: uppercase;
+    color: var(--accent);
+    line-height: 1.05;
+    text-shadow: 2px 2px 0 oklch(12% 0.03 30);
+  }
+  .banner p {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--muted);
+    margin-top: 0.75rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* === CATALOG TABLE === */
+  .catalog-section {
+    padding: 2rem 0;
+    text-align: center;
+  }
+  .catalog-section h2,
+  .newsletter h2 {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+  .catalog-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+  .catalog-table th,
+  .catalog-table td {
+    padding: 0.7rem 1rem;
+  }
+  .catalog-table th {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--turquoise);
+    border-bottom: 3px solid var(--primary);
+  }
+  .catalog-table td {
+    border-bottom: 1px solid oklch(58% 0.22 28 / 0.15);
+    color: var(--text);
+  }
+  .catalog-table td:last-child {
+    text-align: right;
+    font-family: var(--font-display);
+    color: var(--accent);
+  }
+
+  /* === NEWSLETTER FORM === */
+  .newsletter {
+    padding: 2rem 0;
+    text-align: center;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .form-group { text-align: left; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+  }
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.65rem 0.85rem;
+    background: var(--deep);
+    color: var(--text);
+    border: 2px solid oklch(58% 0.22 28 / 0.4);
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition: border-color 250ms, box-shadow 250ms;
+  }
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px oklch(78% 0.16 90 / 0.15);
+  }
+  .form-group input::placeholder { color: oklch(50% 0.03 50); }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.7rem 1.75rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 250ms;
+    border: none;
+  }
+  .btn-primary {
+    background: var(--primary);
+    color: var(--cream);
+    border: 3px solid var(--primary);
+  }
+  .btn-primary:hover {
+    box-shadow: var(--shadow-md);
+    background: oklch(52% 0.22 28);
+  }
+  .btn-accent {
+    background: var(--accent);
+    color: var(--deep);
+    border: 3px solid var(--accent);
+  }
+  .btn-accent:hover {
+    box-shadow: 0 4px 16px oklch(78% 0.16 90 / 0.3);
+    background: oklch(74% 0.16 90);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--primary);
+    border: var(--border);
+  }
+  .btn-outline:hover {
+    background: oklch(58% 0.22 28 / 0.1);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--turquoise);
+    border: 3px solid var(--turquoise);
+  }
+  .btn-ghost:hover {
+    background: oklch(62% 0.12 195 / 0.1);
+  }
+  .btn-full { width: 100%; }
+
+  /* === FOOTER === */
+  .footer {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .footer-brand {
+    font-family: var(--font-display);
+    color: var(--primary);
+  }
+
+  /* ============ COMPONENT SHOWCASE ============ */
+  .showcase-sep {
+    margin: 3rem 0 2rem;
+    border: none;
+    border-top: 3px solid var(--primary);
+  }
+  .showcase-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--accent);
+    margin-bottom: 2rem;
+  }
+  .section-label {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    border-bottom: 2px solid oklch(58% 0.22 28 / 0.3);
+    padding-bottom: 0.35rem;
+    margin-bottom: 1rem;
+  }
+  .comp-section { margin-bottom: 2.5rem; }
+
+  /* Typography specimen */
+  .type-specimen h1 {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    line-height: 1.05;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 0 oklch(12% 0.03 30);
+  }
+  .type-specimen h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1.1;
+    text-transform: uppercase;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+  }
+  .type-specimen h3 {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--turquoise);
+    margin-bottom: 0.5rem;
+  }
+  .type-specimen p {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    max-width: 60ch;
+    color: var(--text);
+  }
+
+  /* Color swatches */
+  .swatches { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .swatch { width: 80px; border: 2px solid oklch(58% 0.22 28 / 0.3); border-radius: var(--radius-md); overflow: hidden; }
+  .swatch-color { height: 56px; }
+  .swatch-label {
+    padding: 0.3rem 0.4rem;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: var(--surface);
+    text-align: center;
+    border-top: 1px solid oklch(58% 0.22 28 / 0.2);
+    color: var(--muted);
+  }
+
+  .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+  .badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+
+  .badge {
+    display: inline-block;
+    padding: 0.2rem 0.75rem;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: var(--radius-sm);
+  }
+  .badge-primary {
+    background: oklch(58% 0.22 28 / 0.15);
+    color: var(--primary);
+    border: 1px solid oklch(58% 0.22 28 / 0.4);
+  }
+  .badge-accent {
+    background: oklch(78% 0.16 90 / 0.12);
+    color: var(--accent);
+    border: 1px solid oklch(78% 0.16 90 / 0.4);
+  }
+  .badge-turquoise {
+    background: oklch(62% 0.12 195 / 0.12);
+    color: var(--turquoise);
+    border: 1px solid oklch(62% 0.12 195 / 0.4);
+  }
+  .badge-cream {
+    background: oklch(90% 0.04 90 / 0.15);
+    color: var(--cream);
+    border: 1px solid oklch(90% 0.04 90 / 0.3);
+  }
+
+  /* Demo card */
+  .demo-card {
+    background: var(--surface);
+    border: var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    max-width: 300px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Demo table */
+  .demo-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .demo-table th, .demo-table td { padding: 0.55rem 0.75rem; text-align: left; }
+  .demo-table th {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--turquoise);
+    border-bottom: 3px solid var(--primary);
+  }
+  .demo-table td {
+    border-bottom: 1px solid oklch(58% 0.22 28 / 0.15);
+  }
+
+  @media (max-width: 480px) {
+    .gallery { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    .form-group.full { grid-column: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-tag">East Los Angeles</div>
+    <h1>Casa de Arte</h1>
+    <div class="header-sub">Murales y Cultura</div>
+  </header>
+
+  <div class="mural-divider"></div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h2>Original Murals &amp; Cultural Art</h2>
+    <p>Celebrating the bold spirit of Chicano street art — vibrant murals, cultural pride, and community stories painted on every wall.</p>
+  </div>
+
+  <div class="mural-divider-thin"></div>
+
+  <!-- GALLERY CARDS -->
+  <div class="gallery" id="gallery"></div>
+
+  <div class="mural-divider"></div>
+
+  <!-- BANNER -->
+  <div class="banner">
+    <h2>La Cultura Cura</h2>
+    <p>Culture heals. Visit our community mural walk every first Friday — live music, local art, and pan dulce.</p>
+  </div>
+
+  <div class="mural-divider-thin"></div>
+
+  <!-- CATALOG TABLE -->
+  <section class="catalog-section">
+    <h2>Current Collection</h2>
+    <table class="catalog-table" id="catalog-table">
+      <thead>
+        <tr><th>Title</th><th>Medium</th><th>Year</th><th>Price</th></tr>
+      </thead>
+      <tbody id="catalog-body"></tbody>
+    </table>
+  </section>
+
+  <div class="mural-divider-thin"></div>
+
+  <!-- NEWSLETTER FORM -->
+  <section class="newsletter">
+    <h2>Join the Community</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="input-name">Nombre</label>
+        <input id="input-name" type="text" placeholder="Your name">
+      </div>
+      <div class="form-group">
+        <label for="input-email">Email</label>
+        <input id="input-email" type="email" placeholder="art@lacasa.com">
+      </div>
+      <div class="form-group">
+        <label for="select-interest">Interest</label>
+        <select id="select-interest">
+          <option>Mural Commissions</option>
+          <option>Gallery Exhibitions</option>
+          <option>Community Events</option>
+          <option>Art Classes</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="select-frequency">Updates</label>
+        <select id="select-frequency">
+          <option>Monthly</option>
+          <option>Bi-weekly</option>
+          <option>Weekly</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <button class="btn btn-primary btn-full" id="btn-subscribe">Subscribe</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="mural-divider"></div>
+  <footer class="footer">
+    <span class="footer-brand">Casa de Arte</span> · Murales y Cultura · East Los Angeles<br>
+    Open Thursday through Sunday, 11 AM – 7 PM
+  </footer>
+
+  <!-- ============ COMPONENT SHOWCASE ============ -->
+  <hr class="showcase-sep">
+  <div class="showcase-title" id="components">Components</div>
+
+  <!-- Typography -->
+  <div class="comp-section">
+    <div class="section-label">Typography</div>
+    <div class="type-specimen" id="type-specimen"></div>
+  </div>
+
+  <!-- Colors -->
+  <div class="comp-section">
+    <div class="section-label">Colors</div>
+    <div class="swatches" id="swatches"></div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="comp-section">
+    <div class="section-label">Buttons</div>
+    <div class="btn-row" id="btn-row"></div>
+  </div>
+
+  <!-- Badges -->
+  <div class="comp-section">
+    <div class="section-label">Badges</div>
+    <div class="badge-row" id="badge-row"></div>
+  </div>
+
+  <!-- Card -->
+  <div class="comp-section">
+    <div class="section-label">Card</div>
+    <div class="demo-card" id="demo-card"></div>
+  </div>
+
+  <!-- Form -->
+  <div class="comp-section">
+    <div class="section-label">Form Input</div>
+    <div style="max-width:400px; display:flex; gap:0" id="demo-form"></div>
+  </div>
+
+  <!-- Table -->
+  <div class="comp-section">
+    <div class="section-label">Data Table</div>
+    <table class="demo-table" id="demo-table">
+      <thead id="demo-table-head"></thead>
+      <tbody id="demo-table-body"></tbody>
+    </table>
+  </div>
+
+  <div style="height:2rem"></div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  var items = [
+    { name: 'Virgen de Guadalupe Mural', price: '$1,200', tag: 'Original', tagClass: '' },
+    { name: 'Lowrider Cruising Print', price: '$380', tag: 'Featured', tagClass: 'card-tag-accent' },
+    { name: 'Eagle & Serpent Panel', price: '$850', tag: 'Sold Out', tagClass: 'card-tag-turquoise' },
+    { name: 'Día de Muertos Calavera', price: '$420', tag: 'New', tagClass: '' },
+    { name: 'Aztec Warrior Sun Stone', price: '$960', tag: 'Original', tagClass: 'card-tag-accent' },
+    { name: 'Barrio Rose Garden', price: '$290', tag: 'Print', tagClass: 'card-tag-turquoise' }
+  ];
+
+  var catalog = [
+    { title: 'Virgen de Guadalupe Mural', medium: 'Spray paint & acrylic', year: '2024', price: '$1,200' },
+    { title: 'Lowrider Cruising Print', medium: 'Screen print (5 color)', year: '2023', price: '$380' },
+    { title: 'Eagle & Serpent Panel', medium: 'Acrylic on wood', year: '2024', price: '$850' },
+    { title: 'Día de Muertos Calavera', medium: 'Mixed media', year: '2025', price: '$420' },
+    { title: 'Aztec Warrior Sun Stone', medium: 'Oil on canvas', year: '2023', price: '$960' },
+    { title: 'Barrio Rose Garden', medium: 'Giclée print', year: '2025', price: '$290' }
+  ];
+
+  // Gallery cards
+  var galleryEl = document.getElementById('gallery');
+  items.forEach(function(item) {
+    var card = document.createElement('div');
+    card.className = 'gallery-card';
+    var imageDiv = document.createElement('div');
+    imageDiv.className = 'card-image';
+    card.appendChild(imageDiv);
+    var body = document.createElement('div');
+    body.className = 'card-body';
+    var tag = document.createElement('span');
+    tag.className = 'card-tag' + (item.tagClass ? ' ' + item.tagClass : '');
+    tag.textContent = item.tag;
+    body.appendChild(tag);
+    var h3 = document.createElement('h3');
+    h3.textContent = item.name;
+    body.appendChild(h3);
+    var price = document.createElement('span');
+    price.className = 'card-price';
+    price.textContent = item.price;
+    body.appendChild(price);
+    card.appendChild(body);
+    galleryEl.appendChild(card);
+  });
+
+  // Catalog table
+  var catalogBody = document.getElementById('catalog-body');
+  catalog.forEach(function(row) {
+    var tr = document.createElement('tr');
+    ['title', 'medium', 'year', 'price'].forEach(function(key) {
+      var td = document.createElement('td');
+      td.textContent = row[key];
+      tr.appendChild(td);
+    });
+    catalogBody.appendChild(tr);
+  });
+
+  // Typography
+  var typeEl = document.getElementById('type-specimen');
+  [
+    { tag: 'h1', text: 'DISPLAY HEADING H1' },
+    { tag: 'h2', text: 'SECTION HEADING H2' },
+    { tag: 'h3', text: 'SUBSECTION HEADING H3' },
+    { tag: 'p', text: 'Body text in Barlow Condensed 400. La cultura cura — celebrating community, heritage, and the power of art to tell our stories on every wall.' },
+    { tag: 'p', text: 'Medium weight (600) for emphasis and call-to-action labels.', style: 'font-weight:600' }
+  ].forEach(function(d) {
+    var el = document.createElement(d.tag);
+    el.textContent = d.text;
+    if (d.style) el.setAttribute('style', d.style);
+    typeEl.appendChild(el);
+  });
+
+  // Swatches
+  var swatchEl = document.getElementById('swatches');
+  [
+    { name: 'BG', value: 'var(--bg)' },
+    { name: 'Surface', value: 'var(--surface)' },
+    { name: 'Text', value: 'var(--text)' },
+    { name: 'Red', value: 'var(--primary)' },
+    { name: 'Gold', value: 'var(--accent)' },
+    { name: 'Turquoise', value: 'var(--turquoise)' },
+    { name: 'Cream', value: 'var(--cream)' },
+    { name: 'Deep', value: 'var(--deep)' }
+  ].forEach(function(c) {
+    var s = document.createElement('div'); s.className = 'swatch';
+    var cd = document.createElement('div'); cd.className = 'swatch-color'; cd.style.background = c.value; s.appendChild(cd);
+    var l = document.createElement('div'); l.className = 'swatch-label'; l.textContent = c.name; s.appendChild(l);
+    swatchEl.appendChild(s);
+  });
+
+  // Buttons
+  var btnRow = document.getElementById('btn-row');
+  [
+    { text: 'Red Filled', cls: 'btn btn-primary' },
+    { text: 'Gold Accent', cls: 'btn btn-accent' },
+    { text: 'Red Outline', cls: 'btn btn-outline' },
+    { text: 'Turquoise', cls: 'btn btn-ghost' }
+  ].forEach(function(b) {
+    var btn = document.createElement('button'); btn.className = b.cls; btn.textContent = b.text; btnRow.appendChild(btn);
+  });
+
+  // Badges
+  var badgeRow = document.getElementById('badge-row');
+  [
+    { text: 'Original', cls: 'badge badge-primary' },
+    { text: 'Featured', cls: 'badge badge-accent' },
+    { text: 'Sold Out', cls: 'badge badge-turquoise' },
+    { text: 'Print', cls: 'badge badge-cream' }
+  ].forEach(function(b) {
+    var el = document.createElement('span'); el.className = b.cls; el.textContent = b.text; badgeRow.appendChild(el);
+  });
+
+  // Demo card
+  var demoCard = document.getElementById('demo-card');
+  var ch = document.createElement('h3');
+  ch.style.cssText = 'font-family:var(--font-display);font-size:1.1rem;text-transform:uppercase;color:var(--primary);margin-bottom:0.5rem';
+  ch.textContent = 'Community Mural Walk';
+  demoCard.appendChild(ch);
+  var cp = document.createElement('p');
+  cp.style.cssText = 'font-size:0.85rem;color:var(--muted);line-height:1.5;margin-bottom:0.75rem';
+  cp.textContent = 'Join us every first Friday for a guided tour of East LA\'s most powerful murals. Free admission, live music, pan dulce.';
+  demoCard.appendChild(cp);
+  var cb = document.createElement('button'); cb.className = 'btn btn-outline'; cb.style.width = '100%'; cb.textContent = 'RSVP Now'; demoCard.appendChild(cb);
+
+  // Demo form
+  var demoForm = document.getElementById('demo-form');
+  var di = document.createElement('input'); di.type = 'text'; di.placeholder = 'Search murals...';
+  di.style.cssText = 'flex:1;font-family:var(--font-body);font-size:0.95rem;font-weight:500;padding:0.65rem 0.85rem;background:var(--deep);color:var(--text);border:3px solid var(--primary);border-radius:var(--radius-sm) 0 0 var(--radius-sm);border-right:none;outline:none';
+  demoForm.appendChild(di);
+  var db = document.createElement('button'); db.className = 'btn btn-primary'; db.style.cssText = 'border-radius:0 var(--radius-sm) var(--radius-sm) 0'; db.textContent = 'Search'; demoForm.appendChild(db);
+
+  // Demo table
+  var demoTableHead = document.getElementById('demo-table-head');
+  var htr = document.createElement('tr');
+  ['Mural', 'Artist', 'Medium', 'Price'].forEach(function(h) { var th = document.createElement('th'); th.textContent = h; htr.appendChild(th); });
+  demoTableHead.appendChild(htr);
+  var demoTableBody = document.getElementById('demo-table-body');
+  [
+    ['Virgen de Guadalupe', 'Carlos López', 'Spray & acrylic', '$1,200'],
+    ['Lowrider Cruising', 'Maria Sanchez', 'Screen print', '$380'],
+    ['Eagle & Serpent', 'Diego Reyes', 'Acrylic on wood', '$850'],
+    ['Aztec Sun Stone', 'Rosa Hernandez', 'Oil on canvas', '$960']
+  ].forEach(function(row) {
+    var tr = document.createElement('tr');
+    row.forEach(function(cell) { var td = document.createElement('td'); td.textContent = cell; tr.appendChild(td); });
+    demoTableBody.appendChild(tr);
+  });
+
+})();
+</script>
+
+</body>
+</html>

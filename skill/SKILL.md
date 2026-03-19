@@ -219,3 +219,50 @@ background-size: 4px 4px;
 - Color extraction is vision-based, so the goal is **mood recreation, not exact hex matching**
 - If it overlaps with existing 4 personalities (clean/bold/playful/dense), note "closest match + differences"
 - This theme can be referenced in `brand.md`: `personality: retro-90s` format
+
+## Theme Feedback Protocol
+
+테마에 대한 피드백을 받으면:
+
+1. **기록**: `~/visual-theme/FEEDBACK.md`에 해당 테마 섹션에 `- [ ]` 항목 추가
+2. **수정**: 피드백 반영 후 `- [x]` + 날짜로 업데이트
+3. **일반화**: 패턴이 다른 테마에도 적용 가능하면 → 아래 Learnings 섹션에 추가
+4. **읽기**: 테마 수정 작업 시작 전 반드시 `FEEDBACK.md` 확인 → 미해결 피드백 먼저 처리
+
+**피드백 트리거 예시:**
+- "dot이 잘 안 보여" → FEEDBACK.md에 기록 + 해당 프리뷰 수정
+- "색깔이 좀 약해" → 컬러 조정 + FEEDBACK.md 업데이트
+- "폰트가 안 맞아" → 타이포그래피 변경 + Learnings에 패턴 추가
+
+---
+
+## Learnings — Patterns from Theme Creation
+
+> **Auto-update rule**: After creating or significantly modifying a theme, append any new pattern to this section. Check for duplicates first.
+
+### Color
+- **Photo-sourced themes need a clear "pop" color** — The single most eye-catching element in the photo (Powell's red sign, taxi yellow, SoHo pink truck) should become `primary` or `accent`. Without it the theme feels flat.
+- **Dark-first themes**: If the source image is a night/dusk scene, make `colorDefaults` dark — don't force light mode as default. Dark `bg` + warm `surface` creates the right atmosphere.
+- **Avoid duplicate color values** — `primary` and a named extra (e.g. `red`, `green`) should never be the same oklch value. If they are, one is redundant.
+- **`colorDefaultsDark` must differ from `colorDefaults`** — If the theme is already dark-first, bump lightness ±5-8% on bg/surface/text so dark mode still has a distinct feel.
+
+### Typography
+- **Condensed display fonts** (Barlow Condensed, Antonio, Dela Gothic One) pair well with bold/street/urban themes. Always add `text-transform: uppercase` and `letter-spacing: 0.04em+`.
+- **Serif display** (Lora, Playfair Display, DM Serif Display) for literary/heritage themes — use `font-style: italic` sparingly, only on subtitles.
+- **Body font warmth matters** — DM Sans / Source Serif 4 feel warmer than Inter. Match body font warmth to theme warmth.
+
+### Structure
+- **Always update all 3 places in index.html** when adding a theme: sidebar HTML, `previewUrls` object, `themeNames` object. Missing any one = theme is invisible or broken.
+- **Source/docs sync** — Every theme JSON in `docs/themes/` must also exist in `themes/` (source). Update both `manifest.json` files.
+- **Cache-busting** — When iterating on a preview HTML, add `?v=N` to the previewUrl to bypass iframe cache.
+
+### Enum Values (THEME_FORMAT.md compliance)
+- `spacing.density`: only `compact`, `dense`, `default`, `airy`, `spacious`
+- `depth.shadowStyle`: only `none`, `flat`, `neutral`, `strong`, `hard`, `glow`
+- `demo.type`: only `shop`, `bar`, `saas`, `fitness`, `edu`, `dashboard`
+- `radiusFull`: always `"9999px"` (not `"999px"`)
+
+### Preview HTML
+- **Preview must have Components showcase** — Typography, Colors, Buttons, Badges, Card, Form, Table sections at the bottom. This is what the gallery's "Components" tab shows.
+- **Hardcoded oklch values in CSS** — When primary/accent colors are used inline (borders, shadows, gradients), they must be updated if the JSON color changes. Using `var(--primary)` where possible avoids this.
+- **Film grain / texture overlays** — Use `position: fixed; inset: 0; pointer-events: none; z-index: 9999` with low opacity (0.02-0.05) for paper/grain effects. Higher z-index so it covers everything.

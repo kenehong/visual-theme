@@ -1,0 +1,79 @@
+{
+  "name": "Chicano Mural",
+  "description": "LA/Southwest Chicano mural art — bold saturated colors, cultural pride, street art energy. Deep warm tones with vibrant red, gold, turquoise accents. Strong typography with condensed lettering.",
+  "source": "Chicano street murals — LA barrio walls, Día de los Muertos iconography, lowrider culture, bold figurative art, sun/eagle/rose motifs",
+  "mood": ["powerful", "cultural", "vibrant"],
+  "shape": {
+    "radiusSm": "4px",
+    "radiusMd": "8px",
+    "radiusLg": "12px",
+    "radiusFull": "9999px",
+    "borderWidth": "3px"
+  },
+  "typography": {
+    "fontSans": "'Barlow Condensed', 'Impact', 'Arial Narrow', sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Dela Gothic One', 'Impact', sans-serif",
+    "weightNormal": 400,
+    "weightMedium": 600,
+    "weightBold": 800,
+    "letterSpacingHeading": "0.04em",
+    "letterSpacingBody": "0.01em",
+    "lineHeight": 1.5,
+    "lineHeightHeading": 1.05,
+    "textTransformHeading": "uppercase"
+  },
+  "spacing": {
+    "density": "default",
+    "scale": 1.05
+  },
+  "depth": {
+    "shadowSm": "0 2px 6px oklch(25% 0.05 30 / 0.2)",
+    "shadowMd": "0 4px 14px oklch(25% 0.05 30 / 0.3)",
+    "shadowLg": "0 8px 28px oklch(25% 0.05 30 / 0.35)",
+    "shadowStyle": "strong"
+  },
+  "motion": {
+    "durationFast": "120ms",
+    "durationNormal": "250ms",
+    "easing": "cubic-bezier(0.25, 0, 0.2, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(18% 0.02 30)",
+    "surface": "oklch(22% 0.025 30)",
+    "text": "oklch(92% 0.02 90)",
+    "primary": "oklch(58% 0.22 28)",
+    "accent": "oklch(78% 0.16 90)",
+    "turquoise": "oklch(62% 0.12 195)",
+    "cream": "oklch(90% 0.04 90)",
+    "deep": "oklch(12% 0.03 30)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(10% 0.02 30)",
+    "surface": "oklch(15% 0.025 30)",
+    "text": "oklch(92% 0.02 90)",
+    "primary": "oklch(60% 0.24 28)",
+    "accent": "oklch(80% 0.18 90)"
+  },
+  "demo": {
+    "type": "shop",
+    "title": "Casa de Arte",
+    "subtitle": "Murales y Cultura — East Los Angeles",
+    "items": [
+      { "name": "Virgen de Guadalupe Mural", "price": "$1,200", "tag": "Original" },
+      { "name": "Lowrider Cruising Print", "price": "$380", "tag": "Featured" },
+      { "name": "Eagle & Serpent Panel", "price": "$850", "tag": "Sold Out" },
+      { "name": "Día de Muertos Calavera", "price": "$420", "tag": "New" },
+      { "name": "Aztec Warrior Sun Stone", "price": "$960", "tag": "Original" },
+      { "name": "Barrio Rose Garden", "price": "$290", "tag": "Print" }
+    ],
+    "banner": "La Cultura Cura"
+  },
+  "suggestions": {
+    "icons": "Bold line icons (stroke 2.5px) or hand-painted mural motifs — roses, eagles, suns, skulls",
+    "components": "thick borders, bold card frames, ribbon banners, painted-edge dividers, gradient overlays with warm-to-cool transitions, stacked uppercase labels",
+    "avoid": "thin delicate lines, pastel colors, minimalist whitespace-heavy layouts, corporate aesthetic, small lightweight fonts",
+    "googleFonts": "Dela+Gothic+One&family=Barlow+Condensed:wght@400;500;600;700;800",
+    "texture": "gritty wall texture overlays, paint splatter accents, warm gradient backgrounds (deep red to gold), worn/distressed edge effects via box-shadow"
+  }
+}

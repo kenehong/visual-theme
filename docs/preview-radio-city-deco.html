@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RADIO CITY — The Showplace of the Nation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Righteous&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: oklch(10% 0.01 260);
+    --surface: oklch(15% 0.015 260);
+    --text: oklch(90% 0.01 260);
+    --muted: oklch(55% 0.01 260);
+    --red: oklch(62% 0.25 25);
+    --blue: oklch(60% 0.2 260);
+    --amber: oklch(75% 0.15 70);
+    --pink: oklch(65% 0.22 350);
+    --surface-glass: oklch(15% 0.015 260 / 0.55);
+    --glow-red: 0 0 8px oklch(62% 0.25 25 / 0.5), 0 0 28px oklch(62% 0.25 25 / 0.25);
+    --glow-blue: 0 0 8px oklch(60% 0.2 260 / 0.5), 0 0 28px oklch(60% 0.2 260 / 0.25);
+    --glow-amber: 0 0 8px oklch(75% 0.15 70 / 0.4), 0 0 20px oklch(75% 0.15 70 / 0.2);
+    --glow-pink: 0 0 8px oklch(65% 0.22 350 / 0.4), 0 0 20px oklch(65% 0.22 350 / 0.2);
+    --font-display: 'Righteous', 'Arial Black', sans-serif;
+    --font-body: 'DM Sans', -apple-system, 'Segoe UI', sans-serif;
+    --radius-sm: 2px;
+    --radius-md: 4px;
+    --radius-lg: 8px;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+
+  /* Noise overlay */
+  body::before {
+    content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 1.25rem; position: relative; z-index: 1; }
+
+  /* Glass panel */
+  .glass {
+    background: var(--surface-glass);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid oklch(90% 0.01 260 / 0.08);
+    border-radius: var(--radius-lg);
+  }
+
+  /* Neon text */
+  .neon-red { color: var(--red); text-shadow: var(--glow-red); }
+  .neon-blue { color: var(--blue); text-shadow: var(--glow-blue); }
+  .neon-amber { color: var(--amber); text-shadow: var(--glow-amber); }
+  .neon-pink { color: var(--pink); text-shadow: var(--glow-pink); }
+
+  /* Flicker */
+  @keyframes flicker {
+    0%, 100% { opacity: 1; } 4% { opacity: 0.88; } 6% { opacity: 1; }
+    42% { opacity: 1; } 44% { opacity: 0.78; } 46% { opacity: 1; }
+    80% { opacity: 1; } 82% { opacity: 0.85; } 83% { opacity: 1; }
+  }
+  .flicker { animation: flicker 4s infinite; }
+  .flicker-slow { animation: flicker 6s infinite 1.5s; }
+
+  /* Marquee scroll */
+  @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* === HEADER === */
+  .header {
+    text-align: center; padding: 4rem 1rem 2.5rem; position: relative; overflow: hidden;
+  }
+  .header::before {
+    content: ''; position: absolute; left: 50%; top: 0; translate: -50% 0;
+    width: 700px; height: 500px; border-radius: 50%; z-index: -1;
+    background: radial-gradient(ellipse, oklch(62% 0.25 25 / 0.1) 0%, oklch(60% 0.2 260 / 0.06) 40%, transparent 70%);
+  }
+
+  /* Vertical neon lines flanking the title */
+  .header-frame {
+    display: inline-flex; align-items: center; gap: 1.5rem;
+    padding: 2rem 2.5rem; position: relative;
+    border: 1px solid oklch(62% 0.25 25 / 0.3);
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 20px oklch(62% 0.25 25 / 0.15), inset 0 0 20px oklch(62% 0.25 25 / 0.04);
+  }
+  .neon-bar {
+    width: 3px; height: 100%; min-height: 80px;
+    border-radius: 2px;
+    box-shadow: 0 0 8px oklch(62% 0.25 25 / 0.6), 0 0 20px oklch(62% 0.25 25 / 0.3);
+    background: var(--red);
+  }
+  .neon-bar.blue {
+    background: var(--blue);
+    box-shadow: 0 0 8px oklch(60% 0.2 260 / 0.6), 0 0 20px oklch(60% 0.2 260 / 0.3);
+  }
+  .header-text { text-align: center; }
+  .header h1 {
+    font-family: var(--font-display); font-size: clamp(3rem, 9vw, 5.5rem);
+    letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.1;
+    color: var(--red);
+    text-shadow: 0 0 12px oklch(62% 0.25 25 / 0.6), 0 0 48px oklch(62% 0.25 25 / 0.3), 0 0 96px oklch(62% 0.25 25 / 0.12);
+  }
+  .header-sub {
+    font-size: 0.8rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--amber); margin-top: 0.5rem;
+    text-shadow: var(--glow-amber);
+  }
+
+  /* === DECO DIVIDER (chevron pattern) === */
+  .deco-divider {
+    height: 24px; margin: 1.5rem 0;
+    background:
+      repeating-linear-gradient(135deg, oklch(62% 0.25 25 / 0.5) 0 2px, transparent 2px 12px),
+      repeating-linear-gradient(45deg, oklch(60% 0.2 260 / 0.5) 0 2px, transparent 2px 12px);
+  }
+  .deco-line {
+    height: 1px; margin: 2rem 0;
+    background: linear-gradient(90deg, transparent, var(--red), var(--blue), var(--red), transparent);
+    opacity: 0.5;
+  }
+
+  /* === NEON SIGNS GRID === */
+  .signs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; padding: 1.5rem 0; }
+  .sign {
+    text-align: center; padding: 1.5rem 1rem; border-radius: var(--radius-md);
+    font-family: var(--font-display); font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    letter-spacing: 0.06em; text-transform: uppercase;
+    border: 1px solid oklch(90% 0.01 260 / 0.06); background: oklch(12% 0.01 260 / 0.6);
+    transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .sign:hover { transform: scale(1.04); }
+
+  /* === SHOW CARDS === */
+  .shows { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 1.25rem; padding: 2rem 0; }
+  .show-card {
+    padding: 1.75rem 1.25rem; text-align: center; position: relative;
+    border-top: 2px solid var(--red);
+    box-shadow: 0 -4px 16px oklch(62% 0.25 25 / 0.12);
+  }
+  /* Deco corner accents */
+  .show-card::before, .show-card::after {
+    content: ''; position: absolute; width: 18px; height: 18px;
+    border-color: var(--blue); border-style: solid;
+  }
+  .show-card::before { bottom: 6px; left: 6px; border-width: 0 0 1px 1px; }
+  .show-card::after { bottom: 6px; right: 6px; border-width: 0 1px 1px 0; }
+  .show-card h3 {
+    font-family: var(--font-display); font-size: 1.15rem; font-weight: 400;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--red); text-shadow: var(--glow-red);
+    margin-bottom: 0.5rem;
+  }
+  .show-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+  .show-price {
+    font-family: var(--font-display); font-size: 1.4rem;
+    color: var(--amber); text-shadow: var(--glow-amber);
+    margin-top: 0.75rem; display: block;
+  }
+  .show-tag {
+    display: inline-block; font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.6rem;
+    border-radius: var(--radius-sm); text-transform: uppercase; letter-spacing: 0.06em;
+    margin-top: 0.5rem;
+  }
+  .tag-classic { background: oklch(62% 0.25 25 / 0.15); color: var(--red); }
+  .tag-live { background: oklch(60% 0.2 260 / 0.15); color: var(--blue); }
+  .tag-new { background: oklch(65% 0.22 350 / 0.15); color: var(--pink); }
+
+  /* === MARQUEE BANNER === */
+  .marquee-wrap {
+    overflow: hidden; padding: 1rem 0; margin: 1rem 0;
+    border-top: 1px solid oklch(62% 0.25 25 / 0.3);
+    border-bottom: 1px solid oklch(62% 0.25 25 / 0.3);
+    background: oklch(12% 0.01 260 / 0.8);
+  }
+  .marquee-track {
+    display: flex; width: max-content;
+    animation: marquee 18s linear infinite;
+  }
+  .marquee-text {
+    font-family: var(--font-display); font-size: clamp(1rem, 3vw, 1.4rem);
+    letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap;
+    padding: 0 2rem;
+    color: var(--amber); text-shadow: var(--glow-amber);
+  }
+  .marquee-star { color: var(--red); padding: 0 1rem; text-shadow: var(--glow-red); }
+
+  /* === SCHEDULE TABLE === */
+  .schedule { padding: 2rem 0; text-align: center; }
+  .schedule h2, .tickets h2 {
+    font-family: var(--font-display); font-size: 1.4rem; letter-spacing: 0.06em;
+    text-transform: uppercase; margin-bottom: 1.5rem;
+  }
+  .schedule-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .schedule-table th, .schedule-table td { padding: 0.65rem 1rem; text-align: left; }
+  .schedule-table th {
+    font-family: var(--font-display); font-weight: 400; font-size: 0.7rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--red); border-bottom: 2px solid var(--red);
+  }
+  .schedule-table td {
+    border-bottom: 1px solid oklch(25% 0.01 260); font-weight: 400;
+  }
+  .schedule-table td:last-child {
+    text-align: right; font-family: var(--font-display); color: var(--amber);
+    text-shadow: var(--glow-amber);
+  }
+
+  /* === TICKET FORM === */
+  .tickets { padding: 2rem 0; text-align: center; }
+  .form-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    max-width: 520px; margin: 0 auto;
+  }
+  .form-group { text-align: left; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label {
+    display: block; font-size: 0.7rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 0.35rem;
+  }
+  .form-group input, .form-group select {
+    width: 100%; font-family: var(--font-body); font-size: 0.9rem;
+    padding: 0.6rem 0.75rem; background: var(--surface);
+    color: var(--text); border: 1px solid oklch(62% 0.25 25 / 0.25);
+    border-radius: var(--radius-sm); outline: none;
+    transition: box-shadow 250ms, border-color 250ms;
+  }
+  .form-group input:focus, .form-group select:focus {
+    border-color: oklch(62% 0.25 25 / 0.6);
+    box-shadow: 0 0 12px oklch(62% 0.25 25 / 0.25);
+  }
+  .form-group input::placeholder { color: oklch(40% 0.01 260); }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-body); font-weight: 600; font-size: 0.8rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.7rem 2rem; cursor: pointer; transition: all 250ms;
+    border-radius: var(--radius-sm);
+  }
+  .btn-red {
+    background: oklch(62% 0.25 25 / 0.15); color: var(--red);
+    border: 1px solid oklch(62% 0.25 25 / 0.5); box-shadow: var(--glow-red);
+  }
+  .btn-red:hover { background: oklch(62% 0.25 25 / 0.25); }
+  .btn-blue {
+    background: oklch(60% 0.2 260 / 0.15); color: var(--blue);
+    border: 1px solid oklch(60% 0.2 260 / 0.5); box-shadow: var(--glow-blue);
+  }
+  .btn-blue:hover { background: oklch(60% 0.2 260 / 0.25); }
+  .btn-amber {
+    background: oklch(75% 0.15 70 / 0.15); color: var(--amber);
+    border: 1px solid oklch(75% 0.15 70 / 0.5); box-shadow: var(--glow-amber);
+  }
+  .btn-amber:hover { background: oklch(75% 0.15 70 / 0.25); }
+  .btn-outline {
+    background: transparent; color: var(--text);
+    border: 1px solid oklch(90% 0.01 260 / 0.2);
+  }
+  .btn-outline:hover { border-color: oklch(90% 0.01 260 / 0.4); }
+  .btn-full { width: 100%; }
+
+  /* === VERTICAL DECO ACCENTS === */
+  .deco-vert {
+    position: fixed; top: 0; bottom: 0; width: 3px; z-index: 0; pointer-events: none;
+    opacity: 0.12;
+  }
+  .deco-vert.left { left: 1.5rem; background: linear-gradient(180deg, transparent, var(--red), var(--blue), transparent); }
+  .deco-vert.right { right: 1.5rem; background: linear-gradient(180deg, transparent, var(--blue), var(--red), transparent); }
+
+  /* === FOOTER === */
+  .footer-pattern {
+    height: 24px;
+    background:
+      repeating-linear-gradient(135deg, oklch(62% 0.25 25 / 0.4) 0 2px, transparent 2px 12px),
+      repeating-linear-gradient(45deg, oklch(60% 0.2 260 / 0.4) 0 2px, transparent 2px 12px);
+  }
+  .footer {
+    text-align: center; padding: 1.5rem 1rem;
+    font-size: 0.8rem; color: var(--muted); line-height: 2;
+    letter-spacing: 0.08em;
+  }
+
+  /* === COMPONENT SHOWCASE === */
+  .showcase-sep { margin: 3rem 0 2rem; border: none; border-top: 1px solid var(--red); }
+  .showcase-title {
+    font-family: var(--font-display); font-size: 1.6rem;
+    letter-spacing: 0.06em; text-transform: uppercase; text-align: center;
+    margin-bottom: 2rem;
+  }
+  .section-label {
+    font-weight: 700; font-size: 0.75rem; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--muted);
+    border-bottom: 1px solid oklch(25% 0.01 260); padding-bottom: 0.35rem; margin-bottom: 0.75rem;
+  }
+  .comp-section { margin-bottom: 2.5rem; }
+
+  /* Typography specimen */
+  .type-h1 { font-family: var(--font-display); font-size: 2.4rem; letter-spacing: 0.06em; text-transform: uppercase; }
+  .type-h2 { font-family: var(--font-display); font-size: 1.5rem; letter-spacing: 0.06em; text-transform: uppercase; }
+  .type-h3 { font-family: var(--font-body); font-weight: 700; font-size: 1.1rem; }
+  .type-body { font-size: 0.95rem; color: oklch(70% 0.01 260); max-width: 60ch; }
+
+  /* Swatches */
+  .swatches { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .swatch { width: 80px; border: 1px solid oklch(90% 0.01 260 / 0.1); border-radius: var(--radius-sm); overflow: hidden; }
+  .swatch-color { height: 56px; }
+  .swatch-label {
+    padding: 0.3rem 0.4rem; font-size: 0.6rem; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    background: var(--surface); text-align: center;
+    border-top: 1px solid oklch(90% 0.01 260 / 0.08); color: var(--muted);
+  }
+
+  /* Badge */
+  .badge {
+    display: inline-block; padding: 0.2rem 0.65rem; font-weight: 700;
+    font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
+    border-radius: var(--radius-sm);
+  }
+  .badge-red { background: oklch(62% 0.25 25 / 0.15); color: var(--red); }
+  .badge-blue { background: oklch(60% 0.2 260 / 0.15); color: var(--blue); }
+  .badge-amber { background: oklch(75% 0.15 70 / 0.15); color: var(--amber); }
+  .badge-pink { background: oklch(65% 0.22 350 / 0.15); color: var(--pink); }
+  .badge-outline { background: transparent; border: 1px solid oklch(90% 0.01 260 / 0.2); color: var(--muted); }
+
+  .btn-row, .badge-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+
+  /* Demo card */
+  .demo-card {
+    padding: 1.5rem; max-width: 320px; position: relative;
+    border-top: 2px solid var(--red);
+    box-shadow: 0 -4px 16px oklch(62% 0.25 25 / 0.12);
+  }
+  .demo-card::before, .demo-card::after {
+    content: ''; position: absolute; width: 14px; height: 14px;
+    border-color: var(--blue); border-style: solid;
+  }
+  .demo-card::before { bottom: 5px; left: 5px; border-width: 0 0 1px 1px; }
+  .demo-card::after { bottom: 5px; right: 5px; border-width: 0 1px 1px 0; }
+
+  /* Form row */
+  .form-row { display: flex; gap: 0; max-width: 400px; }
+  .input-neon {
+    flex: 1; padding: 0.6rem 0.75rem; font-family: var(--font-body); font-size: 0.9rem;
+    background: var(--surface); color: var(--text);
+    border: 1px solid oklch(62% 0.25 25 / 0.25); border-right: none;
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm); outline: none;
+    transition: all 250ms;
+  }
+  .input-neon::placeholder { color: oklch(40% 0.01 260); }
+  .input-neon:focus { border-color: oklch(62% 0.25 25 / 0.6); box-shadow: 0 0 10px oklch(62% 0.25 25 / 0.2); }
+  .btn-form-submit { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+
+  /* Demo table */
+  .demo-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .demo-table th, .demo-table td { padding: 0.55rem 0.75rem; text-align: left; }
+  .demo-table th {
+    font-family: var(--font-display); font-weight: 400; font-size: 0.7rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--red); border-bottom: 2px solid var(--red);
+  }
+  .demo-table td { border-bottom: 1px solid oklch(25% 0.01 260); }
+
+  @media (max-width: 600px) {
+    .signs { grid-template-columns: repeat(2, 1fr); }
+    .shows { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    .form-group.full { grid-column: 1; }
+    .header-frame { flex-direction: column; gap: 1rem; padding: 1.5rem 1.5rem; }
+    .neon-bar { width: 100%; height: 3px; min-height: auto; }
+    .deco-vert { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Vertical deco accent lines -->
+<div class="deco-vert left"></div>
+<div class="deco-vert right"></div>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-frame">
+      <div class="neon-bar flicker-slow"></div>
+      <div class="header-text">
+        <h1 class="flicker">RADIO CITY</h1>
+        <div class="header-sub">The Showplace of the Nation &mdash; Est. 1932</div>
+      </div>
+      <div class="neon-bar blue flicker"></div>
+    </div>
+  </header>
+
+  <!-- Deco divider -->
+  <div class="deco-divider"></div>
+
+  <!-- Neon signs -->
+  <section class="signs">
+    <div class="sign neon-red flicker-slow">SHOW</div>
+    <div class="sign neon-blue">LIVE</div>
+    <div class="sign neon-amber flicker">TONIGHT</div>
+  </section>
+
+  <div class="deco-line"></div>
+
+  <!-- Show cards -->
+  <section class="shows">
+    <div class="glass show-card">
+      <h3>The Rockettes</h3>
+      <p>Precision dance spectacular. The legendary kick line returns for a dazzling holiday performance.</p>
+      <span class="show-price">$95</span>
+      <span class="show-tag tag-classic">Classic</span>
+    </div>
+    <div class="glass show-card">
+      <h3>Jazz Night</h3>
+      <p>The Marcus Cole Quartet. Swing-era standards under the Great Stage chandeliers.</p>
+      <span class="show-price">$65</span>
+      <span class="show-tag tag-live">Live</span>
+    </div>
+    <div class="glass show-card">
+      <h3>Comedy Hour</h3>
+      <p>Stand-up and sketch comedy. New voices from the NYC underground comedy scene.</p>
+      <span class="show-price">$45</span>
+      <span class="show-tag tag-new">New</span>
+    </div>
+  </section>
+
+  <!-- Marquee banner -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span class="marquee-text">Holiday Spectacular &mdash; Tickets On Sale Now</span>
+      <span class="marquee-star">&#9830;</span>
+      <span class="marquee-text">Holiday Spectacular &mdash; Tickets On Sale Now</span>
+      <span class="marquee-star">&#9830;</span>
+      <span class="marquee-text">Holiday Spectacular &mdash; Tickets On Sale Now</span>
+      <span class="marquee-star">&#9830;</span>
+      <span class="marquee-text">Holiday Spectacular &mdash; Tickets On Sale Now</span>
+      <span class="marquee-star">&#9830;</span>
+    </div>
+  </div>
+
+  <div class="deco-line"></div>
+
+  <!-- Schedule table -->
+  <section class="schedule">
+    <h2 class="neon-red">THIS WEEK</h2>
+    <table class="schedule-table">
+      <thead>
+        <tr><th>Show</th><th>Date</th><th>Time</th><th>Tickets</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>The Rockettes</td><td>Fri, Dec 20</td><td>7:30 PM</td><td>$95</td></tr>
+        <tr><td>Jazz Night</td><td>Sat, Dec 21</td><td>9:00 PM</td><td>$65</td></tr>
+        <tr><td>Comedy Hour</td><td>Thu, Dec 19</td><td>8:00 PM</td><td>$45</td></tr>
+        <tr><td>Holiday Spectacular</td><td>Sun, Dec 22</td><td>2:00 PM</td><td>$120</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="deco-divider"></div>
+
+  <!-- Ticket form -->
+  <section class="tickets">
+    <h2 class="neon-blue">PURCHASE TICKETS</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" placeholder="Your name">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" placeholder="you@email.com">
+      </div>
+      <div class="form-group">
+        <label>Show</label>
+        <select>
+          <option>The Rockettes</option>
+          <option>Jazz Night</option>
+          <option>Comedy Hour</option>
+          <option>Holiday Spectacular</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Tickets</label>
+        <select>
+          <option>1 Ticket</option>
+          <option>2 Tickets</option>
+          <option>4 Tickets</option>
+          <option>6 Tickets</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <button class="btn btn-red btn-full">Buy Tickets</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <div class="footer-pattern"></div>
+  <footer class="footer">
+    1260 6th Avenue, New York, NY 10020<br>
+    Box Office: (212) 247-4777<br>
+    <span style="opacity:0.5">&copy; 1932&ndash;2026 Radio City Music Hall</span>
+  </footer>
+
+  <!-- ============ COMPONENT SHOWCASE ============ -->
+  <hr class="showcase-sep">
+  <div class="showcase-title neon-red" id="components">COMPONENTS</div>
+
+  <!-- Typography -->
+  <div class="comp-section">
+    <div class="section-label">Typography</div>
+    <p class="type-h1 neon-red" style="margin-bottom:0.35rem;">Display Heading H1</p>
+    <p class="type-h2 neon-blue" style="margin-bottom:0.35rem;">Section Heading H2</p>
+    <p class="type-h3" style="margin-bottom:0.35rem;">Subsection Heading H3</p>
+    <p class="type-body">Body text in DM Sans. Clean, readable, modern. Designed for dark theater interiors where neon headlines command attention and body copy stays legible and calm.</p>
+  </div>
+
+  <!-- Colors -->
+  <div class="comp-section">
+    <div class="section-label">Colors</div>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-color" style="background:var(--red)"></div><div class="swatch-label">Red</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--blue)"></div><div class="swatch-label">Blue</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--amber)"></div><div class="swatch-label">Amber</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--pink)"></div><div class="swatch-label">Pink</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--surface)"></div><div class="swatch-label">Surface</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--bg)"></div><div class="swatch-label">BG</div></div>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="comp-section">
+    <div class="section-label">Buttons</div>
+    <div class="btn-row">
+      <button class="btn btn-red">Red Neon</button>
+      <button class="btn btn-blue">Blue Neon</button>
+      <button class="btn btn-amber">Amber</button>
+      <button class="btn btn-outline">Outline</button>
+    </div>
+  </div>
+
+  <!-- Badges -->
+  <div class="comp-section">
+    <div class="section-label">Badges</div>
+    <div class="badge-row">
+      <span class="badge badge-red">Classic</span>
+      <span class="badge badge-blue">Live</span>
+      <span class="badge badge-amber">VIP</span>
+      <span class="badge badge-pink">New</span>
+      <span class="badge badge-outline">General</span>
+    </div>
+  </div>
+
+  <!-- Card -->
+  <div class="comp-section">
+    <div class="section-label">Card with Deco Corners</div>
+    <div class="glass demo-card">
+      <p style="font-family:var(--font-display); font-size:1.1rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--red); text-shadow:var(--glow-red); margin-bottom:0.5rem;">Great Stage</p>
+      <p class="type-body" style="margin-bottom:0.75rem;">The largest indoor theater in the world. 5,960 seats beneath a soaring art deco ceiling.</p>
+      <button class="btn btn-outline" style="width:100%;">View Seating</button>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div class="comp-section">
+    <div class="section-label">Form Input + Button</div>
+    <div class="form-row">
+      <input class="input-neon" type="email" placeholder="your@email.com">
+      <button class="btn btn-red btn-form-submit">Subscribe</button>
+    </div>
+  </div>
+
+  <!-- Glass panel -->
+  <div class="comp-section">
+    <div class="section-label">Glass Morphism Panel</div>
+    <div class="glass" style="padding:1.5rem 2rem; max-width:440px;">
+      <p style="font-weight:600; margin-bottom:0.35rem;">Glass Panel</p>
+      <p class="type-body">Semi-transparent surface with backdrop blur. Content floats above the deep dark background, bordered by a subtle light edge. Neon accents bleed through.</p>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="comp-section">
+    <div class="section-label">Data Table</div>
+    <table class="demo-table">
+      <thead>
+        <tr><th>Show</th><th>Venue</th><th>Time</th><th>Price</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>The Rockettes</td><td>Great Stage</td><td>7:30 PM</td><td>$95</td></tr>
+        <tr><td>Jazz Night</td><td>Rainbow Room</td><td>9:00 PM</td><td>$65</td></tr>
+        <tr><td>Comedy Hour</td><td>Studio 6A</td><td>8:00 PM</td><td>$45</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="height:2rem;"></div>
+</div>
+
+</body>
+</html>

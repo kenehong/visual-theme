@@ -1,0 +1,81 @@
+{
+  "name": "Powell's Twilight",
+  "description": "Powell's Books storefront at dusk in Portland. Warm amber window glow against grey overcast sky, vintage bookstore signage, urban street scene at twilight. Literary, cozy, and quietly luminous.",
+  "source": "Powell's City of Books, Portland OR — storefront at dusk, warm interior glow, vintage signage",
+  "mood": ["literary", "warm", "twilight"],
+  "shape": {
+    "radiusSm": "3px",
+    "radiusMd": "6px",
+    "radiusLg": "10px",
+    "radiusFull": "9999px",
+    "borderWidth": "1px"
+  },
+  "typography": {
+    "fontSans": "'Source Serif 4', Georgia, 'Times New Roman', serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Lora', Georgia, serif",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "0.01em",
+    "letterSpacingBody": "0em",
+    "lineHeight": 1.7,
+    "lineHeightHeading": 1.2,
+    "textTransformHeading": "none"
+  },
+  "spacing": {
+    "density": "airy",
+    "scale": 1.1
+  },
+  "depth": {
+    "shadowSm": "0 1px 4px oklch(55% 0.06 60 / 0.1)",
+    "shadowMd": "0 4px 14px oklch(55% 0.06 60 / 0.12)",
+    "shadowLg": "0 8px 28px oklch(55% 0.06 60 / 0.15)",
+    "shadowStyle": "warm-neutral"
+  },
+  "motion": {
+    "durationFast": "120ms",
+    "durationNormal": "220ms",
+    "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(96% 0.01 60)",
+    "surface": "oklch(99% 0.005 60)",
+    "text": "oklch(25% 0.02 50)",
+    "primary": "oklch(52% 0.2 25)",
+    "accent": "oklch(55% 0.12 60)",
+    "muted": "oklch(60% 0.03 60)",
+    "amber": "oklch(70% 0.14 70)",
+    "sage": "oklch(62% 0.06 155)",
+    "burgundy": "oklch(40% 0.14 20)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(18% 0.015 50)",
+    "surface": "oklch(23% 0.02 50)",
+    "text": "oklch(90% 0.01 60)",
+    "primary": "oklch(58% 0.2 25)",
+    "accent": "oklch(60% 0.12 60)"
+  },
+  "demo": {
+    "type": "bookshop",
+    "title": "Powell's",
+    "subtitle": "City of Books \u2014 Used & New Since 1971",
+    "items": [
+      { "name": "The Left Hand of Darkness", "price": "$8.95", "tag": "Staff Pick" },
+      { "name": "Leaves of Grass (1st ed.)", "price": "$425", "tag": "Rare" },
+      { "name": "Piranesi", "price": "$14.99", "tag": "Fiction" },
+      { "name": "The Overstory", "price": "$6.50", "tag": "Used" },
+      { "name": "Braiding Sweetgrass", "price": "$16.99", "tag": "Staff Pick" },
+      { "name": "Kitchen Confidential", "price": "$4.95", "tag": "Used" }
+    ],
+    "sections": ["Staff Picks", "Recent Arrivals"],
+    "banner": "Buy 2 Used, Get 1 Free \u2014 This Weekend"
+  },
+  "suggestions": {
+    "icons": "Lucide (stroke 1.5px), warm and understated",
+    "components": "book cards with warm shadows, serif headings, paper-textured surfaces, warm amber highlights, literary blockquotes, genre tag badges, aged/worn accents",
+    "avoid": "neon colors, uppercase headings, heavy animations, cold blues, sharp geometric shapes, dark mode as default",
+    "googleFonts": "Lora:wght@400;500;600;700&family=Source+Serif+4:wght@400;500;600;700",
+    "texture": "subtle paper grain on surfaces, warm-tinted shadows for depth"
+  }
+}

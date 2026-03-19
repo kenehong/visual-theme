@@ -1,0 +1,96 @@
+{
+  "name": "Tesla Run",
+  "description": "Tesla FSD 자율주행 레이싱 게임에서 추출한 테마. 다크 그레이 도로 배경, FSD 블루 악센트, Manrope UI 폰트, Tesla 대시보드 스타일.",
+  "source": "Tesla Run FSD racing game — dark gray road, FSD blue accents, Tesla dashboard-style HUD, Manrope typography",
+  "mood": ["sleek", "automotive", "futuristic"],
+
+  "shape": {
+    "radiusSm": "4px",
+    "radiusMd": "8px",
+    "radiusLg": "12px",
+    "radiusFull": "9999px",
+    "borderWidth": "1px"
+  },
+
+  "typography": {
+    "fontSans": "'Manrope', -apple-system, 'Pretendard', 'Segoe UI', sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', Consolas, monospace",
+    "fontDisplay": "'Manrope', -apple-system, sans-serif",
+    "weightNormal": 400,
+    "weightMedium": 600,
+    "weightBold": 800,
+    "letterSpacingHeading": "-0.03em",
+    "letterSpacingBody": "0em",
+    "lineHeight": 1.6,
+    "lineHeightHeading": 1.1,
+    "textTransformHeading": "none"
+  },
+
+  "spacing": {
+    "density": "default",
+    "scale": 1.0
+  },
+
+  "depth": {
+    "shadowSm": "0 0 8px oklch(59.8% 0.181 255 / 0.15)",
+    "shadowMd": "0 0 16px oklch(59.8% 0.181 255 / 0.2)",
+    "shadowLg": "0 0 24px oklch(59.8% 0.181 255 / 0.3)",
+    "shadowStyle": "glow"
+  },
+
+  "motion": {
+    "durationFast": "150ms",
+    "durationNormal": "300ms",
+    "easing": "cubic-bezier(0.4, 0, 0.2, 1)"
+  },
+
+  "colorDefaults": {
+    "bg": "oklch(97% 0.002 250)",
+    "surface": "oklch(100% 0 0)",
+    "text": "oklch(20% 0.005 250)",
+    "primary": "oklch(59.8% 0.181 255)",
+    "accent": "oklch(77.3% 0.127 231)",
+    "red": "oklch(60.8% 0.209 27)",
+    "green": "oklch(62.9% 0.154 144)",
+    "yellow": "oklch(73.5% 0.146 84)"
+  },
+
+  "colorDefaultsDark": {
+    "bg": "oklch(30.1% 0.000 90)",
+    "surface": "oklch(25.0% 0.000 90)",
+    "surface2": "oklch(32.1% 0.000 90)",
+    "border": "oklch(38% 0.000 90)",
+    "text": "oklch(95% 0.000 90)",
+    "textSecondary": "oklch(60% 0.000 90)",
+    "primary": "oklch(59.8% 0.181 255)",
+    "accent": "oklch(77.3% 0.127 231)",
+    "red": "oklch(60.8% 0.209 27)",
+    "redLight": "oklch(68.8% 0.142 21)",
+    "green": "oklch(62.9% 0.154 144)",
+    "yellow": "oklch(73.5% 0.146 84)",
+    "vehicleGray": "oklch(45.0% 0.000 90)",
+    "boundaryRed": "oklch(54.5% 0.204 27)",
+    "darkBlue": "oklch(42.2% 0.157 260)",
+    "laneWhite": "oklch(90.7% 0.000 90)"
+  },
+
+  "demo": {
+    "type": "fitness",
+    "title": "TESLA RUN",
+    "subtitle": "Autopilot Edition",
+    "stats": [
+      { "label": "Time", "value": "24.3s", "color": "accent" },
+      { "label": "Cars Dodged", "value": "47", "color": "primary" },
+      { "label": "Top Speed", "value": "185", "color": "green" },
+      { "label": "Distance", "value": "100%", "color": "yellow" }
+    ]
+  },
+
+  "suggestions": {
+    "googleFonts": "Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700",
+    "icons": "Minimal status icons (circle dot, camera, radar, warning triangle), stroke width 1.5px",
+    "components": "gradient text (light-blue-to-fsd-blue), blue glow on active/hover, dark cards with subtle borders, progress bars, stat cards, pulsing dot indicators",
+    "avoid": "bright backgrounds, playful/rounded elements, heavy textures, serif fonts",
+    "texture": "faint road-line repeating pattern at 0.08 opacity for backgrounds"
+  }
+}

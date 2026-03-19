@@ -1,0 +1,88 @@
+{
+  "name": "Boston Heritage",
+  "description": "보스턴 올드타운 헤리티지. 붉은 벽돌 아치, 포레스트 그린 금속 셔터, 굵은 응축 세리프 타이포그래피. Best of Boston 40주년 간판에서 추출한 클래식 동부 해안 미학.",
+  "source": "Best of Boston 40th Anniversary — red brick arch, forest green metal gate, condensed serif signage painted on green surface",
+  "mood": ["classic", "heritage", "bold"],
+  "shape": {
+    "radiusSm": "2px",
+    "radiusMd": "4px",
+    "radiusLg": "8px",
+    "radiusFull": "9999px",
+    "borderWidth": "2px"
+  },
+  "typography": {
+    "fontSans": "'DM Sans', -apple-system, 'Segoe UI', sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'DM Serif Display', Georgia, 'Times New Roman', serif",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "0.04em",
+    "letterSpacingBody": "0.01em",
+    "lineHeight": 1.5,
+    "lineHeightHeading": 1.1,
+    "textTransformHeading": "uppercase"
+  },
+  "spacing": {
+    "density": "default",
+    "scale": 1.0
+  },
+  "depth": {
+    "shadowSm": "2px 2px 0 oklch(25% 0.02 25 / 0.15)",
+    "shadowMd": "3px 3px 0 oklch(25% 0.02 25 / 0.18)",
+    "shadowLg": "5px 5px 0 oklch(25% 0.02 25 / 0.2)",
+    "shadowStyle": "hard-offset"
+  },
+  "motion": {
+    "durationFast": "100ms",
+    "durationNormal": "150ms",
+    "easing": "cubic-bezier(0.2, 0, 0, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(95% 0.01 60)",
+    "surface": "oklch(98% 0.005 60)",
+    "text": "oklch(20% 0.02 25)",
+    "primary": "oklch(40% 0.12 155)",
+    "accent": "oklch(50% 0.15 25)",
+    "red": "oklch(50% 0.15 25)",
+    "green": "oklch(40% 0.12 155)",
+    "warm": "oklch(75% 0.06 60)",
+    "gold": "oklch(70% 0.1 80)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(15% 0.02 25)",
+    "surface": "oklch(20% 0.02 25)",
+    "text": "oklch(92% 0.01 60)",
+    "primary": "oklch(50% 0.12 155)",
+    "accent": "oklch(58% 0.15 25)"
+  },
+  "demo": {
+    "type": "pub",
+    "title": "The Brickyard",
+    "subtitle": "Est. 1984 — Boston's Original",
+    "items": [
+      { "name": "New England Clam Chowder", "price": "$12", "tag": "House Classic" },
+      { "name": "Fenway Frank", "price": "$9", "tag": "Fan Favorite" },
+      { "name": "Lobster Roll", "price": "$24", "tag": "Seasonal" },
+      { "name": "Boston Cream Pie", "price": "$10", "tag": "Dessert" },
+      { "name": "Sam Adams Draft", "price": "$8", "tag": "Local Brew" },
+      { "name": "Fish & Chips", "price": "$16", "tag": "Pub Staple" }
+    ],
+    "banner": "Celtics Watch Party — Every Game Night",
+    "specials": {
+      "title": "Daily Specials",
+      "items": [
+        { "day": "Monday", "special": "Half-Price Wings", "price": "$7" },
+        { "day": "Wednesday", "special": "Lobster Night", "price": "$19" },
+        { "day": "Friday", "special": "Fish Fry Friday", "price": "$14" }
+      ]
+    }
+  },
+  "suggestions": {
+    "icons": "Lucide (stroke 2px) — bold, sturdy, heritage-appropriate",
+    "components": "brick texture borders, ribbon banners, thick rule lines, hard-offset shadow cards, serif uppercase headings, pub chalkboard sections, price tags with dotted leaders",
+    "avoid": "gradients, neon colors, thin hairline fonts, rounded pills, playful illustrations, glassmorphism",
+    "googleFonts": "DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700",
+    "texture": "subtle brick pattern via CSS, thick solid borders, decorative rule lines with serif ornaments"
+  }
+}

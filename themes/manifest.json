@@ -15,6 +15,15 @@
     { "id": "vaporwave", "file": "vaporwave.json", "featured": true },
     { "id": "comic-book", "file": "comic-book.json", "featured": true },
     { "id": "manga", "file": "manga.json", "featured": true },
-    { "id": "tamagotchi", "file": "tamagotchi.json", "featured": true }
+    { "id": "tamagotchi", "file": "tamagotchi.json", "featured": true },
+    { "id": "art-nouveau-mural", "file": "art-nouveau-mural.json", "featured": true },
+    { "id": "powell-books", "file": "powell-books.json", "featured": true },
+    { "id": "boston-brick", "file": "boston-brick.json", "featured": true },
+    { "id": "soho-cobblestone", "file": "soho-cobblestone.json", "featured": true },
+    { "id": "radio-city-deco", "file": "radio-city-deco.json", "featured": true },
+    { "id": "nyc-taxi-vintage", "file": "nyc-taxi-vintage.json", "featured": true },
+    { "id": "kids-shiba", "file": "kids-shiba.json", "featured": true },
+    { "id": "shiba-run", "file": "shiba-run.json", "featured": true },
+    { "id": "tesla-fsd", "file": "tesla-fsd.json", "featured": true }
   ]
 }

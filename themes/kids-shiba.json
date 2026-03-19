@@ -1,0 +1,79 @@
+{
+  "name": "Kids Shiba",
+  "description": "아이가 그린 시바견 그림에서 추출한 테마. 흰 캔버스 위 초록 아웃라인의 노란 시바견 얼굴, 핑크 장미꽃, 보라 하트, 파란 동그라미, 민트 잎사귀가 흩어진 사랑스럽고 밝은 분위기.",
+  "source": "Child's Shiba Inu drawing — green outline on white canvas, yellow face, scattered pink roses, purple hearts, blue dots, mint leaves",
+  "mood": ["cheerful", "adorable", "whimsical"],
+  "shape": {
+    "radiusSm": "8px",
+    "radiusMd": "12px",
+    "radiusLg": "20px",
+    "radiusFull": "9999px",
+    "borderWidth": "2px"
+  },
+  "typography": {
+    "fontSans": "'Nunito', 'Noto Sans KR', system-ui, sans-serif",
+    "fontMono": "'JetBrains Mono', monospace",
+    "fontDisplay": "'Baloo 2', 'Nunito', cursive",
+    "weightNormal": 400,
+    "weightMedium": 600,
+    "weightBold": 700,
+    "letterSpacingHeading": "0.01em",
+    "letterSpacingBody": "0.01em",
+    "lineHeight": 1.6,
+    "lineHeightHeading": 1.2,
+    "textTransformHeading": "none"
+  },
+  "spacing": {
+    "density": "spacious",
+    "scale": 1.15
+  },
+  "depth": {
+    "shadowSm": "0 1px 3px oklch(70% 0.05 150 / 0.15)",
+    "shadowMd": "0 3px 8px oklch(70% 0.05 150 / 0.12)",
+    "shadowLg": "0 6px 16px oklch(70% 0.05 150 / 0.1)",
+    "shadowStyle": "neutral"
+  },
+  "motion": {
+    "durationFast": "120ms",
+    "durationNormal": "200ms",
+    "easing": "cubic-bezier(0.34, 1.56, 0.64, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(98% 0.005 90)",
+    "surface": "oklch(100% 0 0)",
+    "text": "oklch(25% 0.04 150)",
+    "primary": "oklch(45% 0.14 155)",
+    "accent": "oklch(85% 0.16 95)",
+    "yellow": "oklch(88% 0.15 95)",
+    "green": "oklch(45% 0.14 155)",
+    "red": "oklch(70% 0.18 350)",
+    "blue": "oklch(72% 0.12 240)",
+    "warm": "oklch(75% 0.15 330)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(15% 0.01 155)",
+    "surface": "oklch(20% 0.015 155)",
+    "text": "oklch(92% 0.02 95)",
+    "primary": "oklch(55% 0.14 155)",
+    "accent": "oklch(80% 0.16 95)"
+  },
+  "demo": {
+    "type": "edu",
+    "title": "Shiba World",
+    "subtitle": "Learn & Play with Shiba!",
+    "items": [
+      { "name": "🌸 Flower Garden", "desc": "Count the roses around Shiba", "score": "5/5" },
+      { "name": "💜 Heart Match", "desc": "Match the colors to the hearts", "score": "3/5" },
+      { "name": "🐕 Shiba Says", "desc": "Follow Shiba's commands", "score": "4/5" }
+    ],
+    "banner": "Good job! 🎉",
+    "streak": "3-day streak!"
+  },
+  "suggestions": {
+    "icons": "Lucide (rounded, stroke 2px) — soft, friendly feel",
+    "components": "rounded cards with soft shadows, pill-shaped buttons, scattered decorative dots/flowers as CSS pseudo-elements, confetti-like accents",
+    "avoid": "sharp corners, dark heavy shadows, corporate typography, monochrome palettes, angular/aggressive shapes",
+    "googleFonts": "Baloo+2:wght@400;500;600;700&family=Nunito:wght@400;600;700",
+    "texture": "subtle dot pattern overlay (scattered like the drawing's decorative elements), soft radial gradient background accents"
+  }
+}

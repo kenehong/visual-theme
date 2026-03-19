@@ -1,0 +1,80 @@
+{
+  "name": "SoHo Cobblestone",
+  "description": "SoHo NYC cobblestone street editorial. Pink ice cream truck against red-brown brick facades, iron fire escapes, wet stone pavement, eclectic pedestrians under overcast sky. Urban texture meets gallery calm.",
+  "source": "SoHo NYC street photography — cobblestone, brick facades, iron fire escapes, muted overcast light",
+  "mood": ["eclectic", "textured", "urban"],
+  "shape": {
+    "radiusSm": "3px",
+    "radiusMd": "6px",
+    "radiusLg": "8px",
+    "radiusFull": "999px",
+    "borderWidth": "1px"
+  },
+  "typography": {
+    "fontSans": "'Outfit', -apple-system, 'Segoe UI', sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Sora', 'Outfit', sans-serif",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "-0.01em",
+    "letterSpacingBody": "0",
+    "lineHeight": 1.6,
+    "lineHeightHeading": 1.15,
+    "textTransformHeading": "none"
+  },
+  "spacing": {
+    "density": "default",
+    "scale": 1.0
+  },
+  "depth": {
+    "shadowSm": "0 1px 3px oklch(40% 0.02 60 / 0.1)",
+    "shadowMd": "0 4px 12px oklch(40% 0.02 60 / 0.12)",
+    "shadowLg": "0 8px 24px oklch(40% 0.02 60 / 0.15)",
+    "shadowStyle": "neutral-warm"
+  },
+  "motion": {
+    "durationFast": "120ms",
+    "durationNormal": "200ms",
+    "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(95% 0.008 30)",
+    "surface": "oklch(99% 0.003 40)",
+    "text": "oklch(20% 0.015 30)",
+    "primary": "oklch(50% 0.1 25)",
+    "accent": "oklch(68% 0.14 350)",
+    "brick": "oklch(45% 0.1 30)",
+    "stone": "oklch(75% 0.015 60)",
+    "iron": "oklch(40% 0.01 250)",
+    "overcast": "oklch(88% 0.005 250)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(15% 0.01 30)",
+    "surface": "oklch(20% 0.015 30)",
+    "text": "oklch(92% 0.008 60)",
+    "primary": "oklch(55% 0.1 25)",
+    "accent": "oklch(72% 0.14 350)"
+  },
+  "demo": {
+    "type": "gallery",
+    "title": "Cobblestone",
+    "subtitle": "SoHo Art & Design — Since 2003",
+    "items": [
+      { "name": "Fractured Light No. 7", "price": "$4,200", "tag": "Featured" },
+      { "name": "Urban Patina Series", "price": "$2,800", "tag": "New" },
+      { "name": "Iron & Stone", "price": "$6,500", "tag": "Sold" },
+      { "name": "Overcast Morning", "price": "$3,100", "tag": "" },
+      { "name": "Brick Facade Study", "price": "$1,900", "tag": "Available" },
+      { "name": "Pedestrian No. 12", "price": "$5,400", "tag": "Featured" }
+    ],
+    "banner": "Opening Night — Friday 7PM"
+  },
+  "suggestions": {
+    "icons": "Lucide (stroke 1.5px), understated and editorial",
+    "components": "layered surface cards with subtle borders, muted rose accents, warm stone backgrounds, editorial typography, textured image placeholders, iron-dark dividers",
+    "avoid": "bright neon, heavy rounding, playful bouncy animations, pure white backgrounds, uppercase headings",
+    "googleFonts": "Outfit:wght@300;400;500;600;700&family=Sora:wght@400;500;600;700",
+    "texture": "subtle warm grain on backgrounds, layered surface depth with border + shadow"
+  }
+}

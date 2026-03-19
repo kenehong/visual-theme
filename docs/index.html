@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>visual-theme — Design themes inspired by images</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Dela+Gothic+One&family=Righteous&family=DM+Sans:wght@400;500;600;700&family=Press+Start+2P&family=VT323&family=Pixelify+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Dela+Gothic+One&family=Righteous&family=DM+Sans:wght@400;500;600;700&family=Press+Start+2P&family=VT323&family=Pixelify+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Baloo+2:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -355,6 +355,17 @@ body {
       </div>
     </div>
 
+    <!-- Shiba Run -->
+    <div class="theme-item" onclick="selectTheme('shiba-run', this)">
+      <div class="theme-mini" style="background:oklch(14% 0.03 275);display:flex;align-items:center;justify-content:center;image-rendering:pixelated;">
+        <span style="font-family:'Press Start 2P',monospace;font-size:0.35rem;color:oklch(84% 0.17 95);text-shadow:1px 1px 0 oklch(52% 0.18 50);">SHIBA</span>
+      </div>
+      <div class="theme-info">
+        <h3>Shiba Run</h3>
+        <div class="mood">retro · arcade · playful</div>
+      </div>
+    </div>
+
     <!-- Brutalist -->
     <div class="theme-item" onclick="selectTheme('brutalist', this)">
       <div class="theme-mini" style="background:white;display:flex;align-items:center;justify-content:center;border:2px solid oklch(0% 0 0);">
@@ -509,6 +520,45 @@ body {
       <div class="theme-info">
         <h3>Korean Menu</h3>
         <div class="mood">nostalgic · handwritten · homestyle</div>
+      </div>
+    </div>
+
+    <!-- Chicano Mural -->
+    <div class="theme-item" onclick="selectTheme('art-nouveau-mural', this)">
+      <div class="theme-mini" style="background:oklch(18% 0.02 30);display:flex;flex-direction:column;overflow:hidden;border:3px solid oklch(58% 0.22 28);">
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:4px;">
+          <div style="font-family:'Dela Gothic One',sans-serif;font-size:0.5rem;color:oklch(58% 0.22 28);text-align:center;line-height:1.2;text-transform:uppercase;">CASA<br><span style="color:oklch(78% 0.16 90);font-size:0.4rem;">DE ARTE</span></div>
+        </div>
+      </div>
+      <div class="theme-info">
+        <h3>Chicano Mural</h3>
+        <div class="mood">powerful · cultural · vibrant</div>
+      </div>
+    </div>
+
+    <!-- Boston Brick -->
+    <div class="theme-item" onclick="selectTheme('boston-brick', this)">
+      <div class="theme-mini" style="background:oklch(95% 0.01 60);display:flex;flex-direction:column;overflow:hidden;border:2px solid oklch(50% 0.15 25);">
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:4px;">
+          <div style="font-family:'DM Serif Display',serif;font-size:0.55rem;color:oklch(40% 0.12 155);text-align:center;line-height:1.2;">Boston<br><span style="color:oklch(50% 0.15 25);font-size:0.45rem;">Heritage</span></div>
+        </div>
+      </div>
+      <div class="theme-info">
+        <h3>Boston Heritage</h3>
+        <div class="mood">classic · heritage · bold</div>
+      </div>
+    </div>
+
+    <!-- Radio City Deco -->
+    <div class="theme-item" onclick="selectTheme('radio-city-deco', this)">
+      <div class="theme-mini" style="background:oklch(10% 0.01 260);display:flex;flex-direction:column;overflow:hidden;border:2px solid oklch(62% 0.25 25);">
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:4px;">
+          <div style="font-family:'Righteous',sans-serif;font-size:0.55rem;color:oklch(62% 0.25 25);text-align:center;line-height:1.2;">RADIO<br><span style="color:oklch(60% 0.2 260);font-size:0.45rem;">CITY</span></div>
+        </div>
+      </div>
+      <div class="theme-info">
+        <h3>Radio City Deco</h3>
+        <div class="mood">theatrical · deco · electric</div>
       </div>
     </div>
 
@@ -700,7 +750,12 @@ const previewUrls = {
   'vaporwave': 'preview-vaporwave.html',
   'comic-book': 'preview-comic-book.html',
   'manga': 'preview-manga.html',
-  'tamagotchi': 'preview-tamagotchi.html'
+  'tamagotchi': 'preview-tamagotchi.html',
+  'art-nouveau-mural': 'preview-art-nouveau-mural.html?v=2',
+  'powell-books': 'preview-powell-books.html?v=2',
+  'boston-brick': 'preview-boston-brick.html',
+  'radio-city-deco': 'preview-radio-city-deco.html',
+  'shiba-run': 'preview-shiba-run.html'
 };
 
 const themeNames = {
@@ -719,7 +774,12 @@ const themeNames = {
   'vaporwave': 'Vaporwave',
   'comic-book': 'Comic Book',
   'manga': 'Manga',
-  'tamagotchi': 'Tamagotchi'
+  'tamagotchi': 'Tamagotchi',
+  'art-nouveau-mural': 'Chicano Mural',
+  'powell-books': "Powell's Twilight",
+  'boston-brick': 'Boston Heritage',
+  'radio-city-deco': 'Radio City Deco',
+  'shiba-run': 'Shiba Run'
 };
 
 async function loadThemes() {

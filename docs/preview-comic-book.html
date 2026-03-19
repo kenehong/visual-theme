@@ -19,21 +19,21 @@
   .wrap { max-width: 900px; margin: 0 auto; padding: 0 1rem; }
 
   /* BEN-DAY DOT PATTERNS */
-  .dots-red { background: var(--white); background-image: radial-gradient(circle, oklch(55% 0.28 30) 3.5px, transparent 3.5px); background-size: 10px 10px; }
-  .dots-blue { background: var(--white); background-image: radial-gradient(circle, oklch(55% 0.22 255) 3.5px, transparent 3.5px); background-size: 10px 10px; }
-  .dots-yellow { background: var(--white); background-image: radial-gradient(circle, oklch(75% 0.22 95) 3.5px, transparent 3.5px); background-size: 10px 10px; }
-  .dots-blue-on-yellow { background: var(--yellow); background-image: radial-gradient(circle, var(--accent) 3.5px, transparent 3.5px); background-size: 10px 10px; }
-  .dots-red-on-yellow { background: var(--yellow); background-image: radial-gradient(circle, var(--primary) 3.5px, transparent 3.5px); background-size: 10px 10px; }
+  .dots-red { background: var(--white); background-image: radial-gradient(circle, oklch(55% 0.28 30) 5px, transparent 5px); background-size: 14px 14px; }
+  .dots-blue { background: var(--white); background-image: radial-gradient(circle, oklch(55% 0.22 255) 5px, transparent 5px); background-size: 14px 14px; }
+  .dots-yellow { background: var(--white); background-image: radial-gradient(circle, oklch(75% 0.22 95) 5px, transparent 5px); background-size: 14px 14px; }
+  .dots-blue-on-yellow { background: var(--yellow); background-image: radial-gradient(circle, var(--accent) 5px, transparent 5px); background-size: 14px 14px; }
+  .dots-red-on-yellow { background: var(--yellow); background-image: radial-gradient(circle, var(--primary) 5px, transparent 5px); background-size: 14px 14px; }
 
   /* HEADER */
   .gallery-header { text-align: center; padding: 2.5rem 1rem 2rem; background: var(--white); border: var(--border-thick); position: relative; overflow: hidden; }
-  .gallery-header::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle, var(--yellow) 3.5px, transparent 3.5px); background-size: 10px 10px; opacity: 0.5; pointer-events: none; }
+  .gallery-header::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle, var(--yellow) 5px, transparent 5px); background-size: 14px 14px; opacity: 0.7; pointer-events: none; }
   .gallery-header h1 { position: relative; font-family: var(--font-display); font-size: clamp(4rem, 14vw, 7rem); line-height: 1; letter-spacing: 0.06em; text-transform: uppercase; }
   .gallery-header .subtitle { position: relative; font-family: var(--font-body); font-weight: 500; font-size: clamp(0.9rem, 2.5vw, 1.2rem); letter-spacing: 0.15em; text-transform: uppercase; margin-top: 0.5rem; }
 
   /* SPEECH BUBBLE HERO */
   .hero-dots { padding: 3rem 1.5rem; border: var(--border-thick); border-top: none; display: flex; align-items: center; justify-content: center; }
-  .speech { background: var(--white); background-image: radial-gradient(circle, var(--yellow) 1.5px, transparent 1.5px); background-size: 6px 6px; border: var(--border); border-radius: 24px; padding: 1.5rem 2rem; position: relative; max-width: 600px; text-align: center; box-shadow: 6px 6px 0 var(--black); }
+  .speech { background: var(--white); background-image: radial-gradient(circle, var(--yellow) 2.5px, transparent 2.5px); background-size: 8px 8px; border: var(--border); border-radius: 24px; padding: 1.5rem 2rem; position: relative; max-width: 600px; text-align: center; box-shadow: 6px 6px 0 var(--black); }
   .speech-text { font-family: var(--font-display); font-size: clamp(1.4rem, 4vw, 2rem); letter-spacing: 0.04em; text-transform: uppercase; }
   .speech::after { content: ''; position: absolute; bottom: -22px; left: 60px; border: 14px solid transparent; border-top: 20px solid var(--black); }
   .speech .tail-inner { position: absolute; bottom: -15px; left: 64px; border: 10px solid transparent; border-top: 16px solid var(--white); }
@@ -46,21 +46,21 @@
   .panel { border: 4px solid var(--black); padding: 2.5rem 1rem; text-align: center; min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; box-shadow: 6px 6px 0 var(--black); }
   .panel-word { font-family: var(--font-display); font-size: clamp(2rem, 6vw, 3rem); letter-spacing: 0.06em; -webkit-text-stroke: 3px var(--black); paint-order: stroke fill; color: var(--white); }
   .panel-label { font-family: var(--font-display); font-size: 1.1rem; letter-spacing: 0.1em; text-transform: uppercase; background: var(--white); border: 3px solid var(--black); padding: 0.25rem 0.75rem; }
-  .panel-blue { background: var(--accent); background-image: radial-gradient(circle, oklch(100% 0 0) 3.5px, transparent 3.5px); background-size: 10px 10px; }
-  .panel-red { background: var(--primary); background-image: radial-gradient(circle, oklch(88% 0.18 95) 3.5px, transparent 3.5px); background-size: 10px 10px; }
-  .panel-yellow { background: var(--yellow); background-image: radial-gradient(circle, oklch(55% 0.22 255) 3.5px, transparent 3.5px); background-size: 10px 10px; }
+  .panel-blue { background: var(--accent); background-image: radial-gradient(circle, oklch(100% 0 0) 5px, transparent 5px); background-size: 14px 14px; }
+  .panel-red { background: var(--primary); background-image: radial-gradient(circle, oklch(88% 0.18 95) 5px, transparent 5px); background-size: 14px 14px; }
+  .panel-yellow { background: var(--yellow); background-image: radial-gradient(circle, oklch(55% 0.22 255) 5px, transparent 5px); background-size: 14px 14px; }
 
   /* THOUGHT BUBBLE */
   .thought-section { padding: 3rem 1.5rem; border: var(--border-thick); border-top: none; background: var(--white); display: flex; justify-content: center; }
   .thought-wrap { position: relative; display: inline-block; }
-  .thought { background: var(--white); background-image: radial-gradient(circle, var(--yellow) 1.5px, transparent 1.5px); background-size: 6px 6px; border: var(--border); border-radius: 50%; padding: 2rem 2.5rem; max-width: 500px; text-align: center; box-shadow: 6px 6px 0 var(--black); }
+  .thought { background: var(--white); background-image: radial-gradient(circle, var(--yellow) 2.5px, transparent 2.5px); background-size: 8px 8px; border: var(--border); border-radius: 50%; padding: 2rem 2.5rem; max-width: 500px; text-align: center; box-shadow: 6px 6px 0 var(--black); }
   .thought-text { font-family: var(--font-display); font-size: clamp(1.1rem, 3vw, 1.5rem); letter-spacing: 0.03em; text-transform: uppercase; }
   .thought-trail { position: absolute; bottom: -18px; left: 50px; width: 18px; height: 18px; background: var(--white); border: 3px solid var(--black); border-radius: 50%; }
   .thought-trail-sm { position: absolute; bottom: -32px; left: 40px; width: 10px; height: 10px; background: var(--white); border: 3px solid var(--black); border-radius: 50%; }
 
   /* EXHIBITION INFO */
   .exhibition { border: var(--border-thick); border-top: none; padding: 2rem 1.5rem; text-align: center; position: relative; overflow: hidden; }
-  .exhibition::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle, var(--accent) 1px, transparent 1px); background-size: 6px 6px; opacity: 0.08; pointer-events: none; }
+  .exhibition::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle, var(--accent) 2.5px, transparent 2.5px); background-size: 10px 10px; opacity: 0.25; pointer-events: none; }
   .exhibition h3 { position: relative; font-family: var(--font-display); font-size: 1.8rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1rem; }
   .exhibition p { position: relative; font-size: 1rem; font-weight: 500; margin-bottom: 0.25rem; }
 
@@ -99,11 +99,11 @@
   .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
 
   /* Speech bubble small */
-  .speech-sm { background: var(--white); background-image: radial-gradient(circle, var(--yellow) 1px, transparent 1px); background-size: 4px 4px; border: 4px solid var(--black); border-radius: 20px; padding: 0.6rem 1rem; position: relative; display: inline-block; font-family: var(--font-display); font-size: 1rem; letter-spacing: 0.03em; }
+  .speech-sm { background: var(--white); background-image: radial-gradient(circle, var(--yellow) 2px, transparent 2px); background-size: 7px 7px; border: 4px solid var(--black); border-radius: 20px; padding: 0.6rem 1rem; position: relative; display: inline-block; font-family: var(--font-display); font-size: 1rem; letter-spacing: 0.03em; }
   .speech-sm::after { content: ''; position: absolute; bottom: -16px; left: 25px; border: 10px solid transparent; border-top: 14px solid var(--black); }
 
   /* Thought bubble small */
-  .thought-sm { background: var(--white); background-image: radial-gradient(circle, var(--yellow) 1px, transparent 1px); background-size: 4px 4px; border: 4px solid var(--black); border-radius: 50%; padding: 1rem 1.5rem; display: inline-block; font-family: var(--font-display); font-size: 1rem; letter-spacing: 0.03em; position: relative; }
+  .thought-sm { background: var(--white); background-image: radial-gradient(circle, var(--yellow) 2px, transparent 2px); background-size: 7px 7px; border: 4px solid var(--black); border-radius: 50%; padding: 1rem 1.5rem; display: inline-block; font-family: var(--font-display); font-size: 1rem; letter-spacing: 0.03em; position: relative; }
   .thought-sm::before { content: ''; position: absolute; bottom: -14px; left: 20px; width: 12px; height: 12px; background: var(--white); border: 3px solid var(--black); border-radius: 50%; }
   .thought-sm::after { content: ''; position: absolute; bottom: -24px; left: 14px; width: 8px; height: 8px; background: var(--white); border: 3px solid var(--black); border-radius: 50%; }
 
@@ -122,7 +122,7 @@
   .demo-table th, .demo-table td { padding: 0.5rem 0.75rem; border: 3px solid var(--black); text-align: left; }
   .demo-table th { background: var(--black); color: var(--white); font-family: var(--font-display); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.04em; }
   .demo-table tr:nth-child(even) td { position: relative; }
-  .demo-table tr:nth-child(even) td::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle, var(--primary) 0.8px, transparent 0.8px); background-size: 6px 6px; opacity: 0.1; pointer-events: none; }
+  .demo-table tr:nth-child(even) td::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle, var(--primary) 2px, transparent 2px); background-size: 8px 8px; opacity: 0.2; pointer-events: none; }
 
   /* RECORD GRID */
   .record-grid { display: grid; grid-template-columns: repeat(2, 1fr); border-left: var(--border-thick); border-right: var(--border-thick); border-bottom: var(--border-thick); }
@@ -142,14 +142,14 @@
   .vinyl-white::after { background: var(--white); border: 2px solid oklch(20% 0 0); }
 
   /* DEAL BANNER */
-  .deal-section { padding: 2.5rem 1.5rem; border: var(--border-thick); border-top: none; display: flex; align-items: center; justify-content: center; background: var(--yellow); background-image: radial-gradient(circle, var(--primary) 3.5px, transparent 3.5px); background-size: 10px 10px; }
+  .deal-section { padding: 2.5rem 1.5rem; border: var(--border-thick); border-top: none; display: flex; align-items: center; justify-content: center; background: var(--yellow); background-image: radial-gradient(circle, var(--primary) 5px, transparent 5px); background-size: 14px 14px; }
 
   /* ALBUM COVER */
   .album-cover {
     width: 200px; height: 200px;
     background-color: white;
-    background-image: radial-gradient(circle, oklch(55% 0.28 30) 3.5px, transparent 3.5px);
-    background-size: 10px 10px;
+    background-image: radial-gradient(circle, oklch(55% 0.28 30) 5px, transparent 5px);
+    background-size: 14px 14px;
     border: 5px solid oklch(5% 0 0);
     box-shadow: 8px 8px 0 oklch(5% 0 0);
     display: flex; align-items: center; justify-content: center;
@@ -396,7 +396,7 @@
 <div class="wrap">
 
   <!-- HERO — LOUD & Clear full-bleed -->
-  <section style="border:var(--border-thick);padding:4rem 2rem;text-align:center;background:var(--yellow);background-image:radial-gradient(circle,oklch(55% 0.28 30 / 0.15) 3px,transparent 3px);background-size:12px 12px;">
+  <section style="border:var(--border-thick);padding:4rem 2rem;text-align:center;background:var(--yellow);background-image:radial-gradient(circle,oklch(55% 0.28 30 / 0.45) 5px,transparent 5px);background-size:14px 14px;">
     <div style="max-width:600px;margin:0 auto;">
       <div style="font-family:var(--font-display);font-size:clamp(4rem,14vw,7rem);line-height:0.9;letter-spacing:0.04em;text-transform:uppercase;color:var(--black);-webkit-text-stroke:3px var(--black);paint-order:stroke fill;margin-bottom:0.5rem;">LOUD &amp;<br>CLEAR</div>
       <div style="font-family:var(--font-display);font-size:clamp(1.5rem,5vw,2.5rem);letter-spacing:0.1em;text-transform:uppercase;color:var(--primary);-webkit-text-stroke:2px var(--primary);paint-order:stroke fill;margin-bottom:0.5rem;">LOLA POP</div>
