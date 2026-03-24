@@ -91,14 +91,7 @@ export default {
 
 ### With Claude Code
 
-```bash
-# Copy the agent skill
-cp AGENT.md ~/.claude/skills/extract-theme.md
-
-# Provide a reference image and extract
-```
-
-The skill analyzes images across 7 axes — color, typography, shape, depth, texture, motion, and mood — then translates them into a theme JSON with oklch tokens.
+The extract-theme skill analyzes images across 7 axes — color, typography, shape, depth, texture, motion, and mood — then translates them into a theme JSON with oklch tokens.
 
 ### Manual
 
