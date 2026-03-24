@@ -24,6 +24,8 @@
     { "id": "nyc-taxi-vintage", "file": "nyc-taxi-vintage.json", "featured": true },
     { "id": "kids-shiba", "file": "kids-shiba.json", "featured": true },
     { "id": "shiba-run", "file": "shiba-run.json", "featured": true },
-    { "id": "tesla-fsd", "file": "tesla-fsd.json", "featured": true }
+    { "id": "tesla-fsd", "file": "tesla-fsd.json", "featured": true },
+    { "id": "bauhaus", "file": "bauhaus.json", "featured": false },
+    { "id": "eames", "file": "eames.json", "featured": false }
   ]
 }

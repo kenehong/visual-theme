@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eames House — Good Design Is Good Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: oklch(95% 0.015 75);
+    --surface: oklch(98% 0.008 75);
+    --text: oklch(20% 0.02 50);
+    --primary: oklch(55% 0.16 40);
+    --accent: oklch(55% 0.1 195);
+    --mustard: oklch(78% 0.14 85);
+    --muted: oklch(50% 0.02 50);
+    --border: oklch(80% 0.01 75);
+    --font-display: 'Bricolage Grotesque', 'Georgia', serif;
+    --font-body: 'Outfit', 'Segoe UI', sans-serif;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --shadow-sm: 0 1px 3px oklch(20% 0.02 50 / 0.08);
+    --shadow-md: 0 4px 12px oklch(20% 0.02 50 / 0.1);
+    --shadow-lg: 0 8px 24px oklch(20% 0.02 50 / 0.12);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: oklch(15% 0.015 50);
+      --surface: oklch(20% 0.02 50);
+      --text: oklch(90% 0.015 75);
+      --primary: oklch(60% 0.16 40);
+      --accent: oklch(60% 0.1 195);
+      --mustard: oklch(80% 0.14 85);
+      --muted: oklch(55% 0.015 50);
+      --border: oklch(30% 0.015 50);
+    }
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-weight: 400;
+    color: var(--text);
+    background: var(--bg);
+    letter-spacing: 0em;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+
+  /* Subtle paper grain texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 256px 256px;
+  }
+
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
+
+  /* === HEADER === */
+  .header { text-align: center; padding: 3rem 1rem 2rem; position: relative; }
+  .header-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+  }
+  .header-dots span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .header-dots span:nth-child(1) { background: var(--primary); }
+  .header-dots span:nth-child(2) { background: var(--accent); }
+  .header-dots span:nth-child(3) { background: var(--mustard); }
+  .header-dots span:nth-child(4) { background: var(--primary); }
+  .header-dots span:nth-child(5) { background: var(--accent); }
+
+  .header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: var(--text);
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+  }
+  .header-sub {
+    font-weight: 400;
+    font-size: 0.95rem;
+    color: var(--muted);
+    letter-spacing: 0.01em;
+  }
+  .header-line {
+    width: 60px;
+    height: 3px;
+    background: var(--primary);
+    margin: 1rem auto 0;
+    border-radius: 2px;
+  }
+
+  /* === WARM DIVIDER (dots) === */
+  .dot-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 1rem 0;
+  }
+  .dot-divider span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary);
+    opacity: 0.4;
+  }
+  .dot-divider span:nth-child(2) { background: var(--accent); }
+  .dot-divider span:nth-child(4) { background: var(--mustard); }
+  .dot-divider .line {
+    width: 40px;
+    height: 1px;
+    background: var(--border);
+    border-radius: 0;
+  }
+
+  /* === HERO BANNER === */
+  .banner {
+    background: var(--primary);
+    color: var(--surface);
+    text-align: center;
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin: 0.5rem 0 2rem;
+  }
+
+  /* === HERO === */
+  .hero { text-align: center; padding: 1.5rem 1rem 1rem; }
+  .hero h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+  }
+  .hero p {
+    font-weight: 400;
+    font-size: 0.95rem;
+    color: var(--muted);
+    margin-top: 0.5rem;
+  }
+
+  /* === PRODUCT CARDS === */
+  .products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 1.25rem;
+    padding: 2rem 0;
+  }
+  .product-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.75rem 1.5rem;
+    text-align: center;
+    position: relative;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 200ms cubic-bezier(0.25, 0.1, 0.25, 1), transform 200ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  .product-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  .product-card .card-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.5rem;
+  }
+  .product-card:nth-child(1) .card-icon { background: oklch(55% 0.16 40 / 0.12); color: var(--primary); }
+  .product-card:nth-child(2) .card-icon { background: oklch(55% 0.1 195 / 0.12); color: var(--accent); }
+  .product-card:nth-child(3) .card-icon { background: oklch(78% 0.14 85 / 0.15); color: oklch(55% 0.12 85); }
+
+  .product-tag {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    border-radius: 9999px;
+    background: var(--primary);
+    color: var(--surface);
+    margin-bottom: 0.75rem;
+  }
+  .product-card:nth-child(2) .product-tag { background: var(--accent); }
+  .product-card:nth-child(3) .product-tag { background: oklch(60% 0.1 85); }
+
+  .product-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .product-card p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .product-card .price {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-top: 0.75rem;
+    display: block;
+  }
+
+  /* === GEOMETRIC MID-CENTURY ACCENT === */
+  .mcm-accent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 1.5rem 0;
+  }
+  .mcm-circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+  }
+  .mcm-circle.filled { background: var(--primary); border: none; }
+  .mcm-diamond {
+    width: 10px;
+    height: 10px;
+    background: var(--accent);
+    transform: rotate(45deg);
+    border-radius: 2px;
+  }
+  .mcm-line {
+    width: 50px;
+    height: 2px;
+    background: var(--mustard);
+    border-radius: 1px;
+  }
+
+  /* === CATALOG TABLE === */
+  .catalog-section { padding: 2rem 0; }
+  .catalog-section h2, .newsletter h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--text);
+    margin-bottom: 1.25rem;
+    text-align: center;
+  }
+  .catalog-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .catalog-table th, .catalog-table td { padding: 0.75rem 1rem; text-align: left; }
+  .catalog-table th {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.03em;
+    color: var(--muted);
+    border-bottom: 2px solid var(--primary);
+    background: var(--surface);
+  }
+  .catalog-table td {
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    font-weight: 400;
+  }
+  .catalog-table td:last-child {
+    text-align: right;
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--primary);
+  }
+  .catalog-table tr:last-child td { border-bottom: none; }
+
+  /* === NEWSLETTER FORM === */
+  .newsletter { padding: 2rem 0; text-align: center; }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .form-group { text-align: left; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+  }
+  .form-group input, .form-group select {
+    width: 100%;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 0.9rem;
+    padding: 0.65rem 0.85rem;
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition: border-color 200ms, box-shadow 200ms;
+  }
+  .form-group input:focus, .form-group select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px oklch(55% 0.16 40 / 0.12);
+  }
+  .form-group input::placeholder { color: oklch(60% 0.01 50); }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.85rem;
+    letter-spacing: 0.01em;
+    padding: 0.65rem 1.75rem;
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    transition: all 200ms cubic-bezier(0.25, 0.1, 0.25, 1);
+    min-height: 44px;
+  }
+  .btn-primary { background: var(--primary); color: white; border: 1px solid var(--primary); }
+  .btn-primary:hover { background: oklch(50% 0.16 40); box-shadow: var(--shadow-md); }
+  .btn-accent { background: var(--accent); color: white; border: 1px solid var(--accent); }
+  .btn-accent:hover { background: oklch(50% 0.1 195); }
+  .btn-outline { background: transparent; color: var(--primary); border: 1px solid var(--primary); }
+  .btn-outline:hover { background: oklch(55% 0.16 40 / 0.08); }
+  .btn-mustard { background: var(--mustard); color: oklch(20% 0.02 50); border: 1px solid var(--mustard); }
+  .btn-mustard:hover { background: oklch(74% 0.14 85); }
+  .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
+  .btn-full { width: 100%; }
+
+  /* === FOOTER === */
+  .footer-accent {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 0.5rem 0;
+  }
+  .footer-accent span {
+    width: 24px;
+    height: 3px;
+    border-radius: 2px;
+  }
+  .footer-accent span:nth-child(odd) { background: var(--primary); opacity: 0.4; }
+  .footer-accent span:nth-child(even) { background: var(--accent); opacity: 0.3; }
+  .footer {
+    text-align: center;
+    padding: 1rem 1rem 2rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* ============ COMPONENT SHOWCASE ============ */
+  .showcase-sep { margin: 3rem 0 2rem; border: none; border-top: 1px solid var(--border); }
+  .showcase-title {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-align: center;
+    color: var(--text);
+    margin-bottom: 2rem;
+  }
+  .section-label {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.4rem;
+    margin-bottom: 1rem;
+  }
+  .comp-section { margin-bottom: 2.5rem; }
+
+  /* Typography specimen */
+  .type-specimen h1 {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .type-specimen h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1.15;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+  }
+  .type-specimen h3 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .type-specimen p {
+    font-size: 0.95rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    max-width: 60ch;
+    color: var(--text);
+  }
+
+  /* Color swatches */
+  .swatches { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .swatch { width: 80px; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+  .swatch-color { height: 56px; }
+  .swatch-label {
+    padding: 0.3rem 0.4rem;
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    background: var(--surface);
+    text-align: center;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+  .badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+
+  .badge {
+    display: inline-block;
+    padding: 0.2rem 0.75rem;
+    font-weight: 500;
+    font-size: 0.7rem;
+    letter-spacing: 0.02em;
+    border-radius: 9999px;
+  }
+  .badge-primary { background: oklch(55% 0.16 40 / 0.12); color: var(--primary); }
+  .badge-accent { background: oklch(55% 0.1 195 / 0.12); color: var(--accent); }
+  .badge-mustard { background: oklch(78% 0.14 85 / 0.15); color: oklch(45% 0.1 85); }
+  .badge-outline { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+
+  /* Demo card */
+  .demo-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    max-width: 300px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Demo table */
+  .demo-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .demo-table th, .demo-table td { padding: 0.6rem 0.75rem; text-align: left; }
+  .demo-table th {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.7rem;
+    letter-spacing: 0.03em;
+    color: var(--muted);
+    border-bottom: 2px solid var(--primary);
+  }
+  .demo-table td { border-bottom: 1px solid var(--border); font-weight: 400; }
+
+  @media (max-width: 480px) {
+    .products { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    .form-group.full { grid-column: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-dots">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <h1>Eames House</h1>
+    <div class="header-sub">Good Design Is Good Design &mdash; Since 1941</div>
+    <div class="header-line"></div>
+  </header>
+
+  <!-- BANNER -->
+  <div class="banner">THE DETAILS ARE NOT THE DETAILS. THEY MAKE THE DESIGN.</div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h2>Timeless pieces for modern living</h2>
+    <p>Organic curves, honest materials, and the optimism of mid-century California.</p>
+  </div>
+
+  <!-- DOT DIVIDER -->
+  <div class="dot-divider">
+    <span class="line"></span>
+    <span></span><span></span><span></span><span></span><span></span>
+    <span class="line"></span>
+  </div>
+
+  <!-- PRODUCT CARDS -->
+  <div class="products">
+    <div class="product-card">
+      <div class="card-icon">&#9678;</div>
+      <span class="product-tag">Icon</span>
+      <h3>Lounge Chair & Ottoman</h3>
+      <p>Molded plywood and premium leather. The chair that defined modern comfort since 1956.</p>
+      <span class="price">$6,995</span>
+    </div>
+    <div class="product-card">
+      <div class="card-icon">&#9674;</div>
+      <span class="product-tag">Classic</span>
+      <h3>Molded Shell Chair</h3>
+      <p>One-piece molded shell in fiberglass-reinforced plastic. Stackable, versatile, timeless.</p>
+      <span class="price">$449</span>
+    </div>
+    <div class="product-card">
+      <div class="card-icon">&#9830;</div>
+      <span class="product-tag">Object</span>
+      <h3>House Bird</h3>
+      <p>Hand-carved solid alder. Inspired by folk art objects the Eameses collected at home.</p>
+      <span class="price">$395</span>
+    </div>
+  </div>
+
+  <!-- MID-CENTURY ACCENT -->
+  <div class="mcm-accent">
+    <div class="mcm-circle"></div>
+    <div class="mcm-line"></div>
+    <div class="mcm-diamond"></div>
+    <div class="mcm-line"></div>
+    <div class="mcm-circle filled"></div>
+    <div class="mcm-line"></div>
+    <div class="mcm-diamond"></div>
+    <div class="mcm-line"></div>
+    <div class="mcm-circle"></div>
+  </div>
+
+  <!-- CATALOG TABLE -->
+  <section class="catalog-section">
+    <h2>Full Catalog</h2>
+    <table class="catalog-table">
+      <thead>
+        <tr><th>Product</th><th>Material</th><th>Year</th><th>Price</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Lounge Chair & Ottoman</td><td>Molded plywood, leather</td><td>1956</td><td>$6,995</td></tr>
+        <tr><td>Molded Shell Chair (DSW)</td><td>Fiberglass, maple dowel</td><td>1950</td><td>$449</td></tr>
+        <tr><td>Eames House Bird</td><td>Solid alder wood</td><td>1910s</td><td>$395</td></tr>
+        <tr><td>Wire Chair (DKR)</td><td>Welded steel wire</td><td>1951</td><td>$695</td></tr>
+        <tr><td>Hang-It-All</td><td>Steel, painted wood</td><td>1953</td><td>$199</td></tr>
+        <tr><td>Molded Plywood Coffee Table</td><td>Walnut plywood</td><td>1946</td><td>$1,295</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- DOT DIVIDER -->
+  <div class="dot-divider">
+    <span class="line"></span>
+    <span></span><span></span><span></span><span></span><span></span>
+    <span class="line"></span>
+  </div>
+
+  <!-- NEWSLETTER FORM -->
+  <section class="newsletter">
+    <h2>Join the workshop</h2>
+    <p style="color:var(--muted); font-size:0.9rem; margin-bottom:1.5rem;">Sign up for news on new pieces, studio events, and design stories.</p>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="text" placeholder="Charles">
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" placeholder="Eames">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" placeholder="hello@eameshouse.com">
+      </div>
+      <div class="form-group">
+        <label>Interest</label>
+        <select>
+          <option>Furniture</option>
+          <option>Textiles</option>
+          <option>Objects</option>
+          <option>Everything</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <button class="btn btn-primary btn-full">Subscribe to newsletter</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="footer-accent">
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="footer">
+    &copy; 1941&ndash;2026 Eames House &middot; Pacific Palisades, California &middot; All Rights Reserved
+  </div>
+
+  <!-- ============ COMPONENT SHOWCASE ============ -->
+  <hr class="showcase-sep">
+  <div class="showcase-title" id="components">Components</div>
+
+  <!-- Typography -->
+  <div class="comp-section">
+    <div class="section-label">Typography</div>
+    <div class="type-specimen">
+      <h1>Display Heading H1</h1>
+      <h2>Section Heading H2</h2>
+      <h3>Subsection Heading H3</h3>
+      <p>Body text in Outfit 400. The quick brown fox jumps over the lazy dog. Designed for warm, organic layouts with mid-century optimism and honest material sensibility.</p>
+      <p style="font-weight:500">Medium body text (500 weight) for gentle emphasis and secondary labels.</p>
+    </div>
+  </div>
+
+  <!-- Colors -->
+  <div class="comp-section">
+    <div class="section-label">Colors</div>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-color" style="background:var(--bg)"></div><div class="swatch-label">BG</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--surface)"></div><div class="swatch-label">Surface</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--text)"></div><div class="swatch-label">Text</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--primary)"></div><div class="swatch-label">Terracotta</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--accent)"></div><div class="swatch-label">Teal</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--mustard)"></div><div class="swatch-label">Mustard</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--muted)"></div><div class="swatch-label">Muted</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--border)"></div><div class="swatch-label">Border</div></div>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="comp-section">
+    <div class="section-label">Buttons</div>
+    <div class="btn-row">
+      <button class="btn btn-primary">Terracotta</button>
+      <button class="btn btn-accent">Teal</button>
+      <button class="btn btn-outline">Outline</button>
+      <button class="btn btn-mustard">Mustard</button>
+      <button class="btn btn-ghost">Ghost</button>
+    </div>
+  </div>
+
+  <!-- Badges -->
+  <div class="comp-section">
+    <div class="section-label">Badges</div>
+    <div class="badge-row">
+      <span class="badge badge-primary">Icon</span>
+      <span class="badge badge-accent">Classic</span>
+      <span class="badge badge-mustard">Object</span>
+      <span class="badge badge-outline">Vintage</span>
+    </div>
+  </div>
+
+  <!-- Card -->
+  <div class="comp-section">
+    <div class="section-label">Card</div>
+    <div class="demo-card">
+      <h3 style="font-family:var(--font-display); font-size:1.1rem; font-weight:600; color:var(--text); margin-bottom:0.5rem;">Case Study House #8</h3>
+      <p style="font-size:0.85rem; color:var(--muted); line-height:1.5; margin-bottom:0.75rem;">Built in 1949 from off-the-shelf industrial materials. A home that feels like living inside a Mondrian painting.</p>
+      <button class="btn btn-outline" style="width:100%">Explore</button>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div class="comp-section">
+    <div class="section-label">Form</div>
+    <div style="max-width:400px; display:flex; gap:0;">
+      <input type="text" placeholder="Enter your email..." style="flex:1; font-family:var(--font-body); font-weight:400; font-size:0.9rem; padding:0.65rem 0.85rem; background:var(--surface); color:var(--text); border:1px solid var(--border); border-radius:var(--radius-sm) 0 0 var(--radius-sm); border-right:none; outline:none;">
+      <button class="btn btn-primary" style="border-radius:0 var(--radius-sm) var(--radius-sm) 0;">Subscribe</button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="comp-section">
+    <div class="section-label">Table</div>
+    <table class="demo-table">
+      <thead>
+        <tr><th>Product</th><th>Year</th><th>Material</th><th>Price</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Lounge Chair</td><td>1956</td><td>Plywood, leather</td><td>$6,995</td></tr>
+        <tr><td>Shell Chair</td><td>1950</td><td>Fiberglass</td><td>$449</td></tr>
+        <tr><td>House Bird</td><td>1910s</td><td>Alder wood</td><td>$395</td></tr>
+        <tr><td>Hang-It-All</td><td>1953</td><td>Steel, wood</td><td>$199</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="height:2rem"></div>
+</div>
+
+</body>
+</html>

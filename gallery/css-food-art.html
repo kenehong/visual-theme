@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Food Art — Illustration Style</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+  :root{
+    --seaweed:oklch(18% 0.04 155);
+    --rice:oklch(95% 0.01 80);
+    --sesame:oklch(15% 0 0);
+    --danmuji:oklch(85% 0.18 90);
+    --ham:oklch(72% 0.12 10);
+    --egg:oklch(80% 0.14 85);
+    --spinach:oklch(40% 0.12 150);
+    --carrot:oklch(65% 0.18 55);
+    --crab:oklch(85% 0.06 15);
+    --plate:oklch(55% 0.12 165);
+    --plate-dark:oklch(48% 0.10 165);
+    --plate-light:oklch(62% 0.10 165);
+  }
+
+  body{
+    font-family:'Nunito',system-ui,sans-serif;
+    background:oklch(96% 0.005 80);
+    color:oklch(25% 0 0);
+    line-height:1.5;
+  }
+
+  /* Header */
+  .header{
+    text-align:center;
+    padding:3rem 1rem 2rem;
+  }
+  .header h1{
+    font-size:2rem;
+    font-weight:800;
+    color:oklch(30% 0.02 155);
+  }
+  .header p{
+    font-size:1.1rem;
+    color:oklch(55% 0 0);
+    margin-top:0.25rem;
+  }
+
+  /* Section */
+  .section{
+    padding:2.5rem 1rem;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:1.5rem;
+  }
+  .section-label{
+    font-size:0.85rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:oklch(55% 0 0);
+  }
+  .dark-section{
+    background:oklch(18% 0.01 260);
+  }
+  .dark-section .section-label{
+    color:oklch(70% 0 0);
+  }
+
+  /* Plate */
+  .plate{
+    background:var(--plate);
+    border-radius:24px;
+    padding:28px 32px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    box-shadow:
+      inset 0 2px 0 var(--plate-light),
+      inset 0 -2px 0 var(--plate-dark),
+      0 6px 20px oklch(0% 0 0 / 0.15);
+    position:relative;
+  }
+  .plate::before{
+    content:'';
+    position:absolute;
+    inset:4px;
+    border-radius:20px;
+    border:2px solid oklch(60% 0.08 165 / 0.4);
+    pointer-events:none;
+  }
+
+  /* Kimbap piece */
+  .kimbap{
+    --size:110px;
+    width:var(--size);
+    height:var(--size);
+    border-radius:50%;
+    background:var(--seaweed);
+    position:relative;
+    box-shadow:0 2px 6px oklch(0% 0 0 / 0.2);
+    flex-shrink:0;
+  }
+
+  /* Rice ring */
+  .kimbap .rice{
+    position:absolute;
+    inset:6%;
+    border-radius:50%;
+    background:var(--rice);
+    box-shadow:inset 0 1px 3px oklch(0% 0 0 / 0.06);
+    overflow:hidden;
+  }
+
+  /* Sesame specks — radial-gradient dots on rice, scales with size */
+  .kimbap .sesame{display:none}  /* not used, dots are on .rice via background */
+
+  /* Filling container */
+  .filling{
+    position:absolute;
+    inset:26%;
+    border-radius:50%;
+    overflow:hidden;
+    z-index:2;
+  }
+  .filling>div{
+    position:absolute;
+    border-radius:2px;
+    box-shadow:0 0 0 0.5px oklch(0% 0 0 / 0.08);
+  }
+  .f-danmuji{background:var(--danmuji)}
+  .f-ham{background:var(--ham)}
+  .f-egg{background:var(--egg)}
+  .f-spinach{background:var(--spinach)}
+  .f-carrot{background:var(--carrot)}
+  .f-crab{background:var(--crab)}
+
+  /* 6 filling layout variations */
+  .layout-a .f-danmuji{top:0;left:0;width:50%;height:45%}
+  .layout-a .f-ham{top:0;right:0;width:46%;height:40%}
+  .layout-a .f-egg{bottom:0;left:0;width:45%;height:50%}
+  .layout-a .f-spinach{bottom:0;right:0;width:30%;height:28%}
+  .layout-a .f-carrot{top:44%;right:0;width:46%;height:14%;border-radius:1px}
+  .layout-a .f-crab{bottom:0;right:28%;width:20%;height:28%}
+
+  .layout-b .f-danmuji{top:0;right:0;width:48%;height:48%}
+  .layout-b .f-ham{bottom:0;left:0;width:48%;height:42%}
+  .layout-b .f-egg{top:0;left:0;width:48%;height:42%}
+  .layout-b .f-spinach{bottom:0;right:0;width:28%;height:25%}
+  .layout-b .f-carrot{bottom:0;right:26%;width:20%;height:50%;border-radius:1px}
+  .layout-b .f-crab{top:46%;left:0;width:48%;height:12%}
+
+  .layout-c .f-danmuji{top:0;left:0;width:55%;height:40%}
+  .layout-c .f-ham{bottom:0;right:0;width:45%;height:45%}
+  .layout-c .f-egg{top:0;right:0;width:40%;height:44%}
+  .layout-c .f-spinach{bottom:0;left:0;width:25%;height:30%}
+  .layout-c .f-carrot{bottom:28%;left:0;width:55%;height:14%;border-radius:1px}
+  .layout-c .f-crab{bottom:0;left:23%;width:22%;height:30%}
+
+  .layout-d .f-danmuji{bottom:0;left:0;width:50%;height:48%}
+  .layout-d .f-ham{top:0;left:0;width:45%;height:42%}
+  .layout-d .f-egg{top:0;right:0;width:50%;height:46%}
+  .layout-d .f-spinach{top:44%;left:0;width:28%;height:18%}
+  .layout-d .f-carrot{bottom:0;right:0;width:46%;height:13%;border-radius:1px}
+  .layout-d .f-crab{bottom:11%;right:0;width:46%;height:20%}
+
+  .layout-e .f-danmuji{top:0;left:10%;width:42%;height:46%}
+  .layout-e .f-ham{top:0;right:0;width:44%;height:38%}
+  .layout-e .f-egg{bottom:0;left:0;width:48%;height:48%}
+  .layout-e .f-spinach{top:0;left:0;width:14%;height:30%}
+  .layout-e .f-carrot{bottom:0;right:0;width:48%;height:14%;border-radius:1px}
+  .layout-e .f-crab{top:36%;right:0;width:44%;height:20%}
+
+  .layout-f .f-danmuji{bottom:0;right:0;width:50%;height:45%}
+  .layout-f .f-ham{top:0;left:0;width:52%;height:44%}
+  .layout-f .f-egg{top:0;right:0;width:44%;height:42%}
+  .layout-f .f-spinach{bottom:0;left:0;width:30%;height:26%}
+  .layout-f .f-carrot{top:42%;left:0;width:14%;height:32%;border-radius:1px}
+  .layout-f .f-crab{bottom:0;left:28%;width:24%;height:26%}
+
+  /* Sesame speck patterns via radial-gradient on .rice
+     Positions kept within 18%-82% range to stay inside the circular clip */
+  .sesame-a .rice{
+    background:
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 20% 18%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 68% 22%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 30% 72%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 75% 68%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 48% 80%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 22% 48%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 72% 42%/3% 3% no-repeat,
+      var(--rice);
+  }
+  .sesame-b .rice{
+    background:
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 25% 20%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 62% 25%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 38% 75%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 70% 72%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 18% 55%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 78% 45%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 50% 20%/3% 3% no-repeat,
+      var(--rice);
+  }
+  .sesame-c .rice{
+    background:
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 22% 24%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 74% 20%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 28% 70%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 65% 76%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 80% 50%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 20% 62%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 52% 78%/3% 3% no-repeat,
+      var(--rice);
+  }
+  .sesame-d .rice{
+    background:
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 28% 22%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 70% 18%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 20% 74%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 76% 65%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 50% 18%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 24% 50%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 68% 78%/3% 3% no-repeat,
+      var(--rice);
+  }
+  .sesame-e .rice{
+    background:
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 32% 20%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 62% 24%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 22% 68%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 72% 70%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 78% 38%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 18% 42%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 50% 80%/3% 3% no-repeat,
+      var(--rice);
+  }
+  .sesame-f .rice{
+    background:
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 24% 25%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 72% 22%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 35% 74%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 65% 72%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 18% 50%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 76% 52%/3% 3% no-repeat,
+      radial-gradient(circle 1.2px,var(--sesame) 99%,transparent 100%) 48% 20%/3% 3% no-repeat,
+      var(--rice);
+  }
+
+  /* Large detail piece */
+  .kimbap.large{
+    --size:200px;
+  }
+
+  /* Small sizes */
+  .kimbap.s-48{--size:48px}
+  .kimbap.s-64{--size:64px}
+  .kimbap.s-80{--size:80px}
+
+  .kimbap.s-48 .filling>div,
+  .kimbap.s-64 .filling>div{
+    border-radius:1px;
+  }
+
+  /* Natural rotation */
+  .plate .kimbap:nth-child(1){transform:rotate(-2deg)}
+  .plate .kimbap:nth-child(2){transform:rotate(1deg)}
+  .plate .kimbap:nth-child(3){transform:rotate(-1deg)}
+  .plate .kimbap:nth-child(4){transform:rotate(2deg)}
+  .plate .kimbap:nth-child(5){transform:rotate(-1.5deg)}
+  .plate .kimbap:nth-child(6){transform:rotate(0.5deg)}
+
+  /* Display helpers */
+  .showcase-row{
+    display:flex;
+    align-items:end;
+    gap:1.5rem;
+  }
+  .size-label{
+    text-align:center;
+    font-size:0.75rem;
+    font-weight:600;
+    color:oklch(55% 0 0);
+    margin-top:0.5rem;
+  }
+  .dark-section .size-label{
+    color:oklch(70% 0 0);
+  }
+  .divider{
+    width:80px;
+    height:2px;
+    background:oklch(80% 0 0);
+    border-radius:1px;
+    margin:1rem auto;
+  }
+  .dark-section .divider{
+    background:oklch(35% 0 0);
+  }
+  .page{
+    max-width:720px;
+    margin:0 auto;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <h1>CSS Food Art &mdash; Illustration Style</h1>
+    <p>Cute flat illustration, pure CSS</p>
+  </div>
+
+  <!-- LIGHT BACKGROUND -->
+  <section class="section">
+    <span class="section-label">Light Background</span>
+
+    <div class="plate">
+      <div class="kimbap layout-a sesame-a">
+        <div class="rice"><div class="sesame"></div></div>
+        <div class="filling">
+          <div class="f-danmuji"></div>
+          <div class="f-ham"></div>
+          <div class="f-egg"></div>
+          <div class="f-spinach"></div>
+          <div class="f-carrot"></div>
+          <div class="f-crab"></div>
+        </div>
+      </div>
+      <div class="kimbap layout-b sesame-b">
+        <div class="rice"><div class="sesame"></div></div>
+        <div class="filling">
+          <div class="f-danmuji"></div>
+          <div class="f-ham"></div>
+          <div class="f-egg"></div>
+          <div class="f-spinach"></div>
+          <div class="f-carrot"></div>
+          <div class="f-crab"></div>
+        </div>
+      </div>
+      <div class="kimbap layout-c sesame-c">
+        <div class="rice"><div class="sesame"></div></div>
+        <div class="filling">
+          <div class="f-danmuji"></div>
+          <div class="f-ham"></div>
+          <div class="f-egg"></div>
+          <div class="f-spinach"></div>
+          <div class="f-carrot"></div>
+          <div class="f-crab"></div>
+        </div>
+      </div>
+      <div class="kimbap layout-d sesame-d">
+        <div class="rice"><div class="sesame"></div></div>
+        <div class="filling">
+          <div class="f-danmuji"></div>
+          <div class="f-ham"></div>
+          <div class="f-egg"></div>
+          <div class="f-spinach"></div>
+          <div class="f-carrot"></div>
+          <div class="f-crab"></div>
+        </div>
+      </div>
+      <div class="kimbap layout-e sesame-e">
+        <div class="rice"><div class="sesame"></div></div>
+        <div class="filling">
+          <div class="f-danmuji"></div>
+          <div class="f-ham"></div>
+          <div class="f-egg"></div>
+          <div class="f-spinach"></div>
+          <div class="f-carrot"></div>
+          <div class="f-crab"></div>
+        </div>
+      </div>
+      <div class="kimbap layout-f sesame-f">
+        <div class="rice"><div class="sesame"></div></div>
+        <div class="filling">
+          <div class="f-danmuji"></div>
+          <div class="f-ham"></div>
+          <div class="f-egg"></div>
+          <div class="f-spinach"></div>
+          <div class="f-carrot"></div>
+          <div class="f-crab"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <span class="section-label">Detail View (200px)</span>
+    <div class="kimbap large layout-a sesame-a">
+      <div class="rice"><div class="sesame"></div></div>
+      <div class="filling">
+        <div class="f-danmuji"></div>
+        <div class="f-ham"></div>
+        <div class="f-egg"></div>
+        <div class="f-spinach"></div>
+        <div class="f-carrot"></div>
+        <div class="f-crab"></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <span class="section-label">Scaling (48 / 64 / 80px)</span>
+    <div class="showcase-row">
+      <div>
+        <div class="kimbap s-48 layout-c sesame-c">
+          <div class="rice"><div class="sesame"></div></div>
+          <div class="filling">
+            <div class="f-danmuji"></div>
+            <div class="f-ham"></div>
+            <div class="f-egg"></div>
+            <div class="f-spinach"></div>
+            <div class="f-carrot"></div>
+            <div class="f-crab"></div>
+          </div>
+        </div>
+        <div class="size-label">48px</div>
+      </div>
+      <div>
+        <div class="kimbap s-64 layout-a sesame-d">
+          <div class="rice"><div class="sesame"></div></div>
+          <div class="filling">
+            <div class="f-danmuji"></div>
+            <div class="f-ham"></div>
+            <div class="f-egg"></div>
+            <div class="f-spinach"></div>
+            <div class="f-carrot"></div>
+            <div class="f-crab"></div>
+          </div>
+        </div>
+        <div class="size-label">64px</div>
+      </div>
+      <div>
+        <div class="kimbap s-80 layout-b sesame-e">
+          <div class="rice"><div class="sesame"></div></div>
+          <div class="filling">
+            <div class="f-danmuji"></div>
+            <div class="f-ham"></div>
+            <div class="f-egg"></div>
+            <div class="f-spinach"></div>
+            <div class="f-carrot"></div>
+            <div class="f-crab"></div>
+          </div>
+        </div>
+        <div class="size-label">80px</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DARK BACKGROUND -->
+  <section class="section dark-section">
+    <span class="section-label">Dark Background</span>
+
+    <div class="plate">
+      <div class="kimbap layout-a sesame-f">
+        <div class="rice"><div class="sesame"></div></div>
+        <div class="filling">
+          <div class="f-danmuji"></div>
+          <div class="f-ham"></div>
+          <div class="f-egg"></div>
+          <div class="f-spinach"></div>
+          <div class="f-carrot"></div>
+          <div class="f-crab"></div>
+        </div>
+      </div>
+      <div class="kimbap layout-b sesame-a">
+        <div class="rice"><div class="sesame"></div></div>
+        <div class="filling">
+          <div class="f-danmuji"></div>
+          <div class="f-ham"></div>
+          <div class="f-egg"></div>
+          <div class="f-spinach"></div>
+          <div class="f-carrot"></div>
+          <div class="f-crab"></div>
+        </div>
+      </div>
+      <div class="kimbap layout-c sesame-d">
+        <div class="rice"><div class="sesame"></div></div>
+        <div class="filling">
+          <div class="f-danmuji"></div>
+          <div class="f-ham"></div>
+          <div class="f-egg"></div>
+          <div class="f-spinach"></div>
+          <div class="f-carrot"></div>
+          <div class="f-crab"></div>
+        </div>
+      </div>
+      <div class="kimbap layout-d sesame-b">
+        <div class="rice"><div class="sesame"></div></div>
+        <div class="filling">
+          <div class="f-danmuji"></div>
+          <div class="f-ham"></div>
+          <div class="f-egg"></div>
+          <div class="f-spinach"></div>
+          <div class="f-carrot"></div>
+          <div class="f-crab"></div>
+        </div>
+      </div>
+      <div class="kimbap layout-e sesame-c">
+        <div class="rice"><div class="sesame"></div></div>
+        <div class="filling">
+          <div class="f-danmuji"></div>
+          <div class="f-ham"></div>
+          <div class="f-egg"></div>
+          <div class="f-spinach"></div>
+          <div class="f-carrot"></div>
+          <div class="f-crab"></div>
+        </div>
+      </div>
+      <div class="kimbap layout-f sesame-e">
+        <div class="rice"><div class="sesame"></div></div>
+        <div class="filling">
+          <div class="f-danmuji"></div>
+          <div class="f-ham"></div>
+          <div class="f-egg"></div>
+          <div class="f-spinach"></div>
+          <div class="f-carrot"></div>
+          <div class="f-crab"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <span class="section-label">Detail View (200px)</span>
+    <div class="kimbap large layout-e sesame-b">
+      <div class="rice"><div class="sesame"></div></div>
+      <div class="filling">
+        <div class="f-danmuji"></div>
+        <div class="f-ham"></div>
+        <div class="f-egg"></div>
+        <div class="f-spinach"></div>
+        <div class="f-carrot"></div>
+        <div class="f-crab"></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <span class="section-label">Scaling (48 / 64 / 80px)</span>
+    <div class="showcase-row">
+      <div>
+        <div class="kimbap s-48 layout-d sesame-f">
+          <div class="rice"><div class="sesame"></div></div>
+          <div class="filling">
+            <div class="f-danmuji"></div>
+            <div class="f-ham"></div>
+            <div class="f-egg"></div>
+            <div class="f-spinach"></div>
+            <div class="f-carrot"></div>
+            <div class="f-crab"></div>
+          </div>
+        </div>
+        <div class="size-label">48px</div>
+      </div>
+      <div>
+        <div class="kimbap s-64 layout-b sesame-a">
+          <div class="rice"><div class="sesame"></div></div>
+          <div class="filling">
+            <div class="f-danmuji"></div>
+            <div class="f-ham"></div>
+            <div class="f-egg"></div>
+            <div class="f-spinach"></div>
+            <div class="f-carrot"></div>
+            <div class="f-crab"></div>
+          </div>
+        </div>
+        <div class="size-label">64px</div>
+      </div>
+      <div>
+        <div class="kimbap s-80 layout-f sesame-c">
+          <div class="rice"><div class="sesame"></div></div>
+          <div class="filling">
+            <div class="f-danmuji"></div>
+            <div class="f-ham"></div>
+            <div class="f-egg"></div>
+            <div class="f-spinach"></div>
+            <div class="f-carrot"></div>
+            <div class="f-crab"></div>
+          </div>
+        </div>
+        <div class="size-label">80px</div>
+      </div>
+    </div>
+
+    <div style="height:2rem"></div>
+  </section>
+
+</div>
+</body>
+</html>

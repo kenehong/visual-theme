@@ -2,7 +2,7 @@
 
 Stop letting AI pick your theme. Design themes inspired by real-world visual references — not generic AI defaults.
 
-![visual-theme gallery](docs/assets/screenshot-gallery.png)
+![visual-theme gallery](gallery/assets/screenshot-gallery.png)
 
 <p align="center">
   <a href="https://kenehong.github.io/visual-theme/">
@@ -11,17 +11,17 @@ Stop letting AI pick your theme. Design themes inspired by real-world visual ref
 </p>
 
 <p align="center">
-  <img src="docs/assets/screenshot-streetwear.png" width="49%" />
-  <img src="docs/assets/screenshot-win95.png" width="49%" />
+  <img src="gallery/assets/screenshot-streetwear.png" width="49%" />
+  <img src="gallery/assets/screenshot-win95.png" width="49%" />
 </p>
 <p align="center">
-  <img src="docs/assets/screenshot-tamagotchi.png" width="49%" />
-  <img src="docs/assets/screenshot-brutalist.png" width="49%" />
+  <img src="gallery/assets/screenshot-tamagotchi.png" width="49%" />
+  <img src="gallery/assets/screenshot-brutalist.png" width="49%" />
 </p>
 
 ### How it works
 
-![How it works](docs/assets/screenshot-howitworks.png)
+![How it works](gallery/assets/screenshot-howitworks.png)
 
 ## What is this?
 
@@ -92,8 +92,8 @@ export default {
 ### With Claude Code
 
 ```bash
-# Copy the skill
-cp skill/SKILL.md ~/.claude/skills/extract-theme.md
+# Copy the agent skill
+cp agents/SKILL.md ~/.claude/skills/extract-theme.md
 
 # Provide a reference image and extract
 ```

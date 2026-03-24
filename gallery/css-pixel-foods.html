@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Korean Street Food — CSS Pixel Art</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #f5f0eb;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Nunito', sans-serif;
+    color: #5a4a3a;
+    padding: 2rem 1rem 3rem;
+  }
+  .page-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  .page-header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #3a2a1a;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.25rem;
+  }
+  .page-header p {
+    font-size: 0.85rem;
+    color: #8a7a6a;
+    font-weight: 400;
+  }
+  .foods-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.5rem;
+    max-width: 1400px;
+  }
+  .food-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .pixel-box {
+    position: relative;
+  }
+  .food-label {
+    text-align: center;
+  }
+  .food-label .kr {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #3a2a1a;
+  }
+  .food-label .en {
+    font-size: 0.75rem;
+    color: #8a7a6a;
+    font-weight: 400;
+  }
+  .icon-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .size-label {
+    font-size: 0.6rem;
+    color: #9a8a7a;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  @media (max-width: 900px) {
+    .foods-grid { gap: 2rem; }
+  }
+  @media (max-width: 600px) {
+    .foods-grid { flex-direction: column; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Korean Street Food &mdash; CSS Pixel Art</h1>
+  <p>Pure CSS, hand-crafted</p>
+</div>
+
+<div class="foods-grid">
+  <div class="food-card">
+    <div class="pixel-box" style="width:288px;height:288px;">
+      <div id="kimbap-main"></div>
+    </div>
+    <div class="icon-row">
+      <div class="pixel-box" style="width:96px;height:96px;">
+        <div id="kimbap-icon"></div>
+      </div>
+      <span class="size-label">96px</span>
+    </div>
+    <div class="food-label"><div class="kr">김밥</div><div class="en">Kimbap</div></div>
+  </div>
+
+  <div class="food-card">
+    <div class="pixel-box" style="width:288px;height:288px;">
+      <div id="cup-main"></div>
+    </div>
+    <div class="icon-row">
+      <div class="pixel-box" style="width:96px;height:96px;">
+        <div id="cup-icon"></div>
+      </div>
+      <span class="size-label">96px</span>
+    </div>
+    <div class="food-label"><div class="kr">컵라면</div><div class="en">Cup Ramyeon</div></div>
+  </div>
+
+  <div class="food-card">
+    <div class="pixel-box" style="width:288px;height:288px;">
+      <div id="tteok-main"></div>
+    </div>
+    <div class="icon-row">
+      <div class="pixel-box" style="width:96px;height:96px;">
+        <div id="tteok-icon"></div>
+      </div>
+      <span class="size-label">96px</span>
+    </div>
+    <div class="food-label"><div class="kr">떡볶이</div><div class="en">Tteokbokki</div></div>
+  </div>
+
+  <div class="food-card">
+    <div class="pixel-box" style="width:288px;height:288px;">
+      <div id="odeng-main"></div>
+    </div>
+    <div class="icon-row">
+      <div class="pixel-box" style="width:96px;height:96px;">
+        <div id="odeng-icon"></div>
+      </div>
+      <span class="size-label">96px</span>
+    </div>
+    <div class="food-label"><div class="kr">오뎅/어묵</div><div class="en">Odeng</div></div>
+  </div>
+
+  <div class="food-card">
+    <div class="pixel-box" style="width:288px;height:288px;">
+      <div id="bung-main"></div>
+    </div>
+    <div class="icon-row">
+      <div class="pixel-box" style="width:96px;height:96px;">
+        <div id="bung-icon"></div>
+      </div>
+      <span class="size-label">96px</span>
+    </div>
+    <div class="food-label"><div class="kr">붕어빵</div><div class="en">Bungeoppang</div></div>
+  </div>
+</div>
+
+<script>
+// =============================================
+// CSS Pixel Art — Korean Street Food Collection
+// 48x48 grid per item, rendered via box-shadow
+// =============================================
+const W = 48, H = 48;
+
+function dist(x, y, ax, ay) {
+  return Math.sqrt((x - ax) ** 2 + (y - ay) ** 2);
+}
+
+function shade3(px, py, ecx, ecy, hi, base, sh) {
+  const dir = (px - ecx) + (py - ecy);
+  if (dir < -1.2) return hi;
+  if (dir > 1.2) return sh;
+  return base;
+}
+
+function renderGrid(grid, mainId, iconId) {
+  function renderToElement(elementId, pixelSize) {
+    const shadows = [];
+    for (let y = 0; y < H; y++) {
+      for (let x = 0; x < W; x++) {
+        if (grid[y][x]) {
+          shadows.push(`${x * pixelSize}px ${y * pixelSize}px 0 ${grid[y][x]}`);
+        }
+      }
+    }
+    const el = document.getElementById(elementId);
+    if (el) {
+      el.style.boxShadow = shadows.join(',');
+      el.style.width = pixelSize + 'px';
+      el.style.height = pixelSize + 'px';
+      el.style.position = 'absolute';
+      el.style.top = '0';
+      el.style.left = '0';
+    }
+    return shadows.length;
+  }
+  const count = renderToElement(mainId, 6);
+  renderToElement(iconId, 2);
+  return count;
+}
+
+// =============================================
+// 1. KIMBAP (from existing file)
+// =============================================
+function buildKimbap() {
+  const grid = Array.from({ length: H }, () => Array(W).fill(null));
+  const cx = 23.5, cy = 23.5;
+
+  const COL = {
+    outline: '#0E160C',
+    seaweedHi: '#3D5838', seaweedBase: '#2D4828', seaweedSh: '#1E3018',
+    riceHi: '#F8F2E8', riceBase: '#F0E8D8', riceSh: '#D8CDB8',
+    danHi: '#F0D050', danBase: '#E8C840', danSh: '#D0B030',
+    eggHi: '#F0D880', eggBase: '#E8D070', eggSh: '#D0B850',
+    hamHi: '#D890A0', hamBase: '#D08090', hamSh: '#B06878',
+    spiHi: '#58B058', spiBase: '#48A048', spiSh: '#387838',
+    carHi: '#E08050', carBase: '#D87040', carSh: '#C06030',
+    crbHi: '#F0B890', crbBase: '#E8A880', crbSh: '#D09068',
+    burHi: '#9B7850', burBase: '#8B6840', burSh: '#6B5030',
+  };
+
+  const R_OUTLINE = 23.5;
+  const R_SEAWEED_OUT = 21.5;
+  const R_SEAWEED_IN = 19.5;
+  const R_RICE_IN = 12.5;
+
+  const fillingSeeds = [
+    { id: 'dan', cx: 17.5, cy: 17.5, weight: 1.3, hi: COL.danHi, base: COL.danBase, sh: COL.danSh },
+    { id: 'egg', cx: 27.5, cy: 16.5, weight: 1.1, hi: COL.eggHi, base: COL.eggBase, sh: COL.eggSh },
+    { id: 'ham', cx: 28.5, cy: 24, weight: 1.05, hi: COL.hamHi, base: COL.hamBase, sh: COL.hamSh },
+    { id: 'crb', cx: 17, cy: 23, weight: 0.9, hi: COL.crbHi, base: COL.crbBase, sh: COL.crbSh },
+    { id: 'bur', cx: 23, cy: 22, weight: 0.7, hi: COL.burHi, base: COL.burBase, sh: COL.burSh },
+    { id: 'spi', cx: 18, cy: 29, weight: 1.1, hi: COL.spiHi, base: COL.spiBase, sh: COL.spiSh },
+    { id: 'car', cx: 24, cy: 30, weight: 0.95, hi: COL.carHi, base: COL.carBase, sh: COL.carSh },
+    { id: 'egg2', cx: 29, cy: 29, weight: 0.85, hi: COL.eggHi, base: COL.eggBase, sh: COL.eggSh },
+  ];
+
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++) {
+      const d = dist(x, y, cx, cy);
+      if (d > R_OUTLINE) continue;
+      if (d > R_SEAWEED_OUT) { grid[y][x] = COL.outline; continue; }
+      if (d > R_SEAWEED_IN) { grid[y][x] = shade3(x, y, cx, cy, COL.seaweedHi, COL.seaweedBase, COL.seaweedSh); continue; }
+      if (d > R_RICE_IN) { grid[y][x] = shade3(x, y, cx, cy, COL.riceHi, COL.riceBase, COL.riceSh); continue; }
+      let bestDist = Infinity, bestSeed = null;
+      for (const s of fillingSeeds) {
+        const fd = dist(x, y, s.cx, s.cy) / s.weight;
+        if (fd < bestDist) { bestDist = fd; bestSeed = s; }
+      }
+      if (bestSeed) {
+        grid[y][x] = shade3(x, y, bestSeed.cx, bestSeed.cy, bestSeed.hi, bestSeed.base, bestSeed.sh);
+      }
+    }
+  }
+  return grid;
+}
+
+// =============================================
+// 2. CUP RAMYEON (front view)
+// =============================================
+function buildCupRamyeon() {
+  const grid = Array.from({ length: H }, () => Array(W).fill(null));
+  const outline = '#2A1810';
+
+  const COL = {
+    cupHi: '#E04838', cupBase: '#D04030', cupSh: '#A83028',
+    lidHi: '#F0E8E0', lidBase: '#E8E0D0', lidSh: '#D0C8B8',
+    noodleHi: '#F0D868', noodleBase: '#E8C860', noodleSh: '#D0B048',
+    steam: '#C8C0B8', steamLight: '#D8D0C8',
+    labelHi: '#F8D848', labelBase: '#F0D040', labelSh: '#D8B830',
+    bandHi: '#B83028', bandBase: '#A02820', bandSh: '#882018',
+    whiteText: '#F8F0E8',
+  };
+
+  const cupCx = 23.5;
+
+  // Cup trapezoid: top edge y=13, bottom y=43
+  // Top width ~28px centered, bottom width ~20px centered
+  const cupTopY = 13, cupBotY = 43;
+  const topHL = 14, topHR = 14; // half-widths from center
+  const botHL = 10, botHR = 10;
+
+  function cupLeft(y) {
+    const t = Math.max(0, Math.min(1, (y - cupTopY) / (cupBotY - cupTopY)));
+    return cupCx - topHL + (topHL - botHL) * t;
+  }
+  function cupRight(y) {
+    const t = Math.max(0, Math.min(1, (y - cupTopY) / (cupBotY - cupTopY)));
+    return cupCx + topHR - (topHR - botHR) * t;
+  }
+
+  function insideCup(x, y) {
+    if (y < cupTopY || y > cupBotY) return false;
+    return x >= cupLeft(y) && x <= cupRight(y);
+  }
+
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++) {
+
+      // Steam wisps (y 3..8), three sinuous columns
+      if (y >= 3 && y <= 8) {
+        const steamCols = [18, 24, 30];
+        for (const sc of steamCols) {
+          const offset = Math.round(Math.sin(y * 1.2 + sc) * 1);
+          if (x === sc + offset) {
+            grid[y][x] = (y % 2 === 0) ? COL.steam : COL.steamLight;
+          }
+        }
+        continue;
+      }
+
+      // Noodles visible above cup (y 9..12)
+      if (y >= 9 && y <= 12) {
+        const nL = 14, nR = 33;
+        if (x >= nL && x <= nR) {
+          // Wavy top edge
+          const wave = Math.sin(x * 0.8) * 1.2;
+          if (y >= 9 + wave) {
+            // Outline top/side edges of noodle mass
+            const above = y - 1 < 9 + Math.sin(x * 0.8) * 1.2;
+            const leftE = x === nL;
+            const rightE = x === nR;
+            if ((above && y === 9) || leftE || rightE) {
+              grid[y][x] = outline;
+            } else {
+              grid[y][x] = shade3(x, y, cupCx, 11, COL.noodleHi, COL.noodleBase, COL.noodleSh);
+            }
+          }
+        }
+        continue;
+      }
+
+      // Cup body
+      if (insideCup(x, y)) {
+        const lx = cupLeft(y), rx = cupRight(y);
+        // 2px outline on sides and bottom
+        const isLeftEdge = x < lx + 2;
+        const isRightEdge = x > rx - 2;
+        const isBottom = y >= cupBotY - 1;
+        const isTop = y <= cupTopY + 1;
+
+        if (isLeftEdge || isRightEdge || isBottom || isTop) {
+          grid[y][x] = outline;
+        }
+        // Dark band near top (y 15..18)
+        else if (y >= 15 && y <= 19) {
+          grid[y][x] = shade3(x, y, cupCx, 17, COL.bandHi, COL.bandBase, COL.bandSh);
+        }
+        // Yellow label stripe (y 27..31)
+        else if (y >= 27 && y <= 31) {
+          grid[y][x] = shade3(x, y, cupCx, 29, COL.labelHi, COL.labelBase, COL.labelSh);
+        }
+        // White text area hint (y 22..24)
+        else if (y >= 22 && y <= 24 && x >= 17 && x <= 30) {
+          grid[y][x] = shade3(x, y, cupCx, 23, COL.cupHi, COL.cupBase, COL.cupSh);
+        }
+        // Cup body red
+        else {
+          grid[y][x] = shade3(x, y, cupCx, 28, COL.cupHi, COL.cupBase, COL.cupSh);
+        }
+      }
+    }
+  }
+  return grid;
+}
+
+// =============================================
+// 3. TTEOKBOKKI (top-down bowl view)
+// =============================================
+function buildTteokbokki() {
+  const grid = Array.from({ length: H }, () => Array(W).fill(null));
+  const cx = 23.5, cy = 23.5;
+  const outline = '#2A1810';
+
+  const COL = {
+    bowlHi: '#F0E8E0', bowlBase: '#E8E0D0', bowlSh: '#D0C8B8',
+    sauceHi: '#D83828', sauceBase: '#C83020', sauceSh: '#A82818',
+    tteokHi: '#F8F0E8', tteokBase: '#F0E8D8', tteokSh: '#D8C8B0',
+    fishHi: '#F0D878', fishBase: '#E8D070', fishSh: '#D0B850',
+    greenOnion: '#48A048', greenOnionDk: '#388838',
+  };
+
+  const R_OUTLINE = 22;
+  const R_BOWL = 20;
+  const R_INNER = 17.5;
+
+  // Rice cakes — wider cylinders so they are visible at icon size
+  const riceCakes = [
+    { cx: 18, cy: 18, angle: -0.3, len: 8, wid: 3.5 },
+    { cx: 29, cy: 19, angle: 0.4, len: 7, wid: 3.5 },
+    { cx: 21, cy: 28, angle: 0.15, len: 8, wid: 3.5 },
+    { cx: 30, cy: 28, angle: -0.5, len: 6, wid: 3.5 },
+    { cx: 16, cy: 24, angle: 1.1, len: 7, wid: 3.0 },
+  ];
+
+  // Fish cake — larger triangle
+  const fishCake = { cx: 25, cy: 23, size: 4.5 };
+
+  function insideRiceCake(x, y) {
+    for (const rc of riceCakes) {
+      const dx = x - rc.cx, dy = y - rc.cy;
+      const cos = Math.cos(rc.angle), sin = Math.sin(rc.angle);
+      const lx = cos * dx + sin * dy;
+      const ly = -sin * dx + cos * dy;
+      // Rounded ends
+      if (Math.abs(ly) <= rc.wid / 2) {
+        if (Math.abs(lx) <= rc.len / 2) return rc;
+        // Round caps
+        const capCx = lx > 0 ? rc.len / 2 : -rc.len / 2;
+        if (dist(lx, ly, capCx, 0) <= rc.wid / 2) return rc;
+      }
+    }
+    return null;
+  }
+
+  function insideFishCake(x, y) {
+    const dx = x - fishCake.cx, dy = y - fishCake.cy;
+    const s = fishCake.size;
+    // Triangle pointing up-right
+    if (dy >= -s * 0.8 && dy <= s * 0.8) {
+      const width = s * (1 - (dy + s * 0.8) / (s * 1.6)) * 1.1;
+      if (dx >= -s * 0.3 && dx <= width) return true;
+    }
+    return false;
+  }
+
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++) {
+      const d = dist(x, y, cx, cy);
+      if (d > R_OUTLINE) continue;
+
+      // Outline ring
+      if (d > R_BOWL) { grid[y][x] = outline; continue; }
+
+      // Bowl rim
+      if (d > R_INNER) {
+        grid[y][x] = shade3(x, y, cx, cy, COL.bowlHi, COL.bowlBase, COL.bowlSh);
+        continue;
+      }
+
+      // Green onion bits (scattered on top)
+      if ((x === 20 && y === 16) || (x === 21 && y === 16) ||
+          (x === 27 && y === 15) || (x === 28 && y === 15) ||
+          (x === 18 && y === 22) || (x === 32 && y === 24)) {
+        grid[y][x] = COL.greenOnion;
+        continue;
+      }
+
+      // Rice cakes
+      const rc = insideRiceCake(x, y);
+      if (rc) {
+        grid[y][x] = shade3(x, y, rc.cx, rc.cy, COL.tteokHi, COL.tteokBase, COL.tteokSh);
+        continue;
+      }
+
+      // Fish cake
+      if (insideFishCake(x, y)) {
+        grid[y][x] = shade3(x, y, fishCake.cx, fishCake.cy, COL.fishHi, COL.fishBase, COL.fishSh);
+        continue;
+      }
+
+      // Sauce fills the rest
+      grid[y][x] = shade3(x, y, cx, cy, COL.sauceHi, COL.sauceBase, COL.sauceSh);
+    }
+  }
+  return grid;
+}
+
+// =============================================
+// 4. ODENG / FISH CAKE SKEWER (side view)
+// =============================================
+function buildOdeng() {
+  const grid = Array.from({ length: H }, () => Array(W).fill(null));
+  const outline = '#2A1810';
+
+  const COL = {
+    skewerHi: '#A08050', skewerBase: '#8B6840', skewerSh: '#6B5030',
+    fishHi: '#F0DDB0', fishBase: '#E8D0A0', fishSh: '#D0B880',
+    fishDk: '#C8B878',
+    brothHi: '#F0E0B0', brothBase: '#E8D8A0', brothSh: '#D0C888',
+    cupHi: '#F8F0E8', cupBase: '#F0E8E0', cupSh: '#D8D0C0',
+  };
+
+  const midX = 23.5;
+  const skX1 = 23, skX2 = 24;
+
+  // Fish cake: smooth zigzag — define as connected trapezoids
+  // Each segment goes from one side to the other
+  const segments = [
+    { y1: 6, y2: 12, x1L: 14, x1R: 28, x2L: 20, x2R: 33 },  // top-left to right
+    { y1: 12, y2: 18, x1L: 20, x1R: 33, x2L: 14, x2R: 28 },  // right to left
+    { y1: 18, y2: 24, x1L: 14, x1R: 28, x2L: 20, x2R: 33 },  // left to right
+    { y1: 24, y2: 30, x1L: 20, x1R: 33, x2L: 14, x2R: 28 },  // right to left
+  ];
+
+  function insideFish(x, y) {
+    for (const s of segments) {
+      if (y >= s.y1 && y < s.y2) {
+        const t = (y - s.y1) / (s.y2 - s.y1);
+        const left = s.x1L + (s.x2L - s.x1L) * t;
+        const right = s.x1R + (s.x2R - s.x1R) * t;
+        if (x >= left && x <= right) return s;
+      }
+    }
+    return null;
+  }
+
+  // Cup: y 35..44
+  const cupTopY = 35, cupBotY = 44;
+  const cupTopL = 14, cupTopR = 33, cupBotL = 17, cupBotR = 30;
+
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++) {
+
+      // Skewer tip (y 2..5)
+      if (y >= 2 && y <= 5) {
+        if (x === 23 && y >= 2) grid[y][x] = COL.skewerBase;
+        if (x === 24 && y >= 3) grid[y][x] = COL.skewerSh;
+        continue;
+      }
+
+      // Cup at bottom
+      if (y >= cupTopY && y <= cupBotY) {
+        const t = (y - cupTopY) / (cupBotY - cupTopY);
+        const cL = cupTopL + (cupBotL - cupTopL) * t;
+        const cR = cupTopR + (cupBotR - cupTopR) * t;
+        if (x >= cL && x <= cR) {
+          if (x < cL + 2 || x > cR - 2 || y >= cupBotY - 1) {
+            grid[y][x] = outline;
+          } else if (y <= cupTopY + 2) {
+            grid[y][x] = shade3(x, y, midX, cupTopY + 1, COL.brothHi, COL.brothBase, COL.brothSh);
+          } else {
+            grid[y][x] = shade3(x, y, midX, 40, COL.cupHi, COL.cupBase, COL.cupSh);
+          }
+        }
+        // Skewer into broth
+        if (y <= cupTopY + 2 && (x === skX1 || x === skX2)) {
+          grid[y][x] = shade3(x, y, midX, 20, COL.skewerHi, COL.skewerBase, COL.skewerSh);
+        }
+        continue;
+      }
+
+      // Skewer behind fish cake (y 5..34)
+      if ((x === skX1 || x === skX2) && y >= 5 && y <= 34) {
+        grid[y][x] = shade3(x, y, midX, 18, COL.skewerHi, COL.skewerBase, COL.skewerSh);
+      }
+
+      // Skewer between fish and cup (y 30..34)
+      if ((x === skX1 || x === skX2) && y >= 30 && y <= 34) {
+        grid[y][x] = shade3(x, y, midX, 32, COL.skewerHi, COL.skewerBase, COL.skewerSh);
+      }
+
+      // Fish cake
+      const seg = insideFish(x, y);
+      if (seg) {
+        const t = (y - seg.y1) / (seg.y2 - seg.y1);
+        const left = seg.x1L + (seg.x2L - seg.x1L) * t;
+        const right = seg.x1R + (seg.x2R - seg.x1R) * t;
+
+        // Edge detection for outline
+        const isEdge = !insideFish(x - 1, y) || !insideFish(x + 1, y) ||
+                       !insideFish(x, y - 1) || !insideFish(x, y + 1);
+        if (isEdge) {
+          grid[y][x] = outline;
+        } else {
+          const segCx = (left + right) / 2;
+          const segCy = (seg.y1 + seg.y2) / 2;
+          grid[y][x] = shade3(x, y, segCx, segCy, COL.fishHi, COL.fishBase, COL.fishSh);
+        }
+      }
+    }
+  }
+  return grid;
+}
+
+// =============================================
+// 5. BUNGEOPPANG (fish-shaped bread, side view)
+// =============================================
+function buildBungeoppang() {
+  const grid = Array.from({ length: H }, () => Array(W).fill(null));
+  const outline = '#2A2018';
+
+  const COL = {
+    bodyHi: '#E0B850', bodyBase: '#D0A040', bodySh: '#A08030',
+    bellyHi: '#E0C060', bellyBase: '#D8B060', bellySh: '#B89840',
+    eye: '#2A2018',
+  };
+
+  const bodyCx = 20, bodyCy = 24;
+
+  // Fish shape defined by vertical spans at each x column
+  // This gives precise control over the silhouette
+  function fishHalfHeight(x) {
+    // Head (x 4..10): rounded snout
+    if (x >= 4 && x <= 6) return 2 + (x - 4) * 1.5;
+    if (x >= 7 && x <= 10) return 6 + (x - 7) * 0.8;
+    // Body (x 11..30): full elliptical body
+    if (x >= 11 && x <= 30) {
+      const t = (x - 11) / 19;
+      return 9 + Math.sin(t * Math.PI) * 2; // max ~11 at center
+    }
+    // Tail narrowing (x 31..38)
+    if (x >= 31 && x <= 38) {
+      const t = (x - 31) / 7;
+      return 9 * (1 - t * 0.7);
+    }
+    // Tail fin flare (x 39..44)
+    if (x >= 39 && x <= 44) {
+      const t = (x - 39) / 5;
+      return 2.5 + t * 4.5;
+    }
+    return 0;
+  }
+
+  function insideFish(x, y) {
+    const hh = fishHalfHeight(x);
+    if (hh <= 0) return false;
+    return Math.abs(y - bodyCy) <= hh;
+  }
+
+  // Dorsal fin bump (top, x 18..28)
+  function insideDorsalFin(x, y) {
+    if (x < 18 || x > 28) return false;
+    const finPeak = 3;
+    const t = (x - 18) / 10;
+    const finH = finPeak * Math.sin(t * Math.PI);
+    const bodyTop = bodyCy - fishHalfHeight(x);
+    return y >= bodyTop - finH && y < bodyTop;
+  }
+
+  // Ventral fin bump (bottom, x 22..30)
+  function insideVentralFin(x, y) {
+    if (x < 22 || x > 30) return false;
+    const finPeak = 2;
+    const t = (x - 22) / 8;
+    const finH = finPeak * Math.sin(t * Math.PI);
+    const bodyBot = bodyCy + fishHalfHeight(x);
+    return y <= bodyBot + finH && y > bodyBot;
+  }
+
+  function insideShape(x, y) {
+    return insideFish(x, y) || insideDorsalFin(x, y) || insideVentralFin(x, y);
+  }
+
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++) {
+      if (!insideShape(x, y)) continue;
+
+      // Edge outline
+      const isEdge = !insideShape(x - 1, y) || !insideShape(x + 1, y) ||
+                      !insideShape(x, y - 1) || !insideShape(x, y + 1);
+
+      if (isEdge) {
+        grid[y][x] = outline;
+        continue;
+      }
+
+      // Eye (2x2 block near head)
+      if ((x === 10 || x === 11) && (y === 22 || y === 23)) {
+        grid[y][x] = COL.eye;
+        continue;
+      }
+
+      // Mouth line
+      if (y === bodyCy && x >= 5 && x <= 8) {
+        grid[y][x] = outline;
+        continue;
+      }
+
+      // Belly (lower half — lighter, filling visible)
+      if (y > bodyCy + 2) {
+        grid[y][x] = shade3(x, y, bodyCx, bodyCy, COL.bellyHi, COL.bellyBase, COL.bellySh);
+        continue;
+      }
+
+      // Body
+      grid[y][x] = shade3(x, y, bodyCx, bodyCy, COL.bodyHi, COL.bodyBase, COL.bodySh);
+    }
+  }
+  return grid;
+}
+
+// =============================================
+// RENDER ALL
+// =============================================
+const items = [
+  { build: buildKimbap, main: 'kimbap-main', icon: 'kimbap-icon' },
+  { build: buildCupRamyeon, main: 'cup-main', icon: 'cup-icon' },
+  { build: buildTteokbokki, main: 'tteok-main', icon: 'tteok-icon' },
+  { build: buildOdeng, main: 'odeng-main', icon: 'odeng-icon' },
+  { build: buildBungeoppang, main: 'bung-main', icon: 'bung-icon' },
+];
+
+let total = 0;
+for (const item of items) {
+  const grid = item.build();
+  total += renderGrid(grid, item.main, item.icon);
+}
+console.log(`Korean Street Food rendered: ${total} total pixels`);
+</script>
+
+</body>
+</html>

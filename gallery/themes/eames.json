@@ -1,0 +1,75 @@
+{
+  "name": "Eames",
+  "description": "Charles & Ray Eames mid-century modern. Case Study Houses, molded plywood, organic curves meets industrial precision. Warm optimism, honest materials.",
+  "source": "Eames House (Case Study #8), Herman Miller catalog, Powers of Ten, Ray Eames textiles & patterns",
+  "mood": ["warm", "organic", "mid-century"],
+  "shape": {
+    "radiusSm": "4px",
+    "radiusMd": "8px",
+    "radiusLg": "12px",
+    "radiusFull": "9999px",
+    "borderWidth": "1px"
+  },
+  "typography": {
+    "fontSans": "'Outfit', 'Segoe UI', sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Bricolage Grotesque', 'Georgia', serif",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "0.01em",
+    "letterSpacingBody": "0em",
+    "lineHeight": 1.65,
+    "lineHeightHeading": 1.15,
+    "textTransformHeading": "none"
+  },
+  "spacing": {
+    "density": "airy",
+    "scale": 1.1
+  },
+  "depth": {
+    "shadowSm": "0 1px 3px oklch(20% 0.02 50 / 0.08)",
+    "shadowMd": "0 4px 12px oklch(20% 0.02 50 / 0.1)",
+    "shadowLg": "0 8px 24px oklch(20% 0.02 50 / 0.12)",
+    "shadowStyle": "neutral"
+  },
+  "motion": {
+    "durationFast": "120ms",
+    "durationNormal": "200ms",
+    "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(95% 0.015 75)",
+    "surface": "oklch(98% 0.008 75)",
+    "text": "oklch(20% 0.02 50)",
+    "primary": "oklch(55% 0.16 40)",
+    "accent": "oklch(55% 0.1 195)",
+    "mustard": "oklch(78% 0.14 85)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(15% 0.015 50)",
+    "surface": "oklch(20% 0.02 50)",
+    "text": "oklch(90% 0.015 75)",
+    "primary": "oklch(60% 0.16 40)",
+    "accent": "oklch(60% 0.1 195)",
+    "mustard": "oklch(80% 0.14 85)"
+  },
+  "demo": {
+    "type": "shop",
+    "title": "Eames House",
+    "subtitle": "Good Design Is Good Design — Since 1941",
+    "items": [
+      { "name": "Lounge Chair & Ottoman", "price": "$6,995", "tag": "Icon" },
+      { "name": "Molded Shell Chair", "price": "$449", "tag": "Classic" },
+      { "name": "House Bird", "price": "$395", "tag": "Object" }
+    ],
+    "banner": "THE DETAILS ARE NOT THE DETAILS. THEY MAKE THE DESIGN."
+  },
+  "suggestions": {
+    "icons": "Lucide (stroke 1.5px) — simple, geometric but friendly",
+    "components": "rounded cards with warm shadows, organic shapes as decoration, dot-grid patterns, mid-century color blocks, warm dividers",
+    "avoid": "sharp corners on everything, dark heavy borders, neon colors, overly geometric/cold layouts, monospace fonts",
+    "googleFonts": "Bricolage+Grotesque:wght@400;500;600;700&family=Outfit:wght@300;400;500;600",
+    "texture": "subtle paper grain via CSS noise, warm-tinted overlays"
+  }
+}

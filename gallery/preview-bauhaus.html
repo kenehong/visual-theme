@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BAUHAUS WERKSTATT — Form Follows Function</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: oklch(96% 0.005 80);
+    --surface: oklch(99% 0.002 80);
+    --text: oklch(15% 0.005 0);
+    --primary: oklch(55% 0.22 25);
+    --accent: oklch(45% 0.18 255);
+    --yellow: oklch(85% 0.18 95);
+    --muted: oklch(50% 0.02 0);
+    --border: oklch(15% 0.005 0);
+    --font-display: 'Bebas Neue', 'Impact', sans-serif;
+    --font-body: 'DM Sans', 'Segoe UI', sans-serif;
+    --border-thick: 2px solid var(--border);
+    --shadow-hard: 5px 5px 0 oklch(15% 0.005 0 / 0.2);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: oklch(12% 0.01 250);
+      --surface: oklch(18% 0.015 250);
+      --text: oklch(93% 0.01 80);
+      --primary: oklch(60% 0.22 25);
+      --accent: oklch(55% 0.18 255);
+      --yellow: oklch(85% 0.18 95);
+      --muted: oklch(55% 0.02 80);
+      --border: oklch(80% 0.01 80);
+    }
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-weight: 400;
+    color: var(--text);
+    background: var(--bg);
+    letter-spacing: 0.01em;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* === HEADER === */
+  .header { padding: 2.5rem 0 1.5rem; position: relative; }
+  .header-geo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .geo-circle {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--primary);
+  }
+  .geo-square {
+    width: 48px; height: 48px;
+    background: var(--accent);
+  }
+  .geo-triangle {
+    width: 0; height: 0;
+    border-left: 28px solid transparent;
+    border-right: 28px solid transparent;
+    border-bottom: 48px solid var(--yellow);
+  }
+  .header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 12vw, 6rem);
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text);
+    line-height: 1.0;
+    text-align: center;
+  }
+  .header-sub {
+    font-weight: 400;
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+
+  /* === GEOMETRIC BAR DIVIDER === */
+  .geo-bars {
+    display: flex;
+    height: 8px;
+    margin: 1rem 0;
+    gap: 0;
+  }
+  .geo-bars .bar-red { flex: 3; background: var(--primary); }
+  .geo-bars .bar-blue { flex: 2; background: var(--accent); }
+  .geo-bars .bar-yellow { flex: 1; background: var(--yellow); }
+  .geo-bars .bar-black { flex: 4; background: var(--text); }
+
+  .geo-bars-thin {
+    display: flex;
+    height: 3px;
+    margin: 0.75rem 0;
+  }
+  .geo-bars-thin .bar-red { flex: 1; background: var(--primary); }
+  .geo-bars-thin .bar-blue { flex: 1; background: var(--accent); }
+  .geo-bars-thin .bar-yellow { flex: 1; background: var(--yellow); }
+
+  /* === BLACK LINE DIVIDER === */
+  .black-line { height: 2px; background: var(--border); margin: 1rem 0; }
+
+  /* === HERO === */
+  .hero { text-align: center; padding: 2rem 1rem 1.5rem; }
+  .hero h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 6vw, 3rem);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    line-height: 1.0;
+  }
+  .hero p {
+    font-size: 0.95rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-top: 0.75rem;
+  }
+
+  /* === COURSE CARDS === */
+  .courses {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 1.25rem;
+    padding: 1.5rem 0;
+  }
+  .course-card {
+    background: var(--surface);
+    border: var(--border-thick);
+    padding: 0;
+    position: relative;
+    box-shadow: var(--shadow-hard);
+  }
+  .course-card .card-bar {
+    height: 6px;
+    width: 100%;
+  }
+  .course-card:nth-child(1) .card-bar { background: var(--primary); }
+  .course-card:nth-child(2) .card-bar { background: var(--accent); }
+  .course-card:nth-child(3) .card-bar { background: var(--yellow); }
+  .course-card .card-body { padding: 1.25rem; }
+  .course-card .card-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  .course-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    line-height: 1.0;
+    margin-bottom: 0.5rem;
+  }
+  .course-card p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .course-card .price {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    color: var(--text);
+    margin-top: 0.75rem;
+    display: block;
+    line-height: 1.0;
+  }
+
+  /* === BANNER === */
+  .banner {
+    background: var(--text);
+    color: var(--bg);
+    text-align: center;
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* === SCHEDULE TABLE === */
+  .schedule-section { padding: 1.5rem 0; }
+  .schedule-section h2, .enroll h2 {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 1.25rem;
+  }
+  .schedule-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .schedule-table th, .schedule-table td { padding: 0.65rem 1rem; text-align: left; }
+  .schedule-table th {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--text);
+  }
+  .schedule-table td { border-bottom: 2px solid var(--border); font-weight: 400; }
+  .schedule-table td:last-child { text-align: right; font-family: var(--font-display); font-size: 1.1rem; }
+
+  /* === ENROLLMENT FORM === */
+  .enroll { padding: 1.5rem 0; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 520px; }
+  .form-group { text-align: left; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+  }
+  .form-group input, .form-group select {
+    width: 100%;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 0.9rem;
+    padding: 0.6rem 0.75rem;
+    background: var(--surface);
+    color: var(--text);
+    border: var(--border-thick);
+    outline: none;
+    border-radius: 0;
+    transition: box-shadow 150ms;
+  }
+  .form-group input:focus, .form-group select:focus {
+    box-shadow: 3px 3px 0 var(--primary);
+  }
+  .form-group input::placeholder { color: oklch(55% 0.02 0); }
+
+  /* === BUTTONS === */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.7rem 2rem;
+    cursor: pointer;
+    border-radius: 0;
+    transition: all 150ms;
+  }
+  .btn-primary {
+    background: var(--primary);
+    color: oklch(99% 0 0);
+    border: 2px solid var(--primary);
+  }
+  .btn-primary:hover { box-shadow: 3px 3px 0 var(--text); }
+  .btn-accent {
+    background: var(--accent);
+    color: oklch(99% 0 0);
+    border: 2px solid var(--accent);
+  }
+  .btn-accent:hover { box-shadow: 3px 3px 0 var(--text); }
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: var(--border-thick);
+  }
+  .btn-outline:hover { background: var(--text); color: var(--bg); }
+  .btn-yellow {
+    background: var(--yellow);
+    color: var(--text);
+    border: 2px solid var(--yellow);
+  }
+  .btn-yellow:hover { box-shadow: 3px 3px 0 var(--text); }
+  .btn-full { width: 100%; }
+
+  /* === FOOTER === */
+  .footer-geo {
+    display: flex;
+    height: 4px;
+  }
+  .footer-geo span:nth-child(1) { flex: 1; background: var(--primary); }
+  .footer-geo span:nth-child(2) { flex: 1; background: var(--accent); }
+  .footer-geo span:nth-child(3) { flex: 1; background: var(--yellow); }
+  .footer-geo span:nth-child(4) { flex: 1; background: var(--text); }
+  .footer {
+    text-align: center;
+    padding: 1.25rem 1rem;
+    font-weight: 500;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ============ COMPONENT SHOWCASE ============ */
+  .showcase-sep { margin: 3rem 0 2rem; border: none; border-top: 2px solid var(--border); }
+  .showcase-title {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--text);
+    margin-bottom: 2rem;
+  }
+  .section-label {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.35rem;
+    margin-bottom: 1rem;
+  }
+  .comp-section { margin-bottom: 2.5rem; }
+
+  /* Typography specimen */
+  .type-specimen h1 {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1.0;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .type-specimen h2 {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.0;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+  }
+  .type-specimen h3 {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.0;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .type-specimen p {
+    font-size: 0.95rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    max-width: 60ch;
+    color: var(--text);
+  }
+
+  /* Color swatches */
+  .swatches { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .swatch { width: 80px; border: var(--border-thick); overflow: hidden; }
+  .swatch-color { height: 56px; }
+  .swatch-label {
+    padding: 0.3rem 0.4rem;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--surface);
+    text-align: center;
+    border-top: var(--border-thick);
+    color: var(--muted);
+  }
+
+  .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+  .badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+
+  .badge {
+    display: inline-block;
+    padding: 0.2rem 0.75rem;
+    font-weight: 700;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: var(--border-thick);
+  }
+  .badge-primary { background: var(--primary); color: oklch(99% 0 0); border-color: var(--primary); }
+  .badge-accent { background: var(--accent); color: oklch(99% 0 0); border-color: var(--accent); }
+  .badge-yellow { background: var(--yellow); color: var(--text); border-color: var(--yellow); }
+  .badge-outline { background: transparent; color: var(--text); }
+
+  /* Demo card */
+  .demo-card {
+    background: var(--surface);
+    border: var(--border-thick);
+    max-width: 300px;
+    box-shadow: var(--shadow-hard);
+  }
+  .demo-card .card-bar { height: 6px; background: var(--primary); }
+  .demo-card .card-body { padding: 1.25rem; }
+
+  /* Demo table */
+  .demo-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .demo-table th, .demo-table td { padding: 0.55rem 0.75rem; text-align: left; }
+  .demo-table th {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--text);
+  }
+  .demo-table td { border-bottom: 2px solid var(--border); font-weight: 400; }
+
+  /* === GEOMETRIC HEADER PATTERN === */
+  .geo-pattern {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    justify-content: center;
+    margin: 1.5rem 0;
+  }
+  .geo-pattern .gp-block {
+    display: inline-block;
+  }
+  .geo-pattern .gp-r1 { width: 24px; height: 24px; background: var(--primary); }
+  .geo-pattern .gp-b1 { width: 16px; height: 40px; background: var(--accent); }
+  .geo-pattern .gp-y1 { width: 32px; height: 32px; background: var(--yellow); }
+  .geo-pattern .gp-k1 { width: 10px; height: 56px; background: var(--text); }
+  .geo-pattern .gp-c1 { width: 28px; height: 28px; border-radius: 50%; background: var(--primary); }
+  .geo-pattern .gp-b2 { width: 20px; height: 48px; background: var(--accent); }
+  .geo-pattern .gp-y2 { width: 14px; height: 20px; background: var(--yellow); }
+  .geo-pattern .gp-r2 { width: 36px; height: 12px; background: var(--primary); }
+  .geo-pattern .gp-c2 { width: 20px; height: 20px; border-radius: 50%; background: var(--yellow); }
+
+  @media (max-width: 480px) {
+    .courses { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    .form-group.full { grid-column: 1; }
+    .header-geo { gap: 0.75rem; }
+    .geo-circle, .geo-square { width: 36px; height: 36px; }
+    .geo-triangle { border-left-width: 20px; border-right-width: 20px; border-bottom-width: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-geo">
+      <div class="geo-circle"></div>
+      <div class="geo-square"></div>
+      <div class="geo-triangle"></div>
+    </div>
+    <h1>Bauhaus Werkstatt</h1>
+    <div class="header-sub">Form Follows Function &mdash; Est. 1919</div>
+  </header>
+
+  <!-- Geometric bar divider -->
+  <div class="geo-bars">
+    <div class="bar-red"></div>
+    <div class="bar-blue"></div>
+    <div class="bar-yellow"></div>
+    <div class="bar-black"></div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h2>Design Is Not Decoration</h2>
+    <p>Workshops in Form, Color &amp; Typography &middot; Spring 2026 Semester</p>
+  </div>
+
+  <!-- Black line -->
+  <div class="black-line"></div>
+
+  <!-- GEOMETRIC PATTERN -->
+  <div class="geo-pattern">
+    <span class="gp-block gp-r1"></span>
+    <span class="gp-block gp-b1"></span>
+    <span class="gp-block gp-y1"></span>
+    <span class="gp-block gp-k1"></span>
+    <span class="gp-block gp-c1"></span>
+    <span class="gp-block gp-b2"></span>
+    <span class="gp-block gp-y2"></span>
+    <span class="gp-block gp-r2"></span>
+    <span class="gp-block gp-c2"></span>
+  </div>
+
+  <!-- COURSE CARDS -->
+  <div class="courses">
+    <div class="course-card">
+      <div class="card-bar"></div>
+      <div class="card-body">
+        <span class="card-tag">Foundation</span>
+        <h3>Grundkurs</h3>
+        <p>The foundational course. Material studies, form analysis, and the grammar of visual language.</p>
+        <span class="price">$320</span>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="card-bar"></div>
+      <div class="card-body">
+        <span class="card-tag">Workshop</span>
+        <h3>Typography Lab</h3>
+        <p>Universal letterforms. Grid systems, hierarchy, and the geometry of type design.</p>
+        <span class="price">$280</span>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="card-bar"></div>
+      <div class="card-body">
+        <span class="card-tag">Seminar</span>
+        <h3>Color Theory</h3>
+        <p>Kandinsky's color-form relationships. Primary palette, contrast, and spatial color dynamics.</p>
+        <span class="price">$250</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Thin geometric bars -->
+  <div class="geo-bars-thin">
+    <div class="bar-red"></div>
+    <div class="bar-blue"></div>
+    <div class="bar-yellow"></div>
+  </div>
+
+  <!-- BANNER -->
+  <div class="banner">Less Is More &mdash; Enroll Now</div>
+
+  <!-- SCHEDULE TABLE -->
+  <section class="schedule-section">
+    <h2>Workshop Schedule</h2>
+    <table class="schedule-table">
+      <thead>
+        <tr><th>Course</th><th>Instructor</th><th>Schedule</th><th>Fee</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Grundkurs</td><td>J. Albers</td><td>Mon &amp; Wed, 9&ndash;12</td><td>$320</td></tr>
+        <tr><td>Typography Lab</td><td>H. Bayer</td><td>Tue &amp; Thu, 10&ndash;13</td><td>$280</td></tr>
+        <tr><td>Color Theory</td><td>W. Kandinsky</td><td>Wed &amp; Fri, 14&ndash;17</td><td>$250</td></tr>
+        <tr><td>Material Workshop</td><td>L. Moholy-Nagy</td><td>Sat, 10&ndash;16</td><td>$350</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Black line -->
+  <div class="black-line"></div>
+
+  <!-- ENROLLMENT FORM -->
+  <section class="enroll">
+    <h2>Enroll Now</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" placeholder="Walter Gropius">
+      </div>
+      <div class="form-group">
+        <label>Workshop</label>
+        <select>
+          <option>Grundkurs</option>
+          <option>Typography Lab</option>
+          <option>Color Theory</option>
+          <option>Material Workshop</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" placeholder="name@bauhaus.de">
+      </div>
+      <div class="form-group">
+        <label>Semester</label>
+        <select>
+          <option>Spring 2026</option>
+          <option>Fall 2026</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <button class="btn btn-primary btn-full">Submit Application</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="footer-geo">
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <div class="footer">
+    &copy; 1919&ndash;2026 Bauhaus Werkstatt &middot; Dessau &middot; Form Follows Function
+  </div>
+
+  <!-- ============ COMPONENT SHOWCASE ============ -->
+  <hr class="showcase-sep">
+  <div class="showcase-title" id="components">Components</div>
+
+  <!-- Typography -->
+  <div class="comp-section">
+    <div class="section-label">Typography</div>
+    <div class="type-specimen">
+      <h1>Display Heading H1</h1>
+      <h2>Section Heading H2</h2>
+      <h3>Subsection Heading H3</h3>
+      <p>Body text in DM Sans 400. The quick brown fox jumps over the lazy dog. Designed for geometric precision, functional clarity, and primary-color boldness.</p>
+      <p style="font-weight:700">Bold body text (700 weight) for strong emphasis and structural hierarchy.</p>
+    </div>
+  </div>
+
+  <!-- Colors -->
+  <div class="comp-section">
+    <div class="section-label">Colors</div>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-color" style="background:var(--bg)"></div><div class="swatch-label">BG</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--surface)"></div><div class="swatch-label">Surface</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--text)"></div><div class="swatch-label">Text</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--primary)"></div><div class="swatch-label">Red</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--accent)"></div><div class="swatch-label">Blue</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--yellow)"></div><div class="swatch-label">Yellow</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--muted)"></div><div class="swatch-label">Muted</div></div>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="comp-section">
+    <div class="section-label">Buttons</div>
+    <div class="btn-row">
+      <button class="btn btn-primary">Primary Red</button>
+      <button class="btn btn-accent">Accent Blue</button>
+      <button class="btn btn-outline">Outline</button>
+      <button class="btn btn-yellow">Yellow</button>
+    </div>
+  </div>
+
+  <!-- Badges -->
+  <div class="comp-section">
+    <div class="section-label">Badges</div>
+    <div class="badge-row">
+      <span class="badge badge-primary">Foundation</span>
+      <span class="badge badge-accent">Workshop</span>
+      <span class="badge badge-yellow">Seminar</span>
+      <span class="badge badge-outline">Elective</span>
+    </div>
+  </div>
+
+  <!-- Card -->
+  <div class="comp-section">
+    <div class="section-label">Card</div>
+    <div class="demo-card">
+      <div class="card-bar"></div>
+      <div class="card-body">
+        <h3 style="font-family:var(--font-display); font-size:1.4rem; font-weight:400; letter-spacing:0.1em; text-transform:uppercase; color:var(--text); margin-bottom:0.5rem; line-height:1.0;">Material Workshop</h3>
+        <p style="font-size:0.85rem; color:var(--muted); line-height:1.5; margin-bottom:0.75rem;">Explore texture, weight, and structure through hands-on material experiments.</p>
+        <button class="btn btn-outline" style="width:100%">View Details</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div class="comp-section">
+    <div class="section-label">Form Input</div>
+    <div style="max-width:400px; display:flex; gap:0">
+      <input type="text" placeholder="Enter your email..." style="flex:1; font-family:var(--font-body); font-weight:400; font-size:0.9rem; padding:0.6rem 0.75rem; background:var(--surface); color:var(--text); border:var(--border-thick); border-right:none; outline:none; border-radius:0;">
+      <button class="btn btn-primary" style="border-left:var(--border-thick)">Submit</button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="comp-section">
+    <div class="section-label">Data Table</div>
+    <table class="demo-table">
+      <thead>
+        <tr><th>Workshop</th><th>Instructor</th><th>Level</th><th>Fee</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Grundkurs</td><td>J. Albers</td><td>Beginner</td><td>$320</td></tr>
+        <tr><td>Typography Lab</td><td>H. Bayer</td><td>Intermediate</td><td>$280</td></tr>
+        <tr><td>Color Theory</td><td>W. Kandinsky</td><td>All Levels</td><td>$250</td></tr>
+        <tr><td>Material Workshop</td><td>L. Moholy-Nagy</td><td>Advanced</td><td>$350</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="height:2rem"></div>
+</div>
+
+</body>
+</html>

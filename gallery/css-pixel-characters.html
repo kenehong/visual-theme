@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Pixel Characters</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #f5f0eb;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Nunito', sans-serif;
+    color: #5a4a3a;
+    padding: 2rem 1rem;
+    gap: 2rem;
+  }
+  .page-title { text-align: center; margin-bottom: 0.5rem; }
+  .page-title h1 {
+    font-size: 1.5rem; font-weight: 700; color: #3a2a1a;
+    letter-spacing: 0.02em; margin-bottom: 0.25rem;
+  }
+  .page-title p { font-size: 0.85rem; color: #8a7a6a; }
+  .characters-row {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 2.5rem; max-width: 1400px;
+  }
+  .char-card {
+    display: flex; flex-direction: column; align-items: center; gap: 1rem;
+    background: rgba(255,255,255,0.4); border-radius: 1rem;
+    padding: 1.5rem 1.5rem 1rem; min-width: 200px;
+  }
+  .pixel-box { position: relative; }
+  .char-name {
+    text-align: center; font-weight: 700; font-size: 1rem; color: #3a2a1a;
+  }
+  .char-name span { display: block; font-weight: 400; font-size: 0.75rem; color: #9a8a7a; }
+  .icon-row { display: flex; align-items: center; gap: 0.5rem; }
+  .size-label {
+    font-size: 0.65rem; color: #9a8a7a; letter-spacing: 0.08em;
+    text-transform: uppercase; font-weight: 600;
+  }
+  @media (max-width: 600px) {
+    .characters-row { gap: 1.5rem; }
+    .char-card { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-title">
+  <h1>CSS Pixel Characters</h1>
+  <p>Pure CSS, hand-crafted</p>
+</div>
+
+<div class="characters-row">
+  <div class="char-card">
+    <div class="pixel-box" style="width:288px;height:288px;">
+      <div id="jjanggu-main"></div>
+    </div>
+    <div class="icon-row">
+      <div class="pixel-box" style="width:96px;height:96px;">
+        <div id="jjanggu-icon"></div>
+      </div>
+      <span class="size-label">Icon</span>
+    </div>
+    <div class="char-name">짱구<span>Shin-chan</span></div>
+  </div>
+
+  <div class="char-card">
+    <div class="pixel-box" style="width:288px;height:288px;">
+      <div id="pororo-main"></div>
+    </div>
+    <div class="icon-row">
+      <div class="pixel-box" style="width:96px;height:96px;">
+        <div id="pororo-icon"></div>
+      </div>
+      <span class="size-label">Icon</span>
+    </div>
+    <div class="char-name">뽀로로<span>Pororo</span></div>
+  </div>
+
+  <div class="char-card">
+    <div class="pixel-box" style="width:288px;height:288px;">
+      <div id="shiba-main"></div>
+    </div>
+    <div class="icon-row">
+      <div class="pixel-box" style="width:96px;height:96px;">
+        <div id="shiba-icon"></div>
+      </div>
+      <span class="size-label">Icon</span>
+    </div>
+    <div class="char-name">시바견<span>Shiba Inu</span></div>
+  </div>
+
+  <div class="char-card">
+    <div class="pixel-box" style="width:288px;height:288px;">
+      <div id="cat-main"></div>
+    </div>
+    <div class="icon-row">
+      <div class="pixel-box" style="width:96px;height:96px;">
+        <div id="cat-icon"></div>
+      </div>
+      <span class="size-label">Icon</span>
+    </div>
+    <div class="char-name">고양이<span>Cat</span></div>
+  </div>
+</div>
+
+<script>
+// =============================================
+// CSS Pixel Characters — 48x48 grid each
+// =============================================
+const W = 48, H = 48;
+
+function dist(x, y, ax, ay) {
+  return Math.sqrt((x - ax) ** 2 + (y - ay) ** 2);
+}
+
+function shade3(px, py, ecx, ecy, hi, base, sh) {
+  const dir = (px - ecx) + (py - ecy);
+  if (dir < -1.2) return hi;
+  if (dir > 1.2) return sh;
+  return base;
+}
+
+function makeGrid() {
+  return Array.from({ length: H }, () => Array(W).fill(null));
+}
+
+function set(grid, x, y, color) {
+  const ix = Math.round(x), iy = Math.round(y);
+  if (ix >= 0 && ix < W && iy >= 0 && iy < H) grid[iy][ix] = color;
+}
+
+function fillRect(grid, x, y, w, h, color) {
+  for (let dy = 0; dy < h; dy++) {
+    for (let dx = 0; dx < w; dx++) {
+      set(grid, x + dx, y + dy, color);
+    }
+  }
+}
+
+function fillCircle(grid, cx, cy, r, color) {
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++) {
+      if (dist(x, y, cx, cy) <= r) set(grid, x, y, color);
+    }
+  }
+}
+
+function fillOutline(grid, cx, cy, r, thickness, color) {
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++) {
+      const d = dist(x, y, cx, cy);
+      if (d <= r && d > r - thickness) set(grid, x, y, color);
+    }
+  }
+}
+
+function fillEllipse(grid, cx, cy, rx, ry, color) {
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++) {
+      if (((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 <= 1) {
+        set(grid, x, y, color);
+      }
+    }
+  }
+}
+
+function fillEllipseOutline(grid, cx, cy, rx, ry, thickness, color) {
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++) {
+      const v = ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2;
+      const vInner = ((x - cx) / (rx - thickness)) ** 2 + ((y - cy) / (ry - thickness)) ** 2;
+      if (v <= 1 && vInner > 1) set(grid, x, y, color);
+    }
+  }
+}
+
+// =============================================
+// 1. 짱구 (Shin-chan)
+// =============================================
+function buildJjanggu() {
+  const g = makeGrid();
+  const outline = '#0A0A0A';
+  const skinHi = '#F8D8B0'; const skin = '#F0C8A0'; const skinSh = '#D8B088';
+  const hair = '#1A1A1A';
+  const shirtHi = '#E05050'; const shirt = '#D04040'; const shirtSh = '#B03030';
+  const white = '#F0F0F0';
+  const mouth = '#C04040';
+
+  const hcx = 23.5, hcy = 18;
+
+  // Head outline (big round head)
+  fillCircle(g, hcx, hcy, 15.5, outline);
+  // Head fill skin
+  fillCircle(g, hcx, hcy, 13.5, skin);
+  // Head shading
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++) {
+      const d = dist(x, y, hcx, hcy);
+      if (d <= 13.5) {
+        set(g, x, y, shade3(x, y, hcx, hcy, skinHi, skin, skinSh));
+      }
+    }
+  }
+
+  // Hair - small jagged tuft on top of mostly-bald head
+  // Just a few spiky bits poking up from the top of the head
+  fillRect(g, 20, 2, 7, 3, hair);
+  fillRect(g, 21, 1, 5, 2, hair);
+  fillRect(g, 19, 4, 2, 2, hair);
+  fillRect(g, 26, 4, 2, 2, hair);
+  fillRect(g, 22, 0, 3, 2, hair);
+  // Outline around hair tufts
+  set(g, 21, 0, outline); set(g, 25, 0, outline);
+  set(g, 19, 1, outline); set(g, 27, 1, outline);
+  set(g, 18, 3, outline); set(g, 28, 3, outline);
+  set(g, 18, 5, outline); set(g, 28, 5, outline);
+
+  // Ears
+  fillCircle(g, 8.5, 18, 3, outline);
+  fillCircle(g, 8.5, 18, 1.5, skin);
+  fillCircle(g, 38.5, 18, 3, outline);
+  fillCircle(g, 38.5, 18, 1.5, skin);
+
+  // SIGNATURE THICK EYEBROWS - the key feature!
+  // Left eyebrow: thick black rectangle, 9px wide, 3px tall
+  fillRect(g, 11, 14, 9, 4, outline);
+  // Right eyebrow
+  fillRect(g, 27, 14, 9, 4, outline);
+
+  // Eyes - small dots below eyebrows
+  fillRect(g, 15, 20, 2, 2, outline);
+  fillRect(g, 30, 20, 2, 2, outline);
+
+  // Mouth - small simple smile
+  fillRect(g, 21, 25, 5, 1, mouth);
+  set(g, 20, 24, mouth);
+  set(g, 26, 24, mouth);
+
+  // Cheeks - subtle pink circles
+  fillCircle(g, 13, 23, 2.5, '#F0A8A8');
+  fillCircle(g, 34, 23, 2.5, '#F0A8A8');
+
+  // Body/shirt (small compared to head)
+  // Neck
+  fillRect(g, 21, 32, 6, 3, outline);
+  fillRect(g, 22, 32, 4, 2, skin);
+
+  // Shirt body
+  fillRect(g, 14, 34, 20, 12, outline);
+  fillRect(g, 15, 35, 18, 10, shirt);
+  // Shirt shading
+  for (let y = 35; y < 45; y++) {
+    for (let x = 15; x < 33; x++) {
+      set(g, x, y, shade3(x, y, 23.5, 39, shirtHi, shirt, shirtSh));
+    }
+  }
+
+  // Arms - stubby
+  fillRect(g, 10, 35, 5, 6, outline);
+  fillRect(g, 11, 36, 3, 4, skin);
+  fillRect(g, 33, 35, 5, 6, outline);
+  fillRect(g, 34, 36, 3, 4, skin);
+
+  // Legs - short stubby
+  fillRect(g, 17, 45, 5, 3, outline);
+  fillRect(g, 18, 45, 3, 2, skin);
+  fillRect(g, 26, 45, 5, 3, outline);
+  fillRect(g, 27, 45, 3, 2, skin);
+
+  return g;
+}
+
+// =============================================
+// 2. 뽀로로 (Pororo)
+// =============================================
+function buildPororo() {
+  const g = makeGrid();
+  const outline = '#0A0A0A';
+  const bodyHi = '#4088D0'; const body = '#3070C0'; const bodySh = '#2058A0';
+  const belly = '#F0F0F0'; const bellySh = '#D8D8D8';
+  const beak = '#E08030';
+  const goggleFrame = '#E0A030'; const goggleFrameSh = '#C08820';
+  const helmet = '#C08030'; const helmetHi = '#D09040'; const helmetSh = '#A06820';
+  const eyeWhite = '#FFFFFF'; const pupil = '#0A0A0A';
+  const feet = '#E08030';
+
+  const bcx = 23.5, bcy = 22;
+
+  // Body outline (egg shape - taller than wide)
+  fillEllipse(g, bcx, bcy, 16, 19, outline);
+  // Body fill
+  fillEllipse(g, bcx, bcy, 14, 17, body);
+  // Body shading
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++) {
+      const v = ((x - bcx) / 14) ** 2 + ((y - bcy) / 17) ** 2;
+      if (v <= 1) {
+        set(g, x, y, shade3(x, y, bcx, bcy, bodyHi, body, bodySh));
+      }
+    }
+  }
+
+  // White belly
+  fillEllipse(g, bcx, bcy + 4, 9, 12, belly);
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++) {
+      const v = ((x - bcx) / 9) ** 2 + ((y - (bcy + 4)) / 12) ** 2;
+      if (v <= 1) {
+        set(g, x, y, shade3(x, y, bcx, bcy + 4, belly, belly, bellySh));
+      }
+    }
+  }
+
+  // Helmet on top
+  fillEllipse(g, bcx, bcy - 11, 10, 6, outline);
+  fillEllipse(g, bcx, bcy - 11, 8.5, 4.5, helmet);
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++) {
+      const v = ((x - bcx) / 8.5) ** 2 + ((y - (bcy - 11)) / 4.5) ** 2;
+      if (v <= 1) {
+        set(g, x, y, shade3(x, y, bcx, bcy - 11, helmetHi, helmet, helmetSh));
+      }
+    }
+  }
+
+  // Goggle frames (circles around eyes)
+  const leftEyeCx = 17.5, rightEyeCx = 29.5, eyeCy = bcy - 4;
+  // Left goggle frame
+  fillCircle(g, leftEyeCx, eyeCy, 6.5, outline);
+  fillCircle(g, leftEyeCx, eyeCy, 5.5, goggleFrame);
+  fillCircle(g, leftEyeCx, eyeCy, 4.5, eyeWhite);
+  // Right goggle frame
+  fillCircle(g, rightEyeCx, eyeCy, 6.5, outline);
+  fillCircle(g, rightEyeCx, eyeCy, 5.5, goggleFrame);
+  fillCircle(g, rightEyeCx, eyeCy, 4.5, eyeWhite);
+  // Bridge between goggles
+  fillRect(g, 22, 16, 4, 3, outline);
+  fillRect(g, 22, 17, 4, 1, goggleFrame);
+
+  // Pupils
+  fillCircle(g, leftEyeCx + 0.5, eyeCy + 0.5, 2, pupil);
+  fillCircle(g, rightEyeCx + 0.5, eyeCy + 0.5, 2, pupil);
+  // Eye highlights
+  set(g, leftEyeCx - 1, eyeCy - 1, '#FFFFFF');
+  set(g, rightEyeCx - 1, eyeCy - 1, '#FFFFFF');
+
+  // Beak
+  fillRect(g, 21, 22, 5, 3, outline);
+  fillRect(g, 22, 22, 3, 2, beak);
+
+  // Wings - stubby
+  // Left wing
+  fillEllipse(g, 7, bcy + 2, 4, 6, outline);
+  fillEllipse(g, 7, bcy + 2, 2.5, 4.5, bodySh);
+  // Right wing
+  fillEllipse(g, 40, bcy + 2, 4, 6, outline);
+  fillEllipse(g, 40, bcy + 2, 2.5, 4.5, bodySh);
+
+  // Feet
+  fillEllipse(g, 18, 41, 5, 2.5, outline);
+  fillEllipse(g, 18, 41, 3.5, 1.5, feet);
+  fillEllipse(g, 29, 41, 5, 2.5, outline);
+  fillEllipse(g, 29, 41, 3.5, 1.5, feet);
+
+  return g;
+}
+
+// =============================================
+// 3. 시바견 (Shiba Inu)
+// =============================================
+function buildShiba() {
+  const g = makeGrid();
+  const outline = '#2A1A0A';
+  const furHi = '#E0B868'; const fur = '#D0A050'; const furSh = '#B88838';
+  const lightFur = '#E0B868';
+  const white = '#F0E8D8'; const whiteSh = '#E0D8C0';
+  const earPink = '#E0A0A0';
+  const nose = '#1A1A1A';
+  const tongue = '#E08080';
+
+  const hcx = 23.5, hcy = 16;
+
+  // Body (sitting, below head)
+  fillEllipse(g, hcx, 34, 12, 11, outline);
+  fillEllipse(g, hcx, 34, 10, 9, fur);
+  for (let y = 25; y < 45; y++) {
+    for (let x = 0; x < W; x++) {
+      const v = ((x - hcx) / 10) ** 2 + ((y - 34) / 9) ** 2;
+      if (v <= 1) {
+        set(g, x, y, shade3(x, y, hcx, 34, furHi, fur, furSh));
+      }
+    }
+  }
+
+  // White chest
+  fillEllipse(g, hcx, 36, 6, 6, white);
+
+  // Paws at bottom
+  fillEllipse(g, 17, 42, 4, 2.5, outline);
+  fillEllipse(g, 17, 42, 2.5, 1.5, white);
+  fillEllipse(g, 30, 42, 4, 2.5, outline);
+  fillEllipse(g, 30, 42, 2.5, 1.5, white);
+
+  // Head outline (round-ish, slightly wide)
+  fillEllipse(g, hcx, hcy, 14, 12, outline);
+  fillEllipse(g, hcx, hcy, 12, 10, fur);
+  // Head shading
+  for (let y = 0; y < 30; y++) {
+    for (let x = 0; x < W; x++) {
+      const v = ((x - hcx) / 12) ** 2 + ((y - hcy) / 10) ** 2;
+      if (v <= 1) {
+        set(g, x, y, shade3(x, y, hcx, hcy, furHi, fur, furSh));
+      }
+    }
+  }
+
+  // White face marking - the iconic Shiba pattern
+  // Wider on cheeks, narrowing to forehead
+  // Cheek/mouth area - wide white
+  fillEllipse(g, hcx, hcy + 3, 9, 7, white);
+  // Forehead white stripe going up
+  for (let y = hcy - 6; y <= hcy + 2; y++) {
+    const width = Math.max(2, 5 - Math.abs(y - (hcy - 1)) * 0.6);
+    for (let x = Math.round(hcx - width); x <= Math.round(hcx + width); x++) {
+      if (x >= 0 && x < W && y >= 0 && y < H) {
+        const v = ((x - hcx) / 12) ** 2 + ((y - hcy) / 10) ** 2;
+        if (v <= 1) set(g, x, y, white);
+      }
+    }
+  }
+
+  // Ears - Shiba triangular ears, on top of head
+  // Left ear: triangle pointing up, base merges with head
+  for (let dy = 0; dy < 7; dy++) {
+    const w = Math.max(1, 4 - dy * 0.5);
+    const ex = 14;
+    const ey = 5 + dy;
+    for (let dx = -w; dx <= w; dx++) {
+      set(g, Math.round(ex + dx), Math.round(ey), outline);
+    }
+    if (dy > 0 && dy < 6) {
+      const iw = Math.max(0, w - 1.2);
+      for (let dx = -iw; dx <= iw; dx++) {
+        set(g, Math.round(ex + dx), Math.round(ey), dy < 3 ? earPink : fur);
+      }
+    }
+  }
+  // Right ear
+  for (let dy = 0; dy < 7; dy++) {
+    const w = Math.max(1, 4 - dy * 0.5);
+    const ex = 33;
+    const ey = 5 + dy;
+    for (let dx = -w; dx <= w; dx++) {
+      set(g, Math.round(ex + dx), Math.round(ey), outline);
+    }
+    if (dy > 0 && dy < 6) {
+      const iw = Math.max(0, w - 1.2);
+      for (let dx = -iw; dx <= iw; dx++) {
+        set(g, Math.round(ex + dx), Math.round(ey), dy < 3 ? earPink : fur);
+      }
+    }
+  }
+
+  // Eyes - small friendly dots
+  fillRect(g, 17, 15, 3, 3, nose);
+  fillRect(g, 28, 15, 3, 3, nose);
+  // Eye highlights
+  set(g, 17, 15, '#404040');
+  set(g, 28, 15, '#404040');
+
+  // Nose - small black
+  fillRect(g, 22, 20, 4, 3, nose);
+  fillRect(g, 22, 20, 4, 2, '#2A2A2A');
+
+  // Mouth - simple line down from nose
+  set(g, 23, 23, outline);
+  set(g, 24, 23, outline);
+  set(g, 21, 24, outline);
+  set(g, 22, 24, outline);
+  set(g, 25, 24, outline);
+  set(g, 26, 24, outline);
+
+  // Tail - curled, visible on right side
+  for (let i = 0; i < 6; i++) {
+    const tx = 35 + i;
+    const ty = 28 - Math.round(Math.sin(i * 0.5) * 3);
+    fillCircle(g, tx, ty, 1.5, outline);
+    fillCircle(g, tx, ty, 0.7, fur);
+  }
+
+  return g;
+}
+
+// =============================================
+// 4. 고양이 (Cat)
+// =============================================
+function buildCat() {
+  const g = makeGrid();
+  const outline = '#303840';
+  const bodyHi = '#98A8B8'; const body = '#8898A8'; const bodySh = '#708090';
+  const stripe = '#607080';
+  const whiteChest = '#E8E8E8'; const whiteChestSh = '#D0D0D0';
+  const pinkNose = '#E0A0A0';
+  const eyeColor = '#50A050';
+  const eyeWhite = '#E0E8E0';
+  const pupil = '#1A1A1A';
+
+  const hcx = 23.5, hcy = 17;
+
+  // Tail - curled, on the right side (draw first so body overlaps)
+  for (let i = 0; i < 8; i++) {
+    const tx = 36 + Math.round(Math.sin(i * 0.4) * 3);
+    const ty = 38 - i;
+    fillCircle(g, tx, ty, 2, outline);
+    fillCircle(g, tx, ty, 1, body);
+  }
+
+  // Body (sitting)
+  fillEllipse(g, hcx, 35, 11, 10, outline);
+  fillEllipse(g, hcx, 35, 9, 8, body);
+  for (let y = 27; y < 45; y++) {
+    for (let x = 0; x < W; x++) {
+      const v = ((x - hcx) / 9) ** 2 + ((y - 35) / 8) ** 2;
+      if (v <= 1) {
+        set(g, x, y, shade3(x, y, hcx, 35, bodyHi, body, bodySh));
+      }
+    }
+  }
+
+  // Body stripes (simple, 2-3 horizontal)
+  for (let x = 16; x < 31; x++) {
+    const v1 = ((x - hcx) / 9) ** 2 + ((32 - 35) / 8) ** 2;
+    const v2 = ((x - hcx) / 9) ** 2 + ((35 - 35) / 8) ** 2;
+    const v3 = ((x - hcx) / 9) ** 2 + ((38 - 35) / 8) ** 2;
+    if (v1 <= 0.85) { set(g, x, 32, stripe); set(g, x, 33, stripe); }
+    if (v2 <= 0.85) { set(g, x, 35, stripe); set(g, x, 36, stripe); }
+    if (v3 <= 0.85) { set(g, x, 38, stripe); set(g, x, 39, stripe); }
+  }
+
+  // White chest
+  fillEllipse(g, hcx, 37, 5, 5, whiteChest);
+
+  // Paws
+  fillEllipse(g, 17, 43, 4, 2.5, outline);
+  fillEllipse(g, 17, 43, 2.5, 1.5, whiteChest);
+  fillEllipse(g, 30, 43, 4, 2.5, outline);
+  fillEllipse(g, 30, 43, 2.5, 1.5, whiteChest);
+
+  // Head outline (round)
+  fillCircle(g, hcx, hcy, 13, outline);
+  fillCircle(g, hcx, hcy, 11, body);
+  for (let y = 0; y < 30; y++) {
+    for (let x = 0; x < W; x++) {
+      if (dist(x, y, hcx, hcy) <= 11) {
+        set(g, x, y, shade3(x, y, hcx, hcy, bodyHi, body, bodySh));
+      }
+    }
+  }
+
+  // Head stripes
+  for (let x = 15; x < 32; x++) {
+    if (dist(x, 10, hcx, hcy) <= 10) { set(g, x, 10, stripe); }
+    if (dist(x, 13, hcx, hcy) <= 10) { set(g, x, 13, stripe); }
+  }
+
+  // Ears - pointed triangles
+  // Left ear
+  for (let dy = 0; dy < 8; dy++) {
+    const w = Math.max(1, 5 - dy * 0.7);
+    const ex = 13;
+    const ey = 5 + dy;
+    for (let dx = -w; dx <= w; dx++) {
+      set(g, Math.round(ex + dx), ey, outline);
+    }
+    if (dy > 0 && dy < 7) {
+      const iw = Math.max(0, w - 1.5);
+      for (let dx = -iw; dx <= iw; dx++) {
+        set(g, Math.round(ex + dx), ey, dy < 4 ? pinkNose : body);
+      }
+    }
+  }
+  // Right ear
+  for (let dy = 0; dy < 8; dy++) {
+    const w = Math.max(1, 5 - dy * 0.7);
+    const ex = 34;
+    const ey = 5 + dy;
+    for (let dx = -w; dx <= w; dx++) {
+      set(g, Math.round(ex + dx), ey, outline);
+    }
+    if (dy > 0 && dy < 7) {
+      const iw = Math.max(0, w - 1.5);
+      for (let dx = -iw; dx <= iw; dx++) {
+        set(g, Math.round(ex + dx), ey, dy < 4 ? pinkNose : body);
+      }
+    }
+  }
+
+  // Big round eyes
+  // Left eye
+  fillCircle(g, 17.5, 16, 4.5, outline);
+  fillCircle(g, 17.5, 16, 3.5, eyeWhite);
+  fillCircle(g, 17.5, 16.5, 2.5, eyeColor);
+  fillCircle(g, 18, 17, 1.5, pupil);
+  set(g, 16, 15, '#FFFFFF');
+  // Right eye
+  fillCircle(g, 29.5, 16, 4.5, outline);
+  fillCircle(g, 29.5, 16, 3.5, eyeWhite);
+  fillCircle(g, 29.5, 16.5, 2.5, eyeColor);
+  fillCircle(g, 30, 17, 1.5, pupil);
+  set(g, 28, 15, '#FFFFFF');
+
+  // Pink nose - small triangle
+  fillRect(g, 22, 20, 3, 2, pinkNose);
+  set(g, 23, 19, pinkNose);
+
+  // Mouth
+  set(g, 23, 22, outline);
+  set(g, 21, 23, outline);
+  set(g, 22, 23, outline);
+  set(g, 25, 23, outline);
+  set(g, 26, 23, outline);
+
+  // Whiskers (minimal - 3px lines on each side)
+  set(g, 10, 19, outline); set(g, 11, 19, outline); set(g, 12, 19, outline);
+  set(g, 10, 21, outline); set(g, 11, 21, outline); set(g, 12, 21, outline);
+  set(g, 35, 19, outline); set(g, 36, 19, outline); set(g, 37, 19, outline);
+  set(g, 35, 21, outline); set(g, 36, 21, outline); set(g, 37, 21, outline);
+
+  return g;
+}
+
+// =============================================
+// RENDER
+// =============================================
+function renderToElement(grid, elementId, pixelSize) {
+  const shadows = [];
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++) {
+      if (grid[y][x]) {
+        shadows.push(`${x * pixelSize}px ${y * pixelSize}px 0 ${grid[y][x]}`);
+      }
+    }
+  }
+  const el = document.getElementById(elementId);
+  if (el) {
+    el.style.boxShadow = shadows.join(',');
+    el.style.width = pixelSize + 'px';
+    el.style.height = pixelSize + 'px';
+    el.style.position = 'absolute';
+    el.style.top = '0';
+    el.style.left = '0';
+  }
+  return shadows.length;
+}
+
+// Build all characters
+const jjanggu = buildJjanggu();
+const pororo = buildPororo();
+const shiba = buildShiba();
+const cat = buildCat();
+
+// Render at main size (6px/pixel = 288px) and icon size (2px/pixel = 96px)
+renderToElement(jjanggu, 'jjanggu-main', 6);
+renderToElement(jjanggu, 'jjanggu-icon', 2);
+
+renderToElement(pororo, 'pororo-main', 6);
+renderToElement(pororo, 'pororo-icon', 2);
+
+renderToElement(shiba, 'shiba-main', 6);
+renderToElement(shiba, 'shiba-icon', 2);
+
+renderToElement(cat, 'cat-main', 6);
+renderToElement(cat, 'cat-icon', 2);
+
+console.log('All 4 characters rendered on 48x48 grids');
+</script>
+
+</body>
+</html>

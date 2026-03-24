@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>img2css — Image to Pixel Art CSS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #1a1a1a; --surface: #2a2a2a; --border: #3a3a3a;
+  --text: #e0e0e0; --text-dim: #888; --accent: oklch(65% 0.2 250);
+  --accent-hover: oklch(72% 0.22 250); --radius: 8px;
+}
+body { font-family: 'Manrope', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+code, .mono { font-family: 'JetBrains Mono', monospace; }
+
+/* Layout */
+.header { text-align: center; padding: 2rem 1rem 1rem; }
+.header h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
+.header h1 span { color: var(--accent); }
+.header p { color: var(--text-dim); font-size: 0.875rem; margin-top: 0.25rem; }
+.app { display: grid; grid-template-columns: 300px 1fr; gap: 1.5rem; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem 2rem; }
+@media (max-width: 768px) { .app { grid-template-columns: 1fr; } }
+
+/* Panel */
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
+.panel h2 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); margin-bottom: 1rem; }
+
+/* Drop zone */
+.dropzone {
+  border: 2px dashed var(--border); border-radius: var(--radius); padding: 2rem 1rem;
+  text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s;
+}
+.dropzone:hover, .dropzone.active { border-color: var(--accent); background: rgba(100,160,255,0.05); }
+.dropzone svg { width: 32px; height: 32px; stroke: var(--text-dim); margin-bottom: 0.5rem; }
+.dropzone p { font-size: 0.8rem; color: var(--text-dim); }
+.dropzone .filename { color: var(--accent); font-size: 0.75rem; margin-top: 0.5rem; word-break: break-all; }
+input[type="file"] { display: none; }
+
+/* Controls */
+.control { margin-top: 1rem; }
+.control label { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 0.35rem; }
+.control label span { color: var(--text); font-weight: 600; }
+input[type="range"] {
+  -webkit-appearance: none; width: 100%; height: 6px; border-radius: 3px;
+  background: var(--border); outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--accent); cursor: pointer;
+}
+
+/* Buttons */
+.btn {
+  width: 100%; padding: 0.65rem; border: none; border-radius: var(--radius);
+  font-family: inherit; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+}
+.btn-primary { background: var(--accent); color: #fff; margin-top: 1.25rem; }
+.btn-primary:hover { background: var(--accent-hover); box-shadow: 0 0 16px rgba(100,160,255,0.3); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-secondary { background: var(--border); color: var(--text); margin-top: 0.5rem; font-size: 0.75rem; }
+.btn-secondary:hover { background: #444; }
+.btn-copied { background: #2a6; }
+
+/* Bg toggle */
+.bg-toggle { display: flex; gap: 0.5rem; margin-top: 0.35rem; }
+.bg-toggle button {
+  flex: 1; padding: 0.4rem; border: 1px solid var(--border); border-radius: var(--radius);
+  font-family: inherit; font-size: 0.7rem; cursor: pointer; background: var(--bg); color: var(--text-dim); transition: all 0.15s;
+}
+.bg-toggle button.active { border-color: var(--accent); color: var(--text); }
+
+/* Output */
+.output-area { display: flex; flex-direction: column; gap: 1rem; }
+.preview-wrap {
+  position: relative; border-radius: var(--radius); overflow: hidden;
+  display: flex; align-items: center; justify-content: center; min-height: 300px;
+}
+.preview-wrap.checker {
+  background-image: linear-gradient(45deg, #222 25%, transparent 25%),
+    linear-gradient(-45deg, #222 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #222 75%),
+    linear-gradient(-45deg, transparent 75%, #222 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+  background-color: #2a2a2a;
+}
+.preview-wrap.bg-dark { background: #111; }
+.preview-wrap.bg-light { background: #e8e8e8; }
+.preview-wrap .pixel-art { image-rendering: pixelated; }
+.preview-wrap .placeholder { color: var(--text-dim); font-size: 0.85rem; }
+
+/* Stats & comparison */
+.meta-row { display: flex; gap: 1rem; }
+.meta-row > * { flex: 1; }
+.stat-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.75rem; }
+.stat-box h3 { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); margin-bottom: 0.5rem; }
+.stat-box .val { font-size: 0.85rem; font-weight: 600; }
+.stat-box .val span { color: var(--text-dim); font-weight: 400; font-size: 0.75rem; }
+.thumb-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.75rem; text-align: center; }
+.thumb-box h3 { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); margin-bottom: 0.5rem; }
+.thumb-box img { max-width: 100%; max-height: 120px; border-radius: 4px; image-rendering: pixelated; }
+.copy-row { display: flex; gap: 0.5rem; }
+.copy-row .btn { margin-top: 0; }
+
+/* Spinner */
+.spinner { display: none; }
+.spinner.show { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; margin-right: 0.4rem; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Warning */
+.warn { color: #e8a33a; font-size: 0.7rem; margin-top: 0.5rem; display: none; }
+.warn.show { display: block; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1><span>img2css</span> — Image to Pixel Art CSS</h1>
+  <p>Drop an image, get pure CSS pixel art</p>
+</div>
+
+<div class="app">
+  <!-- Left: controls -->
+  <div class="panel">
+    <h2>Input</h2>
+    <div class="dropzone" id="dropzone">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      <p>Drop image or click to select</p>
+      <div class="filename" id="filename"></div>
+    </div>
+    <input type="file" id="fileInput" accept="image/*">
+
+    <div class="control">
+      <label>Grid size <span id="gridVal">64x64</span></label>
+      <input type="range" id="gridSize" min="0" max="4" value="2">
+    </div>
+
+    <div class="control">
+      <label>Color palette <span id="palVal">32</span></label>
+      <input type="range" id="palSize" min="0" max="5" value="3">
+    </div>
+
+    <div class="control">
+      <label>Pixel size <span id="pxVal">4px</span></label>
+      <input type="range" id="pxSize" min="0" max="4" value="2">
+    </div>
+
+    <div class="control">
+      <label>Background</label>
+      <div class="bg-toggle">
+        <button class="active" data-bg="checker">Checker</button>
+        <button data-bg="bg-dark">Dark</button>
+        <button data-bg="bg-light">Light</button>
+      </div>
+    </div>
+
+    <div class="warn" id="sizeWarn">Large grid (128x128) generates ~16k pixels. CSS may be over 500KB.</div>
+    <button class="btn btn-primary" id="genBtn" disabled>Generate</button>
+  </div>
+
+  <!-- Right: output -->
+  <div class="output-area">
+    <div class="panel">
+      <h2>Preview</h2>
+      <div class="preview-wrap checker" id="previewWrap">
+        <span class="placeholder" id="placeholder">No image loaded</span>
+        <div class="pixel-art" id="pixelArt"></div>
+      </div>
+    </div>
+
+    <div class="meta-row">
+      <div class="thumb-box" id="thumbBox" style="display:none">
+        <h3>Original</h3>
+        <img id="thumbImg" alt="Original thumbnail">
+      </div>
+      <div class="stat-box" id="statBox" style="display:none">
+        <h3>Stats</h3>
+        <div class="val" id="statPixels"></div>
+        <div class="val" id="statColors"></div>
+        <div class="val" id="statSize"></div>
+      </div>
+    </div>
+
+    <div class="copy-row" id="copyRow" style="display:none">
+      <button class="btn btn-secondary" id="copyCSS">Copy CSS</button>
+      <button class="btn btn-secondary" id="copyHTML">Copy HTML</button>
+    </div>
+  </div>
+</div>
+
+<canvas id="canvas" style="display:none"></canvas>
+
+<script>
+(function() {
+  'use strict';
+
+  var GRID_STEPS = [32, 48, 64, 96, 128];
+  var PAL_STEPS = [8, 16, 24, 32, 64, 0]; // 0 = unlimited
+  var PX_STEPS = [2, 3, 4, 6, 8];
+
+  var gridSlider = document.getElementById('gridSize');
+  var palSlider = document.getElementById('palSize');
+  var pxSlider = document.getElementById('pxSize');
+  var genBtn = document.getElementById('genBtn');
+  var fileInput = document.getElementById('fileInput');
+  var dropzoneEl = document.getElementById('dropzone');
+  var canvasEl = document.getElementById('canvas');
+  var ctx = canvasEl.getContext('2d', { willReadFrequently: true });
+
+  var loadedImg = null;
+  var lastCSS = '';
+  var lastHTML = '';
+  var debounceTimer = null;
+
+  // --- Slider labels ---
+  function updateLabels() {
+    var g = GRID_STEPS[gridSlider.value];
+    document.getElementById('gridVal').textContent = g + 'x' + g;
+    var p = PAL_STEPS[palSlider.value];
+    document.getElementById('palVal').textContent = p === 0 ? 'Unlimited' : String(p);
+    var px = PX_STEPS[pxSlider.value];
+    document.getElementById('pxVal').textContent = px + 'px';
+    document.getElementById('sizeWarn').classList.toggle('show', g >= 128);
+  }
+
+  gridSlider.oninput = palSlider.oninput = pxSlider.oninput = function() {
+    updateLabels();
+    autoGenerate();
+  };
+  updateLabels();
+
+  // --- Background toggle ---
+  document.querySelectorAll('.bg-toggle button').forEach(function(btn) {
+    btn.onclick = function() {
+      document.querySelectorAll('.bg-toggle button').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var wrap = document.getElementById('previewWrap');
+      wrap.className = 'preview-wrap ' + btn.dataset.bg;
+    };
+  });
+
+  // --- File handling ---
+  dropzoneEl.onclick = function() { fileInput.click(); };
+  dropzoneEl.ondragover = function(e) { e.preventDefault(); dropzoneEl.classList.add('active'); };
+  dropzoneEl.ondragleave = function() { dropzoneEl.classList.remove('active'); };
+  dropzoneEl.ondrop = function(e) {
+    e.preventDefault();
+    dropzoneEl.classList.remove('active');
+    handleFile(e.dataTransfer.files[0]);
+  };
+  fileInput.onchange = function() { if (fileInput.files[0]) handleFile(fileInput.files[0]); };
+
+  function handleFile(file) {
+    if (!file || !file.type.startsWith('image/')) return;
+    document.getElementById('filename').textContent = file.name;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var img = new Image();
+      img.onload = function() {
+        loadedImg = img;
+        genBtn.disabled = false;
+        document.getElementById('thumbImg').src = e.target.result;
+        autoGenerate();
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function autoGenerate() {
+    if (!loadedImg) return;
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(generate, 300);
+  }
+
+  // --- Median-cut color quantization ---
+  function medianCut(colors, maxColors) {
+    if (maxColors <= 0 || colors.length <= maxColors) {
+      return colors.map(function(c) { return c.slice(); });
+    }
+
+    function rangeOf(bucket, ch) {
+      var mn = 255, mx = 0;
+      for (var i = 0; i < bucket.length; i++) {
+        if (bucket[i][ch] < mn) mn = bucket[i][ch];
+        if (bucket[i][ch] > mx) mx = bucket[i][ch];
+      }
+      return mx - mn;
+    }
+
+    function splitBucket(bucket) {
+      var widest = 0, widestRange = 0;
+      for (var ch = 0; ch < 3; ch++) {
+        var r = rangeOf(bucket, ch);
+        if (r > widestRange) { widestRange = r; widest = ch; }
+      }
+      bucket.sort(function(a, b) { return a[widest] - b[widest]; });
+      var mid = bucket.length >> 1;
+      return [bucket.slice(0, mid), bucket.slice(mid)];
+    }
+
+    var buckets = [colors.slice()];
+    while (buckets.length < maxColors) {
+      var biggest = 0, biggestLen = 0;
+      for (var i = 0; i < buckets.length; i++) {
+        if (buckets[i].length > biggestLen) { biggestLen = buckets[i].length; biggest = i; }
+      }
+      if (biggestLen <= 1) break;
+      var parts = splitBucket(buckets[biggest]);
+      buckets.splice(biggest, 1, parts[0], parts[1]);
+    }
+
+    return buckets.map(function(bucket) {
+      var r = 0, g = 0, b = 0;
+      for (var i = 0; i < bucket.length; i++) {
+        r += bucket[i][0]; g += bucket[i][1]; b += bucket[i][2];
+      }
+      var n = bucket.length;
+      return [Math.round(r / n), Math.round(g / n), Math.round(b / n)];
+    });
+  }
+
+  function nearestColor(r, g, b, palette) {
+    var best = 0, bestDist = Infinity;
+    for (var i = 0; i < palette.length; i++) {
+      var dr = r - palette[i][0], dg = g - palette[i][1], db = b - palette[i][2];
+      var d = dr * dr + dg * dg + db * db;
+      if (d < bestDist) { bestDist = d; best = i; }
+    }
+    return palette[best];
+  }
+
+  function toHex(r, g, b) {
+    return '#' + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1);
+  }
+
+  // --- Generate ---
+  function generate() {
+    if (!loadedImg) return;
+    var grid = GRID_STEPS[gridSlider.value];
+    var palLimit = PAL_STEPS[palSlider.value];
+    var pxSize = PX_STEPS[pxSlider.value];
+
+    genBtn.textContent = 'Generating...';
+    genBtn.disabled = true;
+
+    // Use requestAnimationFrame so the UI updates before heavy work
+    requestAnimationFrame(function() { setTimeout(function() {
+      // Sample image onto canvas
+      canvasEl.width = grid;
+      canvasEl.height = grid;
+      var img = loadedImg;
+      var scale = Math.max(grid / img.width, grid / img.height);
+      var sw = img.width * scale, sh = img.height * scale;
+      var sx = (grid - sw) / 2, sy = (grid - sh) / 2;
+      ctx.clearRect(0, 0, grid, grid);
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'medium';
+      ctx.drawImage(img, sx, sy, sw, sh);
+
+      var data = ctx.getImageData(0, 0, grid, grid).data;
+
+      // Collect opaque pixels
+      var pixels = [];
+      var colorList = [];
+      for (var y = 0; y < grid; y++) {
+        for (var x = 0; x < grid; x++) {
+          var idx = (y * grid + x) * 4;
+          if (data[idx + 3] < 128) continue;
+          var cr = data[idx], cg = data[idx + 1], cb = data[idx + 2];
+          pixels.push({ x: x, y: y, r: cr, g: cg, b: cb });
+          colorList.push([cr, cg, cb]);
+        }
+      }
+
+      // Quantize
+      var palette = palLimit > 0 ? medianCut(colorList, palLimit) : null;
+
+      // Build shadow list
+      var shadows = [];
+      var usedColors = {};
+      var colorCount = 0;
+      for (var pi = 0; pi < pixels.length; pi++) {
+        var p = pixels[pi];
+        var pr = p.r, pg = p.g, pb = p.b;
+        if (palette) {
+          var nc = nearestColor(pr, pg, pb, palette);
+          pr = nc[0]; pg = nc[1]; pb = nc[2];
+        }
+        var hex = toHex(pr, pg, pb);
+        if (!usedColors[hex]) { usedColors[hex] = true; colorCount++; }
+        shadows.push((p.x + 1) * pxSize + 'px ' + (p.y + 1) * pxSize + 'px 0 ' + hex);
+      }
+
+      var shadowStr = shadows.join(',\n    ');
+      lastCSS = '.pixel-art {\n  width: ' + pxSize + 'px;\n  height: ' + pxSize + 'px;\n  background: transparent;\n  box-shadow:\n    ' + shadowStr + ';\n}';
+      lastHTML = '<div style="width:' + pxSize + 'px;height:' + pxSize + 'px;background:transparent;box-shadow:' + shadows.join(',') + ';"></div>';
+
+      // Render preview
+      var el = document.getElementById('pixelArt');
+      el.style.width = pxSize + 'px';
+      el.style.height = pxSize + 'px';
+      el.style.background = 'transparent';
+      el.style.boxShadow = shadows.join(',');
+      el.style.margin = pxSize + 'px ' + ((grid + 1) * pxSize) + 'px ' + ((grid + 1) * pxSize) + 'px ' + pxSize + 'px';
+      document.getElementById('placeholder').style.display = 'none';
+
+      // Stats
+      document.getElementById('statPixels').textContent = pixels.length.toLocaleString() + ' pixels';
+      document.getElementById('statColors').textContent = colorCount + ' colors';
+      var kb = (lastCSS.length / 1024).toFixed(1);
+      document.getElementById('statSize').textContent = kb + ' KB CSS';
+
+      document.getElementById('thumbBox').style.display = '';
+      document.getElementById('statBox').style.display = '';
+      document.getElementById('copyRow').style.display = '';
+      genBtn.textContent = 'Generate';
+      genBtn.disabled = false;
+    }, 16); });
+  }
+
+  genBtn.onclick = generate;
+
+  // --- Copy ---
+  function copyWithFeedback(btn, text) {
+    navigator.clipboard.writeText(text).then(function() {
+      var orig = btn.textContent;
+      btn.textContent = 'Copied!';
+      btn.classList.add('btn-copied');
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('btn-copied'); }, 1500);
+    });
+  }
+
+  document.getElementById('copyCSS').onclick = function() {
+    copyWithFeedback(document.getElementById('copyCSS'), lastCSS);
+  };
+  document.getElementById('copyHTML').onclick = function() {
+    copyWithFeedback(document.getElementById('copyHTML'), lastHTML);
+  };
+
+})();
+</script>
+</body>
+</html>

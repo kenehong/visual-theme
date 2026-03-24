@@ -1,0 +1,75 @@
+{
+  "name": "Bauhaus",
+  "description": "1919 Weimar Bauhaus school. Primary colors, geometric forms, grid systems, functional typography. Mondrian meets Moholy-Nagy.",
+  "source": "Bauhaus Dessau, Herbert Bayer Universal typeface, Wassily Kandinsky color theory, De Stijl",
+  "mood": ["geometric", "functional", "primary"],
+  "shape": {
+    "radiusSm": "0px",
+    "radiusMd": "0px",
+    "radiusLg": "0px",
+    "radiusFull": "0px",
+    "borderWidth": "2px"
+  },
+  "typography": {
+    "fontSans": "'DM Sans', 'Segoe UI', sans-serif",
+    "fontMono": "'JetBrains Mono', 'SF Mono', monospace",
+    "fontDisplay": "'Bebas Neue', 'Impact', sans-serif",
+    "weightNormal": 400,
+    "weightMedium": 500,
+    "weightBold": 700,
+    "letterSpacingHeading": "0.12em",
+    "letterSpacingBody": "0.01em",
+    "lineHeight": 1.5,
+    "lineHeightHeading": 1.0,
+    "textTransformHeading": "uppercase"
+  },
+  "spacing": {
+    "density": "dense",
+    "scale": 0.9
+  },
+  "depth": {
+    "shadowSm": "3px 3px 0 oklch(15% 0.005 0 / 0.15)",
+    "shadowMd": "5px 5px 0 oklch(15% 0.005 0 / 0.2)",
+    "shadowLg": "8px 8px 0 oklch(15% 0.005 0 / 0.25)",
+    "shadowStyle": "hard"
+  },
+  "motion": {
+    "durationFast": "80ms",
+    "durationNormal": "150ms",
+    "easing": "cubic-bezier(0.2, 0, 0.3, 1)"
+  },
+  "colorDefaults": {
+    "bg": "oklch(96% 0.005 80)",
+    "surface": "oklch(99% 0.002 80)",
+    "text": "oklch(15% 0.005 0)",
+    "primary": "oklch(55% 0.22 25)",
+    "accent": "oklch(45% 0.18 255)",
+    "yellow": "oklch(85% 0.18 95)"
+  },
+  "colorDefaultsDark": {
+    "bg": "oklch(12% 0.01 250)",
+    "surface": "oklch(18% 0.015 250)",
+    "text": "oklch(93% 0.01 80)",
+    "primary": "oklch(60% 0.22 25)",
+    "accent": "oklch(55% 0.18 255)",
+    "yellow": "oklch(85% 0.18 95)"
+  },
+  "demo": {
+    "type": "saas",
+    "title": "BAUHAUS WERKSTATT",
+    "subtitle": "Form Follows Function — Est. 1919",
+    "items": [
+      { "name": "Grundkurs", "price": "$320", "tag": "Foundation" },
+      { "name": "Typography Lab", "price": "$280", "tag": "Workshop" },
+      { "name": "Color Theory", "price": "$250", "tag": "Seminar" }
+    ],
+    "banner": "LESS IS MORE — ENROLL NOW"
+  },
+  "suggestions": {
+    "icons": "None or geometric shapes only. Circles, squares, triangles as decorative elements.",
+    "components": "grid layouts, bold primary-color blocks, geometric dividers, thick black borders, asymmetric compositions, primary color accent bars",
+    "avoid": "gradients, rounded corners, decorative ornaments, serif fonts, organic shapes, drop shadows",
+    "googleFonts": "Bebas+Neue&family=DM+Sans:wght@400;500;700",
+    "texture": "none — pure flat color blocks and geometric patterns via CSS"
+  }
+}

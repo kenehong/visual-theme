@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kimbap — Style Comparison</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:'Nunito',system-ui,sans-serif;
+  background:oklch(95% 0.005 80);
+  color:oklch(25% 0 0);
+  padding:2rem 1rem 4rem;
+}
+header{text-align:center;margin-bottom:2.5rem}
+header h1{font-size:1.75rem;font-weight:800;margin-bottom:.25rem}
+header p{font-size:.95rem;color:oklch(55% 0 0)}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:1.5rem;
+  max-width:1300px;
+  margin:0 auto;
+}
+.card{
+  background:#fff;
+  border:1px solid oklch(88% 0 0);
+  border-radius:.75rem;
+  padding:1.5rem;
+  display:flex;flex-direction:column;align-items:center;
+}
+.card h2{font-size:1rem;font-weight:700;margin-top:1rem}
+.card .tag{
+  font-size:.7rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  color:oklch(55% 0 0);margin-top:.15rem;
+}
+.card p.desc{
+  font-size:.8rem;color:oklch(50% 0 0);text-align:center;
+  margin-top:.5rem;line-height:1.4;
+}
+
+/* ============================================
+   Shared kimbap structure — 180px diameter
+   Each style overrides colors/effects
+   ============================================ */
+.kimbap{
+  position:relative;width:180px;height:180px;border-radius:50%;
+  overflow:hidden;flex-shrink:0;
+}
+/* Seaweed = outer ring (the .kimbap bg) */
+/* Rice = inner circle */
+.kimbap .rice{
+  position:absolute;width:152px;height:152px;border-radius:50%;
+  top:14px;left:14px;
+}
+/* Sesame specks on rice */
+.kimbap .rice::before,
+.kimbap .rice::after{
+  content:'';position:absolute;border-radius:50%;
+}
+/* Fillings container centered */
+.kimbap .fillings{
+  position:absolute;width:100px;height:100px;border-radius:50%;
+  top:40px;left:40px;overflow:hidden;
+}
+/* Each filling is absolutely positioned inside .fillings */
+.kimbap .fill{position:absolute}
+/* Danmuji — top-left wedge */
+.kimbap .fill.danmuji{width:36px;height:36px;border-radius:50%;top:6px;left:8px}
+/* Ham — top-right */
+.kimbap .fill.ham{width:30px;height:30px;border-radius:50%;top:4px;right:10px}
+/* Egg — center */
+.kimbap .fill.egg{width:32px;height:28px;border-radius:50%;top:34px;left:34px}
+/* Spinach — bottom-left */
+.kimbap .fill.spinach{width:28px;height:28px;border-radius:50%;bottom:8px;left:12px}
+/* Carrot — bottom-right */
+.kimbap .fill.carrot{width:26px;height:26px;border-radius:50%;bottom:6px;right:12px}
+/* Crab stick — center-right */
+.kimbap .fill.crab{width:22px;height:22px;border-radius:50%;top:20px;right:6px}
+
+/* ============================================
+   STYLE A: Kawaii Flat
+   ============================================ */
+.kawaii .kimbap{
+  background:oklch(22% 0.04 155);
+  outline:3px solid oklch(15% 0.02 155);
+}
+.kawaii .rice{
+  background:oklch(96% 0.01 80);
+  outline:2px solid oklch(15% 0.02 155);
+}
+.kawaii .rice::before{
+  width:4px;height:4px;background:oklch(20% 0 0);top:20px;left:30px;
+}
+.kawaii .rice::after{
+  width:3px;height:3px;background:oklch(20% 0 0);top:55px;right:25px;
+}
+.kawaii .fillings{
+  background:oklch(96% 0.01 80);
+  outline:2px solid oklch(15% 0.02 155);
+}
+.kawaii .fill{outline:2px solid oklch(15% 0.02 155)}
+.kawaii .fill.danmuji{background:oklch(88% 0.19 92)}
+.kawaii .fill.ham{background:oklch(75% 0.14 12)}
+.kawaii .fill.egg{background:oklch(84% 0.15 88)}
+.kawaii .fill.spinach{background:oklch(45% 0.14 150)}
+.kawaii .fill.carrot{background:oklch(70% 0.19 58)}
+.kawaii .fill.crab{background:oklch(88% 0.07 16)}
+/* Cute face */
+.kawaii .face{position:absolute;width:100%;height:100%;top:0;left:0;z-index:5;pointer-events:none}
+.kawaii .face::before{
+  content:'';position:absolute;
+  width:6px;height:6px;border-radius:50%;background:oklch(15% 0 0);
+  top:78px;left:68px;
+  box-shadow:24px 0 0 oklch(15% 0 0);
+}
+.kawaii .face::after{
+  content:'';position:absolute;
+  width:16px;height:8px;
+  border:2px solid oklch(15% 0 0);border-top:none;
+  border-radius:0 0 10px 10px;
+  top:88px;left:73px;background:transparent;
+}
+
+/* ============================================
+   STYLE B: Soft Illustration
+   ============================================ */
+.soft .kimbap{
+  background:oklch(25% 0.03 155);
+}
+.soft .rice{
+  background:oklch(93% 0.01 80);
+  box-shadow:inset 4px 4px 8px oklch(80% 0.01 80);
+}
+.soft .rice::before{
+  width:3px;height:3px;background:oklch(50% 0.01 80);top:18px;left:35px;
+}
+.soft .rice::after{
+  width:3px;height:3px;background:oklch(50% 0.01 80);bottom:22px;right:30px;
+}
+.soft .fillings{
+  background:oklch(91% 0.01 80);
+  box-shadow:inset 2px 2px 6px oklch(78% 0.01 80);
+}
+.soft .fill.danmuji{
+  background:oklch(82% 0.14 90);
+  box-shadow:inset 2px 2px 4px oklch(72% 0.12 90);
+}
+.soft .fill.ham{
+  background:oklch(68% 0.09 10);
+  box-shadow:inset 2px 2px 4px oklch(58% 0.08 10);
+}
+.soft .fill.egg{
+  background:oklch(78% 0.10 85);
+  box-shadow:inset 2px 2px 4px oklch(68% 0.09 85);
+}
+.soft .fill.spinach{
+  background:oklch(42% 0.09 150);
+  box-shadow:inset 2px 2px 4px oklch(32% 0.08 150);
+}
+.soft .fill.carrot{
+  background:oklch(62% 0.14 55);
+  box-shadow:inset 2px 2px 4px oklch(52% 0.12 55);
+}
+.soft .fill.crab{
+  background:oklch(82% 0.05 15);
+  box-shadow:inset 2px 2px 4px oklch(72% 0.04 15);
+}
+
+/* ============================================
+   STYLE C: Retro Sticker
+   ============================================ */
+.retro .kimbap{
+  background:oklch(24% 0.04 150);
+  outline:3px solid oklch(12% 0 0);
+  box-shadow:5px 5px 0 oklch(12% 0 0);
+}
+.retro .rice{
+  background:oklch(92% 0.02 75);
+  outline:3px solid oklch(12% 0 0);
+}
+/* Halftone dot overlay on rice */
+.retro .rice::before{
+  content:'';position:absolute;inset:0;border-radius:50%;
+  background-image:radial-gradient(oklch(70% 0.02 75) 1px,transparent 1px);
+  background-size:6px 6px;opacity:.3;
+  width:100%;height:100%;top:0;left:0;
+}
+.retro .rice::after{
+  width:4px;height:4px;background:oklch(25% 0 0);top:40px;right:28px;
+}
+.retro .fillings{
+  background:oklch(90% 0.02 75);
+  outline:3px solid oklch(12% 0 0);
+}
+.retro .fill{outline:2px solid oklch(12% 0 0)}
+.retro .fill.danmuji{background:oklch(82% 0.16 85)}
+.retro .fill.ham{background:oklch(65% 0.12 8)}
+.retro .fill.egg{background:oklch(78% 0.13 80)}
+.retro .fill.spinach{background:oklch(38% 0.10 145)}
+.retro .fill.carrot{background:oklch(62% 0.16 50)}
+.retro .fill.crab{background:oklch(82% 0.06 12)}
+/* Halftone on fillings */
+.retro .fillings::after{
+  content:'';position:absolute;inset:0;border-radius:50%;
+  background-image:radial-gradient(oklch(40% 0 0) .8px,transparent .8px);
+  background-size:5px 5px;opacity:.12;
+}
+
+/* ============================================
+   STYLE D: Watercolor
+   ============================================ */
+.watercolor .kimbap{
+  background:oklch(28% 0.03 155);
+  filter:blur(0.4px);
+}
+.watercolor .rice{
+  background:linear-gradient(135deg,oklch(95% 0.01 80),oklch(90% 0.02 75));
+  filter:blur(0.3px);
+}
+.watercolor .rice::before{
+  width:3px;height:3px;background:oklch(45% 0.01 80);top:22px;left:28px;opacity:.5;
+}
+.watercolor .rice::after{
+  width:3px;height:3px;background:oklch(45% 0.01 80);bottom:30px;right:35px;opacity:.5;
+}
+.watercolor .fillings{
+  background:linear-gradient(135deg,oklch(93% 0.01 80),oklch(88% 0.02 75));
+}
+.watercolor .fill.danmuji{
+  background:linear-gradient(135deg,oklch(88% 0.14 92),oklch(82% 0.10 88));
+  filter:blur(0.4px);
+}
+.watercolor .fill.ham{
+  background:linear-gradient(135deg,oklch(78% 0.10 12),oklch(70% 0.08 8));
+  filter:blur(0.4px);
+}
+.watercolor .fill.egg{
+  background:linear-gradient(135deg,oklch(85% 0.12 88),oklch(78% 0.08 82));
+  filter:blur(0.4px);
+}
+.watercolor .fill.spinach{
+  background:linear-gradient(135deg,oklch(50% 0.10 152),oklch(42% 0.08 148));
+  filter:blur(0.4px);
+}
+.watercolor .fill.carrot{
+  background:linear-gradient(135deg,oklch(72% 0.15 58),oklch(64% 0.12 52));
+  filter:blur(0.4px);
+}
+.watercolor .fill.crab{
+  background:linear-gradient(135deg,oklch(90% 0.06 16),oklch(84% 0.04 12));
+  filter:blur(0.4px);
+}
+/* Paper texture BG for watercolor card */
+.watercolor{
+  background:oklch(96% 0.01 75) !important;
+  background-image:
+    url("data:image/svg+xml,%3Csvg width='6' height='6' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8'/%3E%3C/filter%3E%3Crect width='6' height='6' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E") !important;
+}
+
+/* ============================================
+   STYLE E: Geometric Minimal
+   ============================================ */
+.geometric .kimbap{
+  background:oklch(20% 0.03 155);
+  border-radius:50%;
+}
+.geometric .rice{
+  background:oklch(95% 0 0);
+}
+/* No sesame in geometric */
+.geometric .rice::before,.geometric .rice::after{display:none}
+.geometric .fillings{
+  background:oklch(95% 0 0);
+  border-radius:50%;
+}
+/* Geometric fillings — rectangles and simple circles, max 5 colors */
+/* Using only: yellow, red, green, orange, white  */
+.geometric .fill{border-radius:2px !important}
+.geometric .fill.danmuji{
+  background:oklch(85% 0.18 90);
+  border-radius:2px !important;
+  width:34px;height:20px;top:10px;left:10px;
+}
+.geometric .fill.ham{
+  background:oklch(62% 0.16 25);
+  border-radius:2px !important;
+  width:24px;height:24px;top:8px;right:12px;
+}
+.geometric .fill.egg{
+  background:oklch(85% 0.18 90);  /* same yellow as danmuji — 5 color limit */
+  border-radius:2px !important;
+  width:28px;height:16px;top:38px;left:36px;
+}
+.geometric .fill.spinach{
+  background:oklch(42% 0.14 150);
+  border-radius:2px !important;
+  width:20px;height:28px;bottom:10px;left:14px;
+}
+.geometric .fill.carrot{
+  background:oklch(68% 0.18 55);
+  border-radius:2px !important;
+  width:22px;height:22px;bottom:10px;right:14px;
+}
+.geometric .fill.crab{
+  /* Same as ham red — 5 color limit */
+  background:oklch(62% 0.16 25);
+  border-radius:2px !important;
+  width:18px;height:14px;top:24px;right:8px;
+}
+
+/* ============================================
+   F: Pixel Art
+   ============================================ */
+.pixel .kimbap{
+  width:180px;height:180px;border-radius:0;
+  background:oklch(95% 0.005 80);
+  image-rendering:pixelated;
+  position:relative;overflow:hidden;
+}
+/* Pixel grid approach: use box-shadow on a tiny element to draw pixels */
+.pixel .kimbap::before{
+  content:'';position:absolute;
+  width:12px;height:12px;top:0;left:0;
+  /* 15x15 grid = 180px, each cell 12px */
+  background:transparent;
+  box-shadow:
+    /* Row 0 - top edge */
+    48px 0 0 oklch(18% 0.04 155), 60px 0 0 oklch(18% 0.04 155), 72px 0 0 oklch(18% 0.04 155), 84px 0 0 oklch(18% 0.04 155), 96px 0 0 oklch(18% 0.04 155), 108px 0 0 oklch(18% 0.04 155), 120px 0 0 oklch(18% 0.04 155),
+    /* Row 1 */
+    36px 12px 0 oklch(18% 0.04 155), 48px 12px 0 oklch(93% 0.01 80), 60px 12px 0 oklch(93% 0.01 80), 72px 12px 0 oklch(93% 0.01 80), 84px 12px 0 oklch(93% 0.01 80), 96px 12px 0 oklch(93% 0.01 80), 108px 12px 0 oklch(93% 0.01 80), 120px 12px 0 oklch(93% 0.01 80), 132px 12px 0 oklch(18% 0.04 155),
+    /* Row 2 */
+    24px 24px 0 oklch(18% 0.04 155), 36px 24px 0 oklch(93% 0.01 80), 48px 24px 0 oklch(93% 0.01 80), 60px 24px 0 oklch(93% 0.01 80), 72px 24px 0 oklch(93% 0.01 80), 84px 24px 0 oklch(93% 0.01 80), 96px 24px 0 oklch(93% 0.01 80), 108px 24px 0 oklch(93% 0.01 80), 120px 24px 0 oklch(93% 0.01 80), 132px 24px 0 oklch(93% 0.01 80), 144px 24px 0 oklch(18% 0.04 155),
+    /* Row 3 */
+    12px 36px 0 oklch(18% 0.04 155), 24px 36px 0 oklch(93% 0.01 80), 36px 36px 0 oklch(93% 0.01 80), 48px 36px 0 oklch(15% 0 0), 60px 36px 0 oklch(93% 0.01 80), 72px 36px 0 oklch(93% 0.01 80), 84px 36px 0 oklch(93% 0.01 80), 96px 36px 0 oklch(93% 0.01 80), 108px 36px 0 oklch(93% 0.01 80), 120px 36px 0 oklch(15% 0 0), 132px 36px 0 oklch(93% 0.01 80), 144px 36px 0 oklch(93% 0.01 80), 156px 36px 0 oklch(18% 0.04 155),
+    /* Row 4 */
+    12px 48px 0 oklch(18% 0.04 155), 24px 48px 0 oklch(93% 0.01 80), 36px 48px 0 oklch(93% 0.01 80), 48px 48px 0 oklch(93% 0.01 80), 60px 48px 0 oklch(40% 0.12 150), 72px 48px 0 oklch(85% 0.18 90), 84px 48px 0 oklch(85% 0.18 90), 96px 48px 0 oklch(65% 0.18 55), 108px 48px 0 oklch(93% 0.01 80), 120px 48px 0 oklch(93% 0.01 80), 132px 48px 0 oklch(93% 0.01 80), 144px 48px 0 oklch(93% 0.01 80), 156px 48px 0 oklch(18% 0.04 155),
+    /* Row 5 */
+    0px 60px 0 oklch(18% 0.04 155), 12px 60px 0 oklch(93% 0.01 80), 24px 60px 0 oklch(93% 0.01 80), 36px 60px 0 oklch(93% 0.01 80), 48px 60px 0 oklch(40% 0.12 150), 60px 60px 0 oklch(40% 0.12 150), 72px 60px 0 oklch(85% 0.18 90), 84px 60px 0 oklch(85% 0.18 90), 96px 60px 0 oklch(65% 0.18 55), 108px 60px 0 oklch(72% 0.12 10), 120px 60px 0 oklch(93% 0.01 80), 132px 60px 0 oklch(93% 0.01 80), 144px 60px 0 oklch(93% 0.01 80), 156px 60px 0 oklch(18% 0.04 155),
+    /* Row 6 */
+    0px 72px 0 oklch(18% 0.04 155), 12px 72px 0 oklch(93% 0.01 80), 24px 72px 0 oklch(93% 0.01 80), 36px 72px 0 oklch(93% 0.01 80), 48px 72px 0 oklch(80% 0.14 85), 60px 72px 0 oklch(80% 0.14 85), 72px 72px 0 oklch(85% 0.18 90), 84px 72px 0 oklch(85% 0.18 90), 96px 72px 0 oklch(85% 0.18 90), 108px 72px 0 oklch(72% 0.12 10), 120px 72px 0 oklch(93% 0.01 80), 132px 72px 0 oklch(93% 0.01 80), 144px 72px 0 oklch(93% 0.01 80), 156px 72px 0 oklch(18% 0.04 155),
+    /* Row 7 - center */
+    0px 84px 0 oklch(18% 0.04 155), 12px 84px 0 oklch(93% 0.01 80), 24px 84px 0 oklch(93% 0.01 80), 36px 84px 0 oklch(93% 0.01 80), 48px 84px 0 oklch(80% 0.14 85), 60px 84px 0 oklch(80% 0.14 85), 72px 84px 0 oklch(85% 0.18 90), 84px 84px 0 oklch(85% 0.06 15), 96px 84px 0 oklch(85% 0.06 15), 108px 84px 0 oklch(72% 0.12 10), 120px 84px 0 oklch(93% 0.01 80), 132px 84px 0 oklch(15% 0 0), 144px 84px 0 oklch(93% 0.01 80), 156px 84px 0 oklch(18% 0.04 155),
+    /* Row 8 */
+    0px 96px 0 oklch(18% 0.04 155), 12px 96px 0 oklch(93% 0.01 80), 24px 96px 0 oklch(93% 0.01 80), 36px 96px 0 oklch(93% 0.01 80), 48px 96px 0 oklch(80% 0.14 85), 60px 96px 0 oklch(65% 0.18 55), 72px 96px 0 oklch(85% 0.18 90), 84px 96px 0 oklch(85% 0.18 90), 96px 96px 0 oklch(85% 0.06 15), 108px 96px 0 oklch(72% 0.12 10), 120px 96px 0 oklch(93% 0.01 80), 132px 96px 0 oklch(93% 0.01 80), 144px 96px 0 oklch(93% 0.01 80), 156px 96px 0 oklch(18% 0.04 155),
+    /* Row 9 */
+    0px 108px 0 oklch(18% 0.04 155), 12px 108px 0 oklch(93% 0.01 80), 24px 108px 0 oklch(93% 0.01 80), 36px 108px 0 oklch(93% 0.01 80), 48px 108px 0 oklch(40% 0.12 150), 60px 108px 0 oklch(65% 0.18 55), 72px 108px 0 oklch(85% 0.18 90), 84px 108px 0 oklch(85% 0.18 90), 96px 108px 0 oklch(72% 0.12 10), 108px 108px 0 oklch(93% 0.01 80), 120px 108px 0 oklch(93% 0.01 80), 132px 108px 0 oklch(93% 0.01 80), 144px 108px 0 oklch(93% 0.01 80), 156px 108px 0 oklch(18% 0.04 155),
+    /* Row 10 */
+    12px 120px 0 oklch(18% 0.04 155), 24px 120px 0 oklch(93% 0.01 80), 36px 120px 0 oklch(93% 0.01 80), 48px 120px 0 oklch(93% 0.01 80), 60px 120px 0 oklch(93% 0.01 80), 72px 120px 0 oklch(93% 0.01 80), 84px 120px 0 oklch(93% 0.01 80), 96px 120px 0 oklch(93% 0.01 80), 108px 120px 0 oklch(93% 0.01 80), 120px 120px 0 oklch(93% 0.01 80), 132px 120px 0 oklch(93% 0.01 80), 144px 120px 0 oklch(93% 0.01 80), 156px 120px 0 oklch(18% 0.04 155),
+    /* Row 11 */
+    12px 132px 0 oklch(18% 0.04 155), 24px 132px 0 oklch(93% 0.01 80), 36px 132px 0 oklch(15% 0 0), 48px 132px 0 oklch(93% 0.01 80), 60px 132px 0 oklch(93% 0.01 80), 72px 132px 0 oklch(93% 0.01 80), 84px 132px 0 oklch(93% 0.01 80), 96px 132px 0 oklch(93% 0.01 80), 108px 132px 0 oklch(93% 0.01 80), 120px 132px 0 oklch(93% 0.01 80), 132px 132px 0 oklch(93% 0.01 80), 144px 132px 0 oklch(18% 0.04 155),
+    /* Row 12 */
+    24px 144px 0 oklch(18% 0.04 155), 36px 144px 0 oklch(93% 0.01 80), 48px 144px 0 oklch(93% 0.01 80), 60px 144px 0 oklch(93% 0.01 80), 72px 144px 0 oklch(93% 0.01 80), 84px 144px 0 oklch(93% 0.01 80), 96px 144px 0 oklch(93% 0.01 80), 108px 144px 0 oklch(93% 0.01 80), 120px 144px 0 oklch(93% 0.01 80), 132px 144px 0 oklch(93% 0.01 80), 144px 144px 0 oklch(18% 0.04 155),
+    /* Row 13 */
+    36px 156px 0 oklch(18% 0.04 155), 48px 156px 0 oklch(93% 0.01 80), 60px 156px 0 oklch(93% 0.01 80), 72px 156px 0 oklch(93% 0.01 80), 84px 156px 0 oklch(93% 0.01 80), 96px 156px 0 oklch(93% 0.01 80), 108px 156px 0 oklch(93% 0.01 80), 120px 156px 0 oklch(93% 0.01 80), 132px 156px 0 oklch(18% 0.04 155),
+    /* Row 14 - bottom edge */
+    48px 168px 0 oklch(18% 0.04 155), 60px 168px 0 oklch(18% 0.04 155), 72px 168px 0 oklch(18% 0.04 155), 84px 168px 0 oklch(18% 0.04 155), 96px 168px 0 oklch(18% 0.04 155), 108px 168px 0 oklch(18% 0.04 155), 120px 168px 0 oklch(18% 0.04 155);
+}
+/* Hide default elements in pixel version */
+.pixel .rice,.pixel .fillings,.pixel .face{display:none}
+
+/* ============================================
+   STYLE G: Bold Pixel
+   Render at 1/4 size then scale 4x for natural
+   pixelation. Thick outlines + stepped edges.
+   ============================================ */
+.boldpixel .kimbap{
+  /* Hide the normal-size kimbap; we use a scaled wrapper instead */
+  display:none;
+}
+/* Pixel wrapper: render at 45px then scale 4x = 180px visual */
+.boldpixel .pixel-wrap{
+  width:45px;height:45px;
+  transform:scale(4);
+  transform-origin:top left;
+  image-rendering:pixelated;
+  -webkit-image-rendering:pixelated;
+  position:relative;
+  border-radius:50%;
+  overflow:hidden;
+  /* Seaweed */
+  background:oklch(20% 0.04 155);
+  outline:1px solid oklch(12% 0 0);
+}
+/* Spacer to reserve the 180px visual space */
+.boldpixel .pixel-spacer{
+  width:180px;height:180px;
+  position:relative;
+  flex-shrink:0;
+}
+.boldpixel .px-rice{
+  position:absolute;
+  width:37px;height:37px;
+  border-radius:50%;
+  top:4px;left:4px;
+  background:oklch(94% 0.01 80);
+  outline:1px solid oklch(12% 0 0);
+}
+/* Sesame dots as tiny squares */
+.boldpixel .px-rice::before{
+  content:'';position:absolute;
+  width:1px;height:1px;background:oklch(20% 0 0);
+  top:5px;left:8px;
+  box-shadow:14px 10px 0 oklch(20% 0 0), 7px 18px 0 oklch(20% 0 0);
+}
+.boldpixel .px-fillings{
+  position:absolute;
+  width:25px;height:25px;
+  border-radius:50%;
+  top:10px;left:10px;
+  background:oklch(94% 0.01 80);
+  outline:1px solid oklch(12% 0 0);
+  overflow:hidden;
+}
+/* Fillings: small rectangles with dark borders */
+.boldpixel .px-fill{
+  position:absolute;
+  outline:1px solid oklch(12% 0 0);
+}
+.boldpixel .px-fill.danmuji{
+  width:8px;height:7px;top:2px;left:2px;
+  background:oklch(84% 0.17 90);
+}
+.boldpixel .px-fill.ham{
+  width:6px;height:6px;top:1px;right:3px;
+  background:oklch(70% 0.13 10);
+}
+.boldpixel .px-fill.egg{
+  width:7px;height:5px;top:9px;left:9px;
+  background:oklch(80% 0.14 86);
+}
+.boldpixel .px-fill.spinach{
+  width:6px;height:6px;bottom:2px;left:3px;
+  background:oklch(40% 0.13 148);
+}
+.boldpixel .px-fill.carrot{
+  width:5px;height:5px;bottom:2px;right:3px;
+  background:oklch(65% 0.17 55);
+}
+.boldpixel .px-fill.crab{
+  width:5px;height:4px;top:5px;right:2px;
+  background:oklch(84% 0.06 14);
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media(max-width:600px){
+  .grid{grid-template-columns:1fr 1fr}
+  .card{padding:1rem}
+}
+@media(max-width:400px){
+  .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Kimbap &mdash; Style Comparison</h1>
+  <p>Same subject, 7 CSS illustration approaches</p>
+</header>
+
+<div class="grid">
+
+  <!-- A: Kawaii Flat -->
+  <div class="card kawaii">
+    <div class="kimbap">
+      <div class="rice"></div>
+      <div class="fillings">
+        <div class="fill danmuji"></div>
+        <div class="fill ham"></div>
+        <div class="fill egg"></div>
+        <div class="fill spinach"></div>
+        <div class="fill carrot"></div>
+        <div class="fill crab"></div>
+      </div>
+      <div class="face"></div>
+    </div>
+    <h2>A. Kawaii Flat</h2>
+    <span class="tag">LINE Friends / Sticker Art</span>
+    <p class="desc">Pure flat colors, thick outlines, bubbly shapes, cute face. Saturated and friendly.</p>
+  </div>
+
+  <!-- B: Soft Illustration -->
+  <div class="card soft">
+    <div class="kimbap">
+      <div class="rice"></div>
+      <div class="fillings">
+        <div class="fill danmuji"></div>
+        <div class="fill ham"></div>
+        <div class="fill egg"></div>
+        <div class="fill spinach"></div>
+        <div class="fill carrot"></div>
+        <div class="fill crab"></div>
+      </div>
+    </div>
+    <h2>B. Soft Illustration</h2>
+    <span class="tag">Notion / Linear Style</span>
+    <p class="desc">Flat base with subtle inner shadows. No outlines, matte feel. Slightly muted colors.</p>
+  </div>
+
+  <!-- C: Retro Sticker -->
+  <div class="card retro">
+    <div class="kimbap">
+      <div class="rice"></div>
+      <div class="fillings">
+        <div class="fill danmuji"></div>
+        <div class="fill ham"></div>
+        <div class="fill egg"></div>
+        <div class="fill spinach"></div>
+        <div class="fill carrot"></div>
+        <div class="fill crab"></div>
+      </div>
+    </div>
+    <h2>C. Retro Sticker</h2>
+    <span class="tag">Vintage Label / Screen Print</span>
+    <p class="desc">Bold outlines, halftone dot overlay, hard offset shadow. Warm vintage palette.</p>
+  </div>
+
+  <!-- D: Watercolor -->
+  <div class="card watercolor">
+    <div class="kimbap">
+      <div class="rice"></div>
+      <div class="fillings">
+        <div class="fill danmuji"></div>
+        <div class="fill ham"></div>
+        <div class="fill egg"></div>
+        <div class="fill spinach"></div>
+        <div class="fill carrot"></div>
+        <div class="fill crab"></div>
+      </div>
+    </div>
+    <h2>D. Watercolor</h2>
+    <span class="tag">Children's Book / Gentle Wash</span>
+    <p class="desc">Soft edges, color bleeds, gradient washes on paper-like background. Pastel palette.</p>
+  </div>
+
+  <!-- E: Geometric Minimal -->
+  <div class="card geometric">
+    <div class="kimbap">
+      <div class="rice"></div>
+      <div class="fillings">
+        <div class="fill danmuji"></div>
+        <div class="fill ham"></div>
+        <div class="fill egg"></div>
+        <div class="fill spinach"></div>
+        <div class="fill carrot"></div>
+        <div class="fill crab"></div>
+      </div>
+    </div>
+    <h2>E. Geometric Minimal</h2>
+    <span class="tag">Bauhaus / Swiss Design</span>
+    <p class="desc">Simplified rectangles, max 5 colors, no shadows or gradients. Clean and mathematical.</p>
+  </div>
+
+  <!-- F: Pixel Art -->
+  <div class="card pixel">
+    <div class="kimbap"></div>
+    <h2>F. Pixel Art</h2>
+    <span class="tag">8-bit / Retro Game</span>
+    <p class="desc">12px grid, box-shadow pixel drawing. Seaweed ring, rice, fillings in chunky pixels. Game-ready.</p>
+  </div>
+
+  <!-- G: Bold Pixel -->
+  <div class="card boldpixel">
+    <div class="kimbap"></div>
+    <div class="pixel-spacer">
+      <div class="pixel-wrap">
+        <div class="px-rice"></div>
+        <div class="px-fillings">
+          <div class="px-fill danmuji"></div>
+          <div class="px-fill ham"></div>
+          <div class="px-fill egg"></div>
+          <div class="px-fill spinach"></div>
+          <div class="px-fill carrot"></div>
+          <div class="px-fill crab"></div>
+        </div>
+      </div>
+    </div>
+    <h2>G. Bold Pixel</h2>
+    <span class="tag">Retro Illustration / Game Art</span>
+    <p class="desc">Thick outlines meet stepped pixel edges. Clean shapes on a chunky grid. Best of both worlds.</p>
+  </div>
+
+</div>
+
+</body>
+</html>
