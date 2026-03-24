@@ -93,7 +93,7 @@ export default {
 
 ```bash
 # Copy the agent skill
-cp agents/SKILL.md ~/.claude/skills/extract-theme.md
+cp AGENT.md ~/.claude/skills/extract-theme.md
 
 # Provide a reference image and extract
 ```
